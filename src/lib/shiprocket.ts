@@ -46,3 +46,78 @@ export async function serviceability(pickup: string, delivery: string, weightKg:
     cod: couriers.some((c) => c.cod === 1),
   };
 }
+
+async function srPost<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${await getToken()}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
+  const data = (await res.json().catch(() => ({}))) as T & { message?: string };
+  if (!res.ok) throw new Error(`Shiprocket: ${(data as { message?: string }).message ?? res.status}`);
+  return data;
+}
+
+export type ShipmentRequest = {
+  orderLabel: string;
+  orderDate: Date;
+  pickupLocation: string;
+  customer: { name: string; phone: string; email: string | null; line1: string; line2: string | null; city: string; state: string; pincode: string };
+  items: { name: string; sku: string; units: number; sellingPrice: number }[]; // rupees
+  subTotal: number; // rupees
+  cod: boolean;
+  weightKg: number;
+  dims: { length: number; breadth: number; height: number };
+};
+
+/** Create the Shiprocket order, assign a courier (AWB) and generate the label. */
+export async function createShipment(r: ShipmentRequest) {
+  const [first, ...rest] = r.customer.name.trim().split(/\s+/);
+  const created = await srPost<{ order_id?: number; shipment_id?: number }>("/orders/create/adhoc", {
+    order_id: r.orderLabel,
+    order_date: r.orderDate.toISOString().slice(0, 16).replace("T", " "),
+    pickup_location: r.pickupLocation,
+    billing_customer_name: first,
+    billing_last_name: rest.join(" ") || ".",
+    billing_address: r.customer.line1,
+    billing_address_2: r.customer.line2 ?? "",
+    billing_city: r.customer.city,
+    billing_pincode: r.customer.pincode,
+    billing_state: r.customer.state,
+    billing_country: "India",
+    billing_email: r.customer.email ?? "orders@swift.in",
+    billing_phone: r.customer.phone.replace(/^\+91/, ""),
+    shipping_is_billing: true,
+    order_items: r.items.map((i) => ({ name: i.name, sku: i.sku, units: i.units, selling_price: i.sellingPrice })),
+    payment_method: r.cod ? "COD" : "Prepaid",
+    sub_total: r.subTotal,
+    length: r.dims.length,
+    breadth: r.dims.breadth,
+    height: r.dims.height,
+    weight: Math.max(0.1, Number(r.weightKg.toFixed(2))),
+  });
+  if (!created.shipment_id) throw new Error("Shiprocket didn't return a shipment id");
+
+  const awb = await srPost<{ awb_assign_status?: number; response?: { data?: { awb_code?: string; courier_name?: string } } }>("/courier/assign/awb", {
+    shipment_id: created.shipment_id,
+  });
+  const awbCode = awb.response?.data?.awb_code ?? null;
+  const courier = awb.response?.data?.courier_name ?? null;
+
+  let labelUrl: string | null = null;
+  try {
+    const label = await srPost<{ label_url?: string }>("/courier/generate/label", { shipment_id: [created.shipment_id] });
+    labelUrl = label.label_url ?? null;
+  } catch {
+    // label can be generated later from the Shiprocket panel
+  }
+  return {
+    shiprocketOrderId: String(created.order_id ?? ""),
+    shipmentId: String(created.shipment_id),
+    awb: awbCode,
+    courier,
+    labelUrl,
+    trackingUrl: awbCode ? `https://shiprocket.co/tracking/${awbCode}` : null,
+  };
+}

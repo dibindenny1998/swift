@@ -22,6 +22,14 @@ export const settingsSchema = z.object({
   pickupPincode: z.string().regex(/^[1-9]\d{5}$/).default("560001"), // Bangalore warehouse, for delivery estimates
   gstin: z.string().default(""),
   orderNotifyEmail: z.string().default(""), // admin inbox for new-order emails
+  // GST invoice details
+  businessName: z.string().default("swift.in"),
+  businessAddress: z.string().default("Bengaluru, Karnataka"),
+  businessState: z.string().default("Karnataka"),
+  gstRatePercent: z.number().min(0).max(28).default(18), // prices are GST-inclusive
+  // Shiprocket
+  shiprocketPickupLocation: z.string().default("Primary"),
+  packageCm: z.object({ length: z.number(), breadth: z.number(), height: z.number() }).default({ length: 30, breadth: 30, height: 30 }),
 });
 
 export type SiteSettings = z.infer<typeof settingsSchema>;

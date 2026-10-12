@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { SvgSymbols } from "@/components/effects/Symbols";
 import { Snow } from "@/components/effects/Snow";
@@ -27,7 +28,10 @@ export default async function StoreLayout({ children }: LayoutProps<"/">) {
       <Header categories={categories} whatsapp={settings.whatsappNumber} />
       <main className="flex flex-1 flex-col">{children}</main>
       <Footer lastOrderDate={settings.lastOrderDate} showMascot={settings.effects.mascot} />
-      <StickyCartBar />
+      {/* Reads the pathname, so it must stream for routes whose params aren't known at build time. */}
+      <Suspense fallback={null}>
+        <StickyCartBar />
+      </Suspense>
       <CartDrawer />
       {settings.effects.snow && <Snow />}
     </>

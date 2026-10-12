@@ -139,12 +139,13 @@ export async function placeOrder(input: {
   let razorpayOrderId: string;
   try {
     razorpayOrderId = await createRazorpayOrder(total, label, { orderId: order.id, label });
+    await db.payment.create({ data: { orderId: order.id, razorpayOrderId, status: "created", amount: total } });
   } catch (e) {
-    await db.order.delete({ where: { id: order.id } });
+    // Don't leave an unpayable order behind.
+    await db.order.delete({ where: { id: order.id } }).catch(() => {});
     console.error(e);
     throw new CheckoutError("We couldn't reach the payment gateway. Please try again.", 502);
   }
-  await db.payment.create({ data: { orderId: order.id, razorpayOrderId, status: "created", amount: total } });
   const user = await db.user.findUnique({ where: { id: input.userId }, select: { phone: true, email: true, name: true } });
   return {
     order: { id: order.id, label },

@@ -84,3 +84,21 @@ In Shiprocket → Settings → API → Webhooks, set the URL to `https://<your-d
 put the same token in `SHIPROCKET_WEBHOOK_TOKEN`. Tracking pushes update the shipment scans and move the order forward
 (packed → shipped → out for delivery → delivered; late or out-of-order scans never move it back). Customers get an email
 on shipped / out for delivery / delivered.
+
+## Admin panel (`/admin`)
+
+Sign in with `ADMIN_SEED_EMAIL` / `ADMIN_SEED_PASSWORD` (change the password under **Site settings** right away).
+Login is rate-limited (5 failed tries per email per 15 minutes) and every admin page/API re-checks the role.
+
+| Section | What you can do |
+|---|---|
+| Dashboard | Orders today, 7-day revenue, low stock, top products, recent orders, to-dos (COD to confirm, returns, reviews) |
+| Products | Search/filter, add/edit (images, variants with SKU/price/MRP/stock/weight, badge, live toggle, SEO), CSV import, categories |
+| Bundles & offers | Fixed kits with live price preview, build-your-own box (eligible pieces + tiers), coupons (all rules) |
+| Orders | Filter by status/payment/date, confirm COD, create Shiprocket shipment or enter an AWB, status changes with restock, refunds (Razorpay), returns, GST invoice (print → PDF) |
+| Customers | Search, order history, total spend, addresses |
+| Reviews | Approve/hide, public reply, delete |
+| Site settings | Announcement, Christmas dates, shipping/COD/gift wrap, effects toggles, GST + invoice details, Shiprocket pickup, notifications |
+
+Every change goes live on the next page load — no redeploy. Images upload to Cloudinary when its keys are set; otherwise they are
+stored on the server in `storage/uploads/` (set `UPLOAD_DIR` to move it, and back it up).

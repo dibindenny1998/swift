@@ -39,3 +39,17 @@ export async function createRazorpayOrder(amount: number, receipt: string, notes
   if (!res.ok || !data.id) throw new Error(`Razorpay order failed: ${data.error?.description ?? res.status}`);
   return data.id;
 }
+
+export async function refundPayment(paymentId: string, amount: number, notes: Record<string, string>) {
+  const auth = Buffer.from(`${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`).toString("base64");
+  const base = process.env.RAZORPAY_API_BASE ?? "https://api.razorpay.com";
+  const res = await fetch(`${base}/v1/payments/${encodeURIComponent(paymentId)}/refund`, {
+    method: "POST",
+    headers: { Authorization: `Basic ${auth}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ amount, speed: "normal", notes }),
+    cache: "no-store",
+  });
+  const data = (await res.json().catch(() => ({}))) as { id?: string; status?: string; error?: { description?: string } };
+  if (!res.ok || !data.id) throw new Error(data.error?.description ?? `Refund failed (${res.status})`);
+  return { id: data.id, status: data.status ?? "processed" };
+}

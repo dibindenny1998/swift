@@ -1,44 +1,15 @@
 import "server-only";
-import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { randomBytes, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { decodeSession, encodeSession, SESSION_COOKIE, type Session } from "./session-token";
+
+export { hashCode, SESSION_COOKIE, type Session } from "./session-token";
 
 // Stateless signed session cookie: base64url(payload).base64url(hmac). httpOnly, so JS can't read it.
-export const SESSION_COOKIE = "swift_session";
 export const CART_COOKIE = "swift_cart";
 const SESSION_DAYS = 30;
+const ADMIN_SESSION_DAYS = 7;
 const CART_DAYS = 60;
-
-export type Session = { uid: string; role: "CUSTOMER" | "ADMIN"; exp: number };
-
-function secret() {
-  const s = process.env.SESSION_SECRET;
-  if (!s || s.length < 32) throw new Error("SESSION_SECRET must be set (32+ chars)");
-  return s;
-}
-
-function sign(data: string) {
-  return createHmac("sha256", secret()).update(data).digest("base64url");
-}
-
-export function encodeSession(s: Session) {
-  const body = Buffer.from(JSON.stringify(s)).toString("base64url");
-  return `${body}.${sign(body)}`;
-}
-
-export function decodeSession(token: string | undefined): Session | null {
-  if (!token) return null;
-  const [body, mac] = token.split(".");
-  if (!body || !mac) return null;
-  const expected = Buffer.from(sign(body));
-  const given = Buffer.from(mac);
-  if (expected.length !== given.length || !timingSafeEqual(expected, given)) return null;
-  try {
-    const s = JSON.parse(Buffer.from(body, "base64url").toString()) as Session;
-    return s.exp > Date.now() ? s : null;
-  } catch {
-    return null;
-  }
-}
 
 const cookieBase = {
   httpOnly: true,
@@ -52,8 +23,9 @@ export async function getSession(): Promise<Session | null> {
 }
 
 export async function startSession(uid: string, role: Session["role"]) {
-  const exp = Date.now() + SESSION_DAYS * 864e5;
-  (await cookies()).set(SESSION_COOKIE, encodeSession({ uid, role, exp }), { ...cookieBase, maxAge: SESSION_DAYS * 86400 });
+  const days = role === "ADMIN" ? ADMIN_SESSION_DAYS : SESSION_DAYS;
+  const exp = Date.now() + days * 864e5;
+  (await cookies()).set(SESSION_COOKIE, encodeSession({ uid, role, exp }), { ...cookieBase, maxAge: days * 86400 });
 }
 
 export async function endSession() {
@@ -72,11 +44,6 @@ export async function newCartSessionId() {
 
 export async function clearCartSession() {
   (await cookies()).delete(CART_COOKIE);
-}
-
-/** HMAC of an OTP code, so codes are never stored in plain text. */
-export function hashCode(phone: string, code: string) {
-  return createHmac("sha256", secret()).update(`${phone}:${code}`).digest("hex");
 }
 
 export function safeEqualHex(a: string, b: string) {

@@ -310,6 +310,7 @@ model Payment {
   razorpayPaymentId String? @unique
   status            String
   amount            Int
+  refundedAmount    Int     @default(0)
   raw               Json?
 
   @@index([orderId])
@@ -324,6 +325,7 @@ model Shipment {
   courier           String?
   status            String  @default("CREATED")
   trackingUrl       String?
+  labelUrl          String?
   events            Json?
 
   @@index([orderId])
@@ -406,4 +408,16 @@ model ReturnRequest {
 
   @@index([orderId])
   @@index([status])
+}
+
+// Failed/successful admin sign-ins, for rate limiting and an audit trail.
+model AdminLoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  ip        String
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+  @@index([ip, createdAt])
 }
