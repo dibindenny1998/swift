@@ -11,7 +11,9 @@
     "test": "vitest run",
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:setup": "prisma migrate deploy && SEED_ONLY_IF_EMPTY=true prisma db seed",
+    "build:hosted": "npm run db:setup && next build"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -39,5 +41,8 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }

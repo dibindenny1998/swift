@@ -113,6 +113,11 @@ const products: SeedProduct[] = [
 ];
 
 async function main() {
+  // Hosted deploys run this on every build; only seed a brand-new, empty database.
+  if (process.env.SEED_ONLY_IF_EMPTY === "true" && (await db.category.count()) > 0) {
+    console.log("database already has data — skipping seed");
+    return;
+  }
   const email = process.env.ADMIN_SEED_EMAIL;
   const password = process.env.ADMIN_SEED_PASSWORD;
   if (email && password) {

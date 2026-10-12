@@ -2,7 +2,7 @@
 
 Premium Christmas shop for India. Next.js 16 (App Router) + Tailwind v4 + Prisma/Postgres.
 The full product spec is in [`SWIFT_BUILD_SPEC.md`](./SWIFT_BUILD_SPEC.md); design references live in `docs/reference/`.
-**Going live?** Follow [`docs/LAUNCH.md`](./docs/LAUNCH.md).
+**Going live?** Follow [`docs/LAUNCH.md`](./docs/LAUNCH.md). Uploading a zip to Hostinger? See [`HOSTINGER_UPLOAD.md`](./HOSTINGER_UPLOAD.md).
 
 ## Local setup
 
