@@ -3,6 +3,7 @@ import { GiftBoxBuilder } from "@/components/giftbox/GiftBoxBuilder";
 import { getGiftBoxBuilder } from "@/lib/catalog";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/gift-box" },
   title: "Build your own gift box",
   description: "Pick your favourite pieces — the more you add, the more you save. Tied in gold ribbon with your note.",
 };

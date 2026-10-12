@@ -25,7 +25,7 @@ export function BundleCard({ bundle }: { bundle: BundleCardData }) {
           <p className="flex items-baseline gap-2">
             <strong className="text-lg font-bold">{formatINR(bundle.price)}</strong>
             {bundle.compareAt > bundle.price && (
-              <s className="text-[13px] text-[#8C8270]">
+              <s className="text-[13px] text-muted">
                 <span className="sr-only">MRP </span>
                 {formatINR(bundle.compareAt)}
               </s>

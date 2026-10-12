@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
+import { track } from "./analytics";
 import type { CartView } from "./cart-server";
 
 // Client mirror of the server cart (/api/cart). The server prices everything; this only caches the latest view.
@@ -98,7 +99,13 @@ export const openCartDrawer = () => set({ drawerOpen: true });
 
 export async function addToCart(input: AddInput, { openDrawer = true } = {}) {
   const body = "byo" in input ? input : { ...input, qty: input.qty ?? 1 };
+  const before = new Map((state.cart?.items ?? []).map((i) => [i.id, i.qty]));
   const cart = await call("POST", "/api/cart", body);
+  const added = cart.items.find((i) => i.qty > (before.get(i.id) ?? 0));
+  if (added) {
+    const qty = added.qty - (before.get(added.id) ?? 0);
+    track("add_to_cart", { items: [{ id: added.id, name: added.title, price: added.unitPrice, qty }], value: added.unitPrice * qty });
+  }
   if (openDrawer) set({ drawerOpen: true });
   return cart;
 }

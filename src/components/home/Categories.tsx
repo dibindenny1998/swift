@@ -10,7 +10,7 @@ export function Categories({ categories }: { categories: CategoryData[] }) {
       <Reveal>
         <SectionHeading eyebrow="Shop by category" title="Dress the house" />
       </Reveal>
-      <RevealGroup className="mt-[22px] grid grid-cols-2 gap-3 md:grid-cols-4">
+      <RevealGroup className="mt-[22px] grid grid-cols-2 gap-3 md:auto-cols-fr md:grid-flow-col md:grid-cols-none">
         {categories.map((c) => (
           <RevealItem key={c.slug}>
             <Link

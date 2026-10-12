@@ -16,5 +16,6 @@ export async function GET() {
     effects: s.effects,
     social: s.social,
     whatsappNumber: s.whatsappNumber,
+    supportEmail: s.supportEmail,
   });
 }

@@ -5,7 +5,7 @@ import { formatINR } from "@/lib/money";
 import { ProductImage } from "./ProductImage";
 import { WishlistButton } from "./WishlistButton";
 
-export function ProductCard({ product, lowStockThreshold }: { product: ProductCardData; lowStockThreshold: number }) {
+export function ProductCard({ product, lowStockThreshold, priority }: { product: ProductCardData; lowStockThreshold: number; priority?: boolean }) {
   // Real stock only — "X left" appears only at or below the admin threshold (§9).
   const lowStock = product.stock > 0 && product.stock <= lowStockThreshold;
   const soldOut = product.stock === 0;
@@ -21,6 +21,7 @@ export function ProductCard({ product, lowStockThreshold }: { product: ProductCa
             alt={product.title}
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+            priority={priority}
             className="object-cover transition-transform duration-700 ease-calm group-hover:scale-[1.03]"
           />
           <span className="absolute bottom-2.5 left-2.5">
@@ -38,7 +39,7 @@ export function ProductCard({ product, lowStockThreshold }: { product: ProductCa
           <span className="text-sm text-muted">
             {formatINR(product.price)}
             {product.mrp > product.price && (
-              <s className="ml-2 text-[13px] text-[#8C8270]">
+              <s className="ml-2 text-[13px] text-muted">
                 <span className="sr-only">MRP </span>
                 {formatINR(product.mrp)}
               </s>

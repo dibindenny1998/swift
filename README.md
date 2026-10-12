@@ -2,6 +2,7 @@
 
 Premium Christmas shop for India. Next.js 16 (App Router) + Tailwind v4 + Prisma/Postgres.
 The full product spec is in [`SWIFT_BUILD_SPEC.md`](./SWIFT_BUILD_SPEC.md); design references live in `docs/reference/`.
+**Going live?** Follow [`docs/LAUNCH.md`](./docs/LAUNCH.md).
 
 ## Local setup
 
@@ -102,3 +103,14 @@ Login is rate-limited (5 failed tries per email per 15 minutes) and every admin 
 
 Every change goes live on the next page load — no redeploy. Images upload to Cloudinary when its keys are set; otherwise they are
 stored on the server in `storage/uploads/` (set `UPLOAD_DIR` to move it, and back it up).
+
+## Analytics & consent
+
+Set `NEXT_PUBLIC_GA4_ID` and/or `NEXT_PUBLIC_META_PIXEL_ID` and rebuild. A consent banner appears; nothing loads until the visitor
+accepts. Events sent: `view_item`, `add_to_cart`, `begin_checkout`, `purchase` (GA4) / ViewContent, AddToCart, InitiateCheckout,
+Purchase (Pixel), with INR values. Without IDs there is no banner and no tracking.
+
+## Backups
+
+`deploy/backup.sh` dumps Postgres and archives `storage/uploads` to `/home/swift/backups` nightly (cron installed by `setup-vps.sh`, 14-day retention).
+Restore with `pg_restore --clean --no-owner -d "$DATABASE_URL" db_YYYY-MM-DD_HHMM.dump`.

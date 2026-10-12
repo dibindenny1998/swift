@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ProductImage } from "@/components/product/ProductImage";
+import { track } from "@/lib/analytics";
 import { refreshCart, useCart, type CartView } from "@/lib/cart-store";
 import { cn } from "@/lib/cn";
 import { formatINR } from "@/lib/money";
@@ -50,6 +51,13 @@ export function CheckoutView() {
   const [eta, setEta] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+
+  const tracked = useRef(false);
+  useEffect(() => {
+    if (tracked.current || !cart || cart.items.length === 0) return;
+    tracked.current = true;
+    track("begin_checkout", { items: cart.items.map((i) => ({ id: i.id, name: i.title, price: i.unitPrice, qty: i.qty })), value: cart.total });
+  }, [cart]);
 
   // Guests go through phone login first.
   useEffect(() => {

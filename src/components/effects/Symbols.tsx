@@ -28,6 +28,12 @@ export function SvgSymbols() {
           <stop offset="1" stopColor="#EDB693" />
         </radialGradient>
         <symbol id="sFlake" viewBox="-12 -12 24 24">
+          {/* faint green halo so white flakes stay visible on ivory, without a CSS filter */}
+          <g stroke="rgba(11,94,62,.28)" strokeWidth="2.6" strokeLinecap="round" fill="none">
+            {[0, 60, 120, 180, 240, 300].map((r) => (
+              <path key={r} transform={`rotate(${r})`} d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5" />
+            ))}
+          </g>
           <g stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none">
             {[0, 60, 120, 180, 240, 300].map((r) => (
               <path key={r} transform={`rotate(${r})`} d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5" />
@@ -47,6 +53,7 @@ export function SvgSymbols() {
           <symbol key={id} id={id} viewBox="0 0 40 54">
             <rect x="15" y="6" width="10" height="6" rx="2" fill="#C4952E" />
             <path d="M17.5 6a2.5 2.5 0 0 1 5 0" stroke="#C4952E" strokeWidth="1.6" fill="none" />
+            <ellipse cx="21" cy="37" rx="15" ry="13" fill="rgba(40,0,8,.18)" />
             <circle cx="20" cy="32" r="17" fill={fill} />
             <path d={band} stroke={bandColor} strokeWidth="1.4" fill="none" />
             <ellipse cx="13.5" cy="25" rx="3.5" ry="5.5" fill={shine} opacity={shineOp} />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
 import { Reveal } from "@/components/effects/Reveal";
 import { BundleCard } from "@/components/product/BundleCard";
 import { Gallery } from "@/components/product/Gallery";
@@ -27,7 +28,8 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
     title: p.seoTitle ?? p.title,
     description,
     alternates: { canonical: `/products/${p.slug}` },
-    openGraph: { title: p.title, description, images: p.images[0]?.url.endsWith(".svg") ? [] : [p.images[0].url] },
+    // Real photos become the share image; SVG placeholders fall back to the brand image.
+    openGraph: { title: p.title, description, images: p.images[0]?.url.endsWith(".svg") ? ["/opengraph-image"] : [p.images[0].url] },
   };
 }
 
@@ -49,6 +51,7 @@ async function ProductView({ params }: Pick<PageProps<"/products/[slug]">, "para
   return (
     <article className="mx-auto w-full max-w-6xl px-4 pb-16 pt-4">
       <JsonLd product={product} />
+      <TrackEvent event="view_item" items={[{ id: product.slug, name: product.title, price: product.variants[0].price, qty: 1 }]} value={product.variants[0].price} />
       <nav aria-label="Breadcrumb" className="mb-3 text-xs text-muted">
         <Link href="/shop" className="hover:text-text">
           Shop

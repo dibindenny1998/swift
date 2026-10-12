@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
 import { Confetti } from "@/components/checkout/Confetti";
 import { PendingRefresh } from "@/components/checkout/PendingRefresh";
 import { Mascot } from "@/components/mascot/Mascot";
@@ -60,6 +61,15 @@ async function OrderConfirmation({ searchParams }: Pick<PageProps<"/checkout/suc
   return (
     <>
       {!awaitingPayment && <Confetti />}
+      {!awaitingPayment && (
+        <TrackEvent
+          event="purchase"
+          once={`purchase:${label.toUpperCase()}`}
+          transactionId={label.toUpperCase()}
+          value={order.total}
+          items={order.items.map((i) => ({ id: i.variantId ?? i.bundleId ?? i.id, name: i.titleSnapshot, price: i.priceSnapshot, qty: i.qty }))}
+        />
+      )}
       {awaitingPayment && <PendingRefresh />}
       <div className="flex flex-col items-center text-center">
         <Mascot width={130} greeting="Merry Christmas!" />

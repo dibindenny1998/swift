@@ -5,6 +5,7 @@ import { BundleCard } from "@/components/product/BundleCard";
 import { getBundles, getGiftBoxBuilder } from "@/lib/catalog";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/bundles" },
   title: "Signature kits",
   description: "Boxed Christmas kits — tree, lights and ornaments together, for less.",
 };

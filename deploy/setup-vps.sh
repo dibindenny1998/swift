@@ -132,6 +132,13 @@ ufw allow OpenSSH
 ufw allow 'Nginx Full'
 ufw --force enable
 
+echo "==> Nightly backups (03:15 IST)"
+cat > /etc/cron.d/swift-backup <<CRON
+CRON_TZ=Asia/Kolkata
+15 3 * * * $APP_USER bash $APP_DIR/deploy/backup.sh >> /home/$APP_USER/backup.log 2>&1
+CRON
+chmod 644 /etc/cron.d/swift-backup
+
 echo "==> HTTPS"
 certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos -m "$EMAIL" --redirect || \
   echo "certbot failed — check that $DOMAIN points at this server, then run: certbot --nginx -d $DOMAIN"

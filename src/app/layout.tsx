@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: { default: "swift.in — Christmas, wrapped in gold", template: "%s · swift.in" },
   description: "Premium Christmas trees, lights, ornaments and gift boxes, delivered across India before Christmas.",
+  openGraph: { type: "website", siteName: "swift.in", locale: "en_IN" },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {

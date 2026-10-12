@@ -7,8 +7,10 @@ const LINKS = [
   { href: "/account", label: "Track order" },
   { href: "/shipping-policy", label: "Shipping" },
   { href: "/refund-policy", label: "Returns" },
-  { href: "/privacy-policy", label: "Privacy" },
+  { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
+  { href: "/privacy-policy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
 ];
 
 function formatDayMonth(isoDate: string) {
@@ -17,7 +19,8 @@ function formatDayMonth(isoDate: string) {
   );
 }
 
-export function Footer({ lastOrderDate, showMascot }: { lastOrderDate: string; showMascot: boolean }) {
+export function Footer({ lastOrderDate, showMascot, social = {} }: { lastOrderDate: string; showMascot: boolean; social?: { instagram?: string; facebook?: string; youtube?: string } }) {
+  const socials = (["instagram", "facebook", "youtube"] as const).filter((k) => social[k]);
   return (
     <footer className="relative overflow-hidden bg-grad-footer text-on-green-muted">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 pb-10 pt-[52px] md:grid md:grid-cols-2 md:gap-x-16">
@@ -49,6 +52,17 @@ export function Footer({ lastOrderDate, showMascot }: { lastOrderDate: string; s
           <span className="font-display text-[30px] font-semibold text-gold">
             swift<em className="font-medium text-ivory">.in</em>
           </span>
+          {socials.length > 0 && (
+            <ul className="flex gap-4 text-sm">
+              {socials.map((k) => (
+                <li key={k}>
+                  <a href={social[k]} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center capitalize hover:text-ivory">
+                    {k}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
           <span className="text-xs text-[#9CC3AF]">© 2026 swift.in · Bangalore</span>
         </div>
       </div>

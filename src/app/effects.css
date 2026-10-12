@@ -6,7 +6,6 @@
   position: absolute;
   top: 0;
   color: #fff;
-  filter: drop-shadow(0 0 1.5px rgba(11, 94, 62, 0.45));
   animation: snow-fall linear infinite;
   will-change: transform;
 }
@@ -25,14 +24,15 @@
 .fx-hang {
   transform-origin: top center;
   animation: fx-hang 7s ease-in-out infinite;
-  filter: drop-shadow(0 6px 6px rgba(40, 0, 8, 0.3));
+  will-change: transform;
 }
 @keyframes fx-hang { 0%, 100% { transform: rotate(3deg); } 50% { transform: rotate(-3deg); } }
 .fx-bokeh {
   position: absolute;
   border-radius: 999px;
-  background: #e9c76a;
-  filter: blur(7px);
+  /* soft glow via gradient rather than an animated blur filter */
+  background: radial-gradient(closest-side, rgba(233, 199, 106, 0.9), rgba(233, 199, 106, 0));
+  will-change: transform, opacity;
   pointer-events: none;
   animation: fx-bokeh 10s ease-in-out infinite;
 }
@@ -56,7 +56,7 @@
   89% { transform: translate(0, -6px); }
   100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
 }
-.santa-bob { animation: santa-bob 4s ease-in-out 5.2s infinite; }
+.santa-bob { animation: santa-bob 4s ease-in-out 5.2s infinite; will-change: transform; }
 @keyframes santa-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 .santa-wave { transform-box: view-box; transform-origin: 100px 42px; animation: santa-wave 1.4s ease-in-out 5.2s infinite; }
 @keyframes santa-wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-24deg); } }

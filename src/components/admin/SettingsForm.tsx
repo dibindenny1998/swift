@@ -36,6 +36,11 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
         <div className="grid gap-4">
           <TextField label="Announcement bar" value={s.announcement} maxLength={120} onChange={(e) => set("announcement", e.target.value)} hint="Use ✦ to separate two messages" />
           <TextField label="WhatsApp number" value={s.whatsappNumber} onChange={(e) => set("whatsappNumber", e.target.value)} placeholder="+91 98765 43210" hint="Turns on WhatsApp help links" />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <TextField label="Customer care email" type="email" value={s.supportEmail} onChange={(e) => set("supportEmail", e.target.value)} hint="Shown on Contact and policy pages" />
+            <TextField label="Support hours" value={s.supportHours} onChange={(e) => set("supportHours", e.target.value)} />
+          </div>
+          <TextField label="Grievance officer name" value={s.grievanceOfficer} onChange={(e) => set("grievanceOfficer", e.target.value)} hint="Required by the Consumer Protection (E-Commerce) Rules, 2020" />
           <TextField label="New-order email" type="email" value={s.orderNotifyEmail} onChange={(e) => set("orderNotifyEmail", e.target.value)} hint="Where new orders and return requests are sent" />
           <div className="grid gap-3 sm:grid-cols-3">
             <TextField label="Instagram URL" value={s.social.instagram ?? ""} onChange={(e) => set("social", { ...s.social, instagram: e.target.value })} />

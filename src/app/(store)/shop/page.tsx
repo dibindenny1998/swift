@@ -9,6 +9,7 @@ import { cn } from "@/lib/cn";
 import { getSettings } from "@/lib/settings-server";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/shop" },
   title: "Shop the collection",
   description: "Christmas trees, lights, ornaments and gifts — delivered across India before Christmas.",
 };
@@ -89,9 +90,9 @@ async function ShopResults({ searchParams }: Pick<PageProps<"/shop">, "searchPar
         <p className="mt-16 text-center text-[15px] text-muted">Nothing here yet — new pieces arrive soon.</p>
       ) : (
         <RevealGroup key={`${category}-${sort}`} className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
-          {visible.map((p) => (
+          {visible.map((p, i) => (
             <RevealItem key={p.id}>
-              <ProductCard product={p} lowStockThreshold={settings.lowStockThreshold} />
+              <ProductCard product={p} lowStockThreshold={settings.lowStockThreshold} priority={i < 2} />
             </RevealItem>
           ))}
         </RevealGroup>

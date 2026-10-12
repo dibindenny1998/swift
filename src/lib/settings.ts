@@ -22,6 +22,10 @@ export const settingsSchema = z.object({
   pickupPincode: z.string().regex(/^[1-9]\d{5}$/).default("560001"), // Bangalore warehouse, for delivery estimates
   gstin: z.string().default(""),
   orderNotifyEmail: z.string().default(""), // admin inbox for new-order emails
+  // Customer care (shown on Contact and policy pages — required for Indian e-commerce)
+  supportEmail: z.string().default("hello@swift.in"),
+  supportHours: z.string().default("Mon–Sat, 10 am – 7 pm IST"),
+  grievanceOfficer: z.string().default(""), // name of the grievance officer
   // GST invoice details
   businessName: z.string().default("swift.in"),
   businessAddress: z.string().default("Bengaluru, Karnataka"),

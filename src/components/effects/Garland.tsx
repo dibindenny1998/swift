@@ -33,9 +33,9 @@ export function Garland() {
 export function Bokeh() {
   return (
     <div data-ambient aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      <span className="fx-bokeh right-[12%] top-[300px] size-7" style={{ animationDelay: "-3s" }} />
-      <span className="fx-bokeh left-[9%] top-[560px] size-[18px]" style={{ animationDelay: "-5s" }} />
-      <span className="fx-bokeh right-[8%] top-[800px] size-[22px]" style={{ animationDelay: "-1.5s" }} />
+      <span className="fx-bokeh right-[12%] top-[300px] size-14" style={{ animationDelay: "-3s" }} />
+      <span className="fx-bokeh left-[9%] top-[560px] size-9" style={{ animationDelay: "-5s" }} />
+      <span className="fx-bokeh right-[8%] top-[800px] size-11" style={{ animationDelay: "-1.5s" }} />
     </div>
   );
 }

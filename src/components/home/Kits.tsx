@@ -21,7 +21,7 @@ export function Kits({ bundles }: { bundles: BundleCardData[] }) {
       </Reveal>
       <RevealGroup className="mt-[22px] flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-1 [scrollbar-width:none] md:grid md:grid-cols-3 md:overflow-visible">
         {bundles.map((b) => (
-          <RevealItem key={b.id} className="flex snap-start">
+          <RevealItem key={b.id} className="flex snap-start md:[&>article]:w-full">
             <BundleCard bundle={b} />
           </RevealItem>
         ))}
