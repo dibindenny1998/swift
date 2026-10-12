@@ -92,11 +92,9 @@ async function BundleView({ params }: Pick<PageProps<"/bundles/[slug]">, "params
           </div>
 
           {kit.inStock ? (
-            <AddButton
-              line={{ key: `b:${kit.id}`, title: kit.title, image: kit.image, price: kit.price }}
-              label="Add kit to cart"
-              className="h-[54px] w-full text-[15px]"
-            />
+            <div className="[&>span]:flex [&>span]:w-full">
+              <AddButton input={{ bundleId: kit.id }} title={kit.title} label="Add kit to cart" className="h-[54px] w-full text-[15px]" />
+            </div>
           ) : (
             <p className="flex h-[54px] items-center justify-center rounded-full bg-divider text-[15px] font-semibold text-muted">
               Sold out — back soon

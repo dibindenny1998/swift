@@ -185,12 +185,15 @@ model BYOTier {
 }
 
 model Cart {
-  id        String     @id @default(cuid())
-  userId    String?
-  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessionId String?    @unique
-  updatedAt DateTime   @updatedAt
-  items     CartItem[]
+  id          String     @id @default(cuid())
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId   String?    @unique
+  couponCode  String?
+  giftWrap    Boolean    @default(true)
+  giftMessage String?
+  updatedAt   DateTime   @updatedAt
+  items       CartItem[]
 
   @@index([userId])
 }

@@ -31,7 +31,7 @@ export function BundleCard({ bundle }: { bundle: BundleCardData }) {
               </s>
             )}
           </p>
-          <AddButton line={{ key: `b:${bundle.id}`, title: bundle.title, image: bundle.image, price: bundle.price }} />
+          <AddButton input={{ bundleId: bundle.id }} title={bundle.title} />
         </div>
       </div>
     </article>

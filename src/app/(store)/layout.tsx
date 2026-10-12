@@ -1,3 +1,4 @@
+import { CartDrawer } from "@/components/cart/CartDrawer";
 import { SvgSymbols } from "@/components/effects/Symbols";
 import { Snow } from "@/components/effects/Snow";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
@@ -27,6 +28,7 @@ export default async function StoreLayout({ children }: LayoutProps<"/">) {
       <main className="flex flex-1 flex-col">{children}</main>
       <Footer lastOrderDate={settings.lastOrderDate} showMascot={settings.effects.mascot} />
       <StickyCartBar />
+      <CartDrawer />
       {settings.effects.snow && <Snow />}
     </>
   );

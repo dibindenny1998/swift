@@ -85,7 +85,7 @@ async function ProductView({ params }: Pick<PageProps<"/products/[slug]">, "para
           </div>
 
           <ProductPurchase
-            product={{ id: product.id, title: product.title, image: product.images[0].url, variants: product.variants }}
+            product={{ id: product.id, title: product.title, variants: product.variants }}
             variantLabel={variantLabel}
             lowStockThreshold={settings.lowStockThreshold}
             christmas={settings.countdownEnd}

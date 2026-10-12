@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Drawer } from "@/components/ui/Drawer";
 import { cn } from "@/lib/cn";
-import { useCart } from "@/lib/cart-store";
+import { openCartDrawer, refreshCart, useCart } from "@/lib/cart-store";
+import { setSessionUser, useSessionUser } from "@/lib/session-store";
 
 type NavLink = { href: string; label: string };
 
@@ -12,6 +13,7 @@ export function Header({ categories, whatsapp }: { categories: NavLink[]; whatsa
   const [compact, setCompact] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
+  const user = useSessionUser();
 
   useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > 32);
@@ -62,9 +64,10 @@ export function Header({ categories, whatsapp }: { categories: NavLink[]; whatsa
           >
             swift<em className="font-medium text-ivory">.in</em>
           </Link>
-          <Link
-            href="/cart"
-            aria-label={count > 0 ? `Cart, ${count} item${count === 1 ? "" : "s"}` : "Cart"}
+          <button
+            type="button"
+            onClick={openCartDrawer}
+            aria-label={count > 0 ? `Open cart, ${count} item${count === 1 ? "" : "s"}` : "Open cart"}
             className="relative inline-flex size-11 items-center justify-center rounded-full active:scale-[0.98]"
           >
             <svg aria-hidden width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4ECD8" strokeWidth="1.5" strokeLinejoin="round">
@@ -76,7 +79,7 @@ export function Header({ categories, whatsapp }: { categories: NavLink[]; whatsa
                 {count > 99 ? "99+" : count}
               </span>
             )}
-          </Link>
+          </button>
         </div>
       </header>
 
@@ -99,6 +102,36 @@ export function Header({ categories, whatsapp }: { categories: NavLink[]; whatsa
             ))}
           </ul>
         </nav>
+        <div className="mt-6 rounded-lg border border-border bg-white p-4">
+          {user ? (
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs text-muted">Signed in as</p>
+                <p className="text-[15px] font-semibold">{user.name ?? user.phone}</p>
+              </div>
+              <button
+                type="button"
+                onClick={async () => {
+                  await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+                  setSessionUser(null);
+                  await refreshCart();
+                  setMenuOpen(false);
+                }}
+                className="min-h-11 rounded-full border border-border px-4 text-sm font-semibold text-text"
+              >
+                Log out
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMenuOpen(false)}
+              className="flex min-h-11 items-center justify-between text-[15px] font-semibold text-green-300"
+            >
+              Sign in with your phone <span aria-hidden>→</span>
+            </Link>
+          )}
+        </div>
         {whatsapp && (
           <a
             href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}

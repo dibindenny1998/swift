@@ -18,7 +18,7 @@ export function ProductPurchase({
   lowStockThreshold,
   christmas,
 }: {
-  product: { id: string; title: string; image: string; variants: Variant[] };
+  product: { id: string; title: string; variants: Variant[] };
   variantLabel: string;
   lowStockThreshold: number;
   christmas: string;
@@ -27,6 +27,8 @@ export function ProductPurchase({
   const [variantId, setVariantId] = useState(firstInStock.id);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [addError, setAddError] = useState("");
   const [showBar, setShowBar] = useState(false);
   const mainButton = useRef<HTMLButtonElement>(null);
 
@@ -49,13 +51,21 @@ export function ProductPurchase({
   }, [added]);
 
   const title = product.variants.length > 1 ? `${product.title} — ${variant.name}` : product.title;
-  const add = () => {
-    if (soldOut) return;
-    addToCart({ key: `v:${variant.id}`, title, image: product.image, price: variant.price }, qty);
-    setAdded(true);
+  const add = async () => {
+    if (soldOut || busy) return;
+    setBusy(true);
+    setAddError("");
+    try {
+      await addToCart({ variantId: variant.id, qty });
+      setAdded(true);
+    } catch (e) {
+      setAddError(e instanceof Error ? e.message : "Couldn't add that");
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const addLabel = soldOut ? "Sold out" : added ? "Added to cart" : "Add to cart";
+  const addLabel = soldOut ? "Sold out" : busy ? "Adding…" : added ? "Added to cart" : "Add to cart";
 
   return (
     <div className="flex flex-col gap-5">
@@ -123,8 +133,13 @@ export function ProductPurchase({
         )}
       >
         {addLabel}
-        {!soldOut && !added && <span className="ml-2 font-semibold opacity-80">· {formatINR(variant.price * qty)}</span>}
+        {!soldOut && !added && !busy && <span className="ml-2 font-semibold opacity-80">· {formatINR(variant.price * qty)}</span>}
       </button>
+      {addError && (
+        <p role="alert" className="-mt-3 text-sm text-red-sale">
+          {addError}
+        </p>
+      )}
 
       <PincodeCheck weightGrams={variant.weightGrams * qty} christmas={christmas} />
 

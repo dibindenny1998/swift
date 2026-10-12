@@ -16,6 +16,8 @@ export function GiftBoxBuilder({ builder }: { builder: GiftBoxBuilderData }) {
   const [picks, setPicks] = useState<Record<string, number>>({});
   const [message, setMessage] = useState("");
   const [added, setAdded] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [addError, setAddError] = useState("");
 
   const count = Object.values(picks).reduce((a, b) => a + b, 0);
   const subtotal = builder.options.reduce((sum, o) => sum + (picks[o.variantId] ?? 0) * o.price, 0);
@@ -38,20 +40,18 @@ export function GiftBoxBuilder({ builder }: { builder: GiftBoxBuilderData }) {
     });
   };
 
-  const addBox = () => {
-    if (count === 0) return;
-    const signature = Object.entries(picks)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([id, n]) => `${id}x${n}`)
-      .join(",");
-    addToCart({
-      key: `byo:${builder.id}:${signature}:${message.trim()}`,
-      title: `Gift box · ${count} piece${count === 1 ? "" : "s"}`,
-      image: builder.options.find((o) => picks[o.variantId])?.image ?? "/placeholders/gifts.svg",
-      price: price.total,
-      meta: { byo: { bundleId: builder.id, picks, message: message.trim() || undefined } },
-    });
-    setAdded(true);
+  const addBox = async () => {
+    if (count === 0 || busy) return;
+    setBusy(true);
+    setAddError("");
+    try {
+      await addToCart({ byo: { bundleId: builder.id, picks, message: message.trim() || undefined } });
+      setAdded(true);
+    } catch (e) {
+      setAddError(e instanceof Error ? e.message : "Couldn't add your box");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -167,15 +167,20 @@ export function GiftBoxBuilder({ builder }: { builder: GiftBoxBuilderData }) {
           <button
             type="button"
             onClick={addBox}
-            disabled={count === 0}
+            disabled={count === 0 || busy}
             className={cn(
               "flex h-[50px] items-center rounded-full px-6 text-[15px] font-semibold text-ivory transition-[transform,background-color] active:scale-[0.98] disabled:bg-divider disabled:text-muted",
               added ? "bg-green-200" : "bg-green-300",
             )}
           >
-            {added ? "Added to cart" : "Add box to cart"}
+            {busy ? "Adding…" : added ? "Added to cart" : "Add box to cart"}
           </button>
         </div>
+        {addError && (
+          <p role="alert" className="mx-auto max-w-6xl px-4 pb-2 text-sm text-red-sale">
+            {addError}
+          </p>
+        )}
       </div>
     </>
   );

@@ -85,6 +85,8 @@ SHIPROCKET_EMAIL=
 SHIPROCKET_PASSWORD=
 MSG91_AUTH_KEY=
 MSG91_TEMPLATE_ID=
+# Staging only: show login codes on screen when MSG91 isn't set up. Never enable with real customers.
+OTP_DEV_ECHO=false
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=

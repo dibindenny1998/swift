@@ -231,6 +231,19 @@ async function main() {
     })),
   });
 
+  // Sample coupons (edit or disable in admin).
+  const coupons = [
+    { code: "MERRY10", type: "PERCENT" as const, value: 10, minOrder: r(999), firstOrderOnly: false },
+    { code: "WELCOME200", type: "FLAT" as const, value: r(200), minOrder: r(1499), firstOrderOnly: true },
+  ];
+  for (const c of coupons) {
+    await db.coupon.upsert({
+      where: { code: c.code },
+      update: {},
+      create: { ...c, perUserLimit: 1, endsAt: new Date("2026-12-31T23:59:59+05:30") },
+    });
+  }
+
   // Settings: only insert missing keys so admin edits are never overwritten by a re-seed.
   for (const [key, value] of Object.entries(defaultSettings)) {
     await db.setting.upsert({ where: { key }, update: {}, create: { key, value } });

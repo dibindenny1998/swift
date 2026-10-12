@@ -11,7 +11,7 @@ export function StickyCartBar() {
   const { count, total } = useCart();
   const pathname = usePathname();
   // Product and gift-box pages show their own sticky add bar instead.
-  const hidden = pathname.startsWith("/products/") || pathname === "/gift-box" || pathname === "/cart";
+  const hidden = pathname.startsWith("/products/") || pathname === "/gift-box" || pathname === "/cart" || pathname === "/login";
   if (hidden) return null;
   return (
     <>
