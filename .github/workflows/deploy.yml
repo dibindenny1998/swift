@@ -1,0 +1,30 @@
+name: Deploy to Hostinger VPS
+
+# Needs repo secrets: VPS_HOST, VPS_SSH_KEY (private key whose public half is in
+# /home/swift/.ssh/authorized_keys on the VPS). Optional: VPS_USER (default "swift").
+on:
+  push:
+    branches: [main, claude/new-session-1jdylh]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    steps:
+      - name: Deploy over SSH
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          HOST: ${{ secrets.VPS_HOST }}
+          USER: ${{ secrets.VPS_USER || 'swift' }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh "$USER@$HOST" "BRANCH=$BRANCH bash /var/www/swift/deploy/deploy.sh"

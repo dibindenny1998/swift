@@ -46,3 +46,23 @@ python3 scripts/mascot/split.py public/mascot.png public/mascot /tmp
 ```
 
 Arm pivots and eye positions are hard-coded for this artwork (see `mascot.css` / `Mascot.tsx`).
+
+## Deploying to a Hostinger VPS
+
+Shared/“Premium” hosting can't run Node — use a Hostinger **VPS** (Ubuntu 22.04/24.04).
+
+1. On the fresh VPS, as root:
+   ```bash
+   curl -fsSLO https://raw.githubusercontent.com/dibindenny1998/swift/<branch>/deploy/setup-vps.sh
+   DOMAIN=srvXXXXXX.hstgr.cloud EMAIL=you@example.com \
+   REPO_URL=git@github.com:dibindenny1998/swift.git BRANCH=<branch> \
+   ADMIN_EMAIL=admin@swift.in ADMIN_PASSWORD='strong-password' bash setup-vps.sh
+   ```
+   `DOMAIN` can be Hostinger's temporary hostname (shown in hPanel → VPS → Overview). For a private repo the
+   script prints a deploy key to add under GitHub → Settings → Deploy keys, then re-run it.
+2. Auto-deploy on push: add repo secrets `VPS_HOST` and `VPS_SSH_KEY` (a key authorised for the `swift` user),
+   and the repo variable `DEPLOY_ENABLED=true`. `.github/workflows/deploy.yml` then runs `deploy/deploy.sh` over SSH.
+3. When swift.in is ready: point its A record at the VPS, change `server_name` in `/etc/nginx/sites-available/swift`,
+   run `certbot --nginx -d swift.in -d www.swift.in`, update `NEXT_PUBLIC_SITE_URL`, set `ALLOW_INDEXING=true`, redeploy.
+
+`robots.txt` blocks all indexing until `ALLOW_INDEXING=true`, so the temporary domain stays out of search results.
