@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swift.in Home mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&amp;family=Manrope:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0B5E3E}a:hover{color:#073D29}
+@keyframes fall{from{transform:translateY(-40px)}to{transform:translateY(4700px)}}
+@keyframes sway{0%,100%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
+@keyframes journey{0%,12%{top:1700px;left:410px;transform:scaleX(-1)}32%{top:1640px;left:-190px;transform:scaleX(-1)}32.01%,50%{top:3180px;left:-190px;transform:scaleX(1)}70%{top:3240px;left:410px;transform:scaleX(1)}70.01%,100%{top:3240px;left:410px;transform:scaleX(1)}}
+@keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes sway2{0%,100%{transform:rotate(3deg)}50%{transform:rotate(-3deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes bokeh{0%,100%{transform:translateY(0) scale(1);opacity:.3}50%{transform:translateY(-34px) scale(1.2);opacity:.75}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes dust{0%{opacity:0;transform:translate(0,0) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(-60px,16px) scale(1)}}
+@keyframes lid{0%,55%,100%{transform:translateY(0) rotate(0)}66%{transform:translateY(-16px) rotate(-9deg)}76%{transform:translateY(-11px) rotate(6deg)}88%{transform:translateY(-2px) rotate(0)}}
+@keyframes burst{0%,58%{opacity:0;transform:translateY(0) scale(.3)}70%{opacity:1}100%{opacity:0;transform:translateY(-54px) scale(1.15)}}
+@keyframes bead{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes nose{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.6)}}
+@keyframes spinf{to{transform:rotate(360deg)}}
+@keyframes ribH{0%,10%{transform:scaleX(1)}26%,100%{transform:scaleX(0)}}
+@keyframes ribV{0%,10%{transform:scaleY(1)}26%,100%{transform:scaleY(0)}}
+@keyframes bowOff{0%,6%{transform:scale(1) rotate(0);opacity:1}12%{transform:scale(1.35) rotate(-10deg);opacity:1}22%,100%{transform:translateY(-34px) scale(.4) rotate(30deg);opacity:0}}
+@keyframes plate{0%,14%{opacity:1}28%,100%{opacity:0}}
+@keyframes logoIn{0%,14%{opacity:0;filter:blur(4px)}30%,100%{opacity:1;filter:blur(0)}}
+@keyframes land{0%,20%{transform:translate(-330px,-250px) rotate(-14deg) scale(.55);opacity:0}22%{opacity:1}33%{transform:translate(-160px,-150px) rotate(-8deg) scale(.8)}45%{transform:translate(0,-10px) rotate(4deg) scale(1)}50%{transform:translate(0,0) rotate(0)}54%{transform:translate(0,-6px)}58%,100%{transform:translate(0,0) rotate(0) scale(1);opacity:1}}
+@keyframes puff{0%,48%{opacity:0;transform:translate(0,0) scale(.3)}52%{opacity:.95}66%,100%{opacity:0;transform:translate(var(--dx),-16px) scale(1.3)}}
+.logoReveal{animation:logoIn 12s ease-out var(--iter) both}
+.plate{animation:plate 12s ease-out var(--iter) both}
+.ribH{animation:ribH 12s cubic-bezier(.6,0,.3,1) var(--iter) both}
+.ribV{animation:ribV 12s cubic-bezier(.6,0,.3,1) var(--iter) both}
+.bow{animation:bowOff 12s ease-out var(--iter) both}
+.land{animation:land 12s cubic-bezier(.3,.7,.3,1) var(--iter) both}
+.puff{position:absolute;bottom:2px;width:7px;height:7px;border-radius:50%;background:#FFFFFF;animation:puff 12s ease-out var(--iter) both}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes waveArm{0%,100%{transform:rotate(0)}50%{transform:rotate(-24deg)}}
+@keyframes blinkEye{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes flutter{0%,100%{transform:rotate(0)}50%{transform:rotate(9deg)}}
+@keyframes catchArm{0%,100%{transform:rotate(8deg)}40%,60%{transform:rotate(62deg)}}
+@keyframes catchFall{0%{transform:translate(4px,-110px) rotate(0);opacity:0}10%{opacity:1}45%{transform:translate(0,0) rotate(120deg);opacity:1}55%{transform:translate(0,0) scale(1.4);opacity:.8}65%,100%{transform:translate(0,0) scale(0);opacity:0}}
+@keyframes hatFall{0%{transform:translate(-6px,-120px);opacity:0}12%{opacity:1}60%{transform:translate(0,0);opacity:1}80%,100%{transform:translate(0,0) scale(.2);opacity:0}}
+@keyframes bubble{0%,6%{opacity:0;transform:scale(.4)}14%,42%{opacity:1;transform:scale(1)}50%,100%{opacity:0;transform:scale(.6)}}
+.catchArm{animation:catchArm 3s ease-in-out infinite;transform-origin:40px 100px}
+.catchFall{animation:catchFall 3s ease-in infinite}
+.hatFall{animation:hatFall 5s ease-in infinite}
+.bubble{animation:bubble 6s ease-out infinite;transform-origin:bottom right}
+@keyframes act{0%,3%{transform:translate(0,0) rotate(0)}6%{transform:translate(0,-18px) rotate(-3deg)}9%{transform:translate(0,0) rotate(0)}12%{transform:translate(0,-18px) rotate(3deg)}15%,19%{transform:translate(0,0) rotate(0)}23%{transform:rotate(-6deg)}27%{transform:rotate(6deg)}31%{transform:rotate(-6deg)}35%{transform:rotate(5deg)}39%,42%{transform:translate(0,0) rotate(0) scaleY(1)}45%{transform:translate(0,4px) rotate(0) scaleY(.9)}48%{transform:translate(-10px,-34px) rotate(-30deg)}53%{transform:translate(-8px,-50px) rotate(-90deg)}56%{transform:translate(-8px,-50px) rotate(-82deg)}59%{transform:translate(-8px,-50px) rotate(-98deg)}62%{transform:translate(-8px,-50px) rotate(-82deg)}65%,68%{transform:translate(-8px,-50px) rotate(-90deg)}73%{transform:translate(0,-30px) rotate(-20deg)}77%{transform:translate(0,0) rotate(4deg)}80%{transform:translate(0,-12px) rotate(0)}83%,100%{transform:translate(0,0) rotate(0)}}
+@keyframes flakePlay{0%{transform:translate(-14px,-90px) rotate(0);opacity:0}2%{opacity:1}6%{transform:translate(0,-18px) rotate(90deg)}9%{transform:translate(8px,-70px) rotate(180deg)}12%{transform:translate(2px,-18px) rotate(270deg)}17%{transform:translate(40px,-110px) rotate(400deg);opacity:1}20%,100%{transform:translate(60px,-130px) rotate(420deg);opacity:0}}
+@keyframes bubble2{0%,19%{opacity:0;transform:scale(.4)}23%,39%{opacity:1;transform:scale(1)}43%,100%{opacity:0;transform:scale(.6)}}
+@keyframes angelIn{0%,70%{opacity:0;transform:scale(.85)}75%,92%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.mascot{animation:act 14s ease-in-out infinite;transform-origin:50% 100%}
+.flakePlay{animation:flakePlay 14s ease-out infinite}
+.bubble2{animation:bubble2 14s ease-out infinite;transform-origin:bottom right}
+.angel{animation:angelIn 14s ease-out infinite;transform-origin:right center}
+.hop{animation:hop 2.6s ease-in-out infinite}
+.waveArm{animation:waveArm 1.4s ease-in-out infinite;transform-origin:100px 96px}
+.blinkEye{animation:blinkEye 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.flutter{animation:flutter 2s ease-in-out infinite;transform-box:fill-box;transform-origin:top center}
+.bokeh{position:absolute;border-radius:50%;background:#E9C76A;filter:blur(7px);animation:bokeh 10s ease-in-out infinite;pointer-events:none}
+.shimmer{background:linear-gradient(100deg,#C99A2E 20%,#FFF1C2 45%,#E9C76A 55%,#C99A2E 80%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 4.5s linear infinite}
+.dust{position:absolute;animation:dust 1.8s ease-out infinite}
+.lid{animation:lid 4.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+.burst{position:absolute;animation:burst 4.2s ease-out infinite}
+.bead{animation:bead 2.6s ease-in-out infinite}
+.nose{animation:nose 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.flake svg{animation:spinf 24s linear infinite}
+.flake{position:absolute;top:0;animation-name:fall;animation-timing-function:linear;animation-iteration-count:infinite;pointer-events:none;color:#FFFFFF;filter:drop-shadow(0 0 1.5px rgba(11,94,62,.45))}
+.flake>span{display:block;animation:sway 9s ease-in-out infinite}
+.journey{position:absolute;width:170px;animation:journey 80s linear infinite;z-index:40;pointer-events:none}
+.drift{animation:drift 4s ease-in-out infinite}
+.hang{animation:sway2 7s ease-in-out infinite;transform-origin:top center;filter:drop-shadow(0 6px 6px rgba(40,0,8,.3))}
+.rise{animation:rise 1s cubic-bezier(.2,.8,.2,1) both}
+.press{transition:transform .2s}
+.press:active{transform:scale(.98)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+
+<div style="--iter: {{ iter }}; width: 390px; min-height: 4800px; position: relative; overflow: hidden; background: #FBF7EE; font-family: 'Manrope', sans-serif; color: #1F1B14; display: flex; flex-direction: column">
+
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3DC98"></stop><stop offset="1" stop-color="#C4952E"></stop></linearGradient>
+      <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3313F"></stop><stop offset="1" stop-color="#8A1220"></stop></linearGradient>
+      <symbol id="sOrnRed" viewBox="0 0 40 54"><rect x="15" y="6" width="10" height="6" rx="2" fill="#C4952E"></rect><path d="M17.5 6a2.5 2.5 0 0 1 5 0" stroke="#C4952E" stroke-width="1.6" fill="none"></path><circle cx="20" cy="32" r="17" fill="url(#gRed)"></circle><path d="M5 32h30" stroke="#E9C76A" stroke-width="1.6"></path><ellipse cx="13.5" cy="25" rx="3.5" ry="5.5" fill="#F7B3BA" opacity=".5"></ellipse></symbol>
+      <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A9A63"></stop><stop offset="1" stop-color="#0A5537"></stop></linearGradient>
+      <linearGradient id="gBrown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9743F"></stop><stop offset="1" stop-color="#6A4120"></stop></linearGradient>
+      <linearGradient id="gFur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#E4DED3"></stop></linearGradient>
+      <radialGradient id="gSkin" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#FFDCC4"></stop><stop offset="1" stop-color="#EDB693"></stop></radialGradient>
+      <symbol id="sOrnGreen" viewBox="0 0 40 54"><rect x="15" y="6" width="10" height="6" rx="2" fill="#C4952E"></rect><path d="M17.5 6a2.5 2.5 0 0 1 5 0" stroke="#C4952E" stroke-width="1.6" fill="none"></path><circle cx="20" cy="32" r="17" fill="url(#gGreen)"></circle><path d="M5 32h30" stroke="#E9C76A" stroke-width="1.6"></path><ellipse cx="13.5" cy="25" rx="3.5" ry="5.5" fill="#BFE8D2" opacity=".45"></ellipse></symbol>
+      <symbol id="sFlake" viewBox="-12 -12 24 24"><g stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"><path d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5"></path><path transform="rotate(60)" d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5"></path><path transform="rotate(120)" d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5"></path><path transform="rotate(180)" d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5"></path><path transform="rotate(240)" d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5"></path><path transform="rotate(300)" d="M0 0V-10M0-6.5L-3-9.5M0-6.5L3-9.5"></path></g></symbol>
+      <symbol id="sStar" viewBox="0 0 24 24"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="url(#gGold)"></path></symbol>
+      <symbol id="sOrn" viewBox="0 0 40 54"><rect x="15" y="6" width="10" height="6" rx="2" fill="#C4952E"></rect><path d="M17.5 6a2.5 2.5 0 0 1 5 0" stroke="#C4952E" stroke-width="1.6" fill="none"></path><circle cx="20" cy="32" r="17" fill="url(#gGold)"></circle><path d="M4 30Q20 37 36 30" stroke="#A97E20" stroke-width="1" fill="none"></path><ellipse cx="13.5" cy="25" rx="3.5" ry="5.5" fill="#FFF6D8" opacity=".55"></ellipse></symbol>
+    </defs>
+  </svg>
+
+  <div style="background: linear-gradient(90deg, #8E1422 0%, #B71C2C 50%, #8E1422 100%); color: #F6DDE0; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-align: center; padding: 9px 16px">Complimentary gold gift wrap <span style="color: #D9B45A; margin: 0 6px">✦</span> Free shipping over ₹999</div>
+
+  <header style="position: relative; z-index: 5; background: linear-gradient(180deg, #EC3F51 0%, #DA2E40 100%); display: flex; align-items: center; justify-content: space-between; padding: 8px 8px; border-bottom: 1px solid rgba(243,220,152,.3)">
+    <button aria-label="Open menu" style="width: 44px; height: 44px; border: none; background: transparent; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4ECD8" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"></path></svg></button>
+    <a href="Main.dc.html" style="text-decoration: none; font-family: 'Playfair Display', serif; font-weight: 600; font-size: 27px; color: #F3DC98; letter-spacing: 0.01em">swift<em style="color: #FBF7EE; font-weight: 500">.in</em></a>
+    <a href="Cart.dc.html" aria-label="Cart, 2 items" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; position: relative"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4ECD8" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg><span style="position: absolute; top: 7px; right: 6px; width: 16px; height: 16px; border-radius: 8px; background: #E9C76A; color: #073D29; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center">2</span></a>
+  </header>
+
+  <section style="position: relative; background: linear-gradient(180deg, #DA2E40 0%, #C21F31 22%, #9C1626 50%, #740E1C 76%, #4E0812 100%); color: #FBF7EE; padding: 16px 16px 48px">
+    <div style="position: absolute; inset: 12px; border: 1px solid rgba(217,180,90,.4); border-radius: 24px; pointer-events: none"></div>
+    <span class="bokeh" style="left: 300px; top: 300px; width: 28px; height: 28px; animation-delay: -3s"></span>
+    <span class="bokeh" style="left: 34px; top: 560px; width: 18px; height: 18px; animation-delay: -5s"></span>
+    <span class="bokeh" style="left: 320px; top: 800px; width: 22px; height: 22px; animation-delay: -1.5s"></span>
+
+    <svg width="390" height="60" viewBox="0 0 390 60" style="position: absolute; top: 0; left: 0; z-index: 2" aria-hidden="true">
+      <path d="M0 6Q97 50 195 10Q292 50 390 6" stroke="url(#gGold)" stroke-width="1.5" fill="none"></path>
+      <circle class="bead" cx="48.6" cy="22.7" r="3" fill="#F3DC98"></circle>
+      <circle class="bead" cx="97" cy="29" r="3.6" fill="#E9C76A" style="animation-delay: -.8s"></circle>
+      <circle class="bead" cx="146" cy="24.7" r="3" fill="#F3DC98" style="animation-delay: -1.6s"></circle>
+      <circle class="bead" cx="243.6" cy="24.7" r="3" fill="#F3DC98" style="animation-delay: -.4s"></circle>
+      <circle class="bead" cx="292" cy="29" r="3.6" fill="#E9C76A" style="animation-delay: -1.2s"></circle>
+      <circle class="bead" cx="341" cy="22.7" r="3" fill="#F3DC98" style="animation-delay: -2s"></circle>
+      <path d="M195 10C186 2 178 6 184 11C187 13 192 11 195 10C198 11 203 13 206 11C212 6 204 2 195 10Z" fill="url(#gGold)"></path>
+      <circle cx="195" cy="10" r="2.6" fill="#A97E20"></circle>
+    </svg>
+    <div class="hang" style="position: absolute; top: 22px; left: 42px; display: flex; flex-direction: column; align-items: center; z-index: 2"><span style="width: 1px; height: 40px; background: rgba(217,180,90,.7)"></span><svg width="26" height="35" aria-hidden="true"><use href="#sOrn"></use></svg></div>
+    <div class="hang" style="position: absolute; top: 28px; right: 92px; display: flex; flex-direction: column; align-items: center; z-index: 2; animation-delay: -4s"><span style="width: 1px; height: 30px; background: rgba(217,180,90,.7)"></span><svg width="20" height="27" aria-hidden="true"><use href="#sOrnGreen"></use></svg></div>
+
+    <div style="position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 84px">
+      <span class="rise" style="color: #F3DC98; font-size: 12px; font-weight: 600; letter-spacing: 0.24em">CHRISTMAS 2026</span>
+      <div style="position: relative; margin-top: 96px; width: 100%">
+        <sc-if value="{{ showSanta }}" hint-placeholder-val="{{ true }}">
+        <div class="land" aria-hidden="true" style="position: absolute; right: 14px; bottom: calc(100% - 10px); width: 170px; z-index: 4">
+          <span class="puff" style="left: 20px; --dx: -18px"></span>
+          <span class="puff" style="left: 46px; --dx: -8px; width: 5px; height: 5px"></span>
+          <span class="puff" style="left: 80px; --dx: 4px"></span>
+          <span class="puff" style="left: 104px; --dx: 14px; width: 5px; height: 5px"></span>
+          <span class="puff" style="left: 120px; --dx: 22px"></span>
+          <div class="drift">
+            <svg width="170" height="78" viewBox="0 0 240 110" style="overflow: visible; filter: drop-shadow(0 10px 10px rgba(40,0,8,.38))">
+              <path d="M14 98H132Q152 98 152 82Q152 72 142 72" stroke="url(#gGold)" stroke-width="5" fill="none" stroke-linecap="round"></path>
+              <path d="M42 86V98M112 86V98" stroke="url(#gGold)" stroke-width="4" stroke-linecap="round"></path>
+              <path d="M38 56Q30 30 48 26Q58 23 64 30Q74 40 66 56Z" fill="url(#gGold)"></path>
+              <ellipse cx="47" cy="38" rx="4" ry="7" fill="#FFF6D8" opacity=".5"></ellipse>
+              <rect x="48" y="23" width="14" height="5" rx="2.5" fill="#A97E20"></rect>
+              <ellipse cx="86" cy="52" rx="21" ry="19" fill="url(#gRed)"></ellipse>
+              <ellipse cx="80" cy="44" rx="7" ry="5" fill="#F2717E" opacity=".45"></ellipse>
+              <rect x="65" y="52" width="42" height="6" rx="3" fill="#2A1A14"></rect>
+              <rect x="81" y="50.5" width="10" height="9" rx="2" fill="none" stroke="url(#gGold)" stroke-width="2"></rect>
+              <path d="M12 44Q12 30 26 30Q34 30 34 40V56H126Q140 56 145 45Q150 82 117 88H24Q12 88 12 76Z" fill="url(#gGreen)"></path>
+              <path d="M17 42Q18 35 25 34" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"></path>
+              <path d="M34 56H126Q140 56 145 45" stroke="url(#gGold)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+              <path d="M50 72q10-8 20 0t20 0t20 0" stroke="url(#gGold)" stroke-width="2.2" fill="none" stroke-linecap="round"></path>
+              <path d="M30 80H110" stroke="#FFFFFF" stroke-opacity=".12" stroke-width="3" stroke-linecap="round"></path>
+              <g class="wave" style="transform-origin: 100px 42px">
+                <path d="M100 42L116 27" stroke="url(#gRed)" stroke-width="10" stroke-linecap="round"></path>
+                <circle cx="114" cy="29" r="5" fill="url(#gFur)"></circle>
+                <circle cx="118" cy="24" r="6" fill="url(#gGreen)"></circle>
+              </g>
+              <circle cx="86" cy="27" r="12" fill="url(#gSkin)"></circle>
+              <circle cx="78" cy="31" r="3.4" fill="#F59AA4" opacity=".7"></circle>
+              <circle cx="94" cy="31" r="3.4" fill="#F59AA4" opacity=".7"></circle>
+              <path d="M80 25q2.2-2.4 4.4 0M88 25q2.2-2.4 4.4 0" stroke="#3A2A20" stroke-width="1.6" fill="none" stroke-linecap="round"></path>
+              <path d="M72 29Q72 50 86 50Q100 50 100 29Q94 36 86 35Q78 36 72 29Z" fill="url(#gFur)"></path>
+              <path d="M79 33q7 4.5 14 0" stroke="#FFFFFF" stroke-width="4.5" fill="none" stroke-linecap="round"></path>
+              <circle cx="86" cy="30" r="2.8" fill="#EE9C80"></circle>
+              <path d="M73 20Q77 2 94 6Q103 9 107 19L96 21Z" fill="url(#gRed)"></path>
+              <rect x="71" y="16" width="30" height="8" rx="4" fill="url(#gFur)"></rect>
+              <circle cx="109" cy="19" r="5" fill="url(#gFur)"></circle>
+              <path d="M118 26Q152 40 186 47" stroke="url(#gGold)" stroke-width="1.6" fill="none"></path>
+              <g class="legA" style="transform-origin: 158px 60px"><path d="M158 60L154 84" stroke="#6A4120" stroke-width="5" stroke-linecap="round"></path></g>
+              <g class="legB" style="transform-origin: 166px 62px"><path d="M166 62L170 84" stroke="#5A361A" stroke-width="5" stroke-linecap="round"></path></g>
+              <g class="legB" style="transform-origin: 182px 62px"><path d="M182 62L178 84" stroke="#6A4120" stroke-width="5" stroke-linecap="round"></path></g>
+              <g class="legA" style="transform-origin: 190px 60px"><path d="M190 60L194 84" stroke="#5A361A" stroke-width="5" stroke-linecap="round"></path></g>
+              <circle cx="147" cy="52" r="4.5" fill="url(#gFur)"></circle>
+              <ellipse cx="174" cy="56" rx="27" ry="13" fill="url(#gBrown)"></ellipse>
+              <ellipse cx="174" cy="62" rx="17" ry="5" fill="#D2A673" opacity=".55"></ellipse>
+              <path d="M192 52L200 35" stroke="url(#gBrown)" stroke-width="11" stroke-linecap="round"></path>
+              <path d="M190 47L201 51" stroke="url(#gGold)" stroke-width="3.5" stroke-linecap="round"></path>
+              <circle cx="196" cy="53" r="3.2" fill="url(#gGold)"></circle>
+              <ellipse cx="205" cy="32" rx="12" ry="8.5" fill="url(#gBrown)"></ellipse>
+              <ellipse cx="198" cy="25" rx="3" ry="5" fill="#8A5A2E" transform="rotate(-30 198 25)"></ellipse>
+              <circle cx="205" cy="29" r="1.6" fill="#2A1A14"></circle>
+              <circle cx="205.6" cy="28.4" r=".5" fill="#FFFFFF"></circle>
+              <path d="M200 23L195 11M196 15L189 11M207 22L212 10M211 14L218 11" stroke="#E2C18A" stroke-width="2.6" fill="none" stroke-linecap="round"></path>
+              <circle class="nose" cx="215" cy="32" r="5.5" fill="#FF6B6B"></circle>
+              <circle cx="215" cy="32" r="3.2" fill="#E53935"></circle>
+              <circle cx="214" cy="31" r="1" fill="#FFC4C4"></circle>
+            </svg>
+          </div>
+        </div>
+        </sc-if>
+        <h1 class="rise" style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 44px; line-height: 1.05; letter-spacing: -0.01em; animation-delay: .1s">Christmas,<br>wrapped in <em class="shimmer">gold</em></h1>
+      </div>
+      <p class="rise" style="margin: 16px 0 0; font-size: 16px; line-height: 1.6; color: #F8DADD; max-width: 300px; animation-delay: .2s">Heirloom trees, warm lights and gifts worth keeping — beautifully boxed, at your door before the big night.</p>
+
+      <div class="rise" style="margin-top: 28px; width: 290px; height: 360px; border-radius: 145px 145px 24px 24px; border: 1px solid rgba(217,180,90,.7); padding: 8px; box-sizing: border-box; animation-delay: .3s">
+        <div style="width: 100%; height: 100%; border-radius: 137px 137px 16px 16px; background: #7A0F1C; display: flex; align-items: center; justify-content: center; color: #F2B8BE; font-size: 13px; padding: 24px; box-sizing: border-box">[Hero photo — gold tree on red velvet, warm light]</div>
+      </div>
+
+      <div class="rise" style="margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 12px; animation-delay: .4s">
+        <span style="font-size: 12px; color: #F6C6CB; letter-spacing: 0.2em; font-weight: 600">CHRISTMAS EVE IN</span>
+        <div style="display: flex; align-items: stretch">
+          <div style="width: 74px; display: flex; flex-direction: column; align-items: center; gap: 4px"><strong style="font-family: 'Playfair Display', serif; font-weight: 500; font-size: 34px; line-height: 1">{{ cd.d }}</strong><span style="font-size: 12px; color: #F6C6CB">days</span></div>
+          <span style="width: 1px; background: rgba(217,180,90,.45)"></span>
+          <div style="width: 74px; display: flex; flex-direction: column; align-items: center; gap: 4px"><strong style="font-family: 'Playfair Display', serif; font-weight: 500; font-size: 34px; line-height: 1">{{ cd.h }}</strong><span style="font-size: 12px; color: #F6C6CB">hours</span></div>
+          <span style="width: 1px; background: rgba(217,180,90,.45)"></span>
+          <div style="width: 74px; display: flex; flex-direction: column; align-items: center; gap: 4px"><strong style="font-family: 'Playfair Display', serif; font-weight: 500; font-size: 34px; line-height: 1">{{ cd.m }}</strong><span style="font-size: 12px; color: #F6C6CB">mins</span></div>
+          <span style="width: 1px; background: rgba(217,180,90,.45)"></span>
+          <div style="width: 74px; display: flex; flex-direction: column; align-items: center; gap: 4px"><strong style="font-family: 'Playfair Display', serif; font-weight: 500; font-size: 34px; line-height: 1; color: #E9C76A">{{ cd.s }}</strong><span style="font-size: 12px; color: #F6C6CB">secs</span></div>
+        </div>
+      </div>
+
+      <div class="rise" style="margin-top: 30px; width: 100%; padding: 0 12px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; animation-delay: .5s">
+        <a class="press" href="#shop" style="text-decoration: none; width: 100%; height: 54px; border-radius: 999px; background: linear-gradient(180deg, #F0D88E, #CFA13E); color: #2E2208; font-weight: 700; font-size: 15px; letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 0 rgba(255,255,255,.5)">Shop the collection</a>
+        <a href="#giftbox" style="text-decoration: none; color: #F4ECD8; font-weight: 600; font-size: 15px; min-height: 44px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(217,180,90,.6)">Build a gift box <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 48px 16px 8px; display: flex; flex-direction: column; gap: 22px">
+    <div style="display: flex; flex-direction: column; gap: 8px; padding: 0 4px">
+      <span style="color: #8A6A1E; font-size: 12px; font-weight: 600; letter-spacing: 0.2em">SHOP BY CATEGORY</span>
+      <h2 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 32px; line-height: 1.1; color: #0A3D29">Dress the house</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <a class="press" href="#shop" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px"><span style="height: 170px; border-radius: 12px; background: #E6EDE7; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Trees]</span><span style="font-size: 15px; font-weight: 600">Trees <span style="color: #8A8373; font-weight: 500">→</span></span></a>
+      <a class="press" href="#shop" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px"><span style="height: 170px; border-radius: 12px; background: #F1E9D6; display: flex; align-items: center; justify-content: center; color: #8C7D58; font-size: 12px">[Lights]</span><span style="font-size: 15px; font-weight: 600">Lights <span style="color: #8A8373; font-weight: 500">→</span></span></a>
+      <a class="press" href="#shop" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px"><span style="height: 170px; border-radius: 12px; background: #F1E9D6; display: flex; align-items: center; justify-content: center; color: #8C7D58; font-size: 12px">[Ornaments]</span><span style="font-size: 15px; font-weight: 600">Ornaments <span style="color: #8A8373; font-weight: 500">→</span></span></a>
+      <a class="press" href="#shop" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px"><span style="height: 170px; border-radius: 12px; background: #E6EDE7; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Gifts]</span><span style="font-size: 15px; font-weight: 600">Gifts <span style="color: #8A8373; font-weight: 500">→</span></span></a>
+    </div>
+  </section>
+
+  <section id="bundles" style="padding: 48px 0 8px; display: flex; flex-direction: column; gap: 22px">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 0 20px">
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="color: #8A6A1E; font-size: 12px; font-weight: 600; letter-spacing: 0.2em">SIGNATURE KITS</span><h2 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 32px; line-height: 1.1; color: #0A3D29">Boxed &amp; ready</h2></div>
+      <a href="#" style="font-size: 14px; font-weight: 600; min-height: 44px; display: flex; align-items: center">See all</a>
+    </div>
+    <div style="display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px; scroll-snap-type: x mandatory">
+      <article style="flex: none; width: 286px; scroll-snap-align: start; background: #FFFFFF; border: 1px solid #ECE3CF; border-radius: 24px; overflow: hidden">
+        <div style="height: 200px; background: #E6EDE7; position: relative; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Kit photo]<span style="position: absolute; top: 14px; left: 14px; background: #FBF7EE; color: #A3192B; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px">Save [X]%</span></div>
+        <div style="padding: 18px; display: flex; flex-direction: column; gap: 8px">
+          <h3 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; color: #0A3D29">The Royal Tree Kit</h3>
+          <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: #6B6352">6ft pine, warm lights, 24 gold ornaments and a star topper.</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px"><div style="display: flex; align-items: baseline; gap: 8px"><strong style="font-size: 18px; font-weight: 700">₹[PRICE]</strong><s style="font-size: 13px; color: #8C8270">₹[MRP]</s></div><button class="press" style="height: 44px; padding: 0 20px; border-radius: 999px; border: none; background: #0B5E3E; color: #FBF7EE; font: 600 14px 'Manrope', sans-serif">Add</button></div>
+        </div>
+      </article>
+      <article style="flex: none; width: 286px; scroll-snap-align: start; background: #FFFFFF; border: 1px solid #ECE3CF; border-radius: 24px; overflow: hidden">
+        <div style="height: 200px; background: #F1E9D6; position: relative; display: flex; align-items: center; justify-content: center; color: #8C7D58; font-size: 12px">[Kit photo]<span style="position: absolute; top: 14px; left: 14px; background: #FBF7EE; color: #A3192B; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px">Save [X]%</span></div>
+        <div style="padding: 18px; display: flex; flex-direction: column; gap: 8px">
+          <h3 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; color: #0A3D29">Office Secret Santa</h3>
+          <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: #6B6352">Ten wrapped gift boxes with name tags, ready to hand out.</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px"><div style="display: flex; align-items: baseline; gap: 8px"><strong style="font-size: 18px; font-weight: 700">₹[PRICE]</strong><s style="font-size: 13px; color: #8C8270">₹[MRP]</s></div><button class="press" style="height: 44px; padding: 0 20px; border-radius: 999px; border: none; background: #0B5E3E; color: #FBF7EE; font: 600 14px 'Manrope', sans-serif">Add</button></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="shop" style="position: relative; padding: 48px 16px 56px; display: flex; flex-direction: column; gap: 22px">
+    <div class="hang" style="position: absolute; top: 0; right: 30px; display: flex; flex-direction: column; align-items: center; animation-delay: -1s" aria-hidden="true"><span style="width: 1px; height: 46px; background: #D9C48E"></span><svg width="24" height="32"><use href="#sOrnRed"></use></svg></div>
+    <div class="hang" style="position: absolute; top: 0; right: 70px; display: flex; flex-direction: column; align-items: center; animation-delay: -3.5s" aria-hidden="true"><span style="width: 1px; height: 24px; background: #D9C48E"></span><svg width="18" height="24"><use href="#sOrn"></use></svg></div>
+    <div style="display: flex; flex-direction: column; gap: 8px; padding: 0 4px">
+      <span style="color: #8A6A1E; font-size: 12px; font-weight: 600; letter-spacing: 0.2em">MOST LOVED</span>
+      <h2 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 32px; line-height: 1.1; color: #0A3D29">Bestsellers</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px">
+      <a class="press" href="Product.dc.html" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 200px; border-radius: 12px; background: #E6EDE7; position: relative; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Photo]<span style="position: absolute; bottom: 10px; left: 10px; background: #FBF7EE; color: #A3192B; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px">4 left</span></span>
+        <span style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14.5px; font-weight: 600">Royal Pine Tree</span><span style="font-size: 14px; color: #6B6352">₹[PRICE]</span></span>
+      </a>
+      <a class="press" href="Product.dc.html" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 200px; border-radius: 12px; background: #F1E9D6; display: flex; align-items: center; justify-content: center; color: #8C7D58; font-size: 12px">[Photo]</span>
+        <span style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14.5px; font-weight: 600">Warm Fairy Lights</span><span style="font-size: 14px; color: #6B6352">₹[PRICE]</span></span>
+      </a>
+      <a class="press" href="Product.dc.html" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 200px; border-radius: 12px; background: #F1E9D6; display: flex; align-items: center; justify-content: center; color: #8C7D58; font-size: 12px">[Photo]</span>
+        <span style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14.5px; font-weight: 600">Nativity Crib Set</span><span style="font-size: 14px; color: #6B6352">₹[PRICE]</span></span>
+      </a>
+      <a class="press" href="Product.dc.html" style="text-decoration: none; color: #1F1B14; display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 200px; border-radius: 12px; background: #E6EDE7; position: relative; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Photo]<span style="position: absolute; bottom: 10px; left: 10px; background: #FBF7EE; color: #0B5E3E; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px">New</span></span>
+        <span style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14.5px; font-weight: 600">Gold Ornament Set</span><span style="font-size: 14px; color: #6B6352">₹[PRICE]</span></span>
+      </a>
+    </div>
+    <a href="#shop" style="text-decoration: none; height: 52px; border-radius: 999px; border: 1px solid #0B5E3E; color: #0B5E3E; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; margin-top: 6px">View all products</a>
+  </section>
+
+  <section id="giftbox" style="position: relative; background: linear-gradient(180deg, #19A26A 0%, #0F7A4E 35%, #0A5537 70%, #05301F 100%); color: #FBF7EE; padding: 56px 24px">
+    <div style="position: absolute; inset: 12px; border: 1px solid rgba(217,180,90,.35); border-radius: 24px; pointer-events: none"></div>
+    <div style="position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px">
+      <div style="position: relative; width: 130px; height: 120px" aria-hidden="true">
+        <svg class="burst" width="14" height="14" style="left: 34px; top: 26px"><use href="#sStar"></use></svg>
+        <svg class="burst" width="18" height="18" style="left: 56px; top: 14px; animation-delay: .15s"><use href="#sStar"></use></svg>
+        <svg class="burst" width="12" height="12" style="left: 84px; top: 24px; animation-delay: .3s"><use href="#sStar"></use></svg>
+        <svg width="130" height="120" viewBox="0 0 120 110" style="filter: drop-shadow(0 10px 10px rgba(0,30,15,.4))">
+          <rect x="22" y="50" width="76" height="56" rx="6" fill="url(#gRed)"></rect>
+          <rect x="55" y="50" width="10" height="56" fill="url(#gGold)"></rect>
+          <g class="lid">
+            <rect x="16" y="36" width="88" height="18" rx="5" fill="url(#gRed)"></rect>
+            <rect x="55" y="36" width="10" height="18" fill="url(#gGold)"></rect>
+            <path d="M60 36C48 16 32 22 41 31C45 34 54 36 60 36C66 36 75 34 79 31C88 22 72 16 60 36Z" fill="url(#gGold)"></path>
+          </g>
+        </svg>
+      </div>
+      <span style="color: #D9B45A; font-size: 12px; font-weight: 600; letter-spacing: 0.2em">MAKE IT PERSONAL</span>
+      <h2 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 34px; line-height: 1.1">Build your own<br><em style="color: #E9C76A">gift box</em></h2>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #CFE3D8; max-width: 290px">Choose three pieces for [X]% off, or five for [Y]% off. Tied in gold ribbon, with your handwritten note.</p>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; margin-top: 10px">
+        <div style="aspect-ratio: 1; border-radius: 12px; background: #FBF7EE; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Item]</div>
+        <div style="aspect-ratio: 1; border-radius: 12px; background: #FBF7EE; display: flex; align-items: center; justify-content: center; color: #6E8779; font-size: 12px">[Item]</div>
+        <button aria-label="Add a third item" style="aspect-ratio: 1; border-radius: 12px; border: 1px dashed rgba(217,180,90,.8); background: transparent; color: #E9C76A; font: 300 30px 'Manrope', sans-serif">+</button>
+      </div>
+      <span style="font-size: 14px; color: #CFE3D8; margin-top: 4px">Add one more to unlock [X]% off</span>
+      <a class="press" href="#" style="text-decoration: none; width: 100%; height: 54px; border-radius: 999px; background: linear-gradient(180deg, #F0D88E, #CFA13E); color: #2E2208; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; margin-top: 6px">Start building</a>
+    </div>
+  </section>
+
+  <section style="padding: 56px 24px; display: flex; flex-direction: column; gap: 36px">
+    <figure style="margin: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center">
+      <div style="display: flex; gap: 4px"><svg width="14" height="14" aria-hidden="true"><use href="#sStar"></use></svg><svg width="14" height="14" aria-hidden="true"><use href="#sStar"></use></svg><svg width="14" height="14" aria-hidden="true"><use href="#sStar"></use></svg><svg width="14" height="14" aria-hidden="true"><use href="#sStar"></use></svg><svg width="14" height="14" aria-hidden="true"><use href="#sStar"></use></svg></div>
+      <blockquote style="margin: 0; font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.45; color: #0A3D29">"[Real customer review goes here after launch]"</blockquote>
+      <figcaption style="font-size: 13px; color: #6B6352">[Name], [City]</figcaption>
+    </figure>
+    <div style="height: 1px; background: #E6DCC4"></div>
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; gap: 16px; align-items: center"><span style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #D9C48E; display: flex; align-items: center; justify-content: center; flex: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B5E3E" stroke-width="1.5" aria-hidden="true"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg></span><div><strong style="display: block; font-size: 15px; font-weight: 600">Delivered before Christmas</strong><span style="font-size: 13.5px; color: #6B6352">Order by Dec 18 · free over ₹999</span></div></div>
+      <div style="display: flex; gap: 16px; align-items: center"><span style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #D9C48E; display: flex; align-items: center; justify-content: center; flex: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B5E3E" stroke-width="1.5" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"></rect><rect x="3" y="7" width="18" height="3.5" rx="1"></rect><path d="M12 7v14"></path></svg></span><div><strong style="display: block; font-size: 15px; font-weight: 600">Gold gift wrap, on us</strong><span style="font-size: 13.5px; color: #6B6352">With a handwritten note</span></div></div>
+      <div style="display: flex; gap: 16px; align-items: center"><span style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #D9C48E; display: flex; align-items: center; justify-content: center; flex: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B5E3E" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 10h18"></path></svg></span><div><strong style="display: block; font-size: 15px; font-weight: 600">UPI, cards or cash on delivery</strong><span style="font-size: 13.5px; color: #6B6352">7-day easy returns</span></div></div>
+    </div>
+  </section>
+
+  <footer style="position: relative; background: linear-gradient(180deg, #13895A 0%, #0B5E3E 45%, #04261A 100%); color: #CFE3D8; padding: 52px 24px 40px; display: flex; flex-direction: column; gap: 24px">
+    <span style="color: #D9B45A; font-size: 12px; font-weight: 600; letter-spacing: 0.2em">BEFORE THE SLEIGH LEAVES</span>
+    <h2 style="margin: 0; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 30px; line-height: 1.15; color: #FBF7EE">Last order for Christmas delivery is <em style="color: #E9C76A">December 18</em></h2>
+    <form style="display: flex; flex-direction: column; gap: 10px">
+      <label for="email" style="font-size: 14px">Early-bird offers on WhatsApp or email</label>
+      <div style="display: flex; gap: 8px">
+        <input id="email" placeholder="Email or phone" style="flex: 1; min-width: 0; height: 52px; border-radius: 999px; border: 1px solid rgba(217,180,90,.45); background: transparent; color: #FBF7EE; padding: 0 20px; font: 500 15px 'Manrope', sans-serif">
+        <button class="press" type="button" style="height: 52px; padding: 0 22px; border-radius: 999px; border: none; background: linear-gradient(180deg, #F0D88E, #CFA13E); color: #2E2208; font: 700 15px 'Manrope', sans-serif">Join</button>
+      </div>
+    </form>
+    <div style="height: 1px; background: rgba(217,180,90,.25)"></div>
+    <nav aria-label="Footer" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr))">
+      <a href="#" style="text-decoration: none; color: #CFE3D8; font-size: 14.5px; min-height: 44px; display: flex; align-items: center">About</a>
+      <a href="Account.dc.html" style="text-decoration: none; color: #CFE3D8; font-size: 14.5px; min-height: 44px; display: flex; align-items: center">Track order</a>
+      <a href="#" style="text-decoration: none; color: #CFE3D8; font-size: 14.5px; min-height: 44px; display: flex; align-items: center">Shipping</a>
+      <a href="#" style="text-decoration: none; color: #CFE3D8; font-size: 14.5px; min-height: 44px; display: flex; align-items: center">Returns</a>
+      <a href="#" style="text-decoration: none; color: #CFE3D8; font-size: 14.5px; min-height: 44px; display: flex; align-items: center">Privacy</a>
+      <a href="#" style="text-decoration: none; color: #CFE3D8; font-size: 14.5px; min-height: 44px; display: flex; align-items: center">Contact</a>
+    </nav>
+    <div aria-hidden="true" style="position: relative; height: 200px; display: flex; justify-content: flex-end; align-items: flex-end; margin: 8px -24px 0 0">
+      <div style="position: absolute; bottom: 0; right: -60px; width: 300px; height: 48px; border-radius: 50%; background: #FBF7EE"></div>
+      <div style="position: absolute; bottom: 12px; right: -10px; width: 200px; height: 30px; border-radius: 50%; background: #EFE7D4"></div>
+      <svg class="angel" width="160" height="60" viewBox="0 0 160 60" style="position: absolute; right: 62px; bottom: 6px">
+        <circle cx="16" cy="30" r="12" fill="#E8DEC6" stroke="#D3C59F" stroke-width="1"></circle>
+        <path d="M34 30Q50-2 96 6Q82 20 94 30Q82 40 96 54Q50 62 34 30Z" fill="#E8DEC6" stroke="#D3C59F" stroke-width="1"></path>
+        <path d="M94 30Q122 2 158 12Q148 30 158 48Q122 58 94 30Z" fill="#E8DEC6" stroke="#D3C59F" stroke-width="1"></path>
+        <path d="M30 8l2 4 4 1-4 1-2 4-2-4-4-1 4-1z" fill="#E9C76A"></path>
+        <path d="M120 52l1.5 3 3 .8-3 .8-1.5 3-1.5-3-3-.8 3-.8z" fill="#E9C76A"></path>
+      </svg>
+      <div class="bubble2" style="position: absolute; right: 128px; bottom: 168px; background: #FBF7EE; color: #0A3D29; font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 15px; line-height: 1.25; padding: 9px 14px; border-radius: 16px; box-shadow: 0 8px 18px rgba(0,0,0,.22); white-space: nowrap">Hi! Merry Christmas<span style="position: absolute; right: -5px; bottom: 9px; width: 12px; height: 12px; background: #FBF7EE; transform: rotate(45deg)"></span></div>
+      <div style="position: relative; width: 120px; height: 161px; margin: 0 14px 20px 0">
+        <span style="position: absolute; left: 10px; right: 10px; bottom: -6px; height: 14px; border-radius: 50%; background: rgba(10,61,41,.18)"></span>
+        <img class="mascot" src="mascot.png" alt="" style="position: relative; display: block; width: 120px; height: 161px">
+        <svg class="flakePlay" width="18" height="18" style="position: absolute; left: 50px; top: -18px; color: #FFFFFF"><use href="#sFlake"></use></svg>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 12px">
+      <span style="font-family: 'Playfair Display', serif; font-weight: 600; font-size: 30px; color: #E9C76A">swift<em style="color: #FBF7EE; font-weight: 500">.in</em></span>
+      <span style="font-size: 12px; color: #84AE99">© 2026 swift.in · Bangalore</span>
+    </div>
+  </footer>
+
+  <div style="position: sticky; bottom: 0; z-index: 50; background: #FBF7EE; border-top: 1px solid #E6DCC4; padding: 10px 16px 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 -8px 24px rgba(10,61,41,.08)">
+    <div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 12px; color: #6B6352">2 items in your cart</span><strong style="font-size: 16px; font-weight: 700">₹[TOTAL]</strong></div>
+    <a class="press" href="Cart.dc.html" style="text-decoration: none; height: 50px; padding: 0 28px; border-radius: 999px; background: #0B5E3E; color: #FBF7EE; font-weight: 600; font-size: 15px; display: flex; align-items: center">View cart</a>
+  </div>
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; z-index: 30">
+    <sc-for list="{{ flakes }}" as="f" hint-placeholder-count="16">
+      <span class="flake" style="left: {{ f.left }}; opacity: {{ f.op }}; animation-duration: {{ f.dur }}; animation-delay: {{ f.delay }}">
+        <span style="animation-duration: {{ f.sway }}"><svg width="{{ f.size }}" height="{{ f.size }}"><use href="#sFlake"></use></svg></span>
+      </span>
+    </sc-for>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"snow":{"editor":"range","default":26,"min":0,"max":50,"step":2,"section":"Effects"},"showSanta":{"editor":"boolean","default":true,"section":"Effects"},"loopIntro":{"editor":"boolean","default":true,"section":"Effects"},"$preview":{"width":390,"height":4800}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+  renderVals() {
+    const n = this.props.snow ?? 26;
+    let s = 19;
+    const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const flakes = [];
+    for (let i = 0; i < n; i++) {
+      const dur = 48 + rnd() * 36;
+      flakes.push({
+        left: (2 + rnd() * 92).toFixed(1) + '%',
+        op: (0.55 + rnd() * 0.4).toFixed(2),
+        dur: dur.toFixed(1) + 's',
+        delay: (-rnd() * dur).toFixed(1) + 's',
+        sway: (7 + rnd() * 5).toFixed(1) + 's',
+        size: Math.round(10 + rnd() * 10)
+      });
+    }
+    const target = new Date('2026-12-24T00:00:00+05:30').getTime();
+    const now = (this.state && this.state.now) || Date.now();
+    let diff = Math.max(0, Math.floor((target - now) / 1000));
+    const d = Math.floor(diff / 86400); diff -= d * 86400;
+    const h = Math.floor(diff / 3600); diff -= h * 3600;
+    const m = Math.floor(diff / 60); const sec = diff - m * 60;
+    const pad = (x) => String(x).padStart(2, '0');
+    return {
+      flakes: flakes,
+      showSanta: this.props.showSanta ?? true,
+      iter: (this.props.loopIntro ?? true) ? 'infinite' : '1',
+      cd: { d: String(d), h: pad(h), m: pad(m), s: pad(sec) }
+    };
+  }
+}
+</script>
+</body>
+</html>

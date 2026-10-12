@@ -32,3 +32,17 @@ Open http://localhost:3000/styleguide to see every design token and base compone
 - Design tokens are Tailwind utilities defined in `src/app/globals.css` (`bg-red-200`, `text-gold-ink`, `bg-grad-hero`, …).
 - Base components: `src/components/ui` (Button, Pill, Badge, Card, Section, Eyebrow/Heading, PriceTag, Drawer, Input, Mascot).
 - Site settings are stored in the `Setting` table (`src/lib/settings.ts`) so admin edits go live without a redeploy.
+
+## Mascot
+
+`src/components/mascot/Mascot.tsx` is a rigged snowman built from layers in `public/mascot/`
+(body + left/right arms that pivot at the shoulders, plus SVG eyelids for blinking). `scene` plays the
+14s footer routine; otherwise he idles. Tapping him waves hello. To swap the artwork, regenerate the layers:
+
+```bash
+pip install numpy scipy pillow
+python3 scripts/mascot/cutout.py docs/reference/mascot-source.png public/mascot.png
+python3 scripts/mascot/split.py public/mascot.png public/mascot /tmp
+```
+
+Arm pivots and eye positions are hard-coded for this artwork (see `mascot.css` / `Mascot.tsx`).

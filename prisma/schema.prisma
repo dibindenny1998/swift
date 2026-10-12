@@ -353,3 +353,11 @@ model OtpRequest {
   @@index([phone, createdAt])
   @@index([ip, createdAt])
 }
+
+// Early-bird signups from the footer form (email or Indian mobile number).
+model Subscriber {
+  id        String   @id @default(cuid())
+  contact   String   @unique
+  kind      String // "EMAIL" | "PHONE"
+  createdAt DateTime @default(now())
+}

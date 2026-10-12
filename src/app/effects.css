@@ -1,0 +1,102 @@
+/* Ambient effects — CSS transforms/opacity only. All are switched off under
+   prefers-reduced-motion by the rule in globals.css. */
+
+/* Snow (fixed viewport overlay) */
+.snow-flake {
+  position: absolute;
+  top: 0;
+  color: #fff;
+  filter: drop-shadow(0 0 1.5px rgba(11, 94, 62, 0.45));
+  animation: snow-fall linear infinite;
+  will-change: transform;
+}
+.snow-flake > span { display: block; animation: snow-sway ease-in-out infinite; }
+.snow-flake svg { display: block; animation: snow-spin 24s linear infinite; }
+[data-paused] .snow-flake,
+[data-paused] .snow-flake > span,
+[data-paused] .snow-flake svg { animation-play-state: paused; }
+@keyframes snow-fall { from { transform: translateY(-40px); } to { transform: translateY(calc(100vh + 40px)); } }
+@keyframes snow-sway { 0%, 100% { transform: translateX(-8px); } 50% { transform: translateX(8px); } }
+@keyframes snow-spin { to { transform: rotate(360deg); } }
+
+/* Hero garland + hanging ornaments + bokeh */
+.fx-bead { animation: fx-bead 2.6s ease-in-out infinite; }
+@keyframes fx-bead { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+.fx-hang {
+  transform-origin: top center;
+  animation: fx-hang 7s ease-in-out infinite;
+  filter: drop-shadow(0 6px 6px rgba(40, 0, 8, 0.3));
+}
+@keyframes fx-hang { 0%, 100% { transform: rotate(3deg); } 50% { transform: rotate(-3deg); } }
+.fx-bokeh {
+  position: absolute;
+  border-radius: 999px;
+  background: #e9c76a;
+  filter: blur(7px);
+  pointer-events: none;
+  animation: fx-bokeh 10s ease-in-out infinite;
+}
+@keyframes fx-bokeh {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-34px) scale(1.2); opacity: 0.7; }
+}
+
+/* Hero entrance */
+.fx-rise { animation: fx-rise 1s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes fx-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* Santa: flies in once along an arc, lands on the H1, then bobs and waves. */
+.santa-land { animation: santa-land 4.6s cubic-bezier(0.3, 0.7, 0.3, 1) 0.6s both; }
+@keyframes santa-land {
+  0% { transform: translate(-330px, -250px) rotate(-14deg) scale(0.55); opacity: 0; }
+  5% { opacity: 1; }
+  34% { transform: translate(-160px, -150px) rotate(-8deg) scale(0.8); }
+  66% { transform: translate(0, -10px) rotate(4deg) scale(1); }
+  79% { transform: translate(0, 0) rotate(0); }
+  89% { transform: translate(0, -6px); }
+  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
+}
+.santa-bob { animation: santa-bob 4s ease-in-out 5.2s infinite; }
+@keyframes santa-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.santa-wave { transform-box: view-box; transform-origin: 100px 42px; animation: santa-wave 1.4s ease-in-out 5.2s infinite; }
+@keyframes santa-wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-24deg); } }
+.santa-leg { transform-box: view-box; animation: santa-gallop 0.42s ease-in-out 0.6s 11; }
+.santa-leg.b { animation-name: santa-gallop-b; }
+@keyframes santa-gallop { 0%, 100% { transform: rotate(18deg); } 50% { transform: rotate(-18deg); } }
+@keyframes santa-gallop-b { 0%, 100% { transform: rotate(-18deg); } 50% { transform: rotate(18deg); } }
+.santa-nose { transform-box: fill-box; transform-origin: center; animation: santa-nose 1.2s ease-in-out infinite; }
+@keyframes santa-nose { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 0.9; transform: scale(1.6); } }
+.santa-puff {
+  position: absolute;
+  bottom: 2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #fff;
+  opacity: 0;
+  animation: santa-puff 1.3s ease-out 4.2s both;
+}
+@keyframes santa-puff {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+  15% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(var(--dx), -16px) scale(1.3); }
+}
+
+/* Gift box: lid hops open every ~4s and gold stars burst out */
+.gift-lid { transform-box: fill-box; transform-origin: center bottom; animation: gift-lid 4.2s ease-in-out infinite; }
+@keyframes gift-lid {
+  0%, 55%, 100% { transform: translateY(0) rotate(0); }
+  66% { transform: translateY(-16px) rotate(-9deg); }
+  76% { transform: translateY(-11px) rotate(6deg); }
+  88% { transform: translateY(-2px) rotate(0); }
+}
+.gift-burst { position: absolute; opacity: 0; animation: gift-burst 4.2s ease-out infinite; }
+@keyframes gift-burst {
+  0%, 58% { opacity: 0; transform: translateY(0) scale(0.3); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-54px) scale(1.15); }
+}
+
+/* Arch photo: lights on the illustrated tree twinkle */
+.fx-twinkle { animation: fx-twinkle 3s ease-in-out infinite; }
+@keyframes fx-twinkle { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }

@@ -239,7 +239,7 @@ export default function StyleguidePage() {
 
           <Block title="Divider & mascot">
             <StarDivider className="max-w-sm" />
-            <Mascot size={120} className="mt-6" />
+            <Mascot width={120} className="mt-6" />
           </Block>
         </div>
       </Section>

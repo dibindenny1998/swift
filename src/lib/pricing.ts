@@ -12,7 +12,8 @@ export function bundlePrice(
   let price: number;
   switch (discountType) {
     case "PERCENT":
-      price = Math.round(compareAt * (1 - discountValue / 100));
+      // Whole rupees — a % discount should never produce a ₹6,286.60 price tag.
+      price = Math.round((compareAt * (1 - discountValue / 100)) / 100) * 100;
       break;
     case "FLAT":
       price = compareAt - discountValue;

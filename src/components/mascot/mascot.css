@@ -1,0 +1,266 @@
+/* Global (not a CSS module — the Tailwind turbopack loader handles every .css file), so classes are msc-prefixed.
+   Rigged snowman: body + two arm layers (pivoting at the shoulders) + SVG eyelids.
+   Coordinates are in the 664×880 artwork space; pivots are given as percentages of it. */
+
+.msc-root {
+  position: relative;
+  aspect-ratio: 664 / 880;
+}
+
+.msc-hit {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.msc-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.msc-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.msc-shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -2%;
+  height: 6%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(4, 38, 26, 0.32), transparent);
+}
+
+.msc-armL {
+  transform-origin: 29.8% 60%;
+}
+.msc-armR {
+  transform-origin: 71.7% 56.6%;
+}
+
+/* ── Idle: breathing, gentle arm sway, blinking ───────────────────────── */
+.msc-breathe {
+  transform-origin: 50% 100%;
+  animation: msc-breathe 3.2s ease-in-out infinite;
+}
+@keyframes msc-breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.012, 0.988) translateY(1%); }
+}
+
+.msc-armL .msc-sway {
+  transform-origin: 29.8% 60%;
+  animation: msc-swayL 3.2s ease-in-out infinite;
+}
+.msc-armR .msc-sway {
+  transform-origin: 71.7% 56.6%;
+  animation: msc-swayR 3.2s ease-in-out infinite -1.2s;
+}
+@keyframes msc-swayL {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(7deg); }
+}
+@keyframes msc-swayR {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-8deg); }
+}
+
+.msc-lid {
+  animation: msc-blink 4.6s ease-in-out infinite;
+}
+@keyframes msc-blink {
+  0%, 90%, 96%, 100% { transform: translateY(0); }
+  93% { transform: translateY(var(--lid-drop)); }
+}
+
+/* ── Scene (footer): 14s routine from the spec ────────────────────────── */
+/* 0–19% hop twice to bounce a flake · 19–42% sway + "Hi!" · 42–70% jump, fall back,
+   snow-angel wiggle · 70–83% pop up · 83–100% proud hop and rest. */
+.msc-scene .msc-act {
+  transform-origin: 50% 100%;
+  animation: msc-act 14s ease-in-out infinite;
+}
+@keyframes msc-act {
+  0%, 3% { transform: translate(0, 0) rotate(0); }
+  6% { transform: translate(0, -11%) rotate(-3deg); }
+  9% { transform: translate(0, 0) rotate(0); }
+  12% { transform: translate(0, -11%) rotate(3deg); }
+  15%, 19% { transform: translate(0, 0) rotate(0); }
+  23% { transform: rotate(-6deg); }
+  27% { transform: rotate(6deg); }
+  31% { transform: rotate(-6deg); }
+  35% { transform: rotate(5deg); }
+  39%, 42% { transform: translate(0, 0) rotate(0) scaleY(1); }
+  45% { transform: translate(0, 3%) rotate(0) scaleY(0.9); }
+  48% { transform: translate(-6%, -20%) rotate(-30deg); }
+  53% { transform: translate(-6%, -26%) rotate(-90deg); }
+  56% { transform: translate(-6%, -26%) rotate(-84deg); }
+  59% { transform: translate(-6%, -26%) rotate(-96deg); }
+  62% { transform: translate(-6%, -26%) rotate(-84deg); }
+  65%, 68% { transform: translate(-6%, -26%) rotate(-90deg); }
+  73% { transform: translate(0, -18%) rotate(-20deg); }
+  77% { transform: translate(0, 0) rotate(4deg); }
+  80% { transform: translate(0, -8%) rotate(0); }
+  83%, 100% { transform: translate(0, 0) rotate(0); }
+}
+
+.msc-scene .msc-armL .msc-pose {
+  transform-origin: 29.8% 60%;
+  animation: msc-poseL 14s ease-in-out infinite;
+}
+.msc-scene .msc-armR .msc-pose {
+  transform-origin: 71.7% 56.6%;
+  animation: msc-poseR 14s ease-in-out infinite;
+}
+@keyframes msc-poseL {
+  0%, 3% { transform: rotate(0); }
+  6% { transform: rotate(22deg); }
+  9% { transform: rotate(0); }
+  12% { transform: rotate(22deg); }
+  15%, 44% { transform: rotate(0); }
+  47% { transform: rotate(30deg); }
+  53% { transform: rotate(8deg); }
+  56% { transform: rotate(36deg); }
+  59% { transform: rotate(-6deg); }
+  62% { transform: rotate(36deg); }
+  65% { transform: rotate(-6deg); }
+  68% { transform: rotate(8deg); }
+  73% { transform: rotate(18deg); }
+  77% { transform: rotate(0); }
+  80% { transform: rotate(34deg); }
+  83%, 100% { transform: rotate(0); }
+}
+@keyframes msc-poseR {
+  0%, 3% { transform: rotate(0); }
+  6% { transform: rotate(-22deg); }
+  9% { transform: rotate(0); }
+  12% { transform: rotate(-22deg); }
+  15%, 19% { transform: rotate(0); }
+  22% { transform: rotate(-32deg); }
+  25% { transform: rotate(6deg); }
+  28% { transform: rotate(-32deg); }
+  31% { transform: rotate(6deg); }
+  34% { transform: rotate(-32deg); }
+  37% { transform: rotate(6deg); }
+  40%, 44% { transform: rotate(0); }
+  47% { transform: rotate(-30deg); }
+  53% { transform: rotate(-8deg); }
+  56% { transform: rotate(-36deg); }
+  59% { transform: rotate(6deg); }
+  62% { transform: rotate(-36deg); }
+  65% { transform: rotate(6deg); }
+  68% { transform: rotate(-8deg); }
+  73% { transform: rotate(-18deg); }
+  77% { transform: rotate(0); }
+  80% { transform: rotate(-34deg); }
+  83%, 100% { transform: rotate(0); }
+}
+
+.msc-flake {
+  position: absolute;
+  left: 44%;
+  top: -6%;
+  width: 14%;
+  color: #fff;
+  filter: drop-shadow(0 0 1.5px rgba(11, 94, 62, 0.5));
+  animation: msc-flakePlay 14s ease-out infinite;
+}
+@keyframes msc-flakePlay {
+  0% { transform: translate(-60%, -380%) rotate(0); opacity: 0; }
+  2% { opacity: 1; }
+  6% { transform: translate(0, -60%) rotate(90deg); }
+  9% { transform: translate(40%, -300%) rotate(180deg); }
+  12% { transform: translate(10%, -60%) rotate(270deg); }
+  17% { transform: translate(200%, -480%) rotate(400deg); opacity: 1; }
+  20%, 100% { transform: translate(300%, -560%) rotate(420deg); opacity: 0; }
+}
+
+.msc-bubble {
+  position: absolute;
+  right: 72%;
+  top: 2%;
+  white-space: nowrap;
+  border-radius: 16px;
+  background: #fbf7ee;
+  color: #0a3d29;
+  padding: 8px 14px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+  transform-origin: bottom right;
+  pointer-events: none;
+  opacity: 0;
+}
+.msc-bubble::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  bottom: 9px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+.msc-sceneBubble {
+  animation: msc-bubble 14s ease-out infinite;
+}
+@keyframes msc-bubble {
+  0%, 19% { opacity: 0; transform: scale(0.4); }
+  23%, 39% { opacity: 1; transform: scale(1); }
+  43%, 100% { opacity: 0; transform: scale(0.6); }
+}
+
+.msc-angel {
+  position: absolute;
+  right: 62%;
+  bottom: -1%;
+  width: 120%;
+  transform-origin: right center;
+  animation: msc-angelIn 14s ease-out infinite;
+}
+@keyframes msc-angelIn {
+  0%, 70% { opacity: 0; transform: scale(0.85); }
+  75%, 92% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* ── Tap to say hi ─────────────────────────────────────────────────────── */
+.msc-hello .msc-wave {
+  transform-origin: 71.7% 56.6%;
+  animation: msc-wave 0.5s ease-in-out 4;
+}
+.msc-hello .msc-hop {
+  transform-origin: 50% 100%;
+  animation: msc-hop 0.6s ease-in-out 2;
+}
+.msc-helloBubble {
+  animation: msc-helloBubble 2.4s ease-out both;
+}
+@keyframes msc-wave {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-38deg); }
+}
+@keyframes msc-hop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  20% { transform: translateY(2%) scale(1.04, 0.95); }
+  55% { transform: translateY(-9%) scale(0.98, 1.03); }
+}
+@keyframes msc-helloBubble {
+  0% { opacity: 0; transform: scale(0.4); }
+  12%, 80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.7); }
+}

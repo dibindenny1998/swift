@@ -1,4 +1,4 @@
-// Seeds an admin, 4 categories, 10 sample products (placeholder prices) and 2 bundles.
+// Seeds an admin, 4 categories, 10 sample products (placeholder prices) and 3 bundles (2 fixed kits + build-your-own).
 // Safe to re-run: everything is upserted by a stable key.
 import { PrismaClient, type Badge } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -183,6 +183,25 @@ async function main() {
     })),
   });
 
+  // Second fixed kit: flat ₹300 off.
+  const cosy = await db.bundle.upsert({
+    where: { slug: "the-cosy-corner-kit" },
+    update: {},
+    create: {
+      slug: "the-cosy-corner-kit",
+      title: "The Cosy Corner Kit",
+      description: "Gold curtain lights · cinnamon candle · velvet stocking",
+      type: "FIXED",
+      discountType: "FLAT",
+      discountValue: r(300),
+      imageUrl: "/placeholders/lights.svg",
+    },
+  });
+  await db.bundleItem.deleteMany({ where: { bundleId: cosy.id } });
+  await db.bundleItem.createMany({
+    data: ["LGT-CU-32", "GFT-CC-200", "GFT-SK-1"].map((sku) => ({ bundleId: cosy.id, variantId: variantIds[sku], qty: 1 })),
+  });
+
   // Build-your-own gift box: 3 items → 10%, 5 items → 15%.
   const byo = await db.bundle.upsert({
     where: { slug: "build-your-own-gift-box" },
@@ -217,7 +236,7 @@ async function main() {
     await db.setting.upsert({ where: { key }, update: {}, create: { key, value } });
   }
 
-  console.log(`seeded ${categories.length} categories, ${products.length} products, 2 bundles`);
+  console.log(`seeded ${categories.length} categories, ${products.length} products, 3 bundles`);
 }
 
 main()

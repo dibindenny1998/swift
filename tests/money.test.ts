@@ -31,6 +31,9 @@ describe("bundlePrice", () => {
     expect(bundlePrice(lines, "FLAT", 30000).price).toBe(170000);
     expect(bundlePrice(lines, "FIXED_PRICE", 149900).price).toBe(149900);
   });
+  it("rounds % discounts to whole rupees", () => {
+    expect(bundlePrice([{ price: 739600, qty: 1 }], "PERCENT", 15).price).toBe(628700);
+  });
   it("clamps to [0, compareAt]", () => {
     expect(bundlePrice(lines, "FLAT", 999999).price).toBe(0);
     expect(bundlePrice(lines, "FIXED_PRICE", 999999).price).toBe(200000);

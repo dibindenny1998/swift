@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="600" height="600">
-<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFA13E"/><stop offset="1" stop-color="#8A6A1E"/></linearGradient></defs>
-<rect width="120" height="120" fill="url(#g)"/>
-<path d="M60 30v10M60 40a26 26 0 1 0 .1 0M38 66h44" fill="none" stroke="#E9C76A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="600" height="600"><rect width="300" height="300" fill="#F1E9D6"/><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M92 0V96" stroke="#C4952E" stroke-width="1.5"/>
+<rect x="85" y="96" width="14" height="9" rx="2" fill="#C4952E" stroke="none"/>
+<circle cx="92" cy="138" r="34" fill="#A3192B" stroke="none"/>
+<path d="M58 138h68" stroke="#E9C76A" stroke-width="2"/>
+<ellipse cx="79.08" cy="124.4" rx="4.760000000000001" ry="8.84" fill="#fff" opacity=".4" stroke="none"/><path d="M160 0V60" stroke="#C4952E" stroke-width="1.5"/>
+<rect x="153" y="60" width="14" height="9" rx="2" fill="#C4952E" stroke="none"/>
+<circle cx="160" cy="110" r="42" fill="#0B5E3E" stroke="none"/>
+<path d="M118 110h84" stroke="#E9C76A" stroke-width="2"/>
+<ellipse cx="144.04" cy="93.2" rx="5.880000000000001" ry="10.92" fill="#fff" opacity=".4" stroke="none"/><path d="M222 0V120" stroke="#C4952E" stroke-width="1.5"/>
+<rect x="215" y="120" width="14" height="9" rx="2" fill="#C4952E" stroke="none"/>
+<circle cx="222" cy="156" r="28" fill="#E9C76A" stroke="none"/>
+<path d="M194 156h56" stroke="#C4952E" stroke-width="2"/>
+<ellipse cx="211.36" cy="144.8" rx="3.9200000000000004" ry="7.28" fill="#fff" opacity=".4" stroke="none"/><path transform="translate(96 232) scale(1)" d="M0-10C.8-3.5 3.5-.8 10 0 3.5.8.8 3.5 0 10-.8 3.5-3.5.8-10 0-3.5-.8-.8-3.5 0-10Z" fill="#C4952E" stroke="none"/><path transform="translate(214 236) scale(0.8)" d="M0-10C.8-3.5 3.5-.8 10 0 3.5.8.8 3.5 0 10-.8 3.5-3.5.8-10 0-3.5-.8-.8-3.5 0-10Z" fill="#C4952E" stroke="none"/></g></svg>
