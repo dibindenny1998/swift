@@ -34,3 +34,10 @@ export function byoTier(tiers: Tier[], count: number) {
   const next = sorted.find((t) => count < t.minItems) ?? null;
   return { current, next, itemsToNext: next ? next.minItems - count : 0 };
 }
+
+/** Build-your-own box price: best unlocked tier applied to the item subtotal, rounded to whole rupees. */
+export function byoPrice(subtotal: number, count: number, tiers: Tier[]) {
+  const { current, next, itemsToNext } = byoTier(tiers, count);
+  const total = current ? Math.round((subtotal * (1 - current.percentOff / 100)) / 100) * 100 : subtotal;
+  return { subtotal, discount: subtotal - total, total, current, next, itemsToNext };
+}

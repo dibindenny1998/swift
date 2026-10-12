@@ -25,6 +25,7 @@ export function Header({ categories, whatsapp }: { categories: NavLink[]; whatsa
     ...categories,
     { href: "/bundles", label: "Signature kits" },
     { href: "/gift-box", label: "Build a gift box" },
+    { href: "/wishlist", label: "Wishlist" },
     { href: "/account", label: "Track my order" },
   ];
 

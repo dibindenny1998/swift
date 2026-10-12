@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { formatINR, percentOff, rupees } from "@/lib/money";
-import { bundlePrice, byoTier } from "@/lib/pricing";
+import { bundlePrice, byoPrice, byoTier } from "@/lib/pricing";
 import { countdown, istDate } from "@/lib/ist";
 
 describe("formatINR", () => {
@@ -61,5 +61,29 @@ describe("IST countdown", () => {
     const now = new Date(target.getTime() - (86400 + 3600 + 60 + 1) * 1000);
     expect(countdown(target, now)).toEqual({ days: 1, hours: 1, mins: 1, secs: 1, done: false });
     expect(countdown(target, new Date(target.getTime() + 5000)).done).toBe(true);
+  });
+});
+
+describe("byoPrice", () => {
+  const tiers = [
+    { minItems: 3, percentOff: 10 },
+    { minItems: 5, percentOff: 15 },
+  ];
+  it("charges full price below the first tier", () => {
+    expect(byoPrice(150000, 2, tiers)).toMatchObject({ total: 150000, discount: 0, itemsToNext: 1 });
+  });
+  it("applies the best tier and rounds to rupees", () => {
+    expect(byoPrice(194700, 3, tiers)).toMatchObject({ total: 175200, discount: 19500 });
+    expect(byoPrice(300000, 6, tiers)).toMatchObject({ total: 255000, next: null });
+  });
+});
+
+import { estimateDelivery } from "@/lib/delivery";
+
+describe("estimateDelivery", () => {
+  it("is fastest within the same city and slowest to the north-east", () => {
+    expect(estimateDelivery("560001", "560034")).toEqual({ minDays: 1, maxDays: 2 });
+    expect(estimateDelivery("560001", "110001")).toEqual({ minDays: 4, maxDays: 7 });
+    expect(estimateDelivery("560001", "781001")).toEqual({ minDays: 6, maxDays: 9 });
   });
 });

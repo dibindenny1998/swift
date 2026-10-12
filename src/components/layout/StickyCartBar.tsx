@@ -2,12 +2,17 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart-store";
 import { formatINR } from "@/lib/money";
 
 /** Bottom bar that appears once the cart has items. A spacer keeps it from covering the footer. */
 export function StickyCartBar() {
   const { count, total } = useCart();
+  const pathname = usePathname();
+  // Product and gift-box pages show their own sticky add bar instead.
+  const hidden = pathname.startsWith("/products/") || pathname === "/gift-box" || pathname === "/cart";
+  if (hidden) return null;
   return (
     <>
       {count > 0 && <div aria-hidden className="h-[76px]" />}

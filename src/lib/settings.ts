@@ -19,6 +19,7 @@ export const settingsSchema = z.object({
     .partial()
     .default({}),
   whatsappNumber: z.string().default(""),
+  pickupPincode: z.string().regex(/^[1-9]\d{5}$/).default("560001"), // Bangalore warehouse, for delivery estimates
   gstin: z.string().default(""),
 });
 

@@ -5,6 +5,8 @@ export * from "./Drawer";
 export * from "./Input";
 export * from "./Pill";
 export * from "./PriceTag";
+export * from "./QtyStepper";
+export * from "./Stars";
 export * from "./Section";
 export * from "./Typography";
 export { Mascot } from "../mascot/Mascot";

@@ -10,6 +10,8 @@ export type CartLine = {
   image: string;
   price: number; // paise, display only
   qty: number;
+  /** Extra details the server needs at checkout, e.g. a gift box's picks and note. */
+  meta?: { byo?: { bundleId: string; picks: Record<string, number>; message?: string } };
 };
 
 const KEY = "swift-cart-v1";
