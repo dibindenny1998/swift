@@ -100,3 +100,17 @@
 /* Arch photo: lights on the illustrated tree twinkle */
 .fx-twinkle { animation: fx-twinkle 3s ease-in-out infinite; }
 @keyframes fx-twinkle { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+
+/* Order success: gold confetti, falls once */
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  opacity: 0;
+  animation: confetti-fall ease-in 1 both;
+}
+@keyframes confetti-fall {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  10% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--drift), 70vh) rotate(var(--spin)); }
+}

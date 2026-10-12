@@ -66,3 +66,14 @@ Shared/“Premium” hosting can't run Node — use a Hostinger **VPS** (Ubuntu 
    run `certbot --nginx -d swift.in -d www.swift.in`, update `NEXT_PUBLIC_SITE_URL`, set `ALLOW_INDEXING=true`, redeploy.
 
 `robots.txt` blocks all indexing until `ALLOW_INDEXING=true`, so the temporary domain stays out of search results.
+
+## Payments, webhooks & email
+
+- **Razorpay (test mode first):** set `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`. In the Razorpay dashboard add a webhook to
+  `https://<your-domain>/api/webhooks/razorpay` for `payment.captured`, `order.paid` and `payment.failed`, and put its
+  secret in `RAZORPAY_WEBHOOK_SECRET`. Payment is confirmed by the browser (signature-checked) and again by the webhook;
+  both paths are idempotent, so stock is only taken once.
+- **Cash on delivery:** stock is reserved and the cart cleared when the order is placed; the order stays `PENDING`
+  until you confirm it.
+- **Email:** set `RESEND_API_KEY` and `EMAIL_FROM` (a verified sender domain). New-order alerts go to the
+  `orderNotifyEmail` site setting, or `ADMIN_SEED_EMAIL` if that's empty. Without a key, emails are only logged.

@@ -21,6 +21,7 @@ export const settingsSchema = z.object({
   whatsappNumber: z.string().default(""),
   pickupPincode: z.string().regex(/^[1-9]\d{5}$/).default("560001"), // Bangalore warehouse, for delivery estimates
   gstin: z.string().default(""),
+  orderNotifyEmail: z.string().default(""), // admin inbox for new-order emails
 });
 
 export type SiteSettings = z.infer<typeof settingsSchema>;

@@ -99,7 +99,9 @@ function readSelection(json: Prisma.JsonValue | null): ByoSelection | null {
   return { picks: picks as Record<string, number>, message: typeof message === "string" ? message : undefined };
 }
 
-function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine } {
+export type Component = { variantId: string; qty: number };
+
+function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine; components: Component[] } {
   const qty = row.qty;
 
   if (row.variant) {
@@ -122,6 +124,7 @@ function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine }
         issue,
       },
       priced: { lineTotal: v.price * qty, productIds: [p.id], bundleId: null },
+      components: [{ variantId: v.id, qty: 1 }],
     };
   }
 
@@ -149,6 +152,7 @@ function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine }
         issue,
       },
       priced: { lineTotal: price * qty, productIds: b.items.map((i) => i.variant.productId), bundleId: b.id },
+      components: b.items.map((i) => ({ variantId: i.variantId, qty: i.qty })),
     };
   }
 
@@ -183,6 +187,7 @@ function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine }
       productIds: picks.map(([id]) => eligible.get(id)?.productId).filter((x): x is string => Boolean(x)),
       bundleId: b.id,
     },
+    components: picks.map(([id, n]) => ({ variantId: id, qty: n })),
   };
 }
 
@@ -192,7 +197,12 @@ export async function couponFor(code: string, userId: string | null, lines: Pric
   const [usesTotal, usesByUser, priorOrders] = await Promise.all([
     db.couponUse.count({ where: { couponId: coupon.id } }),
     userId ? db.couponUse.count({ where: { couponId: coupon.id, userId } }) : 0,
-    userId ? db.order.count({ where: { userId, status: { not: "CANCELLED" } } }) : 0,
+    userId
+      ? db.order.count({
+          // Unpaid online attempts don't count as a previous order.
+          where: { userId, OR: [{ status: { notIn: ["PENDING", "CANCELLED"] } }, { status: "PENDING", paymentMethod: "COD" }] },
+        })
+      : 0,
   ]);
   const rule: CouponRule = { ...coupon, scope: (coupon.scope as CouponRule["scope"]) ?? null };
   return evaluateCoupon(rule, lines, { now: new Date(), userId, usesTotal, usesByUser, priorOrders });
@@ -367,4 +377,38 @@ export async function mergeGuestCart(userId: string) {
     });
     await tx.cart.delete({ where: { id: guest.id } });
   });
+}
+
+// ── Checkout ──────────────────────────────────────────────────────────────
+
+export type OrderLine = {
+  variantId: string | null;
+  bundleId: string | null;
+  title: string;
+  detail: string | null;
+  unitPrice: number;
+  qty: number;
+  components: Component[];
+};
+
+/** The signed-in user's cart, priced, plus everything needed to write order lines. */
+export async function loadCheckout(userId: string) {
+  const cart = await db.cart.findFirst({ where: { userId }, orderBy: { updatedAt: "desc" } });
+  if (!cart) return null;
+  const rows = await db.cartItem.findMany({ where: { cartId: cart.id }, include: itemInclude, orderBy: { id: "asc" } });
+  const priced = rows.map(priceItem);
+  const view = await buildView(cart);
+  const lines: OrderLine[] = rows.map((row, i) => ({
+    variantId: row.variantId,
+    bundleId: row.bundleId,
+    title: priced[i].view.title,
+    detail: priced[i].view.detail,
+    unitPrice: priced[i].view.unitPrice,
+    qty: row.qty,
+    components: priced[i].components,
+  }));
+  const couponId = cart.couponCode && view.coupon && !view.couponError
+    ? (await db.coupon.findUnique({ where: { code: cart.couponCode }, select: { id: true } }))?.id ?? null
+    : null;
+  return { cart, view, lines, couponId };
 }

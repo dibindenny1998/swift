@@ -282,16 +282,18 @@ model Order {
 }
 
 model OrderItem {
-  id            String   @id @default(cuid())
-  orderId       String
-  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  variantId     String?
-  variant       Variant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
-  bundleId      String?
-  bundle        Bundle?  @relation(fields: [bundleId], references: [id], onDelete: SetNull)
-  titleSnapshot String
-  priceSnapshot Int
-  qty           Int
+  id             String   @id @default(cuid())
+  orderId        String
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variantId      String?
+  variant        Variant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  bundleId       String?
+  bundle         Bundle?  @relation(fields: [bundleId], references: [id], onDelete: SetNull)
+  titleSnapshot  String
+  detailSnapshot String? // variant name, kit contents or gift-box picks + note
+  priceSnapshot  Int
+  qty            Int
+  components     Json? // [{ variantId, qty }] per unit — what stock to reserve/release for this line
 
   @@index([orderId])
 }
