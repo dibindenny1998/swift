@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* swift.in design tokens — SWIFT_BUILD_SPEC.md §3.
+   Exposed as Tailwind utilities (bg-red-200, text-gold-line, …) and as plain CSS variables. */
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Royal red */
+  --color-red-50: #ec3f51;
+  --color-red-100: #da2e40;
+  --color-red-200: #c21f31;
+  --color-red-300: #9c1626;
+  --color-red-400: #740e1c;
+  --color-red-500: #4e0812;
+  --color-red-sale: #a3192b;
+
+  /* Royal green */
+  --color-green-50: #19a26a;
+  --color-green-100: #13895a;
+  --color-green-200: #0f7a4e;
+  --color-green-300: #0b5e3e;
+  --color-green-400: #0a5537;
+  --color-green-500: #073d29;
+  --color-green-600: #05301f;
+  --color-green-700: #04261a;
+  --color-green-heading: #0a3d29;
+
+  /* Gold */
+  --color-gold-light: #f3dc98;
+  --color-gold-btn-top: #f0d88e;
+  --color-gold: #e9c76a;
+  --color-gold-line: #d9b45a;
+  --color-gold-btn-bottom: #cfa13e;
+  --color-gold-deep: #c4952e;
+  --color-gold-dark: #a97e20;
+  --color-gold-ink: #8a6a1e; /* gold text on ivory */
+  --color-gold-on: #2e2208; /* text on gold buttons */
+
+  /* Neutrals */
+  --color-ivory: #fbf7ee;
+  --color-card: #ffffff;
+  --color-border: #ece3cf;
+  --color-divider: #e6dcc4;
+  --color-text: #1f1b14;
+  --color-muted: #6b6352;
+  --color-on-green-muted: #cfe3d8;
+  --color-on-red-muted: #f8dadd;
+
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  /* Only three radii in the system: 12 / 24 / pill */
+  --radius-*: initial;
+  --radius-sm: 12px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --text-xs: 12px; /* minimum size anywhere */
+  --text-xs--line-height: 1.4;
+
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --grad-header: linear-gradient(180deg, #ec3f51, #da2e40);
+  --grad-hero: linear-gradient(180deg, #da2e40 0%, #c21f31 22%, #9c1626 50%, #740e1c 76%, #4e0812 100%);
+  --grad-announce: linear-gradient(90deg, #8e1422, #b71c2c, #8e1422);
+  --grad-giftbox: linear-gradient(180deg, #19a26a 0%, #0f7a4e 35%, #0a5537 70%, #05301f 100%);
+  --grad-footer: linear-gradient(180deg, #13895a 0%, #0b5e3e 45%, #04261a 100%);
+  --grad-gold-btn: linear-gradient(180deg, #f0d88e, #cfa13e);
+  --grad-green-btn: linear-gradient(180deg, #13895a, #0b5e3e);
+  --gold-frame: 1px solid rgba(217, 180, 90, 0.4);
+  color-scheme: light;
+}
+
+@utility bg-grad-header { background: var(--grad-header); }
+@utility bg-grad-hero { background: var(--grad-hero); }
+@utility bg-grad-announce { background: var(--grad-announce); }
+@utility bg-grad-giftbox { background: var(--grad-giftbox); }
+@utility bg-grad-footer { background: var(--grad-footer); }
+
+/* Gold-only text sweep for the word "gold" in the hero H1. */
+@utility text-gold-shimmer {
+  background: linear-gradient(100deg, #c4952e 0%, #e9c76a 30%, #f3dc98 45%, #e9c76a 60%, #c4952e 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 4.5s linear infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 120% 0; }
+  to { background-position: -100% 0; }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-deep);
+  outline-offset: 2px;
+}
+
+/* §3.5 — all ambient motion off for users who ask for it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-ambient] {
+    display: none !important;
+  }
+}

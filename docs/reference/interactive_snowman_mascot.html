@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Snowman Mascot — Interactive Prototype</title>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin:0; min-height:100vh; display:grid; place-items:center; background:#050505; font-family:Inter,system-ui,sans-serif; color:#fff; }
+.stage { width:min(92vw,560px); text-align:center; padding:20px 12px 30px; }
+.canvas { position:relative; width:100%; max-width:440px; margin:0 auto; }
+svg { width:100%; height:auto; overflow:visible; display:block; }
+#character { transform-origin:400px 850px; animation:idle 3s ease-in-out infinite; cursor:pointer; }
+#head { transform-origin:400px 500px; animation:headBob 3s ease-in-out infinite; }
+#right-arm { transform-box: view-box; transform-origin: 514px 620px; }
+#left-arm { transform-box: view-box; transform-origin: 285px 626px; }
+#scarf-tail { transform-box:fill-box; transform-origin:top center; animation:scarfSway 2.6s ease-in-out infinite; }
+#eyes { transform-origin:400px 390px; animation:blink 5.5s infinite; }
+#mouth { transform-origin:400px 500px; animation:smile 3s ease-in-out infinite; }
+#pom-pom { transform-origin:394px 143px; animation:pom 2s ease-in-out infinite; }
+.snowflake { position:absolute; top:-5%; color:#e4f6ff; opacity:0; pointer-events:none; animation:fall 5s linear infinite; }
+.s1 {left:14%;animation-delay:.2s;font-size:17px} .s2 {left:80%;animation-delay:1.8s;font-size:22px} .s3 {left:24%;animation-delay:2.8s;font-size:12px} .s4 {left:88%;animation-delay:3.4s;font-size:15px}
+.controls { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:8px; }
+button { border:1px solid #6f3042; background:#160a0e; color:#fff; border-radius:999px; padding:11px 18px; font-size:14px; cursor:pointer; transition:background .2s, transform .2s; }
+button:hover { background:#5b1730; transform:translateY(-2px); }
+.hint { color:#aaa; font-size:12px; margin-top:12px; }
+@keyframes idle {0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-.6deg)}}
+@keyframes headBob {0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1.5deg)}}
+@keyframes scarfSway {0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}
+@keyframes blink {0%,43%,47%,83%,87%,100%{transform:scaleY(1)}45%,85%{transform:scaleY(.08)}}
+@keyframes smile {0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@keyframes pom {0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes fall {0%{transform:translateY(-20px) rotate(0);opacity:0}15%{opacity:.8}85%{opacity:.65}100%{transform:translateY(480px) rotate(220deg);opacity:0}}
+body.wave #right-arm { animation:wave 1.15s ease-in-out 3; }
+@keyframes wave {0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-33deg)}40%,80%{transform:rotate(13deg)}}
+body.funny #character { animation:funny .65s ease-in-out 4; }
+body.funny #head { animation:headFunny .65s ease-in-out 4; }
+body.funny #left-arm { animation:armFunny .65s ease-in-out 4; }
+@keyframes funny {0%,100%{transform:translateY(0) rotate(0) scale(1)}25%{transform:translateY(8px) rotate(-5deg) scale(1.02,.97)}55%{transform:translateY(-14px) rotate(5deg) scale(.98,1.03)}}
+@keyframes headFunny {0%,100%{transform:rotate(0)}35%{transform:rotate(10deg)}70%{transform:rotate(-9deg)}}
+@keyframes armFunny {0%,100%{transform:rotate(0)}35%{transform:rotate(20deg)}70%{transform:rotate(-10deg)}}
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+<main class="stage">
+  <div class="canvas" id="snowmanStage">
+    <span class="snowflake s1">❄</span><span class="snowflake s2">✧</span><span class="snowflake s3">❄</span><span class="snowflake s4">✦</span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="snow" cx="32%" cy="24%" r="78%"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#f4fbff"/><stop offset="1" stop-color="#c8e2f2"/></radialGradient>
+    <radialGradient id="cheek" cx="50%" cy="50%" r="50%"><stop stop-color="#ff8ca0" stop-opacity=".85"/><stop offset="1" stop-color="#ff8ca0" stop-opacity="0"/></radialGradient>
+    <linearGradient id="hat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9f173d"/><stop offset=".55" stop-color="#6e102c"/><stop offset="1" stop-color="#3d0a1a"/></linearGradient>
+    <linearGradient id="scarf" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b72a4d"/><stop offset="1" stop-color="#74112d"/></linearGradient>
+    <linearGradient id="carrot" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb34e"/><stop offset="1" stop-color="#f36a12"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur stdDeviation="13"/></filter>
+  </defs>
+  <g id="character">
+    <ellipse id="ground-shadow" cx="400" cy="895" rx="190" ry="24" fill="#000" opacity=".42" filter="url(#shadow)"/>
+    <g id="left-arm" stroke="#59351f" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M285 626 Q228 608 178 568 L140 540 M181 570 L151 592 M178 568 L177 530"/>
+    </g>
+    <g id="right-arm" stroke="#59351f" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M514 620 Q574 596 618 544 L659 507 M618 544 L614 507 M618 544 L655 550 M618 544 L639 574"/>
+    </g>
+    <g id="body">
+      <ellipse cx="400" cy="706" rx="204" ry="190" fill="url(#snow)"/>
+      <ellipse cx="335" cy="650" rx="80" ry="58" fill="#fff" opacity=".42"/>
+      <ellipse cx="400" cy="875" rx="78" ry="27" fill="url(#snow)"/>
+      <ellipse cx="505" cy="875" rx="78" ry="27" fill="url(#snow)"/>
+      <g id="buttons" fill="#24252b" stroke="#45464d" stroke-width="4">
+        <circle cx="400" cy="650" r="17"/><circle cx="400" cy="710" r="17"/><circle cx="400" cy="770" r="17"/>
+      </g>
+    </g>
+    <g id="head">
+      <circle cx="400" cy="390" r="220" fill="url(#snow)"/>
+      <ellipse cx="318" cy="306" rx="92" ry="56" fill="#fff" opacity=".46"/>
+      <g id="eyes">
+        <g id="left-eye"><ellipse cx="328" cy="385" rx="54" ry="66" fill="#fff"/><ellipse cx="337" cy="394" rx="36" ry="47" fill="#1377b9"/><ellipse cx="342" cy="399" rx="23" ry="33" fill="#061e39"/><circle cx="352" cy="377" r="13" fill="#fff"/><circle cx="323" cy="412" r="6" fill="#fff" opacity=".8"/></g>
+        <g id="right-eye"><ellipse cx="473" cy="385" rx="54" ry="66" fill="#fff"/><ellipse cx="464" cy="394" rx="36" ry="47" fill="#1377b9"/><ellipse cx="459" cy="399" rx="23" ry="33" fill="#061e39"/><circle cx="449" cy="377" r="13" fill="#fff"/><circle cx="478" cy="412" r="6" fill="#fff" opacity=".8"/></g>
+      </g>
+      <g id="brows" fill="none" stroke="#68462f" stroke-width="11" stroke-linecap="round"><path d="M282 307 Q315 282 345 302"/><path d="M454 302 Q484 282 516 307"/></g>
+      <g id="cheeks"><ellipse cx="271" cy="452" rx="55" ry="34" fill="url(#cheek)"/><ellipse cx="529" cy="452" rx="55" ry="34" fill="url(#cheek)"/></g>
+      <path id="nose" d="M390 414 Q431 421 451 442 Q422 454 382 438 Q374 428 390 414Z" fill="url(#carrot)"/>
+      <g id="mouth">
+        <path d="M337 472 Q400 531 463 472 Q451 543 400 545 Q349 540 337 472Z" fill="#4a1720"/>
+        <path d="M375 493 Q400 500 425 493 L421 515 Q400 520 379 515Z" fill="#fff" stroke="#d7e7ef" stroke-width="3"/>
+        <ellipse cx="400" cy="536" rx="21" ry="10" fill="#ee7884"/>
+      </g>
+    </g>
+    <g id="scarf">
+      <path d="M231 546 Q400 602 570 546 L560 592 Q400 648 242 592Z" fill="url(#scarf)"/>
+      <path id="scarf-tail" d="M286 581 Q269 655 291 738 Q322 746 344 728 L336 600Z" fill="url(#scarf)" stroke="#5d0b22" stroke-width="3"/>
+      <path d="M289 698 L339 694 M291 711 L340 707 M295 724 L341 720" stroke="#e75a77" stroke-width="4" opacity=".7"/>
+    </g>
+    <g id="hat">
+      <path d="M250 300 Q258 163 391 151 Q520 158 550 300 Q405 335 250 300Z" fill="url(#hat)"/>
+      <path d="M241 287 Q399 325 560 287 L559 323 Q401 359 242 323Z" fill="#b82b50"/>
+      <path d="M273 261 Q313 204 354 187 M377 176 Q433 177 477 207 M291 285 Q405 316 523 286" fill="none" stroke="#df6880" stroke-width="6" opacity=".55" stroke-linecap="round"/>
+      <g id="pom-pom"><circle cx="394" cy="143" r="48" fill="#f8fcff"/><circle cx="370" cy="133" r="19" fill="#fff"/><circle cx="414" cy="122" r="17" fill="#fff"/><circle cx="422" cy="155" r="18" fill="#e8f5fb"/><circle cx="382" cy="165" r="16" fill="#e8f5fb"/></g>
+    </g>
+  </g>
+</svg>
+  </div>
+  <div class="controls">
+    <button id="waveBtn" type="button">👋 Make him wave</button>
+    <button id="funnyBtn" type="button">😂 Funny move</button>
+    <button id="idleBtn" type="button">↻ Reset</button>
+  </div>
+  <p class="hint">Tap the snowman or use the buttons. Black background · animated vector prototype.</p>
+</main>
+<script>
+const body = document.body;
+function play(mode) {
+  body.classList.remove('wave','funny');
+  void body.offsetWidth;
+  if(mode) body.classList.add(mode);
+}
+document.getElementById('waveBtn').addEventListener('click',()=>play('wave'));
+document.getElementById('funnyBtn').addEventListener('click',()=>play('funny'));
+document.getElementById('idleBtn').addEventListener('click',()=>play(''));
+document.getElementById('character').addEventListener('click',()=>play(Math.random()>.5?'wave':'funny'));
+</script>
+</body>
+</html>

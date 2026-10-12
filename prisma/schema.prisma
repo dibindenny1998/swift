@@ -1,0 +1,355 @@
+// swift.in data model — see SWIFT_BUILD_SPEC.md §7.
+// Money is stored as integer paise everywhere (₹1 = 100 paise).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum Badge {
+  NONE
+  NEW
+  BESTSELLER
+}
+
+enum BundleType {
+  FIXED
+  BUILD_YOUR_OWN
+}
+
+enum DiscountType {
+  PERCENT
+  FLAT
+  FIXED_PRICE
+}
+
+enum CouponType {
+  PERCENT
+  FLAT
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PACKED
+  SHIPPED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentMethod {
+  RAZORPAY
+  COD
+}
+
+model User {
+  id           String   @id @default(cuid())
+  phone        String?  @unique
+  name         String?
+  email        String?  @unique
+  role         Role     @default(CUSTOMER)
+  passwordHash String? // admin only
+  createdAt    DateTime @default(now())
+
+  addresses  Address[]
+  carts      Cart[]
+  wishlist   Wishlist[]
+  orders     Order[]
+  reviews    Review[]
+  couponUses CouponUse[]
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  pincode   String
+  isDefault Boolean @default(false)
+
+  @@index([userId])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  imageUrl  String?
+  sortOrder Int       @default(0)
+  products  Product[]
+}
+
+model Product {
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  description    String   @default("")
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id])
+  badge          Badge    @default(NONE)
+  isLive         Boolean  @default(true)
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime @default(now())
+
+  images   ProductImage[]
+  variants Variant[]
+  wishlist Wishlist[]
+  reviews  Review[]
+
+  @@index([categoryId])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String  @default("")
+  sortOrder Int     @default(0)
+
+  @@index([productId])
+}
+
+model Variant {
+  id          String  @id @default(cuid())
+  productId   String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name        String
+  sku         String  @unique
+  price       Int // paise
+  mrp         Int // paise
+  stock       Int     @default(0)
+  weightGrams Int     @default(500)
+
+  bundleItems BundleItem[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+
+  @@index([productId])
+}
+
+model Bundle {
+  id            String       @id @default(cuid())
+  title         String
+  slug          String       @unique
+  description   String       @default("")
+  type          BundleType   @default(FIXED)
+  discountType  DiscountType @default(PERCENT)
+  discountValue Int          @default(0) // percent, or paise for FLAT / FIXED_PRICE
+  isLive        Boolean      @default(true)
+  imageUrl      String?
+  createdAt     DateTime     @default(now())
+
+  items      BundleItem[]
+  tiers      BYOTier[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model BundleItem {
+  id        String  @id @default(cuid())
+  bundleId  String
+  bundle    Bundle  @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  qty       Int     @default(1)
+
+  @@index([bundleId])
+}
+
+model BYOTier {
+  id         String @id @default(cuid())
+  bundleId   String
+  bundle     Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  minItems   Int
+  percentOff Int
+
+  @@index([bundleId])
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String?    @unique
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+
+  @@index([userId])
+}
+
+model CartItem {
+  id           String   @id @default(cuid())
+  cartId       String
+  cart         Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variantId    String?
+  variant      Variant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  bundleId     String?
+  bundle       Bundle?  @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  qty          Int      @default(1)
+  byoSelection Json?
+
+  @@index([cartId])
+}
+
+model Wishlist {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Coupon {
+  id             String     @id @default(cuid())
+  code           String     @unique
+  type           CouponType
+  value          Int // percent, or paise for FLAT
+  minOrder       Int        @default(0) // paise
+  firstOrderOnly Boolean    @default(false)
+  scope          Json? // { productIds?: string[], bundleIds?: string[] }
+  usageLimit     Int?
+  perUserLimit   Int?
+  startsAt       DateTime?
+  endsAt         DateTime?
+  isActive       Boolean    @default(true)
+  createdAt      DateTime   @default(now())
+
+  uses   CouponUse[]
+  orders Order[]
+}
+
+model CouponUse {
+  id       String @id @default(cuid())
+  couponId String
+  coupon   Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId  String @unique
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([couponId, userId])
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  number          Int           @unique @default(autoincrement()) // displayed as SW{number}; sequence starts at 1001 (see migration)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  addressSnapshot Json
+  status          OrderStatus   @default(PENDING)
+  paymentMethod   PaymentMethod
+  subtotal        Int
+  discount        Int           @default(0)
+  shipping        Int           @default(0)
+  codFee          Int           @default(0)
+  giftWrap        Int           @default(0)
+  total           Int
+  couponId        String?
+  coupon          Coupon?       @relation(fields: [couponId], references: [id])
+  giftMessage     String?
+  createdAt       DateTime      @default(now())
+
+  items     OrderItem[]
+  payments  Payment[]
+  shipments Shipment[]
+  couponUse CouponUse?
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variantId     String?
+  variant       Variant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  bundleId      String?
+  bundle        Bundle?  @relation(fields: [bundleId], references: [id], onDelete: SetNull)
+  titleSnapshot String
+  priceSnapshot Int
+  qty           Int
+
+  @@index([orderId])
+}
+
+model Payment {
+  id                String  @id @default(cuid())
+  orderId           String
+  order             Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  razorpayOrderId   String? @unique
+  razorpayPaymentId String? @unique
+  status            String
+  amount            Int
+  raw               Json?
+
+  @@index([orderId])
+}
+
+model Shipment {
+  id                String  @id @default(cuid())
+  orderId           String
+  order             Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  shiprocketOrderId String?
+  awb               String? @unique
+  courier           String?
+  status            String  @default("CREATED")
+  trackingUrl       String?
+  events            Json?
+
+  @@index([orderId])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating     Int
+  text       String
+  photos     Json?
+  isApproved Boolean  @default(false)
+  reply      String?
+  createdAt  DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Setting {
+  key   String @id
+  value Json
+}
+
+model OtpRequest {
+  id        String   @id @default(cuid())
+  phone     String
+  ip        String?
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([phone, createdAt])
+  @@index([ip, createdAt])
+}
