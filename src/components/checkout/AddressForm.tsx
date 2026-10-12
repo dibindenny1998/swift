@@ -17,7 +17,17 @@ export type Address = {
 
 const field = "h-12 w-full rounded-sm border bg-white px-4 text-[15px] outline-none transition-colors focus:border-green-200";
 
-export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?: string; onSaved: (a: Address) => void; onCancel?: () => void }) {
+export function AddressForm({
+  defaultPhone,
+  initial,
+  onSaved,
+  onCancel,
+}: {
+  defaultPhone?: string;
+  initial?: Address;
+  onSaved: (a: Address) => void;
+  onCancel?: () => void;
+}) {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>({});
   const [formError, setFormError] = useState("");
@@ -30,8 +40,8 @@ export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?
     setErrors({});
     setFormError("");
     try {
-      const res = await fetch("/api/addresses", {
-        method: "POST",
+      const res = await fetch(initial ? `/api/addresses/${initial.id}` : "/api/addresses", {
+        method: initial ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...body, isDefault: f.get("isDefault") === "on" }),
       });
@@ -50,6 +60,7 @@ export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?
   }
 
   const err = (k: string) => errors[k]?.[0];
+  const value = (k: keyof Address) => (initial ? String(initial[k] ?? "").replace(/^\+91/, "") : undefined);
   const input = (name: string, label: string, props: React.InputHTMLAttributes<HTMLInputElement> = {}) => (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={`addr-${name}`} className="text-[13px] font-semibold">
@@ -61,6 +72,7 @@ export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?
         aria-invalid={err(name) ? true : undefined}
         aria-describedby={err(name) ? `addr-${name}-err` : undefined}
         className={`${field} ${err(name) ? "border-red-sale" : "border-border"}`}
+        defaultValue={value(name as keyof Address)}
         {...props}
       />
       {err(name) && (
@@ -74,7 +86,12 @@ export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?
   return (
     <form onSubmit={onSubmit} className="grid gap-4" noValidate>
       {input("name", "Full name", { autoComplete: "name", required: true })}
-      {input("phone", "Mobile number", { autoComplete: "tel-national", inputMode: "tel", defaultValue: defaultPhone?.replace(/^\+91/, ""), required: true })}
+      {input("phone", "Mobile number", {
+        autoComplete: "tel-national",
+        inputMode: "tel",
+        required: true,
+        ...(initial ? {} : { defaultValue: defaultPhone?.replace(/^\+91/, "") }),
+      })}
       {input("line1", "House / flat, street", { autoComplete: "address-line1", required: true })}
       {input("line2", "Area, landmark (optional)", { autoComplete: "address-line2" })}
       <div className="grid grid-cols-2 gap-3">
@@ -88,7 +105,7 @@ export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?
         <select
           id="addr-state"
           name="state"
-          defaultValue="Karnataka"
+          defaultValue={initial?.state ?? "Karnataka"}
           autoComplete="address-level1"
           className={`${field} ${err("state") ? "border-red-sale" : "border-border"}`}
         >
@@ -98,7 +115,7 @@ export function AddressForm({ defaultPhone, onSaved, onCancel }: { defaultPhone?
         </select>
       </div>
       <label className="flex min-h-11 items-center gap-3 text-[15px]">
-        <input type="checkbox" name="isDefault" defaultChecked className="size-5 accent-[#0B5E3E]" />
+        <input type="checkbox" name="isDefault" defaultChecked={initial ? initial.isDefault : true} className="size-5 accent-[#0B5E3E]" />
         Make this my default address
       </label>
       {formError && (

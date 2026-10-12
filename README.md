@@ -77,3 +77,10 @@ Shared/“Premium” hosting can't run Node — use a Hostinger **VPS** (Ubuntu 
   until you confirm it.
 - **Email:** set `RESEND_API_KEY` and `EMAIL_FROM` (a verified sender domain). New-order alerts go to the
   `orderNotifyEmail` site setting, or `ADMIN_SEED_EMAIL` if that's empty. Without a key, emails are only logged.
+
+## Shipping updates (Shiprocket)
+
+In Shiprocket → Settings → API → Webhooks, set the URL to `https://<your-domain>/api/webhooks/shiprocket` and a token;
+put the same token in `SHIPROCKET_WEBHOOK_TOKEN`. Tracking pushes update the shipment scans and move the order forward
+(packed → shipped → out for delivery → delivered; late or out-of-order scans never move it back). Customers get an email
+on shipped / out for delivery / delivered.

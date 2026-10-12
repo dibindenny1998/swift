@@ -105,10 +105,12 @@ export function Header({ categories, whatsapp }: { categories: NavLink[]; whatsa
         <div className="mt-6 rounded-lg border border-border bg-white p-4">
           {user ? (
             <div className="flex items-center justify-between gap-3">
-              <div>
+              <Link href="/account" onClick={() => setMenuOpen(false)} className="min-h-11">
                 <p className="text-xs text-muted">Signed in as</p>
-                <p className="text-[15px] font-semibold">{user.name ?? user.phone}</p>
-              </div>
+                <p className="text-[15px] font-semibold">
+                  {user.name ?? user.phone} <span className="font-normal text-green-300">· My account</span>
+                </p>
+              </Link>
               <button
                 type="button"
                 onClick={async () => {

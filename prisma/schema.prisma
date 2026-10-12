@@ -67,6 +67,7 @@ model User {
   wishlist   Wishlist[]
   orders     Order[]
   reviews    Review[]
+  returns    ReturnRequest[]
   couponUses CouponUse[]
 }
 
@@ -271,8 +272,11 @@ model Order {
   coupon          Coupon?       @relation(fields: [couponId], references: [id])
   giftMessage     String?
   createdAt       DateTime      @default(now())
+  deliveredAt     DateTime?
 
   items     OrderItem[]
+  events    OrderEvent[]
+  returns   ReturnRequest[]
   payments  Payment[]
   shipments Shipment[]
   couponUse CouponUse?
@@ -365,4 +369,41 @@ model Subscriber {
   contact   String   @unique
   kind      String // "EMAIL" | "PHONE"
   createdAt DateTime @default(now())
+}
+
+// Status history for the order timeline (placed → packed → shipped → out for delivery → delivered).
+model OrderEvent {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  note      String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId, createdAt])
+}
+
+enum ReturnStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  RECEIVED
+  REFUNDED
+}
+
+model ReturnRequest {
+  id        String       @id @default(cuid())
+  orderId   String
+  order     Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reason    String
+  details   String?
+  itemIds   Json // OrderItem ids being returned
+  status    ReturnStatus @default(REQUESTED)
+  adminNote String?
+  createdAt DateTime     @default(now())
+
+  @@index([orderId])
+  @@index([status])
 }

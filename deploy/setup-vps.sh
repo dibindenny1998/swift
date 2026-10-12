@@ -83,6 +83,7 @@ RAZORPAY_KEY_SECRET=
 RAZORPAY_WEBHOOK_SECRET=
 SHIPROCKET_EMAIL=
 SHIPROCKET_PASSWORD=
+SHIPROCKET_WEBHOOK_TOKEN=
 MSG91_AUTH_KEY=
 MSG91_TEMPLATE_ID=
 # Staging only: show login codes on screen when MSG91 isn't set up. Never enable with real customers.

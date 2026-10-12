@@ -141,7 +141,10 @@ async function OrderConfirmation({ searchParams }: Pick<PageProps<"/checkout/suc
         >
           Share on WhatsApp
         </a>
-        <Link href="/shop" className="flex h-[52px] items-center justify-center rounded-full border border-green-300 text-[15px] font-semibold text-green-300">
+        <Link href={`/account/orders/${label.toUpperCase()}`} className="flex h-[52px] items-center justify-center rounded-full border border-green-300 text-[15px] font-semibold text-green-300">
+          Track this order
+        </Link>
+        <Link href="/shop" className="flex min-h-11 items-center justify-center text-[15px] font-semibold text-green-300">
           Keep shopping
         </Link>
       </div>

@@ -3,6 +3,7 @@ import type { Prisma } from "@prisma/client";
 import { loadCheckout } from "./cart-server";
 import { db } from "./db";
 import { orderEmailHtml, sendEmail, type EmailOrder } from "./email";
+import { isForward, statusLabel, type Status } from "./order-status";
 import { orderLabel, readComponents, stockNeeds } from "./order-utils";
 import { createRazorpayOrder, razorpayConfigured } from "./razorpay";
 import { getSettings } from "./settings-server";
@@ -94,6 +95,7 @@ export async function placeOrder(input: {
 
   const data: Prisma.OrderCreateInput = {
     user: { connect: { id: input.userId } },
+    events: { create: { status: "PENDING", note: input.paymentMethod === "COD" ? "Cash on delivery order placed" : "Awaiting online payment" } },
     addressSnapshot: snapshot,
     paymentMethod: input.paymentMethod,
     subtotal: view.subtotal,
@@ -169,6 +171,7 @@ export async function markOrderPaid(razorpayOrderId: string, razorpayPaymentId: 
     const moved = await tx.order.updateMany({ where: { id: order.id, status: "PENDING" }, data: { status: "PAID" } });
     if (moved.count === 0) return null;
     const short = await takeStock(tx, orderNeeds(order.items));
+    await tx.orderEvent.create({ data: { orderId: order.id, status: "PAID", note: "Payment received" } });
     await tx.payment.update({
       where: { id: payment.id },
       data: { razorpayPaymentId, status: "captured", raw: (raw ?? {}) as Prisma.InputJsonValue },
@@ -206,6 +209,77 @@ export async function releaseStock(orderId: string) {
   );
 }
 
+// ── Status changes (admin, courier webhook) ───────────────────────────────
+
+/** Whether this order currently holds stock (COD from placement; online only once paid). */
+function holdsStock(o: { status: Status; paymentMethod: "RAZORPAY" | "COD" }) {
+  if (o.status === "CANCELLED" || o.status === "RETURNED") return false;
+  return o.paymentMethod === "COD" || o.status !== "PENDING";
+}
+
+export async function setOrderStatus(
+  orderId: string,
+  to: Status,
+  opts: { note?: string; force?: boolean; restock?: boolean } = {},
+) {
+  const order = await db.order.findUnique({ where: { id: orderId } });
+  if (!order) throw new CheckoutError("Order not found", 404);
+  const from = order.status as Status;
+  if (from === to) return { changed: false };
+
+  if (to === "CANCELLED") {
+    if (!opts.force && !["PENDING", "PAID", "PACKED"].includes(from)) throw new CheckoutError("This order has already shipped", 409);
+  } else if (to === "RETURNED") {
+    if (from !== "DELIVERED" && !opts.force) throw new CheckoutError("Only delivered orders can be marked returned", 409);
+  } else if (!opts.force && !isForward(from, to)) {
+    return { changed: false };
+  }
+
+  const releasing = (to === "CANCELLED" || (to === "RETURNED" && opts.restock)) && holdsStock(order);
+  await db.$transaction(async (tx) => {
+    await tx.order.update({
+      where: { id: orderId },
+      data: { status: to, ...(to === "DELIVERED" ? { deliveredAt: new Date() } : {}) },
+    });
+    await tx.orderEvent.create({ data: { orderId, status: to, note: opts.note } });
+  });
+  if (releasing) await releaseStock(orderId);
+  if (["SHIPPED", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"].includes(to)) void sendStatusEmail(orderId, to);
+  return { changed: true };
+}
+
+async function sendStatusEmail(orderId: string, status: Status) {
+  try {
+    const order = await db.order.findUnique({ where: { id: orderId }, include: { user: true, shipments: true } });
+    if (!order) return;
+    const address = order.addressSnapshot as AddressSnapshot;
+    const to = address.email ?? order.user.email;
+    if (!to) return;
+    const label = orderLabel(order.number);
+    const site = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    const ship = order.shipments.at(-1);
+    const lines: Record<string, string> = {
+      SHIPPED: `Your order is on its way${ship?.courier ? ` with ${ship.courier}` : ""}${ship?.awb ? ` (AWB ${ship.awb})` : ""}.`,
+      OUT_FOR_DELIVERY: "Your order is out for delivery today. Keep your phone handy!",
+      DELIVERED: "Your order has been delivered. Merry Christmas from all of us at swift.in!",
+      CANCELLED: "Your order has been cancelled. If you paid online, the refund is on its way to your original payment method.",
+    };
+    const tracking = ship?.trackingUrl ? `<p><a href="${ship.trackingUrl}">Track your parcel</a></p>` : "";
+    await sendEmail(
+      to,
+      `${statusLabel(status, order.paymentMethod)} · swift.in order ${label}`,
+      `<!doctype html><html><body style="font-family:Arial,sans-serif;background:#FBF7EE;padding:24px;color:#1F1B14">
+<div style="max-width:520px;margin:auto;background:#fff;border:1px solid #ECE3CF;border-radius:16px;padding:24px">
+<p style="font-family:Georgia,serif;font-size:24px;color:#C21F31;margin:0 0 12px">swift<i>.in</i></p>
+<h1 style="font-family:Georgia,serif;font-weight:normal;color:#0A3D29;font-size:22px">${statusLabel(status, order.paymentMethod)} — ${label}</h1>
+<p>${lines[status] ?? ""}</p>${tracking}
+<p><a href="${site}/account/orders/${label}" style="color:#0B5E3E;font-weight:bold">View your order</a></p></div></body></html>`,
+    );
+  } catch (e) {
+    console.error("status email failed", e);
+  }
+}
+
 // ── Emails ────────────────────────────────────────────────────────────────
 
 async function sendOrderEmails(orderId: string, kind: "placed" | "paid", shortVariants: string[] = []) {
@@ -228,7 +302,7 @@ async function sendOrderEmails(orderId: string, kind: "placed" | "paid", shortVa
       total: order.total,
       paymentMethod: order.paymentMethod,
       address: formatAddress(address),
-      url: `${site}/checkout/success?order=${label}`,
+      url: `${site}/account/orders/${label}`,
     };
 
     const customerEmail = address.email ?? order.user.email;
