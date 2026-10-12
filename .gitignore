@@ -43,3 +43,6 @@ next-env.d.ts
 
 # admin uploads stored on the server
 /storage
+
+# release archives
+*.zip
