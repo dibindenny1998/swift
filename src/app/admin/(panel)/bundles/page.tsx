@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { AdminSkeleton, adminBtn, Empty, PageHeader, Panel, Pill, Table } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/admin";
+import { describeOffer } from "@/lib/auto-discounts";
 import { couponStatus } from "@/lib/coupon-status";
 import { db } from "@/lib/db";
 import { formatINR } from "@/lib/money";
@@ -22,9 +23,10 @@ const tone = { active: "green", scheduled: "gold", expired: "grey", disabled: "g
 
 async function Bundles() {
   await requireAdmin("/admin/bundles");
-  const [bundles, coupons] = await Promise.all([
+  const [bundles, coupons, offers] = await Promise.all([
     db.bundle.findMany({ include: { items: { include: { variant: true } }, tiers: { orderBy: { minItems: "asc" } } }, orderBy: { createdAt: "asc" } }),
     db.coupon.findMany({ include: { _count: { select: { uses: true } } }, orderBy: { createdAt: "desc" } }),
+    db.autoDiscount.findMany({ orderBy: { createdAt: "desc" } }),
   ]);
   const kits = bundles.filter((b) => b.type === "FIXED");
   const byo = bundles.find((b) => b.type === "BUILD_YOUR_OWN");
@@ -88,6 +90,53 @@ async function Bundles() {
             </p>
           ) : (
             <p className="text-sm text-muted">Not set up.</p>
+          )}
+        </Panel>
+
+        <Panel
+          title="Automatic discounts"
+          actions={
+            <Link href="/admin/discounts/new" className={adminBtn("primary")}>
+              + New offer
+            </Link>
+          }
+        >
+          {offers.length === 0 ? (
+            <Empty>No automatic discounts yet. Try “Buy 2 ornaments, get 1 free” or free shipping on trees.</Empty>
+          ) : (
+            <Table>
+              <thead>
+                <tr>
+                  <th>Offer</th>
+                  <th>What it does</th>
+                  <th>Dates</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {offers.map((o) => {
+                  const sc = o.scope as { productIds?: string[]; categoryIds?: string[]; bundleIds?: string[] } | null;
+                  const n = sc ? (sc.productIds?.length ?? 0) + (sc.categoryIds?.length ?? 0) + (sc.bundleIds?.length ?? 0) : 0;
+                  const st = couponStatus({ ...o, usageLimit: null }, 0);
+                  return (
+                    <tr key={o.id} className="hover:bg-ivory">
+                      <td>
+                        <Link href={`/admin/discounts/${o.id}`} className="font-semibold">
+                          {o.name}
+                        </Link>
+                      </td>
+                      <td className="text-xs text-muted">{describeOffer(o, n)}</td>
+                      <td className="text-xs text-muted">
+                        {o.startsAt ? day.format(o.startsAt) : "now"} – {o.endsAt ? day.format(o.endsAt) : "no end"}
+                      </td>
+                      <td>
+                        <Pill tone={tone[st]}>{st}</Pill>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
           )}
         </Panel>
 

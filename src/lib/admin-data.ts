@@ -42,6 +42,9 @@ export async function getDashboard(lowStockThreshold: number) {
     db.review.count({ where: { isApproved: false } }),
   ]);
   const lowStockCount = await db.variant.count({ where: { stock: { lte: lowStockThreshold }, product: { isLive: true } } });
+  const abandoned = await db.cart.count({
+    where: { userId: { not: null }, items: { some: {} }, remindedAt: null, updatedAt: { lt: new Date(Date.now() - 36e5), gt: monthAgo } },
+  });
 
   return {
     todayOrders,
@@ -54,5 +57,6 @@ export async function getDashboard(lowStockThreshold: number) {
     pendingCod,
     openReturns,
     pendingReviews,
+    abandoned,
   };
 }

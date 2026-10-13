@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cartTotals, evaluateCoupon, type CouponRule, type PricedLine } from "@/lib/cart-pricing";
+import { cartTotals, evaluateAutoDiscounts, evaluateCoupon, type AutoRule, type CouponRule, type PricedLine } from "@/lib/cart-pricing";
 
 const lines: PricedLine[] = [
   { lineTotal: 349900, productIds: ["tree"], bundleId: null },
@@ -72,5 +72,72 @@ describe("normalizeIndianMobile", () => {
   it("rejects landlines and short numbers", () => {
     expect(normalizeIndianMobile("5876543210")).toBeNull();
     expect(normalizeIndianMobile("98765")).toBeNull();
+  });
+});
+
+describe("evaluateAutoDiscounts", () => {
+  const now = new Date("2026-12-01T10:00:00+05:30");
+  const rule = (r: Partial<AutoRule>): AutoRule => ({
+    name: "Offer",
+    type: "PERCENT",
+    value: 10,
+    buyQty: 0,
+    getQty: 0,
+    minQty: 0,
+    minAmount: 0,
+    scope: null,
+    startsAt: null,
+    endsAt: null,
+    isActive: true,
+    ...r,
+  });
+  // 3 ornaments at ₹499, 1 at ₹299, and a tree.
+  const cart: PricedLine[] = [
+    { lineTotal: 149700, productIds: ["bauble"], categoryIds: ["orn"], bundleId: null, qty: 3 },
+    { lineTotal: 29900, productIds: ["bow"], categoryIds: ["orn"], bundleId: null, qty: 1 },
+    { lineTotal: 349900, productIds: ["tree"], categoryIds: ["trees"], bundleId: null, qty: 1 },
+  ];
+
+  it("buy 2 get 1 free discounts the cheapest unit in each group of three", () => {
+    const r = evaluateAutoDiscounts([rule({ name: "B2G1", type: "BUY_X_GET_Y", buyQty: 2, getQty: 1, value: 100, scope: { categoryIds: ["orn"] } })], cart, now);
+    // Ornament units sorted: 499, 499, 499, 299 → one full group (499, 499 | 499 free).
+    expect(r.discount).toBe(49900);
+    expect(r.applied).toEqual([{ label: "B2G1", amount: 49900 }]);
+  });
+
+  it("nudges when one more item would unlock buy X get Y", () => {
+    const r = evaluateAutoDiscounts([rule({ name: "B2G1", type: "BUY_X_GET_Y", buyQty: 2, getQty: 1, value: 100, scope: { productIds: ["tree"] } })], cart, now);
+    expect(r.discount).toBe(0);
+    expect(r.nudge).toBe("Add 2 more to unlock “B2G1”");
+  });
+
+  it("gives only the biggest money-off offer, plus free shipping", () => {
+    const r = evaluateAutoDiscounts(
+      [rule({ name: "10% off", value: 10 }), rule({ name: "₹200 off", type: "FLAT", value: 20000 }), rule({ name: "Free ship", type: "FREE_SHIPPING", minAmount: 100000 })],
+      cart,
+      now,
+    );
+    expect(r.discount).toBe(53000); // 10% of ₹5,295 = ₹529.50, rounded to the rupee
+    expect(r.applied.map((a) => a.label)).toEqual(["10% off", "Free ship"]);
+    expect(r.freeShipping).toBe(true);
+  });
+
+  it("ignores inactive, future and expired offers, and unmet minimums", () => {
+    const r = evaluateAutoDiscounts(
+      [
+        rule({ isActive: false }),
+        rule({ startsAt: new Date("2026-12-10") }),
+        rule({ endsAt: new Date("2026-11-01") }),
+        rule({ minQty: 10 }),
+      ],
+      cart,
+      now,
+    );
+    expect(r).toMatchObject({ discount: 0, freeShipping: false, applied: [] });
+  });
+
+  it("free shipping offer removes the shipping fee in the totals", () => {
+    const small: PricedLine[] = [{ lineTotal: 49900, productIds: ["b"], bundleId: null }];
+    expect(cartTotals(small, 0, false, { freeShippingThreshold: 99900, shippingFee: 7900, giftWrapPrice: 0 }, true)).toMatchObject({ shipping: 0, total: 49900, freeShippingRemaining: 0 });
   });
 });

@@ -76,7 +76,7 @@ export async function getAccountOrder(userId: string, number: number) {
     status,
     statusText: statusLabel(status, o.paymentMethod),
     paymentMethod: o.paymentMethod,
-    paid: o.paymentMethod === "RAZORPAY" ? o.payments.length > 0 : status === "DELIVERED",
+    paid: o.paymentMethod === "RAZORPAY" ? o.payments.length > 0 : o.paymentMethod === "OFFLINE" || status === "DELIVERED",
     address: o.addressSnapshot as AddressSnapshot,
     giftMessage: o.giftMessage,
     totals: { subtotal: o.subtotal, discount: o.discount, shipping: o.shipping, codFee: o.codFee, giftWrap: o.giftWrap, total: o.total },

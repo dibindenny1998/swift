@@ -3,7 +3,7 @@ import type { Prisma } from "@prisma/client";
 import { loadCheckout } from "./cart-server";
 import { db } from "./db";
 import { orderEmailHtml, sendEmail, type EmailOrder } from "./email";
-import { isForward, statusLabel, type Status } from "./order-status";
+import { isForward, paymentLabel, statusLabel, type PaymentMethod, type Status } from "./order-status";
 import { orderLabel, readComponents, stockNeeds } from "./order-utils";
 import { createRazorpayOrder, razorpayConfigured } from "./razorpay";
 import { getSettings } from "./settings-server";
@@ -34,7 +34,7 @@ export const formatAddress = (a: AddressSnapshot) =>
   [a.name, a.line1, a.line2, `${a.city}, ${a.state} ${a.pincode}`].filter(Boolean).join(", ");
 
 /** Take stock for every variant, all-or-nothing. Returns the variants that were short. */
-async function takeStock(tx: Tx, needs: Map<string, number>) {
+export async function takeStock(tx: Tx, needs: Map<string, number>) {
   const short: string[] = [];
   for (const [variantId, qty] of needs) {
     const r = await tx.variant.updateMany({ where: { id: variantId, stock: { gte: qty } }, data: { stock: { decrement: qty } } });
@@ -100,9 +100,11 @@ export async function placeOrder(input: {
     paymentMethod: input.paymentMethod,
     subtotal: view.subtotal,
     discount: view.discount,
+    discountNote: view.discounts.length ? view.discounts.map((d) => (d.amount ? `${d.label} (₹${Math.round(d.amount / 100)})` : d.label)).join(" · ") : null,
     shipping: view.shipping,
     codFee,
     giftWrap: view.giftWrapFee,
+    giftWrapped: view.giftWrap,
     total,
     coupon: couponId ? { connect: { id: couponId } } : undefined,
     giftMessage: view.giftWrap ? view.giftMessage : null,
@@ -213,9 +215,9 @@ export async function releaseStock(orderId: string) {
 // ── Status changes (admin, courier webhook) ───────────────────────────────
 
 /** Whether this order currently holds stock (COD from placement; online only once paid). */
-function holdsStock(o: { status: Status; paymentMethod: "RAZORPAY" | "COD" }) {
+function holdsStock(o: { status: Status; paymentMethod: PaymentMethod }) {
   if (o.status === "CANCELLED" || o.status === "RETURNED") return false;
-  return o.paymentMethod === "COD" || o.status !== "PENDING";
+  return o.paymentMethod !== "RAZORPAY" || o.status !== "PENDING";
 }
 
 export async function setOrderStatus(
@@ -283,7 +285,7 @@ async function sendStatusEmail(orderId: string, status: Status) {
 
 // ── Emails ────────────────────────────────────────────────────────────────
 
-async function sendOrderEmails(orderId: string, kind: "placed" | "paid", shortVariants: string[] = []) {
+export async function sendOrderEmails(orderId: string, kind: "placed" | "paid", shortVariants: string[] = [], opts: { notifyAdmin?: boolean } = {}) {
   try {
     const settings = await getSettings();
     const order = await db.order.findUnique({ where: { id: orderId }, include: { items: true, user: true } });
@@ -316,13 +318,13 @@ async function sendOrderEmails(orderId: string, kind: "placed" | "paid", shortVa
       await sendEmail(customerEmail, `Your swift.in order ${label}`, orderEmailHtml(data, heading, intro));
     }
 
-    const adminTo = settings.orderNotifyEmail || process.env.ADMIN_SEED_EMAIL;
+    const adminTo = opts.notifyAdmin === false ? null : settings.orderNotifyEmail || process.env.ADMIN_SEED_EMAIL;
     if (adminTo) {
       const warn = shortVariants.length ? `⚠️ Paid but stock was short for ${shortVariants.length} variant(s) — please check. ` : "";
       await sendEmail(
         adminTo,
         `${warn ? "⚠️ " : ""}New order ${label} · ${order.paymentMethod === "COD" ? "COD" : "Paid"} · ₹${Math.round(order.total / 100)}`,
-        orderEmailHtml(data, `New order ${label}`, `${warn}${order.paymentMethod === "COD" ? "Cash on delivery — confirm with the customer." : "Paid online."} Phone: ${address.phone}`),
+        orderEmailHtml(data, `New order ${label}`, `${warn}${order.paymentMethod === "COD" ? "Cash on delivery — confirm with the customer." : `${paymentLabel(order.paymentMethod)}.`} Phone: ${address.phone}`),
       );
     }
   } catch (e) {

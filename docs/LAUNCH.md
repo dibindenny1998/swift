@@ -46,9 +46,15 @@ Target: live by **10 Nov 2026**. Work through this top to bottom; each item says
 
 - Backups run nightly at 03:15 IST to `/home/swift/backups` (database + uploaded images, 14 days). Copy them off the server weekly (e.g. to Google Drive).
 - Daily: confirm COD orders, create shipments, answer return requests and approve reviews from the dashboard to-do chips.
+- Packing: on **Orders**, tick several orders → *Confirm COD*, *Mark packed*, *Create Shiprocket shipments* or *Print packing slips* (one A4 page per order, with the cash to collect and the gift note).
+- WhatsApp / phone orders: **Orders → New manual order** (confirmed straight away, stock reserved, marked "Paid offline" or COD).
+- **Abandoned carts**: signed-in customers who left items for over an hour — one tap sends a WhatsApp or email reminder.
+- **Automatic discounts** (Bundles & offers): buy X get Y, % or ₹ off, or free shipping — applied in the cart without a code.
+- **Staff** (owner only): give helpers their own login limited to Orders, Products & offers, Customers, Reviews and/or Reports. Switch someone off any time.
+- **Reports**: sales by day, product, category, state and coupon; export orders, products sold and customers to CSV.
 - After 18 Dec the announcement bar automatically switches to the New Year message.
 
 ## Not built yet (spec "phase 2")
 
-- WhatsApp order notifications and abandoned-cart reminders.
+- Automatic WhatsApp order notifications (reminders are sent by hand from Abandoned carts today).
 - Review photo uploads by customers.

@@ -31,7 +31,8 @@ export async function POST(request: Request) {
   await db.otpRequest.updateMany({ where: { phone, expiresAt: { gt: new Date() } }, data: { expiresAt: new Date() } });
 
   const user = await db.user.upsert({ where: { phone }, update: {}, create: { phone } });
-  await startSession(user.id, user.role);
+  // Phone sign-in is always a customer session; the admin panel uses email + password.
+  await startSession(user.id, "CUSTOMER");
   await mergeGuestCart(user.id);
   return json({ user: { id: user.id, phone: user.phone, name: user.name } });
 }

@@ -8,6 +8,7 @@ import { formatINR } from "@/lib/money";
 import { orderLabel } from "@/lib/order-utils";
 import { formatAddress, type AddressSnapshot } from "@/lib/orders";
 import { getSettings } from "@/lib/settings-server";
+import { paymentLabel } from "@/lib/order-status";
 
 export const metadata = { title: "Tax invoice", robots: { index: false } };
 
@@ -74,7 +75,7 @@ async function Invoice({ params }: Pick<PageProps<"/admin/invoice/[id]">, "param
           <h1 className="text-lg font-bold uppercase tracking-[0.1em]">Tax invoice</h1>
           <p>Invoice no. {orderLabel(o.number)}</p>
           <p>Date {day.format(o.createdAt)}</p>
-          <p>{o.paymentMethod === "COD" ? "Cash on delivery" : "Paid online"}</p>
+          <p>{paymentLabel(o.paymentMethod)}</p>
         </div>
       </header>
       <section className="grid grid-cols-2 gap-6 py-4">

@@ -24,6 +24,7 @@ export function CartDrawer() {
       ) : (
         <div className="flex min-h-full flex-col">
           <FreeShippingBar remaining={cart.freeShippingRemaining} threshold={cart.freeShippingThreshold} />
+          {cart.offerNudge && <p className="mt-2 rounded-sm bg-gold-light/40 px-3 py-2 text-[13px] font-semibold text-gold-ink">{cart.offerNudge}</p>}
           <div className="mt-2 flex-1">
             <CartLines items={cart.items} compact onNavigate={close} />
           </div>
@@ -33,12 +34,12 @@ export function CartDrawer() {
                 <dt className="text-muted">Subtotal</dt>
                 <dd className="tabular-nums">{formatINR(cart.subtotal)}</dd>
               </div>
-              {cart.discount > 0 && (
-                <div className="flex justify-between text-green-300">
-                  <dt>Discount ({cart.coupon?.code})</dt>
-                  <dd className="tabular-nums">−{formatINR(cart.discount)}</dd>
+              {cart.discounts.map((d) => (
+                <div key={d.label} className="flex justify-between gap-3 text-green-300">
+                  <dt>{d.label}</dt>
+                  <dd className="tabular-nums">{d.amount ? `−${formatINR(d.amount)}` : "Free shipping"}</dd>
                 </div>
-              )}
+              ))}
               <div className="flex justify-between font-bold">
                 <dt>Total</dt>
                 <dd className="tabular-nums">{formatINR(cart.total)}</dd>

@@ -1,4 +1,5 @@
 import "server-only";
+import { paymentLabel, type PaymentMethod } from "./order-status";
 
 export function emailConfigured() {
   return Boolean(process.env.RESEND_API_KEY);
@@ -31,7 +32,7 @@ export type EmailOrder = {
   codFee: number;
   giftWrap: number;
   total: number;
-  paymentMethod: "RAZORPAY" | "COD";
+  paymentMethod: PaymentMethod;
   address: string;
   url: string;
 };
@@ -64,7 +65,7 @@ ${line("Subtotal", inr(o.subtotal))}${o.discount ? line("Discount", `−${inr(o.
   }${o.codFee ? line("Cash on delivery fee", inr(o.codFee)) : ""}
 <tr><td style="padding:8px 0;font-weight:bold;border-top:1px solid #E6DCC4">Total</td><td style="padding:8px 0;font-weight:bold;text-align:right;border-top:1px solid #E6DCC4">${inr(o.total)}</td></tr>
 </table>
-<p style="margin:16px 0 4px;color:#6B6352;font-size:13px">${o.paymentMethod === "COD" ? "Cash on delivery" : "Paid online"} · prices include GST</p>
+<p style="margin:16px 0 4px;color:#6B6352;font-size:13px">${paymentLabel(o.paymentMethod)} · prices include GST</p>
 <p style="margin:0 0 16px;color:#6B6352;font-size:13px">Delivering to: ${esc(o.address)}</p>
 <p style="margin:0"><a href="${esc(o.url)}" style="display:inline-block;background:#0B5E3E;color:#FBF7EE;text-decoration:none;padding:12px 24px;border-radius:999px;font-weight:bold">View your order</a></p>
 </td></tr></table></td></tr></table></body></html>`;

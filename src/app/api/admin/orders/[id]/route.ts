@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { adminApi, refreshCatalog } from "@/lib/admin";
+import { adminApi, adminName, refreshCatalog } from "@/lib/admin";
+import { db } from "@/lib/db";
 import { error, json, readJson } from "@/lib/http";
 import { CheckoutError, setOrderStatus } from "@/lib/orders";
 
@@ -16,9 +17,15 @@ export async function PATCH(request: Request, ctx: RouteContext<"/api/admin/orde
   const parsed = schema.safeParse(await readJson(request));
   if (!parsed.success) return error("Invalid status");
   const { id } = await ctx.params;
+  const current = await db.order.findUnique({ where: { id }, select: { status: true, paymentMethod: true } });
+  if (!current) return error("Order not found", 404);
+  // An online order that hasn't been paid can only be cancelled — never confirmed, packed or shipped.
+  if (current.status === "PENDING" && current.paymentMethod === "RAZORPAY" && parsed.data.status !== "CANCELLED" && !parsed.data.force) {
+    return error("Still waiting for online payment", 409);
+  }
   try {
     const r = await setOrderStatus(id, parsed.data.status, {
-      note: parsed.data.note ? `${parsed.data.note} (by ${auth.admin.email ?? "admin"})` : `Updated by ${auth.admin.email ?? "admin"}`,
+      note: parsed.data.note ? `${parsed.data.note} (by ${adminName(auth.admin)})` : `Updated by ${adminName(auth.admin)}`,
       restock: parsed.data.restock ?? true,
       force: parsed.data.force,
     });

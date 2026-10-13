@@ -10,7 +10,7 @@ import { cn } from "@/lib/cn";
 import { formatINR } from "@/lib/money";
 import { parseOrderLabel } from "@/lib/order-utils";
 import { formatAddress } from "@/lib/orders";
-import { RETURN_WINDOW_DAYS } from "@/lib/order-status";
+import { paymentLabel, RETURN_WINDOW_DAYS } from "@/lib/order-status";
 import { getSession } from "@/lib/session";
 import { getSettings } from "@/lib/settings-server";
 
@@ -114,7 +114,7 @@ async function OrderDetail({ params }: Pick<PageProps<"/account/orders/[number]"
           </div>
         </dl>
         <p className="mt-2 text-[13px] text-muted">
-          {order.paymentMethod === "COD" ? "Cash on delivery" : order.paid ? "Paid online" : "Awaiting online payment"} · prices include GST
+          {order.paymentMethod !== "RAZORPAY" ? paymentLabel(order.paymentMethod) : order.paid ? "Paid online" : "Awaiting online payment"} · prices include GST
         </p>
       </section>
 

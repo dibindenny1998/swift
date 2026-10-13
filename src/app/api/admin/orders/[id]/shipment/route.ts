@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { adminApi } from "@/lib/admin";
+import { adminApi, adminName } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { error, json, readJson } from "@/lib/http";
 import { orderLabel, readComponents, stockNeeds } from "@/lib/order-utils";
@@ -28,7 +28,7 @@ export async function POST(request: Request, ctx: RouteContext<"/api/admin/order
   if (["PENDING", "CANCELLED", "RETURNED", "DELIVERED"].includes(order.status) && !(order.status === "PENDING" && order.paymentMethod === "COD")) {
     return error("Confirm the order (or wait for payment) before shipping it", 409);
   }
-  const by = auth.admin.email ?? "admin";
+  const by = adminName(auth.admin);
 
   if (parsed.data.mode === "manual") {
     const s = await db.shipment.create({

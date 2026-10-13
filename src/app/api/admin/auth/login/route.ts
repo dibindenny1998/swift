@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
   const user = await db.user.findUnique({ where: { email } });
   const ok = await bcrypt.compare(parsed.data.password, user?.passwordHash ?? DUMMY_HASH);
-  const success = Boolean(ok && user && user.role === "ADMIN");
+  const success = Boolean(ok && user && user.isActive && (user.role === "ADMIN" || user.role === "STAFF"));
   await db.adminLoginAttempt.create({ data: { email, ip, success } });
   if (!success) return error("Email or password is incorrect", 401);
 

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { adminApi } from "@/lib/admin";
+import { adminApi, adminName } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { error, json, readJson } from "@/lib/http";
 import { orderLabel } from "@/lib/order-utils";
@@ -23,7 +23,7 @@ export async function POST(request: Request, ctx: RouteContext<"/api/admin/order
     const r = await refundPayment(payment.razorpayPaymentId, parsed.data.amount, {
       order: orderLabel(payment.order.number),
       reason: parsed.data.reason ?? "",
-      by: auth.admin.email ?? "admin",
+      by: adminName(auth.admin),
     });
     const refunded = payment.refundedAmount + parsed.data.amount;
     await db.payment.update({

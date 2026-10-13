@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { resetAdminMe } from "./admin-me";
 import { adminFetch, TextField } from "./fields";
 
 export function AdminLoginForm() {
@@ -18,6 +19,7 @@ export function AdminLoginForm() {
     setError("");
     try {
       await adminFetch("POST", "/api/admin/auth/login", { email: f.get("email"), password: f.get("password") });
+      resetAdminMe();
       router.replace(next);
       router.refresh();
     } catch (err) {

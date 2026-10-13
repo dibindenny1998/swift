@@ -5,6 +5,7 @@ import { useState } from "react";
 import { formatINR } from "@/lib/money";
 import { adminFetch, MoneyField, SelectField, TextField } from "./fields";
 import { adminBtn, Panel } from "./ui";
+import type { PaymentMethod } from "@/lib/order-status";
 
 type Status = "PENDING" | "PAID" | "PACKED" | "SHIPPED" | "OUT_FOR_DELIVERY" | "DELIVERED" | "CANCELLED" | "RETURNED";
 
@@ -41,7 +42,7 @@ const NEXT: Partial<Record<Status, { to: Status; label: string }>> = {
   OUT_FOR_DELIVERY: { to: "DELIVERED", label: "Mark delivered" },
 };
 
-export function StatusActions({ orderId, status, paymentMethod }: { orderId: string; status: Status; paymentMethod: "COD" | "RAZORPAY" }) {
+export function StatusActions({ orderId, status, paymentMethod }: { orderId: string; status: Status; paymentMethod: PaymentMethod }) {
   const { busy, run, note } = useAction();
   const [target, setTarget] = useState<Status>("CANCELLED");
   const [restock, setRestock] = useState(true);

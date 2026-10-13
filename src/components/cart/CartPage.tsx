@@ -24,6 +24,7 @@ export function CartPage() {
     <div className="mt-6 grid grid-cols-1 gap-8 pb-28 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start lg:pb-0">
       <div>
         <FreeShippingBar remaining={cart.freeShippingRemaining} threshold={cart.freeShippingThreshold} />
+        {cart.offerNudge && <p className="mt-2 rounded-sm bg-gold-light/40 px-3 py-2 text-[13px] font-semibold text-gold-ink">{cart.offerNudge}</p>}
         <div className="mt-2">
           <CartLines items={cart.items} />
         </div>
@@ -59,12 +60,12 @@ function Summary({ cart }: { cart: CartView }) {
         <dt className="text-muted">Subtotal</dt>
         <dd className="tabular-nums">{formatINR(cart.subtotal)}</dd>
       </div>
-      {cart.discount > 0 && (
-        <div className={cn(row, "text-green-300")}>
-          <dt>Discount · {cart.coupon?.code}</dt>
-          <dd className="tabular-nums">−{formatINR(cart.discount)}</dd>
+      {cart.discounts.map((d) => (
+        <div key={d.label} className={cn(row, "text-green-300")}>
+          <dt>{d.label}</dt>
+          <dd className="tabular-nums">{d.amount ? `−${formatINR(d.amount)}` : "Free shipping"}</dd>
         </div>
-      )}
+      ))}
       <div className={row}>
         <dt className="text-muted">Shipping</dt>
         <dd className="tabular-nums">{cart.shipping > 0 ? formatINR(cart.shipping) : "Free"}</dd>

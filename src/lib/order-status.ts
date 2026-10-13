@@ -1,7 +1,14 @@
 // Pure order-status rules shared by the account pages, webhooks and admin.
 
 export type Status = "PENDING" | "PAID" | "PACKED" | "SHIPPED" | "OUT_FOR_DELIVERY" | "DELIVERED" | "CANCELLED" | "RETURNED";
-export type PaymentMethod = "RAZORPAY" | "COD";
+export type PaymentMethod = "RAZORPAY" | "COD" | "OFFLINE";
+
+/** How the customer paid, in words. */
+export function paymentLabel(method: PaymentMethod, short = false): string {
+  if (method === "COD") return short ? "COD" : "Cash on delivery";
+  if (method === "OFFLINE") return short ? "Offline" : "Paid offline (UPI / cash / bank)";
+  return short ? "Online" : "Paid online";
+}
 
 const RANK: Record<Status, number> = {
   PENDING: 0,
@@ -17,7 +24,7 @@ const RANK: Record<Status, number> = {
 export function statusLabel(status: Status, method: PaymentMethod): string {
   switch (status) {
     case "PENDING":
-      return method === "COD" ? "Awaiting confirmation" : "Awaiting payment";
+      return method === "RAZORPAY" ? "Awaiting payment" : "Awaiting confirmation";
     case "PAID":
       return "Confirmed";
     case "PACKED":

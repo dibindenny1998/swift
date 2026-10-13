@@ -6,10 +6,11 @@ import { AdminSkeleton, adminBtn, PageHeader, Panel, Pill, orderStatusTone } fro
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { formatINR } from "@/lib/money";
-import { statusLabel, type Status } from "@/lib/order-status";
+import { paymentLabel, statusLabel, type Status } from "@/lib/order-status";
 import { orderLabel } from "@/lib/order-utils";
 import { formatAddress, type AddressSnapshot } from "@/lib/orders";
 import { shiprocketConfigured } from "@/lib/shiprocket";
+import { OrderNotes } from "@/components/admin/OrderNotes";
 
 export const metadata = { title: "Order" };
 
@@ -40,6 +41,7 @@ async function AdminOrder({ params }: Pick<PageProps<"/admin/orders/[id]">, "par
       shipments: { orderBy: { id: "desc" } },
       returns: { orderBy: { createdAt: "desc" } },
       coupon: { select: { code: true } },
+      notes: { orderBy: { createdAt: "asc" } },
     },
   });
   if (!o) notFound();
@@ -60,13 +62,19 @@ async function AdminOrder({ params }: Pick<PageProps<"/admin/orders/[id]">, "par
           <span className="flex flex-wrap items-center gap-2">
             <Pill tone={orderStatusTone(status)}>{statusLabel(status, o.paymentMethod)}</Pill>
             <span>{when.format(o.createdAt)}</span>
-            <span>· {o.paymentMethod === "COD" ? "Cash on delivery" : "Online payment"}</span>
+            <span>· {paymentLabel(o.paymentMethod)}</span>
+            {o.source === "MANUAL" && <Pill tone="gold">Manual order</Pill>}
           </span>
         }
         actions={
-          <Link href={`/admin/invoice/${o.id}`} target="_blank" className={adminBtn("secondary")}>
-            GST invoice ↗
-          </Link>
+          <>
+            <Link href={`/admin/packing-slips?ids=${o.id}`} target="_blank" className={adminBtn("secondary")}>
+              Packing slip ↗
+            </Link>
+            <Link href={`/admin/invoice/${o.id}`} target="_blank" className={adminBtn("secondary")}>
+              GST invoice ↗
+            </Link>
+          </>
         }
       />
 
@@ -88,7 +96,7 @@ async function AdminOrder({ params }: Pick<PageProps<"/admin/orders/[id]">, "par
             <dl className="mt-3 grid gap-1 border-t border-divider pt-3 text-sm">
               {[
                 ["Subtotal", formatINR(o.subtotal)],
-                ...(o.discount ? [[`Discount${o.coupon ? ` (${o.coupon.code})` : ""}`, `−${formatINR(o.discount)}`]] : []),
+                ...(o.discount ? [[`Discount${o.discountNote ? ` · ${o.discountNote}` : o.coupon ? ` (${o.coupon.code})` : ""}`, `−${formatINR(o.discount)}`]] : []),
                 ["Shipping", o.shipping ? formatINR(o.shipping) : "Free"],
                 ...(o.giftWrap ? [["Gift wrap", formatINR(o.giftWrap)]] : []),
                 ...(o.codFee ? [["COD fee", formatINR(o.codFee)]] : []),
@@ -103,8 +111,11 @@ async function AdminOrder({ params }: Pick<PageProps<"/admin/orders/[id]">, "par
                 <dd className="tabular-nums">{formatINR(o.total)}</dd>
               </div>
             </dl>
+            {o.giftWrapped && <p className="mt-3 text-sm font-semibold">🎁 Gift wrap requested</p>}
             {o.giftMessage && <p className="mt-3 rounded-sm bg-ivory px-3 py-2 text-sm">Gift note: “{o.giftMessage}”</p>}
           </Panel>
+
+          <OrderNotes orderId={o.id} notes={o.notes.map((n) => ({ id: n.id, authorName: n.authorName, text: n.text, createdAt: n.createdAt.toISOString() }))} />
 
           {o.returns.length > 0 && (
             <Panel title="Return requests">
@@ -177,7 +188,7 @@ async function AdminOrder({ params }: Pick<PageProps<"/admin/orders/[id]">, "par
           </Panel>
           <Panel title="Payment">
             {o.payments.length === 0 ? (
-              <p className="text-sm text-muted">{o.paymentMethod === "COD" ? `Collect ${formatINR(o.total)} on delivery.` : "No payment yet."}</p>
+              <p className="text-sm text-muted">{o.paymentMethod === "COD" ? `Collect ${formatINR(o.total)} on delivery.` : o.paymentMethod === "OFFLINE" ? `${formatINR(o.total)} received offline.` : "No payment yet."}</p>
             ) : (
               o.payments.map((p) => (
                 <p key={p.id} className="text-sm">

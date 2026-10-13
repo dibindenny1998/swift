@@ -338,12 +338,12 @@ function Totals({ cart, codFee, payable }: { cart: CartView; codFee: number; pay
         <dt className="text-muted">Subtotal</dt>
         <dd className="tabular-nums">{formatINR(cart.subtotal)}</dd>
       </div>
-      {cart.discount > 0 && (
-        <div className={cn(row, "text-green-300")}>
-          <dt>Discount · {cart.coupon?.code}</dt>
-          <dd className="tabular-nums">−{formatINR(cart.discount)}</dd>
+      {cart.discounts.map((d) => (
+        <div key={d.label} className={cn(row, "text-green-300")}>
+          <dt>{d.label}</dt>
+          <dd className="tabular-nums">{d.amount ? `−${formatINR(d.amount)}` : "Free shipping"}</dd>
         </div>
-      )}
+      ))}
       <div className={row}>
         <dt className="text-muted">Shipping</dt>
         <dd className="tabular-nums">{cart.shipping ? formatINR(cart.shipping) : "Free"}</dd>

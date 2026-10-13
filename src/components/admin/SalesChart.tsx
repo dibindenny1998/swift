@@ -11,8 +11,7 @@ const dayFmt = new Intl.DateTimeFormat("en-IN", {
   timeZone: "UTC",
 });
 const day = (iso: string) => dayFmt.format(new Date(`${iso}T00:00:00Z`));
-const span = (b: Bucket) =>
-  b.from === b.to ? day(b.from) : `${day(b.from)} – ${day(b.to)}`;
+const span = (b: Bucket) => (b.from === b.to ? day(b.from) : `${day(b.from)} – ${day(b.to)}`);
 
 /** Round the axis top up to a clean rupee value (1, 2, 2.5 or 5 × 10ⁿ). */
 function niceMax(paise: number) {
@@ -30,36 +29,18 @@ const compact = (paise: number) => {
 };
 
 /** Single-series column chart of sales per day (or week), with hover tooltips and a table view. */
-export function SalesChart({
-  buckets,
-  unit,
-}: {
-  buckets: Bucket[];
-  unit: "day" | "week";
-}) {
+export function SalesChart({ buckets, unit }: { buckets: Bucket[]; unit: "day" | "week" }) {
   const [hover, setHover] = useState<number | null>(null);
   const [table, setTable] = useState(false);
   const max = niceMax(Math.max(...buckets.map((b) => b.sales), 0));
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * max);
-  const labelAt = new Set([
-    0,
-    Math.floor((buckets.length - 1) / 2),
-    buckets.length - 1,
-  ]);
-  const best = buckets.reduce(
-    (bi, b, i) => (b.sales > buckets[bi].sales ? i : bi),
-    0,
-  );
+  const labelAt = new Set([0, Math.floor((buckets.length - 1) / 2), buckets.length - 1]);
+  const best = buckets.reduce((bi, b, i) => (b.sales > buckets[bi].sales ? i : bi), 0);
 
   return (
     <div>
       <div className="mb-3 flex justify-end">
-        <button
-          type="button"
-          onClick={() => setTable((t) => !t)}
-          className="text-xs font-semibold text-green-300"
-          aria-pressed={table}
-        >
+        <button type="button" onClick={() => setTable((t) => !t)} className="text-xs font-semibold text-green-300" aria-pressed={table}>
           {table ? "Show chart" : "Show as table"}
         </button>
       </div>
@@ -69,9 +50,7 @@ export function SalesChart({
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-xs uppercase tracking-[0.1em] text-muted">
-                <th className="py-2 font-semibold">
-                  {unit === "day" ? "Day" : "Week"}
-                </th>
+                <th className="py-2 font-semibold">{unit === "day" ? "Day" : "Week"}</th>
                 <th className="py-2 text-right font-semibold">Orders</th>
                 <th className="py-2 text-right font-semibold">Sales</th>
               </tr>
@@ -81,9 +60,7 @@ export function SalesChart({
                 <tr key={b.from} className="border-t border-divider">
                   <td className="py-2">{span(b)}</td>
                   <td className="py-2 text-right tabular-nums">{b.orders}</td>
-                  <td className="py-2 text-right tabular-nums">
-                    {formatINR(b.sales)}
-                  </td>
+                  <td className="py-2 text-right tabular-nums">{formatINR(b.sales)}</td>
                 </tr>
               ))}
             </tbody>
@@ -92,16 +69,9 @@ export function SalesChart({
       ) : (
         <div className="flex gap-2">
           {/* y-axis */}
-          <div
-            className="relative h-[220px] w-11 shrink-0 text-right text-[11px] tabular-nums text-muted"
-            aria-hidden
-          >
+          <div className="relative h-[220px] w-11 shrink-0 text-right text-[11px] tabular-nums text-muted" aria-hidden>
             {ticks.map((t) => (
-              <span
-                key={t}
-                className="absolute right-0 translate-y-1/2 leading-none"
-                style={{ bottom: `${(t / max) * 100}%` }}
-              >
+              <span key={t} className="absolute right-0 translate-y-1/2 leading-none" style={{ bottom: `${(t / max) * 100}%` }}>
                 {compact(t)}
               </span>
             ))}
@@ -113,17 +83,9 @@ export function SalesChart({
               aria-label={`Sales per ${unit}. Highest: ${span(buckets[best])}, ${formatINR(buckets[best].sales)}.`}
             >
               {ticks.map((t) => (
-                <span
-                  key={t}
-                  aria-hidden
-                  className="absolute inset-x-0 h-px bg-divider"
-                  style={{ bottom: `${(t / max) * 100}%` }}
-                />
+                <span key={t} aria-hidden className="absolute inset-x-0 h-px bg-divider" style={{ bottom: `${(t / max) * 100}%` }} />
               ))}
-              <div
-                className="absolute inset-0 flex items-end gap-[2px]"
-                onMouseLeave={() => setHover(null)}
-              >
+              <div className="absolute inset-0 flex items-end gap-[2px]" onMouseLeave={() => setHover(null)}>
                 {buckets.map((b, i) => (
                   <div
                     key={b.from}
@@ -137,9 +99,7 @@ export function SalesChart({
                     <span
                       className={`relative block w-full max-w-6 rounded-t-[4px] transition-opacity ${hover !== null && hover !== i ? "opacity-50" : ""} ${b.sales ? "bg-green-300" : ""}`}
                       style={{
-                        height: b.sales
-                          ? `max(2px, ${(b.sales / max) * 100}%)`
-                          : 0,
+                        height: b.sales ? `max(2px, ${(b.sales / max) * 100}%)` : 0,
                       }}
                     >
                       {hover === i && (
@@ -158,10 +118,7 @@ export function SalesChart({
                 ))}
               </div>
             </div>
-            <div
-              className="relative mt-2 h-4 text-[11px] text-muted"
-              aria-hidden
-            >
+            <div className="relative mt-2 h-4 text-[11px] text-muted" aria-hidden>
               {buckets.map((b, i) =>
                 labelAt.has(i) ? (
                   <span

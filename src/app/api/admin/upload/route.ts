@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { allowed } from "@/lib/admin-access";
 import { adminApi } from "@/lib/admin";
 import { error, json } from "@/lib/http";
 import { cloudinaryConfigured, IMAGE_TYPES, UPLOAD_DIR } from "@/lib/uploads";
@@ -14,6 +15,8 @@ const MAX_BYTES = 8 * 1024 * 1024;
 export async function POST(request: Request) {
   const auth = await adminApi(request);
   if ("response" in auth) return auth.response;
+  // Photos are for products/kits/categories (catalog) and site images (owner).
+  if (!allowed(auth.admin.access, "catalog")) return error("Your account doesn't have access to this", 403);
 
   if (cloudinaryConfigured() && request.headers.get("content-type")?.includes("application/json")) {
     const timestamp = Math.floor(Date.now() / 1000);

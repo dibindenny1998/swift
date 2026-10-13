@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AdminSkeleton, Empty, PageHeader, Panel, Pill, Stat, orderStatusTone } from "@/components/admin/ui";
+import { allowed, type Area } from "@/lib/admin-access";
 import { requireAdmin } from "@/lib/admin";
 import { getDashboard } from "@/lib/admin-data";
 import { formatINR } from "@/lib/money";
@@ -10,30 +11,38 @@ import { getSettings } from "@/lib/settings-server";
 
 export const metadata = { title: "Dashboard" };
 
-export default function DashboardPage() {
+export default function DashboardPage(props: PageProps<"/admin">) {
   return (
     <Suspense fallback={<AdminSkeleton />}>
-      <Dashboard />
+      <Dashboard searchParams={props.searchParams} />
     </Suspense>
   );
 }
 
 const when = new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" });
 
-async function Dashboard() {
+async function Dashboard({ searchParams }: Pick<PageProps<"/admin">, "searchParams">) {
   const admin = await requireAdmin("/admin");
+  const denied = (await searchParams).denied === "1";
   const settings = await getSettings();
   const d = await getDashboard(settings.lowStockThreshold);
+  const can = (area: Area) => allowed(admin.access, area);
 
   const todo = [
-    d.pendingCod > 0 && { href: "/admin/orders?status=PENDING&payment=COD", text: `${d.pendingCod} COD order${d.pendingCod === 1 ? "" : "s"} to confirm` },
-    d.openReturns > 0 && { href: "/admin/orders?returns=open", text: `${d.openReturns} return request${d.openReturns === 1 ? "" : "s"}` },
-    d.pendingReviews > 0 && { href: "/admin/reviews", text: `${d.pendingReviews} review${d.pendingReviews === 1 ? "" : "s"} to approve` },
+    can("orders") && d.pendingCod > 0 && { href: "/admin/orders?status=PENDING&payment=COD", text: `${d.pendingCod} COD order${d.pendingCod === 1 ? "" : "s"} to confirm` },
+    can("orders") && d.openReturns > 0 && { href: "/admin/orders?returns=open", text: `${d.openReturns} return request${d.openReturns === 1 ? "" : "s"}` },
+    can("orders") && d.abandoned > 0 && { href: "/admin/carts", text: `${d.abandoned} abandoned cart${d.abandoned === 1 ? "" : "s"} to follow up` },
+    can("reviews") && d.pendingReviews > 0 && { href: "/admin/reviews", text: `${d.pendingReviews} review${d.pendingReviews === 1 ? "" : "s"} to approve` },
   ].filter(Boolean) as { href: string; text: string }[];
 
   return (
     <>
-      <PageHeader title="Welcome back" description={`Signed in as ${admin.email ?? "admin"} · here's how the shop is doing.`} />
+      <PageHeader title={`Welcome back${admin.name ? `, ${admin.name.split(" ")[0]}` : ""}`} description={`Signed in as ${admin.email ?? "admin"} · here's how the shop is doing.`} />
+      {denied && (
+        <p role="alert" className="mb-6 rounded-lg border border-gold-line bg-gold-light/30 px-4 py-3 text-sm">
+          Your account can&apos;t open that page. Ask the shop owner if you need access.
+        </p>
+      )}
 
       {todo.length > 0 && (
         <div className="mb-6 flex flex-wrap gap-2">
@@ -47,34 +56,38 @@ async function Dashboard() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Orders today" value={d.todayOrders} />
-        <Stat label="Revenue, last 7 days" value={formatINR(d.weekRevenue)} hint={`${d.weekOrders} orders · paid online + COD`} />
+        {can("reports") && <Stat label="Revenue, last 7 days" value={formatINR(d.weekRevenue)} hint={`${d.weekOrders} orders · paid online, COD + offline`} />}
         <Stat label="Low stock" value={d.lowStockCount} hint={`Variants at or below ${settings.lowStockThreshold}`} />
-        <Stat label="Avg. order, 7 days" value={d.weekOrders ? formatINR(Math.round(d.weekRevenue / d.weekOrders / 100) * 100) : "—"} />
+        {can("reports") && <Stat label="Avg. order, 7 days" value={d.weekOrders ? formatINR(Math.round(d.weekRevenue / d.weekOrders / 100) * 100) : "—"} />}
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[2fr_1fr]">
-        <Panel title="Recent orders" actions={<Link href="/admin/orders" className="text-sm font-semibold text-green-300">All orders →</Link>}>
-          {d.recent.length === 0 ? (
-            <Empty>No orders yet.</Empty>
-          ) : (
-            <ul className="divide-y divide-divider">
-              {d.recent.map((o) => (
-                <li key={o.id}>
-                  <Link href={`/admin/orders/${o.id}`} className="flex flex-wrap items-center justify-between gap-2 py-3 text-sm hover:bg-ivory">
-                    <span>
-                      <strong>{orderLabel(o.number)}</strong> <span className="text-muted">· {o.user.name ?? o.user.phone}</span>
-                      <span className="block text-xs text-muted">{when.format(o.createdAt)}</span>
-                    </span>
-                    <span className="flex items-center gap-3">
-                      <Pill tone={orderStatusTone(o.status)}>{statusLabel(o.status as Status, o.paymentMethod)}</Pill>
-                      <span className="w-20 text-right tabular-nums">{formatINR(o.total)}</span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Panel>
+        {can("orders") ? (
+          <Panel title="Recent orders" actions={<Link href="/admin/orders" className="text-sm font-semibold text-green-300">All orders →</Link>}>
+            {d.recent.length === 0 ? (
+              <Empty>No orders yet.</Empty>
+            ) : (
+              <ul className="divide-y divide-divider">
+                {d.recent.map((o) => (
+                  <li key={o.id}>
+                    <Link href={`/admin/orders/${o.id}`} className="flex flex-wrap items-center justify-between gap-2 py-3 text-sm hover:bg-ivory">
+                      <span>
+                        <strong>{orderLabel(o.number)}</strong> <span className="text-muted">· {o.user.name ?? o.user.phone}</span>
+                        <span className="block text-xs text-muted">{when.format(o.createdAt)}</span>
+                      </span>
+                      <span className="flex items-center gap-3">
+                        <Pill tone={orderStatusTone(o.status)}>{statusLabel(o.status as Status, o.paymentMethod)}</Pill>
+                        <span className="w-20 text-right tabular-nums">{formatINR(o.total)}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Panel>
+        ) : (
+          <div />
+        )}
 
         <div className="flex flex-col gap-4">
           <Panel title="Top products · 30 days">

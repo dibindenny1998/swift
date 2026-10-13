@@ -12,7 +12,8 @@ datasource db {
 
 enum Role {
   CUSTOMER
-  ADMIN
+  ADMIN // the owner: everything, including settings and staff
+  STAFF // admin panel, limited to the areas in User.permissions
 }
 
 enum Badge {
@@ -51,6 +52,7 @@ enum OrderStatus {
 enum PaymentMethod {
   RAZORPAY
   COD
+  OFFLINE // manual order already paid by UPI / cash / bank transfer
 }
 
 model User {
@@ -59,7 +61,9 @@ model User {
   name         String?
   email        String?  @unique
   role         Role     @default(CUSTOMER)
-  passwordHash String?  @db.VarChar(255) // admin only
+  passwordHash String?  @db.VarChar(255) // admin and staff only
+  permissions  Json? // STAFF only: ["orders", "catalog", "customers", "reviews", "reports"]
+  isActive     Boolean  @default(true) // staff can be switched off without deleting their history
   createdAt    DateTime @default(now())
 
   addresses  Address[]
@@ -193,6 +197,7 @@ model Cart {
   couponCode  String?
   giftWrap    Boolean    @default(true)
   giftMessage String?    @db.Text
+  remindedAt  DateTime? // last abandoned-cart reminder
   updatedAt   DateTime   @updatedAt
   items       CartItem[]
 
@@ -267,15 +272,19 @@ model Order {
   shipping        Int           @default(0)
   codFee          Int           @default(0)
   giftWrap        Int           @default(0)
+  giftWrapped     Boolean       @default(false) // customer asked for gift wrap (it may be complimentary)
   total           Int
   couponId        String?
   coupon          Coupon?       @relation(fields: [couponId], references: [id])
   giftMessage     String?       @db.Text
+  discountNote    String?       @db.Text // what the discount was made of, e.g. "Buy 2 get 1 (₹499) · MERRY10 (₹300)"
+  source          String        @default("WEB") // WEB, or MANUAL for orders entered by staff
   createdAt       DateTime      @default(now())
   deliveredAt     DateTime?
 
   items     OrderItem[]
   events    OrderEvent[]
+  notes     OrderNote[]
   returns   ReturnRequest[]
   payments  Payment[]
   shipments Shipment[]
@@ -420,4 +429,40 @@ model AdminLoginAttempt {
 
   @@index([email, createdAt])
   @@index([ip, createdAt])
+}
+
+// Private staff notes on an order (never shown to the customer).
+model OrderNote {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  authorName String
+  text       String   @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([orderId, createdAt])
+}
+
+enum AutoDiscountType {
+  PERCENT // % off eligible items
+  FLAT // ₹ off when the conditions are met
+  BUY_X_GET_Y // buy X eligible items, get Y more at `value`% off (100 = free)
+  FREE_SHIPPING
+}
+
+// Discounts applied automatically in the cart, no code needed.
+model AutoDiscount {
+  id        String           @id @default(cuid())
+  name      String // shown to customers, e.g. "Buy 2 ornaments, get 1 free"
+  type      AutoDiscountType
+  value     Int              @default(0) // percent (PERCENT, BUY_X_GET_Y) or paise (FLAT)
+  buyQty    Int              @default(0) // BUY_X_GET_Y
+  getQty    Int              @default(0) // BUY_X_GET_Y
+  minQty    Int              @default(0) // eligible items needed
+  minAmount Int              @default(0) // paise of eligible items needed
+  scope     Json? // { productIds?: string[], categoryIds?: string[], bundleIds?: string[] }; empty = everything
+  startsAt  DateTime?
+  endsAt    DateTime?
+  isActive  Boolean          @default(true)
+  createdAt DateTime         @default(now())
 }

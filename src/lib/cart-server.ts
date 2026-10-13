@@ -1,6 +1,6 @@
 import "server-only";
 import type { Prisma } from "@prisma/client";
-import { cartTotals, evaluateCoupon, type CouponRule, type PricedLine } from "./cart-pricing";
+import { cartTotals, evaluateAutoDiscounts, evaluateCoupon, type AutoRule, type CouponRule, type PricedLine } from "./cart-pricing";
 import { db } from "./db";
 import { bundlePrice, byoPrice } from "./pricing";
 import { clearCartSession, getCartSessionId, getSession, newCartSessionId } from "./session";
@@ -61,6 +61,10 @@ export type CartView = {
   freeShippingRemaining: number;
   coupon: { code: string; description: string } | null;
   couponError: string | null;
+  /** Each saving, in order: automatic offers first, then the coupon. Free-shipping offers have amount 0. */
+  discounts: { label: string; amount: number }[];
+  /** Hint towards the nearest offer, e.g. "Add 1 more to unlock “Buy 2, get 1 free”". */
+  offerNudge: string | null;
   giftWrap: boolean;
   giftWrapPrice: number;
   giftMessage: string | null;
@@ -123,7 +127,7 @@ function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine; 
         maxQty: Math.max(1, Math.min(MAX_LINE_QTY, v.stock)),
         issue,
       },
-      priced: { lineTotal: v.price * qty, productIds: [p.id], bundleId: null },
+      priced: { lineTotal: v.price * qty, productIds: [p.id], bundleId: null, categoryIds: [p.categoryId], qty },
       components: [{ variantId: v.id, qty: 1 }],
     };
   }
@@ -151,7 +155,7 @@ function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine; 
         maxQty: Math.max(1, Math.min(MAX_LINE_QTY, maxByStock)),
         issue,
       },
-      priced: { lineTotal: price * qty, productIds: b.items.map((i) => i.variant.productId), bundleId: b.id },
+      priced: { lineTotal: price * qty, productIds: b.items.map((i) => i.variant.productId), bundleId: b.id, qty },
       components: b.items.map((i) => ({ variantId: i.variantId, qty: i.qty })),
     };
   }
@@ -186,6 +190,7 @@ function priceItem(row: CartItemRow): { view: CartLineView; priced: PricedLine; 
       lineTotal: total * qty,
       productIds: picks.map(([id]) => eligible.get(id)?.productId).filter((x): x is string => Boolean(x)),
       bundleId: b.id,
+      qty,
     },
     components: picks.map(([id, n]) => ({ variantId: id, qty: n })),
   };
@@ -216,13 +221,14 @@ async function buildView(cart: { id: string; userId: string | null; couponCode: 
   const priced = rows.map(priceItem);
   const lines = priced.map((p) => p.priced);
 
+  const auto = lines.length ? evaluateAutoDiscounts(await activeAutoRules(), lines, new Date()) : { discount: 0, freeShipping: false, applied: [], nudge: null };
   let coupon: CartView["coupon"] = null;
   let couponError: string | null = null;
-  let discount = 0;
+  let couponDiscount = 0;
   if (cart?.couponCode && lines.length) {
     const r = await couponFor(cart.couponCode, cart.userId, lines);
     if (r.ok) {
-      discount = r.discount;
+      couponDiscount = r.discount;
       coupon = { code: cart.couponCode, description: r.description };
     } else {
       coupon = { code: cart.couponCode, description: "" };
@@ -230,7 +236,8 @@ async function buildView(cart: { id: string; userId: string | null; couponCode: 
     }
   }
 
-  const totals = cartTotals(lines, discount, cart?.giftWrap ?? true, settings);
+  const totals = cartTotals(lines, auto.discount + couponDiscount, cart?.giftWrap ?? true, settings, auto.freeShipping);
+  const discounts = [...auto.applied, ...(coupon && !couponError && couponDiscount ? [{ label: `Code ${coupon.code}`, amount: couponDiscount }] : [])];
   return {
     items: priced.map((p) => p.view),
     count: priced.reduce((n, p) => n + p.view.qty, 0),
@@ -238,11 +245,19 @@ async function buildView(cart: { id: string; userId: string | null; couponCode: 
     freeShippingThreshold: settings.freeShippingThreshold,
     coupon,
     couponError,
+    discounts,
+    offerNudge: auto.nudge,
     giftWrap: cart?.giftWrap ?? true,
     giftWrapPrice: settings.giftWrapPrice,
     giftMessage: cart?.giftMessage ?? null,
     hasIssues: priced.some((p) => p.view.issue !== null),
   };
+}
+
+/** Automatic discounts that are switched on (dates are checked when evaluating). */
+async function activeAutoRules(): Promise<AutoRule[]> {
+  const rows = await db.autoDiscount.findMany({ where: { isActive: true } });
+  return rows.map((r) => ({ ...r, scope: (r.scope as AutoRule["scope"]) ?? null }));
 }
 
 export async function getCartView() {
@@ -411,4 +426,27 @@ export async function loadCheckout(userId: string) {
     ? (await db.coupon.findUnique({ where: { code: cart.couponCode }, select: { id: true } }))?.id ?? null
     : null;
   return { cart, view, lines, couponId };
+}
+
+// ── Abandoned carts (admin) ───────────────────────────────────────────────
+
+/** Signed-in customers' carts with items that haven't been touched for `idleHours`. Guest carts have no contact details, so they're left out. */
+export async function abandonedCarts(idleHours = 1, maxDays = 30) {
+  const now = Date.now();
+  const carts = await db.cart.findMany({
+    where: {
+      userId: { not: null },
+      items: { some: {} },
+      updatedAt: { lt: new Date(now - idleHours * 36e5), gt: new Date(now - maxDays * 864e5) },
+    },
+    include: { user: { select: { id: true, name: true, phone: true, email: true } } },
+    orderBy: { updatedAt: "desc" },
+    take: 200,
+  });
+  return Promise.all(
+    carts.map(async (c) => {
+      const view = await buildView(c);
+      return { id: c.id, updatedAt: c.updatedAt, remindedAt: c.remindedAt, user: c.user!, view };
+    }),
+  );
 }

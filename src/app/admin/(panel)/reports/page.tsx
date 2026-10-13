@@ -72,11 +72,23 @@ async function Reports({ searchParams }: Pick<PageProps<"/admin/reports">, "sear
           <input type="hidden" name="range" value="custom" />
           <label className="text-xs font-semibold text-muted">
             From
-            <input type="date" name="from" defaultValue={r.first} required className="mt-1 block h-10 rounded-sm border border-border bg-white px-2 text-sm text-text" />
+            <input
+              type="date"
+              name="from"
+              defaultValue={r.first}
+              required
+              className="mt-1 block h-10 rounded-sm border border-border bg-white px-2 text-sm text-text"
+            />
           </label>
           <label className="text-xs font-semibold text-muted">
             To
-            <input type="date" name="to" defaultValue={r.last} required className="mt-1 block h-10 rounded-sm border border-border bg-white px-2 text-sm text-text" />
+            <input
+              type="date"
+              name="to"
+              defaultValue={r.last}
+              required
+              className="mt-1 block h-10 rounded-sm border border-border bg-white px-2 text-sm text-text"
+            />
           </label>
           <button type="submit" className={cn(adminBtn(r.key === "custom" ? "primary" : "secondary"), "h-10")}>
             Apply
@@ -98,12 +110,24 @@ async function Reports({ searchParams }: Pick<PageProps<"/admin/reports">, "sear
       </div>
 
       <Panel title={d.step === 1 ? "Sales per day" : "Sales per week"} className="mt-6">
-        {d.now.orders === 0 ? <p className="py-10 text-center text-sm text-muted">No sales in this period.</p> : <SalesChart buckets={d.buckets} unit={d.step === 1 ? "day" : "week"} />}
+        {d.now.orders === 0 ? (
+          <p className="py-10 text-center text-sm text-muted">No sales in this period.</p>
+        ) : (
+          <SalesChart buckets={d.buckets} unit={d.step === 1 ? "day" : "week"} />
+        )}
       </Panel>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
-        <Breakdown title="Top products" rows={d.products.map((p) => ({ name: p.name, value: p.revenue, note: `${p.units} sold` }))} hint="Item value before order-level discounts" />
-        <Breakdown title="Sales by category" rows={d.categories.map((c) => ({ name: c.name, value: c.revenue, note: plural(c.units, "item") }))} hint="Item value before order-level discounts" />
+        <Breakdown
+          title="Top products"
+          rows={d.products.map((p) => ({ name: p.name, value: p.revenue, note: `${p.units} sold` }))}
+          hint="Item value before order-level discounts"
+        />
+        <Breakdown
+          title="Sales by category"
+          rows={d.categories.map((c) => ({ name: c.name, value: c.revenue, note: plural(c.units, "item") }))}
+          hint="Item value before order-level discounts"
+        />
         <Breakdown title="Payment method" rows={d.payments.map((p) => ({ name: p.name, value: p.revenue, note: plural(p.orders, "order") }))} />
         <Breakdown title="Top states" rows={d.states.map((s) => ({ name: s.name, value: s.revenue, note: plural(s.orders, "order") }))} />
         <Breakdown
@@ -151,7 +175,17 @@ function Small({ label, value, hint }: { label: string; value: string; hint?: st
 }
 
 /** Ranked horizontal bars, one hue, value at the bar's end. */
-function Breakdown({ title, rows, hint, empty = "No sales in this period." }: { title: string; rows: { name: string; value: number; note: string }[]; hint?: string; empty?: string }) {
+function Breakdown({
+  title,
+  rows,
+  hint,
+  empty = "No sales in this period.",
+}: {
+  title: string;
+  rows: { name: string; value: number; note: string }[];
+  hint?: string;
+  empty?: string;
+}) {
   const max = Math.max(...rows.map((r) => r.value), 1);
   return (
     <Panel title={title}>
