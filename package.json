@@ -13,7 +13,7 @@
     "db:seed": "prisma db seed",
     "postinstall": "prisma generate",
     "db:setup": "prisma migrate deploy && SEED_ONLY_IF_EMPTY=true prisma db seed",
-    "build:hosted": "npm run db:setup && next build"
+    "build:hosted": "npm run db:setup && TAILWIND_POSTCSS=1 next build --webpack"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -28,6 +28,8 @@
     "zod": "^4.6.6"
   },
   "devDependencies": {
+    "@next/swc-wasm-nodejs": "16.4.0",
+    "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^22.20.5",
     "@types/react": "^19",
