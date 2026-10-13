@@ -908,52 +908,6 @@ main:focus {
   }
 }
 
-/* ------------------------------------------------------------------ stats band */
-
-.stats {
-  padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
-  background: var(--grad-green);
-  color: var(--on-green-soft);
-}
-
-.stats__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem 1rem;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 0.35rem;
-  text-align: center;
-}
-
-.stat dd {
-  color: var(--gold-light);
-  font-family: var(--serif);
-  font-size: clamp(2.1rem, 1.6rem + 2vw, 3.25rem);
-  line-height: 1;
-}
-
-.stat dt {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
-
-@media (min-width: 768px) {
-  .stats__grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .stat + .stat {
-    border-left: 1px solid var(--line-light);
-  }
-}
-
 /* ------------------------------------------------------------------ what's inside */
 
 .inside__grid {
@@ -2341,6 +2295,12 @@ main:focus {
   left: 46%;
   width: 3.5rem;
   --r: 20deg;
+}
+
+@media (max-width: 959px) {
+  .drift--1 {
+    display: none;
+  }
 }
 
 .drift--2 {

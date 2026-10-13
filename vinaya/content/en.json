@@ -140,24 +140,6 @@
       "title": "A ritual *worth sharing.*",
       "text": "Our hair oil, a wooden comb and an illustrated story card, gathered in a sheer pouch."
     },
-    "stats": [
-      {
-        "value": "100%",
-        "label": "Botanical"
-      },
-      {
-        "value": "0",
-        "label": "Synthetics"
-      },
-      {
-        "value": "110 ml",
-        "label": "Per bottle"
-      },
-      {
-        "value": "India",
-        "label": "Made in"
-      }
-    ],
     "inside": {
       "eyebrow": "What’s inside",
       "title": "Simple, *botanical* ingredients.",

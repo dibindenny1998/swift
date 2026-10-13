@@ -14,16 +14,6 @@ function badge(ctx) {
 </div>`;
 }
 
-// Still band of product facts under the hero.
-function stats(ctx) {
-  return html`<section class="stats" aria-label="${ctx.tx('products.page.highlightsTitle')}">
-  <dl class="container stats__grid">
-${ctx.raw('home.stats').map(
-    (_, i) => `    <div class="stat" data-reveal style="--delay:${i * 120}ms"><dt>${ctx.t(`home.stats.${i}.label`)}</dt><dd>${ctx.t(`home.stats.${i}.value`)}</dd></div>\n`,
-  )}  </dl>
-</section>`;
-}
-
 // "What's inside": two ingredient close-ups and a closing "nothing synthetic" card.
 function inside(ctx) {
   const slots = ['home-coconut', 'home-leaves'];
@@ -83,8 +73,6 @@ export default function home(ctx) {
     </div>
   </div>
 </section>
-
-${stats(ctx)}
 
 <section class="section belief" aria-labelledby="belief-title">
   <div class="container container--narrow center">
