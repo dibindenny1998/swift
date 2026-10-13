@@ -4,7 +4,7 @@
 export default {
   // Final address of the website, without a trailing slash. Used for canonical URLs,
   // Open Graph tags and the sitemap.
-  siteUrl: 'https://[YOUR-DOMAIN]',
+  siteUrl: 'https://plum-dolphin-595156.hostingersite.com',
 
   // Where enquiry-form messages are delivered.
   contactEmail: '[EMAIL]',
