@@ -67,6 +67,37 @@
     if (desktop.addEventListener) desktop.addEventListener('change', closeOnDesktop);
   }
 
+  /* ---------------------------------------------------------------- parallax */
+
+  // Elements with data-parallax="<speed>" drift slightly as the page scrolls.
+  var floaters = doc.querySelectorAll('[data-parallax]');
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (floaters.length && !calm) {
+    var ticking = false;
+    var drift = function () {
+      var vh = window.innerHeight;
+      floaters.forEach(function (el) {
+        var box = el.getBoundingClientRect();
+        if (box.bottom < -200 || box.top > vh + 200) return;
+        var speed = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+        var offset = (box.top + box.height / 2 - vh / 2) * speed;
+        el.style.setProperty('--py', offset.toFixed(1) + 'px');
+      });
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(drift);
+        }
+      },
+      { passive: true }
+    );
+    drift();
+  }
+
   /* ---------------------------------------------------------------- reveal on scroll */
 
   var revealables = doc.querySelectorAll('[data-reveal]');

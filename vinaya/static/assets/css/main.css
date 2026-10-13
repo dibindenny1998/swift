@@ -809,6 +809,7 @@ main:focus {
 
 .hero__grid {
   position: relative;
+  z-index: 1;
   display: grid;
   gap: 3.5rem;
 }
@@ -2091,13 +2092,13 @@ main:focus {
 }
 
 /* ------------------------------------------------------------------ motion
-   Slow and quiet. Content is only hidden while JavaScript is running, and all of it
-   is switched off for visitors who prefer reduced motion. */
+   Content is only hidden while JavaScript is running. Visitors whose device asks for
+   reduced motion get soft fades only (no movement, no looping animation). */
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(1.25rem);
+    transform: translateY(2rem);
   }
   to {
     opacity: 1;
@@ -2105,12 +2106,36 @@ main:focus {
   }
 }
 
-@keyframes settle {
+@keyframes line-up {
   from {
-    transform: scale(1.08);
+    transform: translateY(110%);
   }
   to {
     transform: none;
+  }
+}
+
+@keyframes unveil {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
   }
 }
 
@@ -2128,30 +2153,116 @@ main:focus {
 
 @keyframes float {
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-10px);
   }
 }
 
-.hero-in {
-  animation: rise 1.6s var(--ease) both;
-  animation-delay: calc(var(--i, 0) * 160ms + 100ms);
+@keyframes sway {
+  0% {
+    transform: translate(0, 0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translate(14px, -18px) rotate(calc(var(--r, 0deg) + 12deg));
+  }
+  100% {
+    transform: translate(-8px, 10px) rotate(calc(var(--r, 0deg) - 8deg));
+  }
 }
 
-.hero-in .media img,
-.hero-in .placeholder {
-  animation: settle 3s var(--ease) both;
+/* Parallax: JavaScript sets --py; `translate` composes with other transforms. */
+[data-parallax] {
+  translate: 0 var(--py, 0);
+}
+
+.section__bg[data-parallax] {
+  inset: -14% 0;
+}
+
+/* Hero: headline rises line by line from behind a mask, photo unveils upwards. */
+.hero__title .line {
+  display: block;
+  overflow: hidden;
+  margin-inline: -0.15em;
+  padding: 0 0.15em 0.1em;
+}
+
+.hero__title .line > span {
+  display: block;
+  animation: line-up 1.3s var(--ease) both;
+  animation-delay: calc(var(--l, 0) * 160ms + 250ms);
+}
+
+.hero-in {
+  animation: rise 1.3s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 160ms + 150ms);
+}
+
+.hero-in .media {
+  animation: unveil 1.6s var(--ease) 0.35s both;
+}
+
+.hero-in .media img {
+  animation: settle 2.6s var(--ease) 0.35s both;
 }
 
 .badge {
-  animation: float 6s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
 }
 
+/* Drifting leaves in the hero */
+.drift {
+  position: absolute;
+  z-index: 0;
+  color: var(--leaf);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.drift .leaf {
+  width: 100%;
+  animation: sway 11s ease-in-out infinite alternate;
+}
+
+.drift--1 {
+  top: 18%;
+  left: 46%;
+  width: 3.5rem;
+  --r: 20deg;
+}
+
+.drift--2 {
+  bottom: 10%;
+  left: 4%;
+  width: 2.5rem;
+  color: var(--gold);
+  opacity: 0.45;
+}
+
+.drift--2 .leaf {
+  --r: -40deg;
+  animation-duration: 9s;
+}
+
+.drift--3 {
+  top: 12%;
+  right: 3%;
+  width: 2.75rem;
+  color: var(--gold);
+  opacity: 0.4;
+}
+
+.drift--3 .leaf {
+  --r: 70deg;
+  animation-duration: 13s;
+}
+
+/* Scroll reveals */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(1.75rem);
+  transform: translateY(2.5rem);
   transition:
-    opacity var(--slow) var(--ease) var(--delay, 0ms),
-    transform var(--slow) var(--ease) var(--delay, 0ms);
+    opacity 1.1s var(--ease) var(--delay, 0ms),
+    transform 1.1s var(--ease) var(--delay, 0ms);
 }
 
 .js [data-reveal].is-visible {
@@ -2165,9 +2276,19 @@ main:focus {
   transform: none;
 }
 
+/* Photos unveil with a curtain wipe and settle from a gentle zoom. */
+.js [data-reveal] .media {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.5s var(--ease) calc(var(--delay, 0ms) + 100ms);
+}
+
+.js [data-reveal].is-visible .media {
+  clip-path: inset(0 0 0 0);
+}
+
 .js [data-reveal] .media img {
-  transform: scale(1.08);
-  transition: transform 2.6s var(--ease) var(--delay, 0ms);
+  transform: scale(1.18);
+  transition: transform 2.4s var(--ease) var(--delay, 0ms);
 }
 
 .js [data-reveal].is-visible .media img {
@@ -2175,12 +2296,50 @@ main:focus {
 }
 
 .js .card[data-reveal].is-visible:hover .media img {
-  transform: scale(1.04);
-  transition-delay: 0ms;
+  transform: scale(1.05);
+  transition: transform 1.2s var(--ease);
 }
 
+/* Highlight tags pop in one after another. */
+.js [data-reveal] .specs li {
+  opacity: 0;
+  transform: translateY(0.75rem) scale(0.96);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+  transition-delay: calc(var(--n, 0) * 90ms + 250ms);
+}
+
+.js [data-reveal].is-visible .specs li {
+  opacity: 1;
+  transform: none;
+}
+
+/* Card hover */
 .js .tile[data-reveal].is-visible:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+}
+
+.tile__icon .leaf {
+  transition: transform 0.9s var(--ease);
+}
+
+.tile:hover .tile__icon .leaf {
+  transform: rotate(calc(var(--turn, 0deg) + 35deg)) scale(1.1);
+}
+
+.step__num {
+  transition: transform 0.8s var(--ease);
+}
+
+.step:hover .step__num {
+  transform: scale(1.15);
+}
+
+@media (min-width: 768px) {
+  .step:hover .step__num {
+    transform: translateX(-50%) scale(1.15);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2188,17 +2347,45 @@ main:focus {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
+  .badge,
+  .badge__ring,
+  .ticker__track,
+  .drift .leaf {
     animation: none !important;
-    transition: none !important;
+  }
+
+  [data-parallax] {
+    translate: none !important;
+  }
+
+  .hero-in,
+  .hero__title .line > span {
+    animation-name: fade;
+  }
+
+  .hero-in .media,
+  .hero-in .media img {
+    animation: none;
   }
 
   .js [data-reveal],
-  .js [data-reveal] .media img,
-  .js .steps::before {
-    opacity: 1;
+  .js [data-reveal] .specs li {
     transform: none;
+    transition: opacity 1s ease var(--delay, 0ms);
+  }
+
+  .js [data-reveal] .media {
+    clip-path: none;
+    transition: none;
+  }
+
+  .js [data-reveal] .media img {
+    transform: none;
+    transition: none;
+  }
+
+  .js .steps::before {
+    transform: none;
+    transition: none;
   }
 }

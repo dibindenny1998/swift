@@ -32,17 +32,24 @@ export default function home(ctx) {
 
   const body = html`
 <section class="hero" aria-labelledby="hero-title">
+  <span class="drift drift--1" data-parallax="-0.25" aria-hidden="true">${LEAF}</span>
+  <span class="drift drift--2" data-parallax="0.18" aria-hidden="true">${LEAF}</span>
+  <span class="drift drift--3" data-parallax="-0.12" aria-hidden="true">${LEAF}</span>
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="eyebrow hero-in" style="--i:0">${ctx.t('home.hero.eyebrow')}</p>
-      <h1 class="hero__title hero-in" id="hero-title" style="--i:1">${ctx.t('home.hero.title')}</h1>
+      <h1 class="hero__title" id="hero-title">${ctx
+        .t('home.hero.title')
+        .split('<br>')
+        .map((line, i) => `<span class="line"><span style="--l:${i}">${line}</span></span>`)
+        .join('')}</h1>
       <p class="lead hero-in" style="--i:2">${ctx.t('home.hero.text')}</p>
       <div class="actions hero-in" style="--i:3">
         <a class="btn btn--solid" href="${ctx.link('products/')}">${ctx.t('cta.discover')}</a>
         <a class="link" href="${ctx.link('export/')}">${ctx.t('cta.partner')}</a>
       </div>
     </div>
-    <div class="hero__visual hero-in" style="--i:2">
+    <div class="hero__visual hero-in" style="--i:2" data-parallax="-0.08">
       ${image(ctx, 'home-hero', { eager: true, arch: true, sizes: '(min-width: 960px) 40vw, 92vw' })}
       ${badge(ctx)}
     </div>
@@ -83,7 +90,7 @@ ${ticker(ctx)}
 </section>
 
 <section class="section section--photo source" aria-labelledby="source-title">
-  <div class="section__bg">${image(ctx, 'home-source', { decorative: true, sizes: '100vw' })}</div>
+  <div class="section__bg" data-parallax="0.12">${image(ctx, 'home-source', { decorative: true, sizes: '100vw' })}</div>
   <div class="container">
     <header class="section-head center">
       <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.source.eyebrow')}</p>

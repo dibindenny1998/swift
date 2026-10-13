@@ -47,7 +47,7 @@ export function productCard(ctx, product, { headingLevel = 2, delay = 0 } = {}) 
 
 export function highlights(ctx, product) {
   return html`<ul class="specs">
-${ctx.list(`products.items.${product.slug}.highlights`).map((item) => `  <li>${item}</li>\n`)}</ul>`;
+${ctx.list(`products.items.${product.slug}.highlights`).map((item, i) => `  <li style="--n:${i}">${item}</li>\n`)}</ul>`;
 }
 
 export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
