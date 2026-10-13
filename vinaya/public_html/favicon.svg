@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Temporary monogram. Replace with the Vinaya logo when it is supplied. -->
+  <rect width="64" height="64" rx="14" fill="#22392b"/>
+  <path d="M17 17h10.5v1.6l-3.3.5 8.3 21.6 8.1-21.6-3.4-.5V17H47v1.6l-2.6.5L33.6 47h-3.4L19.6 19.1 17 18.6z" fill="#f4f0e6"/>
+</svg>

@@ -1,0 +1,347 @@
+{
+  "lang": {
+    "code": "en",
+    "locale": "en_GB",
+    "short": "EN",
+    "name": "English",
+    "switchLabel": "Read this page in English"
+  },
+
+  "site": {
+    "name": "Vinaya",
+    "slogan": "The Best of Nature, for the Best of You.",
+    "tagline": "Natural personal care from India"
+  },
+
+  "nav": {
+    "skip": "Skip to content",
+    "primary": "Main navigation",
+    "home": "Home",
+    "story": "Our Story",
+    "products": "Products",
+    "export": "Partner With Us",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Language",
+    "breadcrumb": "Breadcrumb"
+  },
+
+  "cta": {
+    "enquire": "Send an enquiry",
+    "partner": "Partner with us",
+    "readStory": "Read our story",
+    "viewDetails": "View details",
+    "allProducts": "View all products",
+    "discover": "Discover the collection"
+  },
+
+  "band": {
+    "eyebrow": "For importers, distributors and retailers",
+    "title": "Bring Vinaya to your market.",
+    "text": "We are building long-term partnerships around the world.",
+    "primary": "Send an enquiry",
+    "secondary": "Export information"
+  },
+
+  "footer": {
+    "tagline": "Natural personal care, rooted in Indian tradition.",
+    "explore": "Explore",
+    "reach": "Get in touch",
+    "origin": "Product of India",
+    "rights": "All rights reserved."
+  },
+
+  "placeholder": {
+    "image": "Image to come",
+    "file": "File"
+  },
+
+  "images": {
+    "home-hero": "Vinaya Hair Oil bottle resting among fresh green leaves",
+    "story-hero": "Green leaves and coconut palms in a garden in India",
+    "story-garden": "Close view of fresh green leaves used in Vinaya Hair Oil",
+    "story-hands": "Hands preparing natural ingredients in a home in India",
+    "export-hero": "Vinaya products packed and ready for shipment",
+    "products/hair-oil": "Vinaya Hair Oil, Green Leaves & Coconut Oil, 110 ml bottle",
+    "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch"
+  },
+
+  "meta": {
+    "home": {
+      "title": "Vinaya | The Best of Nature, for the Best of You",
+      "description": "Vinaya makes natural personal care rooted in traditional Indian knowledge. 100% botanical hair oil and gift sets, made in India. Export enquiries welcome."
+    },
+    "story": {
+      "title": "Our Story | Vinaya",
+      "description": "Vinaya is rooted in a simple belief: nature has always been a part of how we care for ourselves. Read the story behind our natural personal care."
+    },
+    "products": {
+      "title": "Products | Vinaya",
+      "description": "Natural personal care products from India: Vinaya Hair Oil with green leaves and coconut oil, and the Vinaya Gift Set."
+    },
+    "export": {
+      "title": "Partner With Us | Export | Vinaya",
+      "description": "Vinaya works with importers, distributors and retailers worldwide. Markets, minimum order quantities, private label, packaging and shipping."
+    },
+    "contact": {
+      "title": "Contact | Vinaya",
+      "description": "Send a trade enquiry to Vinaya. Reach us by form, email or WhatsApp."
+    },
+    "notFound": {
+      "title": "Page not found | Vinaya",
+      "description": "This page could not be found."
+    }
+  },
+
+  "home": {
+    "hero": {
+      "eyebrow": "Natural personal care · India",
+      "title": "The Best of Nature,\nfor the Best of You.",
+      "text": "Personal care rooted in natural ingredients and traditional Indian knowledge."
+    },
+    "belief": {
+      "eyebrow": "Our belief",
+      "quote": "Nature has always been a part of how we care for ourselves.",
+      "text": "Across India, generations have cared for themselves with natural ingredients and knowledge kept alive at home. Vinaya brings that connection back, in a way that fits life today."
+    },
+    "featured": {
+      "eyebrow": "Featured"
+    },
+    "source": {
+      "eyebrow": "Our journey",
+      "title": "From the Source to You",
+      "intro": "We stay close to the source, understand each ingredient and keep the journey to you clear.",
+      "steps": [
+        { "title": "Nature", "text": "It begins with natural ingredients, and knowing where they come from." },
+        { "title": "Tradition", "text": "Guided by knowledge kept alive in Indian homes for generations." },
+        { "title": "You", "text": "A clear journey from the source into your everyday care." }
+      ],
+      "closing": "What begins in nature should not lose its connection to nature along the way."
+    },
+    "approach": {
+      "eyebrow": "The Vinaya Approach",
+      "title": "Inspired by nature and tradition.",
+      "intro": "Bringing the best of nature back into everyday life, from hair and skin to other forms of personal care.",
+      "pillars": [
+        { "title": "Simplicity", "text": "Care that feels clear, honest and unhurried." },
+        { "title": "Care", "text": "Respect for every ingredient, and the knowledge behind it." },
+        { "title": "Purpose", "text": "Bringing nature back into the everyday." }
+      ]
+    },
+    "gift": {
+      "eyebrow": "The Gift Set",
+      "title": "A ritual worth sharing.",
+      "text": "Our hair oil, a wooden comb and an illustrated story card, gathered in a sheer pouch."
+    }
+  },
+
+  "story": {
+    "eyebrow": "Our Story",
+    "title": "Rooted in a simple belief.",
+    "lead": "Nature has always been a part of how we care for ourselves.",
+    "chapters": [
+      {
+        "label": "Heritage",
+        "paragraphs": [
+          "Across India, generations have used natural ingredients and traditional knowledge in everyday beauty and personal care."
+        ]
+      },
+      {
+        "label": "Change",
+        "paragraphs": [
+          "Modern lifestyles brought convenience, but moved us away from many of these practices."
+        ],
+        "quote": "Much of that knowledge still lives in homes, gardens and local communities."
+      },
+      {
+        "label": "Reconnection",
+        "paragraphs": [
+          "Vinaya is about finding that connection again.",
+          "Bringing together natural ingredients, traditional knowledge and time-tested practices, in a way that feels relevant to life today."
+        ]
+      }
+    ],
+    "value": "The value lies not only in the ingredients, but in understanding where they come from and respecting the knowledge behind them.",
+    "source": {
+      "label": "From the Source to You",
+      "paragraphs": [
+        "Vinaya aims to stay close to the source.",
+        "To understand the ingredients, to respect the knowledge behind them, and to keep the journey to the customer clear."
+      ],
+      "quote": "What begins in nature should not lose its connection to nature along the way."
+    },
+    "approach": {
+      "label": "The Vinaya Approach",
+      "paragraphs": [
+        "Personal care inspired by nature and tradition.",
+        "Bringing the best of nature back into everyday life with simplicity, care and purpose, from hair and skin to other forms of personal care."
+      ]
+    },
+    "closing": "The Best of Nature, for the Best of You."
+  },
+
+  "products": {
+    "page": {
+      "eyebrow": "Products",
+      "title": "Made with nature, in India.",
+      "intro": "A small, considered collection. More is on the way.",
+      "comingSoonTitle": "Coming soon",
+      "comingSoon": "Skin care and other personal care products will join the collection.",
+      "detailsTitle": "Product details",
+      "highlightsTitle": "At a glance",
+      "enquire": "Enquire about this product",
+      "enquireNote": "For trade terms, samples and availability, contact our export team.",
+      "exportLink": "Export information",
+      "back": "All products",
+      "more": "Also from Vinaya"
+    },
+    "categories": {
+      "hair": "Hair care",
+      "skin": "Skin care",
+      "gift": "Gift set"
+    },
+    "labels": {
+      "contents": "In the set",
+      "ingredients": "Ingredients",
+      "size": "Size",
+      "shelfLife": "Shelf life",
+      "usage": "How to use",
+      "packaging": "Packaging",
+      "origin": "Origin"
+    },
+    "items": {
+      "hair-oil": {
+        "name": "Hair Oil",
+        "variant": "Green Leaves & Coconut Oil",
+        "short": "A 100% botanical hair oil of green leaves and coconut oil.",
+        "description": [
+          "Green leaves and coconut oil, brought together in a hair oil with zero synthetics.",
+          "Inspired by the way hair has long been cared for in Indian homes."
+        ],
+        "highlights": ["110 ml", "100% Botanical", "Zero Synthetics", "Product of India"],
+        "specs": {
+          "ingredients": "Green leaves and coconut oil. [PLACEHOLDER: full ingredient list]",
+          "size": "110 ml",
+          "shelfLife": "[PLACEHOLDER]",
+          "usage": "[PLACEHOLDER]",
+          "packaging": "[PLACEHOLDER: bottle material, closure and outer packaging]",
+          "origin": "Product of India"
+        }
+      },
+      "gift-set": {
+        "name": "Gift Set",
+        "variant": "Hair Oil, Comb & Story Card",
+        "short": "Our hair oil, a wooden comb and an illustrated story card in a sheer pouch.",
+        "description": [
+          "Everything needed for a simple hair care ritual, gathered in one sheer pouch.",
+          "The illustrated story card shares the story behind Vinaya."
+        ],
+        "highlights": ["Hair Oil, 110 ml", "Wooden comb", "Illustrated story card", "Sheer pouch"],
+        "specs": {
+          "contents": "Vinaya Hair Oil (110 ml), wooden comb, illustrated story card.",
+          "ingredients": "Hair Oil: green leaves and coconut oil. [PLACEHOLDER: full ingredient list]",
+          "size": "Hair Oil 110 ml. [PLACEHOLDER: comb and pouch dimensions]",
+          "shelfLife": "[PLACEHOLDER]",
+          "usage": "[PLACEHOLDER]",
+          "packaging": "Sheer pouch. [PLACEHOLDER: further packaging details]",
+          "origin": "Product of India"
+        }
+      }
+    }
+  },
+
+  "export": {
+    "eyebrow": "Partner With Us",
+    "title": "Bring Vinaya to your market.",
+    "intro": "We work with importers, distributors and retailers who share our respect for nature and tradition.",
+    "who": {
+      "title": "Who we work with",
+      "items": [
+        { "title": "Importers", "text": "Bringing natural Indian personal care into new countries." },
+        { "title": "Distributors", "text": "Regional and national partners with established networks." },
+        { "title": "Retailers", "text": "Specialty stores, boutiques and online shops." }
+      ]
+    },
+    "details": {
+      "title": "Trade information",
+      "note": "Details are being finalised. Ask us for the latest information.",
+      "items": [
+        { "title": "Markets", "text": "[PLACEHOLDER: current and target markets]" },
+        { "title": "Minimum order quantity", "text": "[PLACEHOLDER: MOQ per product]" },
+        { "title": "Private label", "text": "[PLACEHOLDER: availability and terms]" },
+        { "title": "Certifications", "text": "[PLACEHOLDER: certifications and registrations]" },
+        { "title": "Packaging", "text": "[PLACEHOLDER: retail packaging, units per carton, carton size]" },
+        { "title": "Shipping", "text": "[PLACEHOLDER: Incoterms, port of dispatch, lead times]" }
+      ]
+    },
+    "cta": {
+      "title": "Ready to begin?",
+      "text": "Tell us about your market. We will take it from there."
+    },
+    "steps": {
+      "title": "How to begin",
+      "items": [
+        { "title": "Enquire", "text": "Tell us about your company, your market and the products you are interested in." },
+        { "title": "Discuss", "text": "We share product information and talk through your requirements." },
+        { "title": "Partner", "text": "Together we agree the details and plan your first order." }
+      ]
+    }
+  },
+
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let’s talk.",
+    "intro": "Tell us about your business and what you are looking for.",
+    "formTitle": "Enquiry form",
+    "form": {
+      "name": "Name",
+      "company": "Company",
+      "country": "Country",
+      "email": "Email",
+      "phone": "Phone / WhatsApp",
+      "interest": "Product interest",
+      "quantity": "Estimated quantity",
+      "message": "Message",
+      "required": "required",
+      "optional": "optional",
+      "interestPlaceholder": "Select",
+      "interestAll": "All products",
+      "interestPrivateLabel": "Private label",
+      "interestOther": "Other",
+      "quantityHint": "For example: 1,000 units per month",
+      "phoneHint": "Include your country code",
+      "submit": "Send enquiry",
+      "sending": "Sending…",
+      "privacy": "We use your details only to reply to your enquiry."
+    },
+    "errors": {
+      "required": "Please fill in this field.",
+      "email": "Please enter a valid email address.",
+      "phone": "Please enter a valid phone number.",
+      "summary": "Please check the highlighted fields.",
+      "server": "Your enquiry could not be sent. Please try again, or email us directly.",
+      "notConfigured": "The form is not active yet. Please email us directly."
+    },
+    "success": {
+      "title": "Thank you.",
+      "text": "Your enquiry has been sent. We will be in touch soon.",
+      "again": "Send another enquiry"
+    },
+    "direct": {
+      "title": "Write to us directly",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "whatsappText": "Message us on WhatsApp",
+      "location": "Location",
+      "locationText": "India"
+    }
+  },
+
+  "notFound": {
+    "eyebrow": "404",
+    "title": "This page could not be found.",
+    "text": "It may have moved, or the address may be mistyped.",
+    "home": "Return home"
+  }
+}

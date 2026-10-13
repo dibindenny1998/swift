@@ -1,0 +1,349 @@
+{
+  "_note": "DRAFT French translation. Have a native speaker review before launch. Any key left empty (or removed) falls back to English when you build.",
+
+  "lang": {
+    "code": "fr",
+    "locale": "fr_FR",
+    "short": "FR",
+    "name": "Français",
+    "switchLabel": "Lire cette page en français"
+  },
+
+  "site": {
+    "name": "Vinaya",
+    "slogan": "Le meilleur de la nature, pour le meilleur de vous.",
+    "tagline": "Soins naturels venus d’Inde"
+  },
+
+  "nav": {
+    "skip": "Aller au contenu",
+    "primary": "Navigation principale",
+    "home": "Accueil",
+    "story": "Notre histoire",
+    "products": "Produits",
+    "export": "Devenir partenaire",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Fermer",
+    "language": "Langue",
+    "breadcrumb": "Fil d’Ariane"
+  },
+
+  "cta": {
+    "enquire": "Envoyer une demande",
+    "partner": "Devenir partenaire",
+    "readStory": "Lire notre histoire",
+    "viewDetails": "Voir le produit",
+    "allProducts": "Voir tous les produits",
+    "discover": "Découvrir la collection"
+  },
+
+  "band": {
+    "eyebrow": "Pour importateurs, distributeurs et détaillants",
+    "title": "Faites découvrir Vinaya sur votre marché.",
+    "text": "Nous construisons des partenariats durables à travers le monde.",
+    "primary": "Envoyer une demande",
+    "secondary": "Informations export"
+  },
+
+  "footer": {
+    "tagline": "Des soins naturels, ancrés dans la tradition indienne.",
+    "explore": "Explorer",
+    "reach": "Nous contacter",
+    "origin": "Produit en Inde",
+    "rights": "Tous droits réservés."
+  },
+
+  "placeholder": {
+    "image": "Image à venir",
+    "file": "Fichier"
+  },
+
+  "images": {
+    "home-hero": "Flacon d’huile capillaire Vinaya posé parmi des feuilles vertes fraîches",
+    "story-hero": "Feuilles vertes et cocotiers dans un jardin en Inde",
+    "story-garden": "Gros plan sur les feuilles vertes utilisées dans l’huile capillaire Vinaya",
+    "story-hands": "Des mains préparant des ingrédients naturels dans une maison en Inde",
+    "export-hero": "Produits Vinaya emballés et prêts à l’expédition",
+    "products/hair-oil": "Huile capillaire Vinaya, feuilles vertes et huile de coco, flacon de 110 ml",
+    "products/gift-set": "Coffret Vinaya : huile capillaire, peigne en bois et carte illustrée dans une pochette transparente"
+  },
+
+  "meta": {
+    "home": {
+      "title": "Vinaya | Le meilleur de la nature, pour le meilleur de vous",
+      "description": "Vinaya crée des soins naturels ancrés dans le savoir traditionnel indien. Huile capillaire 100 % botanique et coffrets, fabriqués en Inde. Demandes export bienvenues."
+    },
+    "story": {
+      "title": "Notre histoire | Vinaya",
+      "description": "Vinaya repose sur une conviction simple : la nature a toujours fait partie de la façon dont nous prenons soin de nous."
+    },
+    "products": {
+      "title": "Produits | Vinaya",
+      "description": "Soins naturels venus d’Inde : l’huile capillaire Vinaya aux feuilles vertes et à l’huile de coco, et le coffret Vinaya."
+    },
+    "export": {
+      "title": "Devenir partenaire | Export | Vinaya",
+      "description": "Vinaya travaille avec des importateurs, distributeurs et détaillants du monde entier. Marchés, quantités minimales, marque blanche, emballage et expédition."
+    },
+    "contact": {
+      "title": "Contact | Vinaya",
+      "description": "Envoyez une demande professionnelle à Vinaya, par formulaire, e-mail ou WhatsApp."
+    },
+    "notFound": {
+      "title": "Page introuvable | Vinaya",
+      "description": "Cette page est introuvable."
+    }
+  },
+
+  "home": {
+    "hero": {
+      "eyebrow": "Soins naturels · Inde",
+      "title": "Le meilleur de la nature,\npour le meilleur de vous.",
+      "text": "Des soins ancrés dans les ingrédients naturels et le savoir traditionnel indien."
+    },
+    "belief": {
+      "eyebrow": "Notre conviction",
+      "quote": "La nature a toujours fait partie de la façon dont nous prenons soin de nous.",
+      "text": "En Inde, des générations ont pris soin d’elles grâce aux ingrédients naturels et à un savoir transmis à la maison. Vinaya renoue avec ce lien, d’une manière adaptée à la vie d’aujourd’hui."
+    },
+    "featured": {
+      "eyebrow": "À la une"
+    },
+    "source": {
+      "eyebrow": "Notre chemin",
+      "title": "De la source jusqu’à vous",
+      "intro": "Nous restons proches de la source, comprenons chaque ingrédient et gardons un chemin clair jusqu’à vous.",
+      "steps": [
+        { "title": "Nature", "text": "Tout commence par des ingrédients naturels, et par savoir d’où ils viennent." },
+        { "title": "Tradition", "text": "Guidés par un savoir transmis depuis des générations dans les foyers indiens." },
+        { "title": "Vous", "text": "Un chemin clair, de la source jusqu’à vos soins du quotidien." }
+      ],
+      "closing": "Ce qui naît de la nature ne devrait pas perdre son lien avec elle en chemin."
+    },
+    "approach": {
+      "eyebrow": "L’approche Vinaya",
+      "title": "Inspirée par la nature et la tradition.",
+      "intro": "Ramener le meilleur de la nature dans la vie de tous les jours, des cheveux à la peau et au-delà.",
+      "pillars": [
+        { "title": "Simplicité", "text": "Des soins clairs, honnêtes et sans hâte." },
+        { "title": "Attention", "text": "Le respect de chaque ingrédient, et du savoir qui l’accompagne." },
+        { "title": "Sens", "text": "Ramener la nature dans le quotidien." }
+      ]
+    },
+    "gift": {
+      "eyebrow": "Le coffret",
+      "title": "Un rituel à partager.",
+      "text": "Notre huile capillaire, un peigne en bois et une carte illustrée, réunis dans une pochette transparente."
+    }
+  },
+
+  "story": {
+    "eyebrow": "Notre histoire",
+    "title": "Ancrée dans une conviction simple.",
+    "lead": "La nature a toujours fait partie de la façon dont nous prenons soin de nous.",
+    "chapters": [
+      {
+        "label": "Héritage",
+        "paragraphs": [
+          "En Inde, des générations ont utilisé les ingrédients naturels et le savoir traditionnel dans leurs soins de beauté et d’hygiène du quotidien."
+        ]
+      },
+      {
+        "label": "Changement",
+        "paragraphs": [
+          "Les modes de vie modernes ont apporté le confort, mais nous ont éloignés de bon nombre de ces pratiques."
+        ],
+        "quote": "Une grande partie de ce savoir vit encore dans les foyers, les jardins et les communautés locales."
+      },
+      {
+        "label": "Retrouvailles",
+        "paragraphs": [
+          "Vinaya, c’est retrouver ce lien.",
+          "Réunir ingrédients naturels, savoir traditionnel et pratiques éprouvées, d’une manière qui a du sens dans la vie d’aujourd’hui."
+        ]
+      }
+    ],
+    "value": "La valeur ne réside pas seulement dans les ingrédients, mais dans la connaissance de leur origine et le respect du savoir qui les accompagne.",
+    "source": {
+      "label": "De la source jusqu’à vous",
+      "paragraphs": [
+        "Vinaya veut rester proche de la source.",
+        "Comprendre les ingrédients, respecter le savoir qui les accompagne et garder un chemin clair jusqu’au client."
+      ],
+      "quote": "Ce qui naît de la nature ne devrait pas perdre son lien avec elle en chemin."
+    },
+    "approach": {
+      "label": "L’approche Vinaya",
+      "paragraphs": [
+        "Des soins inspirés par la nature et la tradition.",
+        "Ramener le meilleur de la nature dans la vie de tous les jours, avec simplicité, attention et sens, des cheveux à la peau et au-delà."
+      ]
+    },
+    "closing": "Le meilleur de la nature, pour le meilleur de vous."
+  },
+
+  "products": {
+    "page": {
+      "eyebrow": "Produits",
+      "title": "Façonnés par la nature, en Inde.",
+      "intro": "Une collection courte et réfléchie. D’autres produits arrivent.",
+      "comingSoonTitle": "Bientôt",
+      "comingSoon": "Des soins pour la peau et d’autres produits d’hygiène rejoindront la collection.",
+      "detailsTitle": "Détails du produit",
+      "highlightsTitle": "En bref",
+      "enquire": "Demande sur ce produit",
+      "enquireNote": "Pour les conditions commerciales, les échantillons et la disponibilité, contactez notre équipe export.",
+      "exportLink": "Informations export",
+      "back": "Tous les produits",
+      "more": "Également chez Vinaya"
+    },
+    "categories": {
+      "hair": "Soin des cheveux",
+      "skin": "Soin de la peau",
+      "gift": "Coffret"
+    },
+    "labels": {
+      "contents": "Dans le coffret",
+      "ingredients": "Ingrédients",
+      "size": "Contenance",
+      "shelfLife": "Durée de conservation",
+      "usage": "Utilisation",
+      "packaging": "Emballage",
+      "origin": "Origine"
+    },
+    "items": {
+      "hair-oil": {
+        "name": "Huile capillaire",
+        "variant": "Feuilles vertes & huile de coco",
+        "short": "Une huile capillaire 100 % botanique aux feuilles vertes et à l’huile de coco.",
+        "description": [
+          "Feuilles vertes et huile de coco, réunies dans une huile capillaire sans aucun ingrédient de synthèse.",
+          "Inspirée de la façon dont on prend soin des cheveux depuis longtemps dans les foyers indiens."
+        ],
+        "highlights": ["110 ml", "100 % botanique", "Zéro synthétique", "Produit en Inde"],
+        "specs": {
+          "ingredients": "Feuilles vertes et huile de coco. [PLACEHOLDER: liste complète des ingrédients]",
+          "size": "110 ml",
+          "shelfLife": "[PLACEHOLDER]",
+          "usage": "[PLACEHOLDER]",
+          "packaging": "[PLACEHOLDER: matériau du flacon, bouchon et emballage extérieur]",
+          "origin": "Produit en Inde"
+        }
+      },
+      "gift-set": {
+        "name": "Coffret",
+        "variant": "Huile, peigne & carte illustrée",
+        "short": "Notre huile capillaire, un peigne en bois et une carte illustrée dans une pochette transparente.",
+        "description": [
+          "Tout le nécessaire pour un rituel capillaire simple, réuni dans une pochette transparente.",
+          "La carte illustrée raconte l’histoire de Vinaya."
+        ],
+        "highlights": ["Huile capillaire, 110 ml", "Peigne en bois", "Carte illustrée", "Pochette transparente"],
+        "specs": {
+          "contents": "Huile capillaire Vinaya (110 ml), peigne en bois, carte illustrée.",
+          "ingredients": "Huile capillaire : feuilles vertes et huile de coco. [PLACEHOLDER: liste complète des ingrédients]",
+          "size": "Huile capillaire 110 ml. [PLACEHOLDER: dimensions du peigne et de la pochette]",
+          "shelfLife": "[PLACEHOLDER]",
+          "usage": "[PLACEHOLDER]",
+          "packaging": "Pochette transparente. [PLACEHOLDER: autres détails d’emballage]",
+          "origin": "Produit en Inde"
+        }
+      }
+    }
+  },
+
+  "export": {
+    "eyebrow": "Devenir partenaire",
+    "title": "Faites découvrir Vinaya sur votre marché.",
+    "intro": "Nous travaillons avec des importateurs, distributeurs et détaillants qui partagent notre respect de la nature et de la tradition.",
+    "who": {
+      "title": "Avec qui nous travaillons",
+      "items": [
+        { "title": "Importateurs", "text": "Pour faire découvrir les soins naturels indiens dans de nouveaux pays." },
+        { "title": "Distributeurs", "text": "Des partenaires régionaux et nationaux dotés de réseaux établis." },
+        { "title": "Détaillants", "text": "Boutiques spécialisées, concept stores et boutiques en ligne." }
+      ]
+    },
+    "details": {
+      "title": "Informations commerciales",
+      "note": "Ces informations sont en cours de finalisation. Demandez-nous les plus récentes.",
+      "items": [
+        { "title": "Marchés", "text": "[PLACEHOLDER: marchés actuels et visés]" },
+        { "title": "Quantité minimale de commande", "text": "[PLACEHOLDER: MOQ par produit]" },
+        { "title": "Marque blanche", "text": "[PLACEHOLDER: disponibilité et conditions]" },
+        { "title": "Certifications", "text": "[PLACEHOLDER: certifications et enregistrements]" },
+        { "title": "Emballage", "text": "[PLACEHOLDER: emballage de vente, unités par carton, dimensions du carton]" },
+        { "title": "Expédition", "text": "[PLACEHOLDER: Incoterms, port de départ, délais]" }
+      ]
+    },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "text": "Parlez-nous de votre marché. Nous nous occupons du reste."
+    },
+    "steps": {
+      "title": "Pour commencer",
+      "items": [
+        { "title": "Demander", "text": "Parlez-nous de votre entreprise, de votre marché et des produits qui vous intéressent." },
+        { "title": "Échanger", "text": "Nous partageons les informations produits et étudions vos besoins." },
+        { "title": "S’associer", "text": "Ensemble, nous fixons les détails et préparons votre première commande." }
+      ]
+    }
+  },
+
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Parlons-en.",
+    "intro": "Parlez-nous de votre activité et de ce que vous recherchez.",
+    "formTitle": "Formulaire de demande",
+    "form": {
+      "name": "Nom",
+      "company": "Société",
+      "country": "Pays",
+      "email": "E-mail",
+      "phone": "Téléphone / WhatsApp",
+      "interest": "Produit concerné",
+      "quantity": "Quantité estimée",
+      "message": "Message",
+      "required": "obligatoire",
+      "optional": "facultatif",
+      "interestPlaceholder": "Choisir",
+      "interestAll": "Tous les produits",
+      "interestPrivateLabel": "Marque blanche",
+      "interestOther": "Autre",
+      "quantityHint": "Par exemple : 1 000 unités par mois",
+      "phoneHint": "Indiquez l’indicatif de votre pays",
+      "submit": "Envoyer la demande",
+      "sending": "Envoi…",
+      "privacy": "Vos coordonnées servent uniquement à répondre à votre demande."
+    },
+    "errors": {
+      "required": "Veuillez remplir ce champ.",
+      "email": "Veuillez saisir une adresse e-mail valide.",
+      "phone": "Veuillez saisir un numéro de téléphone valide.",
+      "summary": "Veuillez vérifier les champs signalés.",
+      "server": "Votre demande n’a pas pu être envoyée. Réessayez ou écrivez-nous directement.",
+      "notConfigured": "Le formulaire n’est pas encore actif. Écrivez-nous directement."
+    },
+    "success": {
+      "title": "Merci.",
+      "text": "Votre demande a bien été envoyée. Nous revenons vers vous rapidement.",
+      "again": "Envoyer une autre demande"
+    },
+    "direct": {
+      "title": "Écrivez-nous directement",
+      "email": "E-mail",
+      "whatsapp": "WhatsApp",
+      "whatsappText": "Nous écrire sur WhatsApp",
+      "location": "Localisation",
+      "locationText": "Inde"
+    }
+  },
+
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Cette page est introuvable.",
+    "text": "Elle a peut-être été déplacée, ou l’adresse contient une erreur.",
+    "home": "Retour à l’accueil"
+  }
+}
