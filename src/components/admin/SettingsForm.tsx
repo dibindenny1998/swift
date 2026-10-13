@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { INDIAN_STATES } from "@/lib/india";
 import type { SiteSettings } from "@/lib/settings";
+import { ImageManager } from "./ImageManager";
 import { adminFetch, MoneyField, SaveBar, SelectField, TextArea, TextField, Toggle } from "./fields";
 import { adminBtn, Panel } from "./ui";
 
@@ -47,6 +49,31 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
             <TextField label="Facebook URL" value={s.social.facebook ?? ""} onChange={(e) => set("social", { ...s.social, facebook: e.target.value })} />
             <TextField label="YouTube URL" value={s.social.youtube ?? ""} onChange={(e) => set("social", { ...s.social, youtube: e.target.value })} />
           </div>
+        </div>
+      </Panel>
+
+      <Panel title="Site images">
+        <div className="grid gap-4">
+          <div>
+            <p className="text-sm font-semibold">Home page hero photo</p>
+            <p className="mb-3 mt-0.5 text-xs text-muted">Shown inside the gold arch. Use a tall photo, about 3 : 4 (e.g. 900 × 1200 px). Remove it to go back to the gold tree illustration.</p>
+            <ImageManager
+              max={1}
+              images={s.heroImage ? [{ url: s.heroImage, alt: s.heroImageAlt }] : []}
+              onChange={(imgs) => setS((x) => ({ ...x, heroImage: imgs[0]?.url ?? "", heroImageAlt: imgs[0]?.alt ?? "" }))}
+            />
+          </div>
+          <ul className="grid gap-1.5 border-t border-divider pt-4 text-sm">
+            <li>
+              Category tiles → <Link href="/admin/products/categories" className="font-semibold text-green-300">Products › Categories</Link>
+            </li>
+            <li>
+              Product photos → open the product in <Link href="/admin/products" className="font-semibold text-green-300">Products</Link>
+            </li>
+            <li>
+              Kit photos → open the kit in <Link href="/admin/bundles" className="font-semibold text-green-300">Bundles &amp; offers</Link>
+            </li>
+          </ul>
         </div>
       </Panel>
 

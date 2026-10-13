@@ -41,10 +41,12 @@ export function Footer({ lastOrderDate, showMascot, social = {} }: { lastOrderDa
         </div>
 
         {showMascot && (
-          <div className="relative -mr-6 mt-2 flex h-[230px] items-end justify-end md:mr-0 md:self-end">
-            <div aria-hidden className="absolute -right-16 bottom-0 h-12 w-[300px] rounded-[50%] bg-ivory" />
-            <div aria-hidden className="absolute -right-2.5 bottom-3 h-[30px] w-[200px] rounded-[50%] bg-[#EFE7D4]" />
-            <Mascot scene width={132} className="mb-5 mr-6" />
+          // Centred stage: the snowman stands a little right of centre so his "Hi!" bubble and
+          // snow angel (both to his left) stay on screen.
+          <div className="relative mx-auto mt-2 flex h-[230px] w-full max-w-[340px] items-end justify-center md:self-end">
+            <div aria-hidden className="absolute bottom-0 left-1/2 h-12 w-[300px] -translate-x-1/2 rounded-[50%] bg-ivory" />
+            <div aria-hidden className="absolute bottom-3 left-[calc(50%+40px)] h-[30px] w-[190px] -translate-x-1/2 rounded-[50%] bg-[#EFE7D4]" />
+            <Mascot scene width={132} className="mb-5 ml-20" />
           </div>
         )}
 

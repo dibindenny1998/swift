@@ -3,8 +3,9 @@ import { ArchArt } from "@/components/effects/ArchArt";
 import { Countdown } from "@/components/effects/Countdown";
 import { Bokeh, Garland } from "@/components/effects/Garland";
 import { Santa } from "@/components/effects/Santa";
+import { ProductImage } from "@/components/product/ProductImage";
 
-export function Hero({ countdownEnd, showSanta }: { countdownEnd: string; showSanta: boolean }) {
+export function Hero({ countdownEnd, showSanta, image, imageAlt = "" }: { countdownEnd: string; showSanta: boolean; image?: string; imageAlt?: string }) {
   return (
     <section className="relative overflow-hidden bg-grad-hero px-4 pb-12 pt-4 text-ivory">
       <span aria-hidden className="pointer-events-none absolute inset-3 rounded-lg border border-gold-line/40" />
@@ -35,8 +36,8 @@ export function Hero({ countdownEnd, showSanta }: { countdownEnd: string; showSa
         </div>
 
         <div className="fx-rise mt-7 h-[360px] w-[290px] rounded-[145px_145px_24px_24px] border border-gold-line/70 p-2 [animation-delay:.3s] lg:mt-0 lg:h-[460px] lg:w-[370px] lg:justify-self-center">
-          <div className="size-full overflow-hidden rounded-[137px_137px_16px_16px] lg:rounded-[177px_177px_16px_16px]">
-            <ArchArt />
+          <div className="relative size-full overflow-hidden rounded-[137px_137px_16px_16px] lg:rounded-[177px_177px_16px_16px]">
+            {image ? <ProductImage src={image} alt={imageAlt} fill priority sizes="(min-width: 1024px) 370px, 290px" className="object-cover" /> : <ArchArt />}
           </div>
         </div>
 

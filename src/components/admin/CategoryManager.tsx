@@ -1,11 +1,51 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ProductImage } from "@/components/product/ProductImage";
 import { adminFetch } from "./fields";
 import { adminBtn } from "./ui";
+import { uploadImage } from "./upload";
 
-type Cat = { id: string; name: string; slug: string; sortOrder: number; count: number };
+type Cat = { id: string; name: string; slug: string; sortOrder: number; count: number; imageUrl: string | null };
+
+/** Category tile photo (home page "Shop by category"): upload to replace, or remove to fall back to the placeholder. */
+function CategoryPhoto({ cat, run }: { cat: Cat; run: (fn: () => Promise<unknown>) => Promise<void> }) {
+  const input = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  return (
+    <div className="flex w-[150px] shrink-0 items-center gap-2">
+      <span className="relative block size-14 shrink-0 overflow-hidden rounded-sm border border-border bg-ivory">
+        {cat.imageUrl ? <ProductImage src={cat.imageUrl} alt="" fill sizes="56px" className="object-cover" /> : <span className="flex size-full items-center justify-center text-[10px] text-muted">No photo</span>}
+      </span>
+      <input
+        ref={input}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/avif"
+        className="sr-only"
+        aria-label={`Photo for ${cat.name}`}
+        onChange={async (e) => {
+          const f = e.target.files?.[0];
+          e.target.value = "";
+          if (!f) return;
+          setBusy(true);
+          await run(async () => adminFetch("PATCH", `/api/admin/categories/${cat.id}`, { imageUrl: await uploadImage(f) }));
+          setBusy(false);
+        }}
+      />
+      <span className="flex flex-col items-start">
+        <button type="button" disabled={busy} onClick={() => input.current?.click()} className="text-xs font-semibold text-green-300 disabled:opacity-50">
+          {busy ? "Uploading…" : cat.imageUrl ? "Change photo" : "Add photo"}
+        </button>
+        {cat.imageUrl && !busy && (
+          <button type="button" onClick={() => run(() => adminFetch("PATCH", `/api/admin/categories/${cat.id}`, { imageUrl: null }))} className="text-xs text-muted">
+            Remove
+          </button>
+        )}
+      </span>
+    </div>
+  );
+}
 
 export function CategoryManager({ categories }: { categories: Cat[] }) {
   const router = useRouter();
@@ -31,6 +71,7 @@ export function CategoryManager({ categories }: { categories: Cat[] }) {
       <ul className="divide-y divide-divider rounded-lg border border-border bg-white">
         {categories.map((c, i) => (
           <li key={c.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
+            <CategoryPhoto cat={c} run={run} />
             <input
               defaultValue={c.name}
               aria-label={`Name for ${c.name}`}

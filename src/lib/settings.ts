@@ -18,6 +18,9 @@ export const settingsSchema = z.object({
     .object({ instagram: z.string(), facebook: z.string(), youtube: z.string() })
     .partial()
     .default({}),
+  // Home hero photo (inside the gold arch). Empty = the built-in tree illustration.
+  heroImage: z.string().max(1000).default(""),
+  heroImageAlt: z.string().max(200).default(""),
   whatsappNumber: z.string().default(""),
   pickupPincode: z.string().regex(/^[1-9]\d{5}$/).default("560001"), // Bangalore warehouse, for delivery estimates
   gstin: z.string().default(""),

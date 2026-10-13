@@ -31,7 +31,7 @@ export default async function HomePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <Hero countdownEnd={settings.countdownEnd} showSanta={settings.effects.santa} />
+      <Hero countdownEnd={settings.countdownEnd} showSanta={settings.effects.santa} image={settings.heroImage} imageAlt={settings.heroImageAlt} />
       <Categories categories={home.categories} />
       <Kits bundles={home.bundles} />
       <Bestsellers products={home.bestsellers} lowStockThreshold={settings.lowStockThreshold} />

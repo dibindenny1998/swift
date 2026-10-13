@@ -23,8 +23,8 @@ async function Categories() {
       <Link href="/admin/products" className="text-sm font-semibold text-muted">
         ← Products
       </Link>
-      <PageHeader title="Categories" description="Shown as filter chips on the shop and tiles on the home page, in this order." />
-      <CategoryManager categories={cats.map((c) => ({ id: c.id, name: c.name, slug: c.slug, sortOrder: c.sortOrder, count: c._count.products }))} />
+      <PageHeader title="Categories" description="Shown as filter chips on the shop and photo tiles on the home page, in this order. Square or 4:5 photos work best." />
+      <CategoryManager categories={cats.map((c) => ({ id: c.id, name: c.name, slug: c.slug, sortOrder: c.sortOrder, count: c._count.products, imageUrl: c.imageUrl }))} />
     </>
   );
 }

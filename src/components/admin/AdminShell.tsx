@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 
 const NAV: { href: string; label: string; exact?: boolean; also?: string }[] = [
   { href: "/admin", label: "Dashboard", exact: true },
+  { href: "/admin/reports", label: "Reports" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/bundles", label: "Bundles & offers", also: "/admin/coupons" },
   { href: "/admin/orders", label: "Orders" },

@@ -27,7 +27,7 @@ export function ImageManager({ images, onChange, max = 12 }: { images: Img[]; on
             <li key={img.url + i} className="rounded-sm border border-border p-2">
               <div className="relative aspect-square overflow-hidden rounded-sm bg-ivory">
                 <ProductImage src={img.url} alt={img.alt} fill sizes="200px" className="object-cover" />
-                {i === 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-green-300 px-2 py-0.5 text-xs font-semibold text-ivory">Cover</span>}
+                {i === 0 && max > 1 && <span className="absolute left-1.5 top-1.5 rounded-full bg-green-300 px-2 py-0.5 text-xs font-semibold text-ivory">Cover</span>}
               </div>
               <label className="sr-only" htmlFor={`alt-${i}`}>
                 Alt text for image {i + 1}
@@ -61,11 +61,12 @@ export function ImageManager({ images, onChange, max = 12 }: { images: Img[]; on
           ref={input}
           type="file"
           accept="image/jpeg,image/png,image/webp,image/avif"
-          multiple
+          multiple={max > 1}
           className="sr-only"
           aria-label="Upload images"
           onChange={async (e) => {
-            const files = [...(e.target.files ?? [])].slice(0, max - images.length);
+            const single = max === 1; // a one-image slot: uploading replaces it
+            const files = [...(e.target.files ?? [])].slice(0, single ? 1 : max - images.length);
             e.target.value = "";
             if (!files.length) return;
             setBusy(true);
@@ -73,7 +74,7 @@ export function ImageManager({ images, onChange, max = 12 }: { images: Img[]; on
             try {
               const added: Img[] = [];
               for (const f of files) added.push({ url: await uploadImage(f), alt: "" });
-              onChange([...images, ...added]);
+              onChange(single ? added : [...images, ...added]);
             } catch (err) {
               setError(err instanceof Error ? err.message : "Upload failed");
             } finally {
@@ -81,16 +82,16 @@ export function ImageManager({ images, onChange, max = 12 }: { images: Img[]; on
             }
           }}
         />
-        <button type="button" disabled={busy || images.length >= max} onClick={() => input.current?.click()} className={adminBtn("secondary")}>
-          {busy ? "Uploading…" : "Upload images"}
+        <button type="button" disabled={busy || (max > 1 && images.length >= max)} onClick={() => input.current?.click()} className={adminBtn("secondary")}>
+          {busy ? "Uploading…" : max === 1 ? (images.length ? "Replace image" : "Upload image") : "Upload images"}
         </button>
         <span className="text-xs text-muted">or</span>
         <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://… image URL" className="h-11 min-w-0 flex-1 rounded-sm border border-border px-3 text-sm" aria-label="Image URL" />
         <button
           type="button"
-          disabled={!/^https:\/\//.test(url) || images.length >= max}
+          disabled={!/^https:\/\//.test(url) || (max > 1 && images.length >= max)}
           onClick={() => {
-            onChange([...images, { url: url.trim(), alt: "" }]);
+            onChange(max === 1 ? [{ url: url.trim(), alt: "" }] : [...images, { url: url.trim(), alt: "" }]);
             setUrl("");
           }}
           className={adminBtn("secondary")}
@@ -99,7 +100,7 @@ export function ImageManager({ images, onChange, max = 12 }: { images: Img[]; on
         </button>
       </div>
       {error && <p className="mt-2 text-xs text-red-sale">{error}</p>}
-      <p className="mt-2 text-xs text-muted">The first image is the cover. Square or 4:5 photos work best.</p>
+      {max > 1 && <p className="mt-2 text-xs text-muted">The first image is the cover. Square or 4:5 photos work best.</p>}
     </div>
   );
 }
