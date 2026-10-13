@@ -908,44 +908,163 @@ main:focus {
   }
 }
 
-/* ------------------------------------------------------------------ ticker */
+/* ------------------------------------------------------------------ stats band */
 
-.ticker {
+.stats {
+  padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  background: var(--grad-green);
+  color: var(--on-green-soft);
+}
+
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 1rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.stat dd {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1;
+}
+
+.stat dt {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .stats__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stat + .stat {
+    border-left: 1px solid var(--line-light);
+  }
+}
+
+/* ------------------------------------------------------------------ what's inside */
+
+.inside__grid {
+  display: grid;
+  gap: 3rem;
+}
+
+.ingredient {
+  text-align: center;
+}
+
+.ingredient .media,
+.ingredient__panel {
+  width: min(100%, 22rem);
+  margin: 0 auto 1.75rem;
+}
+
+.ingredient__title {
+  font-size: var(--fs-h3);
+}
+
+.ingredient p {
+  max-width: 28ch;
+  margin: 0.6rem auto 0;
+}
+
+.ingredient__panel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  padding-block: 1.15rem;
+  border-radius: 999px 999px var(--radius) var(--radius);
   background: var(--grad-green);
   color: var(--gold-light);
 }
 
-.ticker__track {
-  display: flex;
-  width: max-content;
-  animation: ticker 48s linear infinite;
+.ingredient__value {
+  font-family: var(--serif);
+  font-size: clamp(7rem, 5rem + 8vw, 10rem);
+  font-style: italic;
+  line-height: 1;
 }
 
-.ticker ul {
-  display: flex;
-  flex: none;
+.ingredient__panel .mark {
+  position: absolute;
+  bottom: 12%;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--cream);
 }
 
-.ticker li {
+@media (min-width: 768px) {
+  .inside__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 3rem);
+  }
+}
+
+/* ------------------------------------------------------------------ floating enquire (phones) */
+
+.float-cta {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
   display: inline-flex;
   align-items: center;
-  gap: 2.25rem;
-  padding-right: 2.25rem;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  background: var(--grad-gold);
+  color: var(--green-deep);
   font-size: var(--fs-eyebrow);
   font-weight: 500;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  white-space: nowrap;
+  box-shadow: 0 12px 30px -12px rgba(19, 48, 33, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(1rem);
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease),
+    visibility 0s linear 0.5s;
 }
 
-.ticker li::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--peach);
+.float-cta.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+
+@media (min-width: 960px) {
+  .float-cta {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ page transitions */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
 }
 
 /* ------------------------------------------------------------------ page hero (inner pages) */
@@ -2145,12 +2264,6 @@ main:focus {
   }
 }
 
-@keyframes ticker {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @keyframes float {
   50% {
     transform: translateY(-10px);
@@ -2349,8 +2462,9 @@ main:focus {
 
   .badge,
   .badge__ring,
-  .ticker__track,
-  .drift .leaf {
+  .drift .leaf,
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
     animation: none !important;
   }
 

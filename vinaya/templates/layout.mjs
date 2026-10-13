@@ -126,6 +126,7 @@ ${header(ctx)}
 <main id="main" tabindex="-1">
 ${body}
 </main>
+${ctx.page.section === 'contact' || ctx.page.noindex ? '' : `<a class="float-cta" href="${ctx.link('contact/')}" data-float-cta>${ctx.t('cta.enquireShort')}</a>`}
 ${footer(ctx)}
 </body>
 </html>

@@ -9,6 +9,8 @@
 export default {
   'home-hero': { src: 'photos/hair-oil-coconut', ratio: 4 / 5, position: '50% 40%' },
   'home-source': { src: 'photos/hair-oil-flatlay', ratio: 16 / 9, position: '50% 50%' },
+  'home-coconut': { src: 'photos/detail-coconut', ratio: 4 / 5, position: '50% 50%' },
+  'home-leaves': { src: 'photos/detail-leaves', ratio: 4 / 5, position: '50% 40%' },
   'story-hero': { src: 'photos/hair-oil-flatlay', ratio: 16 / 9, position: '50% 48%' },
   'story-coconut': { src: 'photos/hair-oil-coconut', ratio: 4 / 5, position: '92% 45%' },
   'story-stone': { src: 'photos/hair-oil-stone', ratio: 3 / 2, position: '50% 62%' },

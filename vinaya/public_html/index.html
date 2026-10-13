@@ -24,9 +24,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/main.css?v=922637936f">
+<link rel="stylesheet" href="assets/css/main.css?v=d13b5de772">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script src="assets/js/main.js?v=86a52dd749" defer></script>
+<script src="assets/js/main.js?v=fd36f4c543" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Vinaya","url":"https://plum-dolphin-595156.hostingersite.com/","slogan":"The Best of Nature, for the Best of You.","logo":"https://plum-dolphin-595156.hostingersite.com/apple-touch-icon.png"}</script>
 </head>
 <body class="page-home">
@@ -79,11 +79,14 @@
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true">
-  <div class="ticker__track">
-    <ul><li>100% Botanical</li><li>Zero Synthetics</li><li>Green Leaves &amp; Coconut Oil</li><li>Product of India</li><li>Rooted in Indian tradition</li><li>110 ml</li></ul><ul><li>100% Botanical</li><li>Zero Synthetics</li><li>Green Leaves &amp; Coconut Oil</li><li>Product of India</li><li>Rooted in Indian tradition</li><li>110 ml</li></ul>
-  </div>
-</div>
+<section class="stats" aria-label="At a glance">
+  <dl class="container stats__grid">
+    <div class="stat" data-reveal style="--delay:0ms"><dt>Botanical</dt><dd>100%</dd></div>
+    <div class="stat" data-reveal style="--delay:120ms"><dt>Synthetics</dt><dd>0</dd></div>
+    <div class="stat" data-reveal style="--delay:240ms"><dt>Per bottle</dt><dd>110 ml</dd></div>
+    <div class="stat" data-reveal style="--delay:360ms"><dt>Made in</dt><dd>India</dd></div>
+  </dl>
+</section>
 
 <section class="section belief" aria-labelledby="belief-title">
   <div class="container container--narrow center">
@@ -120,6 +123,36 @@
         <a class="link" href="contact/?product=hair-oil#enquiry">Send an enquiry</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section inside" aria-labelledby="inside-title">
+  <div class="container">
+    <header class="section-head center">
+      <p class="eyebrow eyebrow--center" data-reveal>What’s inside</p>
+      <h2 class="h2" id="inside-title" data-reveal>Simple, <em>botanical</em> ingredients.</h2>
+    </header>
+    <ul class="inside__grid">
+      <li class="ingredient" data-reveal style="--delay:0ms">
+        <div class="media media--arch " style="--ratio:0.8000;--pos:50% 50%">
+  <img src="assets/img/photos/detail-coconut.webp" alt="Close view of a freshly opened coconut with small white flowers" width="1024" height="1280" sizes="(min-width: 768px) 30vw, 92vw" loading="lazy" decoding="async">
+</div>
+        <h3 class="ingredient__title">Coconut oil</h3>
+        <p>A familiar base in Indian hair care for generations.</p>
+      </li>
+      <li class="ingredient" data-reveal style="--delay:180ms">
+        <div class="media media--arch " style="--ratio:0.8000;--pos:50% 40%">
+  <img src="assets/img/photos/detail-leaves.webp" alt="Fresh green leaves in warm sunlight" width="1024" height="1280" sizes="(min-width: 768px) 30vw, 92vw" loading="lazy" decoding="async">
+</div>
+        <h3 class="ingredient__title">Green leaves</h3>
+        <p>Fresh greens, named first on every bottle.</p>
+      </li>
+      <li class="ingredient ingredient--none" data-reveal style="--delay:360ms">
+        <div class="ingredient__panel"><span class="ingredient__value">0</span><svg class="mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="30.5" cy="14" r="4.6" fill="#dda77f"/><path d="M31.5 55C22 45 13.5 31 9 17.5c9.5 5.5 18.5 17.5 22.5 37.5z" fill="currentColor"/><path d="M31.5 55c2.5-17 10.5-32 24.5-43.5-1.5 18-10 34-24.5 43.5z" fill="currentColor" opacity=".82"/></svg></div>
+        <h3 class="ingredient__title">Nothing synthetic</h3>
+        <p>100% botanical, with zero synthetic ingredients.</p>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -218,6 +251,7 @@
 </section>
 
 </main>
+<a class="float-cta" href="contact/" data-float-cta>Enquire</a>
 <footer class="site-footer">
   <div class="container">
     <div class="site-footer__grid">

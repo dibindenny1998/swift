@@ -22,7 +22,8 @@
     "readStory": "Read our story",
     "viewDetails": "View details",
     "allProducts": "View all products",
-    "discover": "Discover the collection"
+    "discover": "Discover the collection",
+    "enquireShort": "Enquire"
   },
   "band": {
     "eyebrow": "For importers, distributors and retailers",
@@ -50,7 +51,9 @@
     "story-stone": "Vinaya Hair Oil standing on a stone slab between a coconut and green leaves",
     "export-hero": "Vinaya Gift Set in a sheer pouch: hair oil, wooden comb and illustrated story card",
     "products/hair-oil": "Vinaya Hair Oil, Green Leaves & Coconut Oil, 110 ml bottle with a gold cap",
-    "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch"
+    "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch",
+    "home-coconut": "Close view of a freshly opened coconut with small white flowers",
+    "home-leaves": "Fresh green leaves in warm sunlight"
   },
   "meta": {
     "home": {
@@ -137,14 +140,43 @@
       "title": "A ritual *worth sharing.*",
       "text": "Our hair oil, a wooden comb and an illustrated story card, gathered in a sheer pouch."
     },
-    "ticker": [
-      "100% Botanical",
-      "Zero Synthetics",
-      "Green Leaves & Coconut Oil",
-      "Product of India",
-      "Rooted in Indian tradition",
-      "110 ml"
-    ]
+    "stats": [
+      {
+        "value": "100%",
+        "label": "Botanical"
+      },
+      {
+        "value": "0",
+        "label": "Synthetics"
+      },
+      {
+        "value": "110 ml",
+        "label": "Per bottle"
+      },
+      {
+        "value": "India",
+        "label": "Made in"
+      }
+    ],
+    "inside": {
+      "eyebrow": "What’s inside",
+      "title": "Simple, *botanical* ingredients.",
+      "items": [
+        {
+          "title": "Coconut oil",
+          "text": "A familiar base in Indian hair care for generations."
+        },
+        {
+          "title": "Green leaves",
+          "text": "Fresh greens, named first on every bottle."
+        },
+        {
+          "title": "Nothing synthetic",
+          "value": "0",
+          "text": "100% botanical, with zero synthetic ingredients."
+        }
+      ]
+    }
   },
   "story": {
     "eyebrow": "Our Story",

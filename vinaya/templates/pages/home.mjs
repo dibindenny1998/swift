@@ -14,15 +14,43 @@ function badge(ctx) {
 </div>`;
 }
 
-// A slow, endless strip of product facts. The list is repeated so the loop is seamless;
-// the copy is hidden from screen readers because the same facts appear in the page itself.
-function ticker(ctx) {
-  const items = ctx.list('home.ticker').map((t) => `<li>${t}</li>`).join('');
-  return html`<div class="ticker" aria-hidden="true">
-  <div class="ticker__track">
-    <ul>${items}</ul><ul>${items}</ul>
+// Still band of product facts under the hero.
+function stats(ctx) {
+  return html`<section class="stats" aria-label="${ctx.tx('products.page.highlightsTitle')}">
+  <dl class="container stats__grid">
+${ctx.raw('home.stats').map(
+    (_, i) => `    <div class="stat" data-reveal style="--delay:${i * 120}ms"><dt>${ctx.t(`home.stats.${i}.label`)}</dt><dd>${ctx.t(`home.stats.${i}.value`)}</dd></div>\n`,
+  )}  </dl>
+</section>`;
+}
+
+// "What's inside": two ingredient close-ups and a closing "nothing synthetic" card.
+function inside(ctx) {
+  const slots = ['home-coconut', 'home-leaves'];
+  return html`<section class="section inside" aria-labelledby="inside-title">
+  <div class="container">
+    <header class="section-head center">
+      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.inside.eyebrow')}</p>
+      <h2 class="h2" id="inside-title" data-reveal>${ctx.t('home.inside.title')}</h2>
+    </header>
+    <ul class="inside__grid">
+${ctx.raw('home.inside.items').map((item, i) =>
+    slots[i]
+      ? html`      <li class="ingredient" data-reveal style="--delay:${i * 180}ms">
+        ${image(ctx, slots[i], { arch: true, sizes: '(min-width: 768px) 30vw, 92vw' })}
+        <h3 class="ingredient__title">${ctx.t(`home.inside.items.${i}.title`)}</h3>
+        <p>${ctx.t(`home.inside.items.${i}.text`)}</p>
+      </li>
+`
+      : html`      <li class="ingredient ingredient--none" data-reveal style="--delay:${i * 180}ms">
+        <div class="ingredient__panel"><span class="ingredient__value">${ctx.t(`home.inside.items.${i}.value`)}</span>${MARK}</div>
+        <h3 class="ingredient__title">${ctx.t(`home.inside.items.${i}.title`)}</h3>
+        <p>${ctx.t(`home.inside.items.${i}.text`)}</p>
+      </li>
+`,
+  )}    </ul>
   </div>
-</div>`;
+</section>`;
 }
 
 export default function home(ctx) {
@@ -56,7 +84,7 @@ export default function home(ctx) {
   </div>
 </section>
 
-${ticker(ctx)}
+${stats(ctx)}
 
 <section class="section belief" aria-labelledby="belief-title">
   <div class="container container--narrow center">
@@ -88,6 +116,8 @@ ${ticker(ctx)}
     </div>
   </div>
 </section>
+
+${inside(ctx)}
 
 <section class="section section--photo source" aria-labelledby="source-title">
   <div class="section__bg" data-parallax="0.12">${image(ctx, 'home-source', { decorative: true, sizes: '100vw' })}</div>

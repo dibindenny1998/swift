@@ -16,6 +16,19 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* ---------------------------------------------------------------- floating enquire button */
+
+  var floatCta = doc.querySelector('[data-float-cta]');
+  var footer = doc.querySelector('.site-footer');
+  if (floatCta) {
+    var placeCta = function () {
+      var nearEnd = footer && footer.getBoundingClientRect().top < window.innerHeight;
+      floatCta.classList.toggle('is-shown', window.scrollY > window.innerHeight * 0.7 && !nearEnd);
+    };
+    placeCta();
+    window.addEventListener('scroll', placeCta, { passive: true });
+  }
+
   /* ---------------------------------------------------------------- mobile menu */
 
   var toggle = doc.querySelector('[data-menu-toggle]');
