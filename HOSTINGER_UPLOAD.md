@@ -10,7 +10,7 @@ This zip is the **source code**. It is a Next.js (Node.js) app with a **MySQL** 
 ## Steps (Business / Cloud plan, Node.js app)
 
 1. **Create the database** in hPanel → *Databases → MySQL Databases* (note the database name, user and password).
-   The connection string is `mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME` — use `127.0.0.1`, not the `srvNNNN.hstgr.io` host
+   The connection string is `mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME?connection_limit=3` — use `127.0.0.1`, not the `srvNNNN.hstgr.io` host
    (that one is only for connecting from outside Hostinger). If the password has symbols like `@ : / #`, URL-encode them.
 2. In hPanel, create a **Node.js app** and choose **Upload files**, then upload `swift-in.zip`
    (or open File Manager, go to the app folder, upload the zip and *Extract*).
@@ -23,7 +23,7 @@ This zip is the **source code**. It is a Next.js (Node.js) app with a **MySQL** 
    | Start command | `npm start` |
 4. **Environment variables** (hPanel → your app → Environment variables). Required:
    ```
-   DATABASE_URL=mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME
+   DATABASE_URL=mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME?connection_limit=3
    NEXT_PUBLIC_SITE_URL=https://your-temporary-domain.hostingersite.com
    SESSION_SECRET=<any random 64 characters>
    ADMIN_SEED_EMAIL=you@example.com

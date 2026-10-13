@@ -2,7 +2,11 @@
 const nextConfig = {
   cacheComponents: true,
   // Tailwind CSS is small (~16 KB); inlining removes a render-blocking request for first-time visitors.
-  experimental: { inlineCss: true },
+  experimental: {
+    inlineCss: true,
+    // Shared hosts cap MySQL connections per user; one build worker per CPU (63 on Hostinger) would exhaust them.
+    ...(process.env.BUILD_CPUS ? { cpus: Number(process.env.BUILD_CPUS) } : {}),
+  },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],
   },
