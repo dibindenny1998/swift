@@ -33,12 +33,12 @@ export default function contact(ctx) {
     sending: ctx.raw('contact.form.sending'),
   };
 
-  // Option values are the English product names, so enquiries arrive readable.
+  // Option values are the product names, so enquiries arrive readable.
   const interest = (attrs) => html`<select ${attrs}>
           <option value="">${ctx.t('contact.form.interestPlaceholder')}</option>
 ${ctx.products.map(
     (p) =>
-      `          <option value="${esc(ctx.rawIn('en', `products.items.${p.slug}.name`))}" data-slug="${esc(p.slug)}">${ctx.t(`products.items.${p.slug}.name`)}</option>\n`,
+      `          <option value="${esc(ctx.raw(`products.items.${p.slug}.name`))}" data-slug="${esc(p.slug)}">${ctx.t(`products.items.${p.slug}.name`)}</option>\n`,
   )}          <option value="All products">${ctx.t('contact.form.interestAll')}</option>
           <option value="Private label">${ctx.t('contact.form.interestPrivateLabel')}</option>
           <option value="Other">${ctx.t('contact.form.interestOther')}</option>
@@ -66,7 +66,6 @@ ${pageHero(ctx, {
 
       <form action="${ctx.asset('contact.php')}" method="post" novalidate data-enquiry-form data-messages="${esc(JSON.stringify(messages))}">
         <h2 class="visually-hidden">${ctx.t('contact.formTitle')}</h2>
-        <input type="hidden" name="lang" value="${ctx.lang}">
         <div class="form__hp" aria-hidden="true">
           <label for="f-website">Website</label>
           <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">

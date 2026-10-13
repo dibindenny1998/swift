@@ -19,7 +19,4 @@ export default {
 
   // WhatsApp number in international format, digits only (e.g. 919876543210).
   whatsapp: '[WHATSAPP-NUMBER]',
-
-  // Languages. The first one is served at the site root, the others under /<code>/.
-  languages: ['en', 'fr'],
 };

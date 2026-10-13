@@ -472,36 +472,6 @@ main:focus {
 .site-nav.is-open .site-nav__list li:nth-child(3) { animation-delay: 160ms; }
 .site-nav.is-open .site-nav__list li:nth-child(4) { animation-delay: 240ms; }
 
-.lang-switch {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: var(--fs-eyebrow);
-  font-weight: 500;
-  letter-spacing: 0.2em;
-}
-
-.lang-switch__item {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  color: var(--ink-soft);
-}
-
-a.lang-switch__item:hover {
-  color: var(--ink);
-}
-
-.lang-switch__item.is-current {
-  color: var(--ink);
-  text-decoration: underline;
-  text-underline-offset: 0.5em;
-  text-decoration-thickness: 1px;
-}
-
-.lang-switch__sep {
-  color: var(--line-strong);
-}
 
 /* Without JavaScript the menu simply sits under the header. */
 .no-js .menu-toggle {

@@ -1,12 +1,4 @@
 {
-  "lang": {
-    "code": "en",
-    "locale": "en_GB",
-    "short": "EN",
-    "name": "English",
-    "switchLabel": "Read this page in English"
-  },
-
   "site": {
     "name": "Vinaya",
     "slogan": "The Best of Nature, for the Best of You.",
@@ -23,7 +15,6 @@
     "contact": "Contact",
     "menu": "Menu",
     "close": "Close",
-    "language": "Language",
     "breadcrumb": "Breadcrumb"
   },
 

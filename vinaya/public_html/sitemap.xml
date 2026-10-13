@@ -1,87 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://[YOUR-DOMAIN]/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/"/>
   </url>
   <url>
     <loc>https://[YOUR-DOMAIN]/our-story/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/our-story/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/our-story/"/>
   </url>
   <url>
     <loc>https://[YOUR-DOMAIN]/products/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/products/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/products/"/>
   </url>
   <url>
     <loc>https://[YOUR-DOMAIN]/products/hair-oil/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/products/hair-oil/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/products/hair-oil/"/>
   </url>
   <url>
     <loc>https://[YOUR-DOMAIN]/products/gift-set/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/products/gift-set/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/products/gift-set/"/>
   </url>
   <url>
     <loc>https://[YOUR-DOMAIN]/export/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/export/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/export/"/>
   </url>
   <url>
     <loc>https://[YOUR-DOMAIN]/contact/</loc>
     <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/contact/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/contact/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/our-story/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/our-story/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/our-story/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/products/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/products/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/products/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/products/hair-oil/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/products/hair-oil/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/products/hair-oil/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/products/gift-set/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/products/gift-set/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/products/gift-set/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/export/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/export/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/export/"/>
-  </url>
-  <url>
-    <loc>https://[YOUR-DOMAIN]/fr/contact/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://[YOUR-DOMAIN]/contact/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://[YOUR-DOMAIN]/fr/contact/"/>
   </url>
 </urlset>

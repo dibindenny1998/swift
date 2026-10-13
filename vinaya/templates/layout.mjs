@@ -9,25 +9,23 @@ const NAV = [
 
 function head(ctx, { title, description, image }) {
   const { config } = ctx;
-  const alternates = ctx.alternates();
   const ogImage = image ?? `${config.siteUrl}/assets/img/og-image.jpg`;
   return html`<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
-${ctx.page.noindex ? '<meta name="robots" content="noindex">' : html`<link rel="canonical" href="${esc(ctx.absUrl(ctx.lang))}">
-${alternates.map((a) => `<link rel="alternate" hreflang="${a.lang}" href="${esc(a.href)}">\n`)}<link rel="alternate" hreflang="x-default" href="${esc(ctx.absUrl(ctx.langs[0]))}">`}
+${ctx.page.noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${esc(ctx.absUrl())}">`}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vinaya">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
-<meta property="og:url" content="${esc(ctx.absUrl(ctx.lang))}">
+<meta property="og:url" content="${esc(ctx.absUrl())}">
 <meta property="og:image" content="${esc(ogImage)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="${esc(ctx.tx('lang.locale'))}">
-${ctx.langs.filter((l) => l !== ctx.lang).map((l) => `<meta property="og:locale:alternate" content="${esc(ctx.txIn(l, 'lang.locale'))}">\n`)}<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f4f0e6">
 <link rel="icon" href="${ctx.asset('favicon.ico')}" sizes="32x32">
 <link rel="icon" href="${ctx.asset('favicon.svg')}" type="image/svg+xml">
@@ -43,15 +41,6 @@ ${ctx.page.schema ? `<script type="application/ld+json">${JSON.stringify(ctx.pag
 </head>`;
 }
 
-function langSwitch(ctx, className = '') {
-  return html`<div class="lang-switch ${className}" role="group" aria-label="${ctx.tx('nav.language')}">
-${ctx.langs.map((l) =>
-    l === ctx.lang
-      ? `<span class="lang-switch__item is-current" aria-current="true" lang="${l}">${ctx.txIn(l, 'lang.short')}</span>`
-      : `<a class="lang-switch__item" href="${ctx.linkIn(l, ctx.page.path)}" hreflang="${l}" lang="${l}" aria-label="${ctx.txIn(l, 'lang.switchLabel')}">${ctx.txIn(l, 'lang.short')}</a>`,
-  ).join('<span class="lang-switch__sep" aria-hidden="true">/</span>')}
-</div>`;
-}
 
 function header(ctx) {
   return html`<a class="skip-link" href="#main">${ctx.t('nav.skip')}</a>
@@ -67,7 +56,6 @@ function header(ctx) {
 ${NAV.map(
     (item) => `        <li><a class="site-nav__link${item.id === 'contact' ? ' site-nav__link--cta' : ''}" href="${ctx.link(item.path)}"${ctx.page.section === item.id ? ' aria-current="page"' : ''}>${ctx.t(`nav.${item.id}`)}</a></li>\n`,
   )}      </ul>
-      ${langSwitch(ctx, 'site-nav__lang')}
     </nav>
   </div>
 </header>`;
@@ -109,7 +97,6 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
     <div class="site-footer__bottom">
       <p>&copy; ${new Date().getFullYear()} Vinaya. ${ctx.t('footer.rights')}</p>
       <p>${ctx.t('footer.origin')}</p>
-      ${langSwitch(ctx)}
     </div>
   </div>
 </footer>`;
@@ -132,7 +119,7 @@ export function band(ctx, { secondary = true, title = 'band.title', text = 'band
 
 export function layout(ctx, { title, description, body, bodyClass = '' }) {
   return html`<!doctype html>
-<html lang="${ctx.lang}" class="no-js">
+<html lang="en" class="no-js">
 ${head(ctx, { title, description })}
 <body class="${bodyClass}">
 ${header(ctx)}

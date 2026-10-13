@@ -14,5 +14,5 @@ Until a file exists, the site shows a labelled placeholder box in its place.
 | `products/gift-set` | Gift Set card, product page, Home "Gift Set" | portrait 4:5 |
 | `og-image.jpg` | Social media share preview (1200 × 630) | already provided |
 
-Slots are defined in `content/images.mjs`; alt text is in `content/en.json` / `fr.json` under `images`.
+Slots are defined in `content/images.mjs`; alt text is in `content/en.json` under `images`.
 This README is not copied into the website.

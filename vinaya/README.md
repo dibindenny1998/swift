@@ -15,8 +15,7 @@ vinaya/
 ├── build.mjs              ← turns content + templates into the finished site (node build.mjs)
 ├── site.config.mjs        ← domain, form email, WhatsApp number, languages
 ├── content/
-│   ├── en.json            ← ALL English copy (every word on the site)
-│   ├── fr.json            ← French copy (draft — have a native speaker review)
+│   ├── en.json            ← ALL the copy (every word on the site)
 │   ├── products.mjs       ← product list (add products here)
 │   └── images.mjs         ← image slots and their crop ratios
 ├── templates/
@@ -34,7 +33,7 @@ vinaya/
 └── public_html/           ← THE FINISHED WEBSITE. Upload the contents of this folder.
 ```
 
-Pages (English at the root, French under `/fr/`):
+Pages:
 
 | Page | URL |
 |---|---|
@@ -47,12 +46,11 @@ Pages (English at the root, French under `/fr/`):
 
 ## Editing
 
-1. Change text in `content/en.json` (and `content/fr.json`), settings in `site.config.mjs`.
+1. Change text in `content/en.json`, settings in `site.config.mjs`.
 2. Run `node build.mjs` (Node 18 or newer, no `npm install` needed).
 3. Upload `public_html/` again.
 
-The build prints a **"To do before launch"** list: placeholder settings, missing photos and
-missing French text. Any French key left empty falls back to English.
+The build prints a **"To do before launch"** list: placeholder settings and missing photos.
 
 Unknown facts are written as `[PLACEHOLDER]` or `[PLACEHOLDER: what is needed]` in the content
 files. They show on the site as small highlighted tags so nothing invented goes live. Replace
@@ -61,10 +59,10 @@ them with real values when you have them.
 ### Adding a product
 
 1. Add an entry to `content/products.mjs` (slug, category, which detail rows to show).
-2. Add its copy under `products.items.<slug>` in `en.json` / `fr.json`. Copy an existing product
+2. Add its copy under `products.items.<slug>` in `en.json`. Copy an existing product
    as a template. New categories go under `products.categories`.
 3. Add an image slot `'products/<slug>': { ratio: 4 / 5 }` to `content/images.mjs`, plus its alt
-   text under `images` in the JSON files.
+   text under `images` in `en.json`.
 4. Add the photo as `static/assets/img/products/<slug>.jpg`, then build.
 
 The product grid, product page, sitemap, footer and the contact form's "Product interest" list
@@ -76,7 +74,7 @@ Each image slot shows a labelled placeholder box with the file name it expects, 
 `assets/img/home-hero.jpg`. Save the photo under `static/assets/img/` with that name (`.webp`,
 `.jpg` or `.png`) and rebuild; the placeholder is replaced automatically. Photos are cropped to
 the frame, so keep the subject centred. Export at about 1600 px on the long edge, around
-200–400 KB (WebP is smallest). Alt text is in the JSON files under `images`.
+200–400 KB (WebP is smallest). Alt text is in `en.json` under `images`.
 
 ### Logo and favicon
 
@@ -103,7 +101,7 @@ Fonts: Cormorant Garamond (headings) and Jost (text), from Google Fonts.
    to zip the contents, upload the zip and use **Extract**. Make sure the hidden `.htaccess` file
    is included.
 5. **hPanel → Security → SSL**: install the free SSL certificate and turn on **Force HTTPS**.
-6. Test: open the site, switch EN / FR, and send a test enquiry from `/contact/`.
+6. Test: open the site and send a test enquiry from `/contact/`.
 7. Submit `https://yourdomain.com/sitemap.xml` in Google Search Console.
 
 ### How the enquiry form works

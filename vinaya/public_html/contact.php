@@ -11,17 +11,14 @@ declare(strict_types=1);
 
 const TO_EMAIL = '[EMAIL]';
 const FROM_EMAIL = '[NOREPLY@YOUR-DOMAIN]';
-const LANGS = 'en,fr';
 const SITE_NAME = 'Vinaya';
 const MIN_SECONDS_BETWEEN_SENDS = 30;
 
 $wantsJson = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
-$langs = explode(',', LANGS);
-$lang = in_array($_POST['lang'] ?? '', $langs, true) ? $_POST['lang'] : $langs[0];
 
 function finish(bool $ok, string $error = '', int $status = 200, array $fields = []): never
 {
-    global $wantsJson, $lang, $langs;
+    global $wantsJson;
     if ($wantsJson) {
         http_response_code($status);
         header('Content-Type: application/json; charset=utf-8');
@@ -29,8 +26,7 @@ function finish(bool $ok, string $error = '', int $status = 200, array $fields =
         echo json_encode(['ok' => $ok, 'error' => $error ?: null, 'fields' => $fields]);
         exit;
     }
-    $prefix = $lang === $langs[0] ? '' : $lang . '/';
-    $target = $prefix . 'contact/' . ($ok ? '?sent=1#enquiry-sent' : '?error=' . rawurlencode($error) . '#enquiry-error');
+    $target = 'contact/' . ($ok ? '?sent=1#enquiry-sent' : '?error=' . rawurlencode($error) . '#enquiry-error');
     header('Location: ' . $target, true, 303);
     exit;
 }
@@ -116,7 +112,7 @@ foreach ($labels as $key => $label) {
     $body .= str_pad($label . ':', 22) . ($data[$key] !== '' ? $data[$key] : '-') . "\n";
 }
 $body .= "\nMessage:\n" . $data['message'] . "\n\n";
-$body .= "--\nLanguage: {$lang}\nSent: " . gmdate('Y-m-d H:i') . " UTC\nIP: " . ($_SERVER['REMOTE_ADDR'] ?? '') . "\n";
+$body .= "--\nSent: " . gmdate('Y-m-d H:i') . " UTC\nIP: " . ($_SERVER['REMOTE_ADDR'] ?? '') . "\n";
 
 $from = isPlaceholder(FROM_EMAIL) ? TO_EMAIL : FROM_EMAIL;
 $subject = 'Vinaya enquiry: ' . $data['company'] . ' (' . $data['country'] . ')';
