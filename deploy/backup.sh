@@ -11,7 +11,15 @@ set -a
 # shellcheck disable=SC1091
 . "$APP_DIR/.env"
 set +a
-pg_dump --no-owner --format=custom "$DATABASE_URL" > "$DEST/db_$STAMP.dump"
+# DATABASE_URL looks like mysql://user:password@host:port/name
+DB="${DATABASE_URL#mysql://}"
+CNF="$(mktemp)"
+trap 'rm -f "$CNF"' EXIT
+chmod 600 "$CNF"
+printf '[client]\nuser=%s\npassword=%s\nhost=%s\nport=%s\n' \
+  "${DB%%:*}" "$(printf '%b' "$(echo "${DB#*:}" | sed 's/@[^@]*$//; s/%/\\x/g')")" \
+  "$(echo "${DB##*@}" | cut -d: -f1)" "$(echo "${DB##*@}" | cut -d: -f2 | cut -d/ -f1)" > "$CNF"
+mysqldump --defaults-extra-file="$CNF" --single-transaction --routines "${DB##*/}" | gzip > "$DEST/db_$STAMP.sql.gz"
 if [[ -d "$APP_DIR/storage/uploads" ]]; then
   tar -czf "$DEST/uploads_$STAMP.tar.gz" -C "$APP_DIR/storage" uploads
 fi

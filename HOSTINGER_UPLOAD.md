@@ -1,17 +1,17 @@
 # Uploading swift.in to Hostinger (zip / File Manager)
 
-This zip is the **source code**. It is a Next.js (Node.js) app with a **PostgreSQL** database, so it needs:
+This zip is the **source code**. It is a Next.js (Node.js) app with a **MySQL** database, so it needs:
 
 1. A Hostinger plan that can run **Node.js apps** — Business or Cloud web hosting (hPanel → *Websites → Add website → Node.js app*), or a VPS.
    Premium/Single shared hosting (PHP only) **cannot** run it — uploading the files there will just show a blank or 403 page.
-2. A **PostgreSQL** database. Hostinger web hosting only offers MySQL, so create a free Postgres database at
-   **Neon** (neon.tech) or **Supabase** (supabase.com) — choose the **Mumbai (ap-south-1)** region — and copy its connection string.
-   (On a VPS you can use the included `deploy/setup-vps.sh`, which installs Postgres for you — see README.)
+2. A **MySQL** database — the one included with your Hostinger plan works (hPanel → *Databases → MySQL Databases*).
+   (On a VPS you can use the included `deploy/setup-vps.sh`, which installs MariaDB for you — see README.)
 
 ## Steps (Business / Cloud plan, Node.js app)
 
-1. **Create the database** at Neon/Supabase and copy the connection string. It looks like
-   `postgresql://user:password@host/dbname?sslmode=require`.
+1. **Create the database** in hPanel → *Databases → MySQL Databases* (note the database name, user and password).
+   The connection string is `mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME` — use `127.0.0.1`, not the `srvNNNN.hstgr.io` host
+   (that one is only for connecting from outside Hostinger). If the password has symbols like `@ : / #`, URL-encode them.
 2. In hPanel, create a **Node.js app** and choose **Upload files**, then upload `swift-in.zip`
    (or open File Manager, go to the app folder, upload the zip and *Extract*).
 3. Settings:
@@ -23,7 +23,7 @@ This zip is the **source code**. It is a Next.js (Node.js) app with a **PostgreS
    | Start command | `npm start` |
 4. **Environment variables** (hPanel → your app → Environment variables). Required:
    ```
-   DATABASE_URL=postgresql://…your Neon/Supabase string…
+   DATABASE_URL=mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME
    NEXT_PUBLIC_SITE_URL=https://your-temporary-domain.hostingersite.com
    SESSION_SECRET=<any random 64 characters>
    ADMIN_SEED_EMAIL=you@example.com
@@ -46,5 +46,6 @@ This zip is the **source code**. It is a Next.js (Node.js) app with a **PostgreS
   (`CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`) before uploading real photos in the admin.
 - **After changing environment variables**, redeploy/rebuild the app so they take effect.
 - **Webhooks** (Razorpay, Shiprocket) need the public URL: `https://<domain>/api/webhooks/razorpay` and `/api/webhooks/shiprocket`.
-- If the build fails with *Can't reach database server*, check `DATABASE_URL` (Neon/Supabase need `?sslmode=require`).
+- If the build fails with *Can't reach database server* or *Access denied*, check `DATABASE_URL` (host `127.0.0.1`, port `3306`,
+  the full prefixed database name and user such as `u123456789_swift`).
 - Full go-live list: `docs/LAUNCH.md`.

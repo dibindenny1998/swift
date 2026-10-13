@@ -1,6 +1,6 @@
 # swift.in
 
-Premium Christmas shop for India. Next.js 16 (App Router) + Tailwind v4 + Prisma/Postgres.
+Premium Christmas shop for India. Next.js 16 (App Router) + Tailwind v4 + Prisma/MySQL (MariaDB).
 The full product spec is in [`SWIFT_BUILD_SPEC.md`](./SWIFT_BUILD_SPEC.md); design references live in `docs/reference/`.
 **Going live?** Follow [`docs/LAUNCH.md`](./docs/LAUNCH.md). Uploading a zip to Hostinger? See [`HOSTINGER_UPLOAD.md`](./HOSTINGER_UPLOAD.md).
 
@@ -112,5 +112,5 @@ Purchase (Pixel), with INR values. Without IDs there is no banner and no trackin
 
 ## Backups
 
-`deploy/backup.sh` dumps Postgres and archives `storage/uploads` to `/home/swift/backups` nightly (cron installed by `setup-vps.sh`, 14-day retention).
-Restore with `pg_restore --clean --no-owner -d "$DATABASE_URL" db_YYYY-MM-DD_HHMM.dump`.
+`deploy/backup.sh` dumps the MySQL database and archives `storage/uploads` to `/home/swift/backups` nightly (cron installed by `setup-vps.sh`, 14-day retention).
+Restore with `gunzip -c db_YYYY-MM-DD_HHMM.sql.gz | mysql -u swift -p swift`.

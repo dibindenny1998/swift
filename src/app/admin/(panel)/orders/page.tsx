@@ -48,7 +48,7 @@ async function Orders({ searchParams }: Pick<PageProps<"/admin/orders">, "search
     where.OR = [
       ...(n ? [{ number: n }] : []),
       ...(phone ? [{ user: { phone } }] : []),
-      { user: { name: { contains: q, mode: "insensitive" as const } } },
+      { user: { name: { contains: q } } },
     ];
   }
   const [orders, count] = await Promise.all([

@@ -25,7 +25,7 @@ async function Customers({ searchParams }: Pick<PageProps<"/admin/customers">, "
   const q = (Array.isArray(raw) ? raw[0] : raw)?.trim() ?? "";
   const where: Prisma.UserWhereInput = {
     role: "CUSTOMER",
-    ...(q ? { OR: [{ phone: { contains: q.replace(/\D/g, "") || q } }, { name: { contains: q, mode: "insensitive" } }, { email: { contains: q, mode: "insensitive" } }] } : {}),
+    ...(q ? { OR: [{ phone: { contains: q.replace(/\D/g, "") || q } }, { name: { contains: q } }, { email: { contains: q } }] } : {}),
   };
   const users = await db.user.findMany({ where, orderBy: { createdAt: "desc" }, take: 100, select: { id: true, name: true, phone: true, email: true, createdAt: true } });
   const spend = await db.order.groupBy({

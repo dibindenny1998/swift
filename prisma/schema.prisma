@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -59,7 +59,7 @@ model User {
   name         String?
   email        String?  @unique
   role         Role     @default(CUSTOMER)
-  passwordHash String? // admin only
+  passwordHash String?  @db.VarChar(255) // admin only
   createdAt    DateTime @default(now())
 
   addresses  Address[]
@@ -77,8 +77,8 @@ model Address {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
   phone     String
-  line1     String
-  line2     String?
+  line1     String  @db.VarChar(255)
+  line2     String? @db.VarChar(255)
   city      String
   state     String
   pincode   String
@@ -91,7 +91,7 @@ model Category {
   id        String    @id @default(cuid())
   name      String
   slug      String    @unique
-  imageUrl  String?
+  imageUrl  String?   @db.VarChar(1024)
   sortOrder Int       @default(0)
   products  Product[]
 }
@@ -100,13 +100,13 @@ model Product {
   id             String   @id @default(cuid())
   title          String
   slug           String   @unique
-  description    String   @default("")
+  description    String   @default("") @db.Text
   categoryId     String
   category       Category @relation(fields: [categoryId], references: [id])
   badge          Badge    @default(NONE)
   isLive         Boolean  @default(true)
   seoTitle       String?
-  seoDescription String?
+  seoDescription String?  @db.Text
   createdAt      DateTime @default(now())
 
   images   ProductImage[]
@@ -121,7 +121,7 @@ model ProductImage {
   id        String  @id @default(cuid())
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  url       String
+  url       String  @db.VarChar(1024)
   alt       String  @default("")
   sortOrder Int     @default(0)
 
@@ -150,12 +150,12 @@ model Bundle {
   id            String       @id @default(cuid())
   title         String
   slug          String       @unique
-  description   String       @default("")
+  description   String       @default("") @db.Text
   type          BundleType   @default(FIXED)
   discountType  DiscountType @default(PERCENT)
   discountValue Int          @default(0) // percent, or paise for FLAT / FIXED_PRICE
   isLive        Boolean      @default(true)
-  imageUrl      String?
+  imageUrl      String?      @db.VarChar(1024)
   createdAt     DateTime     @default(now())
 
   items      BundleItem[]
@@ -192,7 +192,7 @@ model Cart {
   sessionId   String?    @unique
   couponCode  String?
   giftWrap    Boolean    @default(true)
-  giftMessage String?
+  giftMessage String?    @db.Text
   updatedAt   DateTime   @updatedAt
   items       CartItem[]
 
@@ -270,7 +270,7 @@ model Order {
   total           Int
   couponId        String?
   coupon          Coupon?       @relation(fields: [couponId], references: [id])
-  giftMessage     String?
+  giftMessage     String?       @db.Text
   createdAt       DateTime      @default(now())
   deliveredAt     DateTime?
 
@@ -293,8 +293,8 @@ model OrderItem {
   variant        Variant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
   bundleId       String?
   bundle         Bundle?  @relation(fields: [bundleId], references: [id], onDelete: SetNull)
-  titleSnapshot  String
-  detailSnapshot String? // variant name, kit contents or gift-box picks + note
+  titleSnapshot  String   @db.VarChar(512)
+  detailSnapshot String?  @db.Text // variant name, kit contents or gift-box picks + note
   priceSnapshot  Int
   qty            Int
   components     Json? // [{ variantId, qty }] per unit — what stock to reserve/release for this line
@@ -324,8 +324,8 @@ model Shipment {
   awb               String? @unique
   courier           String?
   status            String  @default("CREATED")
-  trackingUrl       String?
-  labelUrl          String?
+  trackingUrl       String? @db.Text
+  labelUrl          String? @db.Text
   events            Json?
 
   @@index([orderId])
@@ -338,10 +338,10 @@ model Review {
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   rating     Int
-  text       String
+  text       String   @db.Text
   photos     Json?
   isApproved Boolean  @default(false)
-  reply      String?
+  reply      String?  @db.Text
   createdAt  DateTime @default(now())
 
   @@index([productId])
@@ -356,7 +356,7 @@ model OtpRequest {
   id        String   @id @default(cuid())
   phone     String
   ip        String?
-  codeHash  String
+  codeHash  String   @db.VarChar(255)
   expiresAt DateTime
   attempts  Int      @default(0)
   createdAt DateTime @default(now())
@@ -379,7 +379,7 @@ model OrderEvent {
   orderId   String
   order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
   status    OrderStatus
-  note      String?
+  note      String?     @db.Text
   createdAt DateTime    @default(now())
 
   @@index([orderId, createdAt])
@@ -400,10 +400,10 @@ model ReturnRequest {
   userId    String
   user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   reason    String
-  details   String?
+  details   String?      @db.Text
   itemIds   Json // OrderItem ids being returned
   status    ReturnStatus @default(REQUESTED)
-  adminNote String?
+  adminNote String?      @db.Text
   createdAt DateTime     @default(now())
 
   @@index([orderId])

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-time setup of a fresh Hostinger VPS (Ubuntu 22.04/24.04) for swift.in.
-# Installs Node 22, PostgreSQL, nginx, PM2 and HTTPS, then builds and starts the app.
+# Installs Node 22, MariaDB (MySQL), nginx, PM2 and HTTPS, then builds and starts the app.
 #
 # Usage (as root on the VPS):
 #   DOMAIN=srv123456.hstgr.cloud EMAIL=you@example.com \
@@ -21,7 +21,7 @@ PORT=3000
 echo "==> System packages"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
-apt-get install -y curl git nginx postgresql ufw certbot python3-certbot-nginx openssl
+apt-get install -y curl git nginx mariadb-server ufw certbot python3-certbot-nginx openssl
 
 if ! command -v node >/dev/null || [[ "$(node -v)" != v22* ]]; then
   echo "==> Node.js 22"
@@ -33,7 +33,7 @@ npm install -g pm2
 echo "==> App user"
 id "$APP_USER" >/dev/null 2>&1 || adduser --system --group --home "/home/$APP_USER" --shell /bin/bash "$APP_USER"
 
-echo "==> PostgreSQL"
+echo "==> MariaDB (MySQL)"
 DB_PASS_FILE="/home/$APP_USER/.db_password"
 if [[ ! -f "$DB_PASS_FILE" ]]; then
   openssl rand -hex 24 > "$DB_PASS_FILE"
@@ -41,10 +41,10 @@ if [[ ! -f "$DB_PASS_FILE" ]]; then
   chmod 600 "$DB_PASS_FILE"
 fi
 DB_PASS="$(cat "$DB_PASS_FILE")"
-sudo -u postgres psql -tc "SELECT 1 FROM pg_roles WHERE rolname='swift'" | grep -q 1 \
-  || sudo -u postgres psql -c "CREATE USER swift WITH PASSWORD '$DB_PASS';"
-sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname='swift'" | grep -q 1 \
-  || sudo -u postgres psql -c "CREATE DATABASE swift OWNER swift;"
+systemctl enable --now mariadb
+mysql -e "CREATE DATABASE IF NOT EXISTS swift CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -e "CREATE USER IF NOT EXISTS 'swift'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';"
+mysql -e "GRANT ALL PRIVILEGES ON swift.* TO 'swift'@'127.0.0.1'; FLUSH PRIVILEGES;"
 
 echo "==> Deploy key for GitHub"
 KEY="/home/$APP_USER/.ssh/id_ed25519"
@@ -71,7 +71,7 @@ echo "==> Environment (.env)"
 ENV_FILE="$APP_DIR/.env"
 if [[ ! -f "$ENV_FILE" ]]; then
   sudo -u "$APP_USER" tee "$ENV_FILE" >/dev/null <<ENV
-DATABASE_URL=postgresql://swift:$DB_PASS@localhost:5432/swift
+DATABASE_URL=mysql://swift:$DB_PASS@127.0.0.1:3306/swift
 NEXT_PUBLIC_SITE_URL=https://$DOMAIN
 SESSION_SECRET=$(openssl rand -hex 32)
 ADMIN_SEED_EMAIL=$ADMIN_EMAIL

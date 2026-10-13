@@ -31,7 +31,7 @@ async function Products({ searchParams }: Pick<PageProps<"/admin/products">, "se
     db.category.findMany({ orderBy: { sortOrder: "asc" } }),
     db.product.findMany({
       where: {
-        ...(q ? { OR: [{ title: { contains: q, mode: "insensitive" } }, { variants: { some: { sku: { contains: q, mode: "insensitive" } } } }] } : {}),
+        ...(q ? { OR: [{ title: { contains: q } }, { variants: { some: { sku: { contains: q } } } }] } : {}),
         ...(category ? { categoryId: category } : {}),
         ...(status === "live" ? { isLive: true } : status === "hidden" ? { isLive: false } : {}),
         ...(status === "low" ? { variants: { some: { stock: { lte: settings.lowStockThreshold } } } } : {}),
