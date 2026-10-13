@@ -70,22 +70,25 @@ update automatically.
 
 ### Adding photos
 
-Each image slot shows a labelled placeholder box with the file name it expects, for example
-`assets/img/home-hero.jpg`. Save the photo under `static/assets/img/` with that name (`.webp`,
-`.jpg` or `.png`) and rebuild; the placeholder is replaced automatically. Photos are cropped to
-the frame, so keep the subject centred. Export at about 1600 px on the long edge, around
-200–400 KB (WebP is smallest). Alt text is in `en.json` under `images`.
+Photos live in `static/assets/img/photos/` as WebP (a full 1024 px version plus a `-640`
+version for phones). `content/images.mjs` decides which photo goes in which spot, how it is
+cropped (`ratio`) and which part stays in view (`position`). To change a picture, drop a new
+file in `photos/` and point the slot's `src` at it. Any slot whose file is missing shows a
+labelled placeholder box instead. Alt text is in `en.json` under `images`.
 
 ### Logo and favicon
 
-The favicon is a temporary "V" monogram (`static/favicon.svg` and PNGs). When the logo is ready,
-replace those files. The share image for social media is `static/assets/img/og-image.jpg`
+The leaf "V" mark in the header, footer and favicon is recreated from the product label
+(`MARK` in `templates/lib.mjs`, plus `static/favicon.svg` and the PNG icons). Replace it with
+the original logo file when available. The share image for social media is `static/assets/img/og-image.jpg`
 (1200 × 630).
 
 ### Colours and fonts
 
 All colours, fonts, sizes and spacing are CSS variables at the top of
-`static/assets/css/main.css`. Gradients are single-colour, tone-on-tone only.
+`static/assets/css/main.css`. The palette comes from the product photos: leaf green, sunlit
+sand, the gold of the cap and the peach dot of the logo. Gradients are single-colour,
+tone-on-tone only.
 Fonts: Cormorant Garamond (headings) and Jost (text), from Google Fonts.
 
 ## Uploading to Hostinger

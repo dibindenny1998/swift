@@ -2,22 +2,25 @@ import { esc, html } from './lib.mjs';
 
 // An image slot from content/images.mjs. Renders the real image when a file exists in
 // static/assets/img/, otherwise a clearly labelled placeholder box of the same shape.
-export function image(ctx, slot, { eager = false, sizes = '100vw', className = '' } = {}) {
+// `arch` gives the frame a rounded, temple-arch top.
+export function image(ctx, slot, { eager = false, sizes = '100vw', className = '', arch = false, decorative = false } = {}) {
   const def = ctx.images[slot];
   if (!def) throw new Error(`Unknown image slot "${slot}" (add it to content/images.mjs)`);
-  const alt = ctx.tx(`images.${slot}`);
+  const alt = decorative ? '' : ctx.tx(`images.${slot}`);
   const ratio = def.ratio;
-  const style = `--ratio:${ratio.toFixed(4)}`;
+  const style = `--ratio:${ratio.toFixed(4)}${def.position ? `;--pos:${def.position}` : ''}`;
+  const cls = `media${arch ? ' media--arch' : ''} ${className}`;
 
   if (def.file) {
-    const w = 1600;
+    const w = 1024;
     const h = Math.round(w / ratio);
-    return html`<div class="media ${className}" style="${style}">
-  <img src="${ctx.asset(def.file)}" alt="${alt}" width="${w}" height="${h}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">
+    const srcset = def.small ? ` srcset="${ctx.asset(def.small)} 640w, ${ctx.asset(def.file)} 1024w"` : '';
+    return html`<div class="${cls}" style="${style}">
+  <img src="${ctx.asset(def.file)}"${srcset} alt="${alt}" width="${w}" height="${h}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">
 </div>`;
   }
 
-  return html`<div class="media media--placeholder ${className}" style="${style}" role="img" aria-label="${alt}">
+  return html`<div class="${cls} media--placeholder" style="${style}" role="img" aria-label="${alt}">
   <div class="placeholder" aria-hidden="true">
     <span class="placeholder__tag">${ctx.t('placeholder.image')}</span>
     <span class="placeholder__alt">${alt}</span>
@@ -31,7 +34,7 @@ export function productCard(ctx, product, { headingLevel = 2, delay = 0 } = {}) 
   const key = `products.items.${product.slug}`;
   const h = `h${headingLevel}`;
   return html`<article class="card" data-reveal style="--delay:${delay}ms">
-  ${image(ctx, `products/${product.slug}`, { sizes: '(min-width: 768px) 45vw, 100vw', className: 'card__media' })}
+  ${image(ctx, `products/${product.slug}`, { arch: true, sizes: '(min-width: 768px) 45vw, 92vw', className: 'card__media' })}
   <div class="card__body">
     <p class="eyebrow">${ctx.t(`products.categories.${product.category}`)}</p>
     <${h} class="card__title"><a class="card__link" href="${ctx.link(`products/${product.slug}/`)}">${ctx.t(`${key}.name`)}</a></${h}>

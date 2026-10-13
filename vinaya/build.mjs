@@ -42,10 +42,15 @@ function lookup(key) {
 
 // ---------------------------------------------------------------- images
 
+const findImage = (name) => {
+  const ext = IMAGE_EXTS.find((e) => existsSync(join(STATIC, 'assets/img', `${name}.${e}`)));
+  return ext ? `assets/img/${name}.${ext}` : null;
+};
 for (const [slot, def] of Object.entries(imageSlots)) {
-  const ext = IMAGE_EXTS.find((e) => existsSync(join(STATIC, 'assets/img', `${slot}.${e}`)));
-  def.file = ext ? `assets/img/${slot}.${ext}` : null;
-  if (!ext) warn(`image placeholder in use: static/assets/img/${slot}.jpg`);
+  const name = def.src ?? slot;
+  def.file = findImage(name);
+  def.small = def.file ? findImage(`${name}-640`) : null;
+  if (!def.file) warn(`image placeholder in use: static/assets/img/${name}.jpg`);
 }
 
 // ---------------------------------------------------------------- pages

@@ -1,4 +1,4 @@
-import { esc, html, rich } from './lib.mjs';
+import { MARK, esc, html, rich } from './lib.mjs';
 
 const NAV = [
   { id: 'story', path: 'our-story/' },
@@ -26,7 +26,7 @@ ${ctx.page.noindex ? '<meta name="robots" content="noindex">' : `<link rel="cano
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#f4f0e6">
+<meta name="theme-color" content="#fbf6ec">
 <link rel="icon" href="${ctx.asset('favicon.ico')}" sizes="32x32">
 <link rel="icon" href="${ctx.asset('favicon.svg')}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${ctx.asset('apple-touch-icon.png')}">
@@ -46,7 +46,7 @@ function header(ctx) {
   return html`<a class="skip-link" href="#main">${ctx.t('nav.skip')}</a>
 <header class="site-header" data-header>
   <div class="container site-header__inner">
-    <a class="wordmark" href="${ctx.link('')}" aria-label="Vinaya, ${ctx.tx('nav.home')}">Vinaya</a>
+    <a class="brand" href="${ctx.link('')}" aria-label="Vinaya, ${ctx.tx('nav.home')}">${MARK}<span class="wordmark">Vinaya</span></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
       <span class="menu-toggle__open">${ctx.t('nav.menu')}</span>
       <span class="menu-toggle__close">${ctx.t('nav.close')}</span>
@@ -75,7 +75,7 @@ function footer(ctx) {
   <div class="container">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        <a class="wordmark" href="${ctx.link('')}">Vinaya</a>
+        <a class="brand" href="${ctx.link('')}" aria-label="Vinaya">${MARK}<span class="wordmark">Vinaya</span></a>
         <p class="site-footer__slogan">${ctx.t('site.slogan')}</p>
         <p class="site-footer__tagline">${ctx.t('footer.tagline')}</p>
       </div>
@@ -110,8 +110,8 @@ export function band(ctx, { secondary = true, title = 'band.title', text = 'band
     <h2 class="band__title" id="band-title" data-reveal>${ctx.t(title)}</h2>
     <p class="band__text" data-reveal>${ctx.t(text)}</p>
     <div class="actions actions--center" data-reveal>
-      <a class="btn btn--light" href="${ctx.link('contact/')}">${ctx.t('band.primary')}</a>
-      ${secondary ? `<a class="link link--light" href="${ctx.link('export/')}">${ctx.t('band.secondary')}</a>` : ''}
+      <a class="btn btn--solid" href="${ctx.link('contact/')}">${ctx.t('band.primary')}</a>
+      ${secondary ? `<a class="link" href="${ctx.link('export/')}">${ctx.t('band.secondary')}</a>` : ''}
     </div>
   </div>
 </section>`;

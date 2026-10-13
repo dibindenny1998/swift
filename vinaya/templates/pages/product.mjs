@@ -20,7 +20,7 @@ export default function product(ctx, p) {
 <article class="product">
   <div class="container product__grid">
     <div class="product__media hero-in" style="--i:1">
-      ${image(ctx, `products/${p.slug}`, { eager: true, sizes: '(min-width: 960px) 45vw, 100vw' })}
+      ${image(ctx, `products/${p.slug}`, { eager: true, arch: true, sizes: '(min-width: 960px) 45vw, 92vw' })}
     </div>
 
     <div class="product__info">

@@ -1,15 +1,19 @@
-// Every image slot on the site. Put a file named after the slot in static/assets/img/
-// (any of .webp, .jpg, .jpeg, .png) and it replaces the placeholder box on the next build.
-// Alt text lives in the translation files under "images.<slot>".
-// `ratio` is width / height of the frame the image is cropped into.
+// Every image slot on the site.
+//   src      → photo in static/assets/img/ without extension (.webp, .jpg, .jpeg or .png).
+//              A smaller "<src>-640" version next to it is used on phones when present.
+//   ratio    → width / height of the frame the photo is cropped into.
+//   position → which part of the photo stays in view when cropped (CSS object-position).
+// If a file is missing, the site shows a labelled placeholder box instead.
+// Alt text lives in content/en.json under "images.<slot>".
 
 export default {
-  'home-hero': { ratio: 4 / 5 },
-  'story-hero': { ratio: 16 / 9 },
-  'story-garden': { ratio: 4 / 5 },
-  'story-hands': { ratio: 3 / 2 },
-  'export-hero': { ratio: 3 / 2 },
-  // Product photos: static/assets/img/products/<slug>.jpg
-  'products/hair-oil': { ratio: 4 / 5 },
-  'products/gift-set': { ratio: 4 / 5 },
+  'home-hero': { src: 'photos/hair-oil-coconut', ratio: 4 / 5, position: '50% 40%' },
+  'home-source': { src: 'photos/hair-oil-flatlay', ratio: 16 / 9, position: '50% 50%' },
+  'story-hero': { src: 'photos/hair-oil-flatlay', ratio: 16 / 9, position: '50% 48%' },
+  'story-coconut': { src: 'photos/hair-oil-coconut', ratio: 4 / 5, position: '92% 45%' },
+  'story-stone': { src: 'photos/hair-oil-stone', ratio: 3 / 2, position: '50% 62%' },
+  'export-hero': { src: 'photos/gift-set-pouch', ratio: 16 / 9, position: '50% 55%' },
+  // Product photos (slot name = products/<slug>)
+  'products/hair-oil': { src: 'photos/hair-oil-stone', ratio: 4 / 5, position: '50% 45%' },
+  'products/gift-set': { src: 'photos/gift-set-pouch', ratio: 4 / 5, position: '50% 55%' },
 };

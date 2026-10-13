@@ -33,7 +33,7 @@ ${ctx.raw('export.who.items').map(
   </div>
 </section>
 
-<section class="section section--tone" aria-labelledby="trade-title">
+<section class="section section--sand" aria-labelledby="trade-title">
   <div class="container">
     <header class="section-head">
       <h2 class="h2" id="trade-title" data-reveal>${ctx.t('export.details.title')}</h2>

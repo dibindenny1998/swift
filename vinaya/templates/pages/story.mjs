@@ -1,4 +1,4 @@
-import { html, roman } from '../lib.mjs';
+import { LEAF, html, roman } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
 import { image, pageHero } from '../components.mjs';
 
@@ -32,7 +32,7 @@ ${pageHero(ctx, { eyebrow: ctx.t('story.eyebrow'), title: ctx.t('story.title') }
 
 <section class="section" aria-label="${ctx.tx('story.eyebrow')}">
   <div class="container center">
-    <span class="rule" aria-hidden="true"></span>
+    <span class="ornament" data-reveal>${LEAF}</span>
     <p class="quote story-lead" data-reveal>${ctx.t('story.lead')}</p>
   </div>
 </section>
@@ -41,14 +41,14 @@ ${chapters.slice(0, 2).map((_, i) => chapter(ctx, `story.chapters.${i}`, ++n))}
 
 <div class="section">
   <div class="container story-figures">
-    <div data-reveal>${image(ctx, 'story-garden', { sizes: '(min-width: 960px) 32vw, 100vw' })}</div>
-    <div data-reveal style="--delay:200ms">${image(ctx, 'story-hands', { sizes: '(min-width: 960px) 48vw, 100vw' })}</div>
+    <div data-reveal>${image(ctx, 'story-coconut', { arch: true, sizes: '(min-width: 960px) 32vw, 92vw' })}</div>
+    <div data-reveal style="--delay:200ms">${image(ctx, 'story-stone', { sizes: '(min-width: 960px) 48vw, 92vw' })}</div>
   </div>
 </div>
 
 ${chapters.slice(2).map((_, i) => chapter(ctx, `story.chapters.${i + 2}`, ++n))}
 
-<section class="section section--tone" aria-label="${ctx.tx('story.eyebrow')}">
+<section class="section section--green" aria-label="${ctx.tx('story.eyebrow')}">
   <div class="container center">
     <span class="rule" aria-hidden="true"></span>
     <blockquote class="quote story-value" data-reveal><p>${ctx.t('story.value')}</p></blockquote>
