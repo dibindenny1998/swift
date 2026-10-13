@@ -21,4 +21,17 @@ const nextConfig = {
   },
 };
 
+// webpack (used by `npm run build:hosted`) names browser chunks after their route, e.g. app/(store)/products/[slug]/page-….js.
+// Proxies and CDNs re-encode "(", ")", "[" and "]" in different ways and the file then 404s, so use plain ids instead.
+nextConfig.webpack = (config, { isServer, dev }) => {
+  if (!isServer && !dev) {
+    const filename = config.output.filename;
+    config.output.filename = (pathData) =>
+      pathData.chunk?.name?.startsWith("app/") ? "static/chunks/app-[id]-[contenthash].js"
+        : typeof filename === "function" ? filename(pathData) : filename;
+    config.output.chunkFilename = "static/chunks/[id]-[contenthash].js";
+  }
+  return config;
+};
+
 export default nextConfig;
