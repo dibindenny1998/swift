@@ -15,7 +15,8 @@
     "contact": "Contact",
     "menu": "Menu",
     "close": "Close",
-    "breadcrumb": "Breadcrumb"
+    "breadcrumb": "Breadcrumb",
+    "blog": "Blog"
   },
   "cta": {
     "enquire": "Send an enquiry",
@@ -24,7 +25,8 @@
     "viewDetails": "View details",
     "allProducts": "View all products",
     "discover": "Discover the collection",
-    "enquireShort": "Enquire"
+    "enquireShort": "Enquire",
+    "readMore": "Read article"
   },
   "band": {
     "eyebrow": "For importers, distributors and retailers",
@@ -44,7 +46,7 @@
     "file": "File"
   },
   "images": {
-    "home-hero": "Vinaya Hair Oil bottle with a gold cap beside a fresh coconut, green leaves and a wooden comb in warm sunlight",
+    "home-hero": "Sunset over the Kerala backwaters, lined with coconut palms",
     "home-source": "Vinaya Hair Oil laid on stone with a wooden comb, coconut, green leaves and small white flowers",
     "story-hero": "Sunset over the Kerala backwaters, with coconut palms and a traditional houseboat",
     "story-coconut": "A freshly opened coconut and green leaves in morning sunlight",
@@ -54,7 +56,11 @@
     "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch",
     "approach-1": "Vinaya Hair Oil standing on natural stone among green leaves",
     "approach-2": "A brass bowl of herbal oil with hibiscus, coconut, cinnamon and fresh leaves",
-    "approach-3": "The Kerala backwaters at sunset, lined with coconut palms"
+    "approach-3": "The Kerala backwaters at sunset, lined with coconut palms",
+    "col-hair": "Vinaya Hair Oil on natural stone among green leaves",
+    "col-skin": "Fresh green leaves and small white flowers in warm sunlight",
+    "col-body": "A freshly opened coconut with green leaves and white flowers",
+    "col-gift": "Vinaya Gift Set in a sheer pouch"
   },
   "meta": {
     "home": {
@@ -80,6 +86,10 @@
     "notFound": {
       "title": "Page not found | Vinaya",
       "description": "This page could not be found."
+    },
+    "blog": {
+      "title": "Blog | Vinaya Natural Cosmetics",
+      "description": "Ingredients, traditions and simple natural-care rituals from Vinaya, a natural cosmetics brand rooted in Kerala."
     }
   },
   "home": {
@@ -145,7 +155,45 @@
       "eyebrow": "The goodness within",
       "title": "Herbs and spices, *steeped in coconut oil.*",
       "text": "Vinaya’s hair oil is made by steeping selected herbs and aromatic spices in coconut oil.",
-      "hint": "Tap an ingredient to learn more"
+      "hint": "Tap any ingredient to explore",
+      "prev": "Previous ingredient",
+      "next": "Next ingredient"
+    },
+    "collections": {
+      "eyebrow": "Our collections",
+      "title": "Natural care, *from head to toe.*",
+      "intro": "One philosophy across every ritual: traditional ingredients, made for modern living.",
+      "soon": "Coming soon",
+      "explore": "Explore",
+      "items": [
+        {
+          "key": "hair",
+          "title": "Hair Care",
+          "text": "Botanical oils and rituals for hair and scalp.",
+          "link": "products/hair-oil/"
+        },
+        {
+          "key": "skin",
+          "title": "Skin Care",
+          "text": "Gentle, natural care for your skin."
+        },
+        {
+          "key": "body",
+          "title": "Body Care",
+          "text": "Everyday rituals from head to toe."
+        },
+        {
+          "key": "gift",
+          "title": "Gifting",
+          "text": "Thoughtful sets, beautifully presented.",
+          "link": "products/gift-set/"
+        }
+      ]
+    },
+    "journal": {
+      "eyebrow": "From the blog",
+      "title": "Notes on nature, *ritual and care.*",
+      "all": "Read the blog"
     }
   },
   "story": {
@@ -509,5 +557,19 @@
       "tagline": "The king of hair",
       "text": "Known in India as Keshraj, or “King of Hair”. Cherished for generations in hair and scalp care."
     }
-  ]
+  ],
+  "blog": {
+    "eyebrow": "Blog",
+    "title": "Notes on nature, *ritual and care.*",
+    "intro": "Ingredients, traditions and simple rituals from the world of Vinaya.",
+    "all": "All",
+    "featured": "Featured",
+    "minRead": "min read",
+    "by": "By Vinaya",
+    "related": "Keep reading",
+    "back": "All articles",
+    "share": "Share",
+    "copy": "Copy link",
+    "copied": "Link copied"
+  }
 }

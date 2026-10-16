@@ -3,7 +3,7 @@
 // Hostinger). No dependencies: run with `node build.mjs`.
 
 import { createHash } from 'node:crypto';
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -18,6 +18,9 @@ import product from './templates/pages/product.mjs';
 import exportPage from './templates/pages/export.mjs';
 import contact from './templates/pages/contact.mjs';
 import notFound from './templates/pages/not-found.mjs';
+import blog from './templates/pages/blog.mjs';
+import postPage from './templates/pages/post.mjs';
+import { parsePost, renderMarkdown } from './templates/markdown.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, 'public_html');
@@ -39,6 +42,23 @@ function lookup(key) {
   if (empty(value)) throw new Error(`Missing text "${key}" in content/en.json`);
   return value;
 }
+
+// ---------------------------------------------------------------- blog
+// Every content/blog/*.md file is a post; newest first. Its image becomes the slot blog/<slug>.
+
+const BLOG = join(ROOT, 'content', 'blog');
+const posts = (existsSync(BLOG) ? readdirSync(BLOG) : [])
+  .filter((f) => f.endsWith('.md'))
+  .map((f) => {
+    const slug = f.replace(/\.md$/, '');
+    const post = parsePost(readFileSync(join(BLOG, f), 'utf8'));
+    for (const key of ['title', 'excerpt', 'category', 'date', 'image']) {
+      if (!post.meta[key]) throw new Error(`content/blog/${f}: missing "${key}" in front matter`);
+    }
+    imageSlots[`blog/${slug}`] = { src: post.meta.image, ratio: 3 / 2, position: post.meta.position };
+    return { slug, ...post, html: renderMarkdown(post.body) };
+  })
+  .sort((a, b) => b.meta.date.localeCompare(a.meta.date));
 
 // ---------------------------------------------------------------- images
 
@@ -64,6 +84,13 @@ const pages = [
     section: 'products',
     path: `products/${p.slug}/`,
     render: (ctx) => product(ctx, p),
+  })),
+  { id: 'blog', section: 'blog', path: 'blog/', render: blog },
+  ...posts.map((p) => ({
+    id: `post-${p.slug}`,
+    section: 'blog',
+    path: `blog/${p.slug}/`,
+    render: (ctx) => postPage(ctx, p),
   })),
   { id: 'export', section: 'export', path: 'export/', render: exportPage },
   { id: 'contact', section: 'contact', path: 'contact/', render: contact },
@@ -97,6 +124,7 @@ function makeContext(page, { absolute = false } = {}) {
     page,
     config,
     products,
+    posts,
     images: imageSlots,
     t: (key) => rich(lookup(key)),
     tx: (key) => esc(lookup(key)),

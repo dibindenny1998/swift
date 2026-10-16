@@ -3,6 +3,7 @@ import { MARK, esc, html, rich } from './lib.mjs';
 const NAV = [
   { id: 'story', path: 'our-story/' },
   { id: 'products', path: 'products/' },
+  { id: 'blog', path: 'blog/' },
   { id: 'export', path: 'export/' },
   { id: 'contact', path: 'contact/' },
 ];

@@ -8,7 +8,11 @@
 // Alt text lives in content/en.json under "images.<slot>".
 
 export default {
-  'home-hero': { src: 'photos/hair-oil-coconut', ratio: 4 / 5, position: '50% 40%' },
+  'home-hero': { src: 'photos/kerala-backwaters', ratio: 16 / 9, position: '50% 50%' },
+  'col-hair': { src: 'photos/hair-oil-stone', ratio: 4 / 5, position: '50% 45%' },
+  'col-skin': { src: 'photos/detail-flowers', ratio: 4 / 5, position: '35% 50%' },
+  'col-body': { src: 'photos/detail-coconut', ratio: 4 / 5, position: '50% 50%' },
+  'col-gift': { src: 'photos/gift-set-pouch', ratio: 4 / 5, position: '50% 55%' },
   'home-source': { src: 'photos/hair-oil-flatlay', ratio: 16 / 9, position: '50% 50%' },
   'approach-1': { src: 'photos/hair-oil-stone', ratio: 4 / 3, position: '50% 58%' },
   'approach-2': { src: 'ingredients/brass-bowl', ratio: 4 / 3, fit: 'contain' },

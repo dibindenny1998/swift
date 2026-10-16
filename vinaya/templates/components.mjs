@@ -3,10 +3,10 @@ import { esc, html } from './lib.mjs';
 // An image slot from content/images.mjs. Renders the real image when a file exists in
 // static/assets/img/, otherwise a clearly labelled placeholder box of the same shape.
 // `arch` gives the frame a rounded, temple-arch top.
-export function image(ctx, slot, { eager = false, sizes = '100vw', className = '', arch = false, decorative = false } = {}) {
+export function image(ctx, slot, { eager = false, sizes = '100vw', className = '', arch = false, decorative = false, alt: altText } = {}) {
   const def = ctx.images[slot];
   if (!def) throw new Error(`Unknown image slot "${slot}" (add it to content/images.mjs)`);
-  const alt = decorative ? '' : ctx.tx(`images.${slot}`);
+  const alt = decorative ? '' : altText !== undefined ? esc(altText) : ctx.tx(`images.${slot}`);
   const ratio = def.ratio;
   const style = `--ratio:${ratio.toFixed(4)}${def.position ? `;--pos:${def.position}` : ''}${def.fit ? `;--fit:${def.fit}` : ''}`;
   const cls = `media${arch ? ' media--arch' : ''}${def.fit === 'contain' ? ' media--contain' : ''} ${className}`;
@@ -75,12 +75,13 @@ export function goodness(ctx, { headingLevel = 2 } = {}) {
       <p class="eyebrow" data-reveal>${ctx.t('home.goodness.eyebrow')}</p>
       <${h} class="h2" id="goodness-title" data-reveal>${ctx.t('home.goodness.title')}</${h}>
       <p class="lead" data-reveal>${ctx.t('home.goodness.text')}</p>
+      <p class="goodness__hint" data-reveal><span class="goodness__tap" aria-hidden="true"></span>${ctx.t('home.goodness.hint')}</p>
     </header>
     <div class="orbit" data-orbit data-reveal>
       <span class="orbit__ring" aria-hidden="true"></span>
       <ul class="orbit__nodes">
 ${ring.map(
-    (item, i) => `        <li class="orbit__slot" style="--a:${(i * step).toFixed(1)}deg"><button class="orbit__node" type="button" data-ing="${i + 1}" aria-controls="ing-${i + 1}" aria-pressed="false"><span class="orbit__icon">${icon(item)}</span><span class="visually-hidden">${esc(item.name)}</span></button></li>\n`,
+    (item, i) => `        <li class="orbit__slot" style="--a:${(i * step).toFixed(1)}deg"><button class="orbit__node" type="button" data-ing="${i + 1}" aria-controls="ing-${i + 1}" aria-pressed="false"><span class="orbit__icon">${icon(item)}<span class="orbit__plus" aria-hidden="true">+</span></span><span class="visually-hidden">${esc(item.name)}</span></button></li>\n`,
   )}      </ul>
       <button class="orbit__core" type="button" data-ing="0" aria-controls="ing-0" aria-pressed="true">${icon(core)}<span class="visually-hidden">${esc(core.name)}</span></button>
     </div>
@@ -91,8 +92,33 @@ ${items.map(
         <h3 class="ing__name">${esc(item.name)}</h3>
         <p class="ing__text">${esc(item.text)}</p>
       </article>\n`,
-  )}      <p class="goodness__hint">${ctx.t('home.goodness.hint')}</p>
+  )}      <div class="goodness__controls" aria-hidden="true" hidden data-ing-controls>
+        <button type="button" class="goodness__arrow" data-ing-prev tabindex="-1" aria-label="${ctx.tx('home.goodness.prev')}">&larr;</button>
+        <span class="goodness__count" data-ing-count>1 / ${items.length}</span>
+        <button type="button" class="goodness__arrow" data-ing-next tabindex="-1" aria-label="${ctx.tx('home.goodness.next')}">&rarr;</button>
+      </div>
     </div>
   </div>
 </section>`;
+}
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export const formatDate = (iso) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${MONTHS[m - 1]} ${y}`;
+};
+
+// A blog post card. `feature` = the large horizontal card at the top of the blog.
+export function postCard(ctx, post, { feature = false, headingLevel = 2, delay = 0 } = {}) {
+  const h = `h${headingLevel}`;
+  const m = post.meta;
+  return html`<article class="post-card${feature ? ' post-card--feature' : ''}" data-reveal data-category="${esc(m.category)}" style="--delay:${delay}ms">
+  ${image(ctx, `blog/${post.slug}`, { alt: m.alt, className: 'post-card__media', eager: feature, sizes: feature ? '(min-width: 960px) 55vw, 92vw' : '(min-width: 960px) 30vw, 92vw' })}
+  <div class="post-card__body">
+    <p class="post-card__meta"><span class="chip">${esc(m.category)}</span><span>${formatDate(m.date)} · ${post.minutes} ${ctx.t('blog.minRead')}</span></p>
+    <${h} class="post-card__title"><a class="card__link" href="${ctx.link(`blog/${post.slug}/`)}">${esc(m.title)}</a></${h}>
+    <p class="post-card__excerpt">${esc(m.excerpt)}</p>
+    <span class="link" aria-hidden="true">${ctx.t('cta.readMore')}</span>
+  </div>
+</article>`;
 }

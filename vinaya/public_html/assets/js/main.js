@@ -146,8 +146,19 @@
     var timer = null;
     var userPicked = false;
 
+    var controls = section.querySelector('[data-ing-controls]');
+    var count = section.querySelector('[data-ing-count]');
+    if (controls) {
+      controls.hidden = false;
+      controls.removeAttribute('aria-hidden');
+      controls.querySelectorAll('button').forEach(function (b) {
+        b.removeAttribute('tabindex');
+      });
+    }
+
     function show(i) {
       current = i;
+      if (count) count.textContent = i + 1 + ' / ' + total;
       buttons.forEach(function (b) {
         b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-ing')) === i));
       });
@@ -176,6 +187,16 @@
       });
     });
 
+    function step(d) {
+      userPicked = true;
+      stop();
+      show((current + d + total) % total);
+    }
+    var prev = section.querySelector('[data-ing-prev]');
+    var next = section.querySelector('[data-ing-next]');
+    if (prev) prev.addEventListener('click', function () { step(-1); });
+    if (next) next.addEventListener('click', function () { step(1); });
+
     orbit.addEventListener('mouseenter', stop);
     orbit.addEventListener('mouseleave', play);
 
@@ -189,6 +210,38 @@
       }, { threshold: 0.3 }).observe(orbit);
     }
   });
+
+  /* ---------------------------------------------------------------- blog: category filter, copy link */
+
+  var filters = doc.querySelector('[data-blog-filters]');
+  if (filters) {
+    var cards = doc.querySelectorAll('.page-blog .post-card');
+    filters.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-filter]');
+      if (!btn) return;
+      var f = btn.getAttribute('data-filter');
+      filters.querySelectorAll('[data-filter]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      cards.forEach(function (c) {
+        c.hidden = f !== 'all' && c.getAttribute('data-category') !== f;
+        c.classList.add('is-visible');
+      });
+    });
+  }
+
+  var copyBtn = doc.querySelector('[data-copy-link]');
+  if (copyBtn && navigator.clipboard) {
+    copyBtn.addEventListener('click', function () {
+      navigator.clipboard.writeText(window.location.href).then(function () {
+        var label = copyBtn.textContent;
+        copyBtn.textContent = copyBtn.getAttribute('data-copied');
+        window.setTimeout(function () {
+          copyBtn.textContent = label;
+        }, 2000);
+      });
+    });
+  }
 
   /* ---------------------------------------------------------------- enquiry form */
 
