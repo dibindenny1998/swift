@@ -75,8 +75,7 @@ function footer(ctx) {
   <div class="container">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        <a class="brand" href="${ctx.link('')}" aria-label="Vinaya">${MARK}<span class="wordmark">Vinaya</span></a>
-        <p class="site-footer__slogan">${ctx.t('site.slogan')}</p>
+        <a class="site-footer__logo" href="${ctx.link('')}"><img src="${ctx.asset('assets/img/logo-full-light.svg')}" alt="Vinaya, A Way of Being. People, Purpose, Progress" width="196" height="183" loading="lazy" decoding="async"></a>
         <p class="site-footer__tagline">${ctx.t('footer.tagline')}</p>
       </div>
       <nav class="site-footer__col" aria-labelledby="footer-explore">
@@ -96,7 +95,7 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
     </div>
     <div class="site-footer__bottom">
       <p>&copy; ${new Date().getFullYear()} Vinaya. ${ctx.t('footer.rights')}</p>
-      <p>${ctx.t('footer.origin')}</p>
+      <p>${ctx.t('site.motto')}</p>
     </div>
   </div>
 </footer>`;

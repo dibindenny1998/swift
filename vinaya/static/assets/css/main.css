@@ -743,8 +743,16 @@ main:focus {
 .media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--fit, cover);
   object-position: var(--pos, 50% 50%);
+}
+
+.media--contain {
+  background: var(--grad-sand);
+}
+
+.media--contain img {
+  padding: 6% 8%;
 }
 
 .placeholder {
@@ -908,63 +916,328 @@ main:focus {
   }
 }
 
-/* ------------------------------------------------------------------ what's inside */
+/* ------------------------------------------------------------------ the goodness within (orbit) */
 
-.inside__grid {
+.goodness {
+  overflow: hidden;
+  background: var(--grad-cream);
+}
+
+.goodness__grid {
   display: grid;
   gap: 3rem;
 }
 
-.ingredient {
-  text-align: center;
+.goodness__head > * + * {
+  margin-top: 1.25rem;
 }
 
-.ingredient .media,
-.ingredient__panel {
-  width: min(100%, 22rem);
-  margin: 0 auto 1.75rem;
+.orbit {
+  position: relative;
+  width: min(100%, 34rem);
+  aspect-ratio: 1;
+  margin-inline: auto;
 }
 
-.ingredient__title {
+/* Dashed ring, like the leaflet */
+.orbit__ring {
+  position: absolute;
+  inset: 11%;
+  border: 1.5px dashed rgba(27, 46, 34, 0.45);
+  border-radius: 50%;
+  animation: spin 120s linear infinite reverse;
+}
+
+.orbit__nodes {
+  position: absolute;
+  inset: 0;
+  animation: spin 70s linear infinite;
+}
+
+.orbit__slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22%;
+  aspect-ratio: 1;
+  margin: -11% 0 0 -11%;
+  transform: rotate(var(--a)) translateY(-177%) rotate(calc(-1 * var(--a)));
+}
+
+.orbit__node {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid rgba(195, 154, 69, 0.55);
+  border-radius: 50%;
+  background: var(--cream);
+  box-shadow: 0 14px 30px -18px rgba(19, 48, 33, 0.45);
+  cursor: pointer;
+  transition:
+    transform 0.6s var(--ease),
+    border-color 0.6s var(--ease),
+    box-shadow 0.6s var(--ease),
+    background-color 0.6s var(--ease);
+}
+
+/* Counter-spins so every ingredient stays upright while the ring turns. */
+.orbit__icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  animation: spin 70s linear infinite reverse;
+}
+
+.orbit__icon img {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+.orbit__node:hover,
+.orbit__node[aria-pressed='true'] {
+  border-color: var(--green);
+  background: #fff8ea;
+  box-shadow: 0 0 0 4px rgba(195, 154, 69, 0.35), 0 18px 34px -18px rgba(19, 48, 33, 0.55);
+  transform: scale(1.12);
+}
+
+.orbit__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 38%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 210, 171, 0.95) 0%, rgba(232, 210, 171, 0) 70%);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 0.6s var(--ease);
+}
+
+.orbit__core img {
+  width: 92%;
+  height: auto;
+  animation: float 6s ease-in-out infinite;
+}
+
+.orbit__core:hover,
+.orbit__core[aria-pressed='true'] {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Hovering or focusing the orbit pauses it, so the ingredients are easy to pick. */
+.orbit:hover :is(.orbit__nodes, .orbit__icon, .orbit__ring),
+.orbit:focus-within :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
+  animation-play-state: paused;
+}
+
+.goodness__panel {
+  position: relative;
+  max-width: 30rem;
+}
+
+.ing {
+  padding: 2rem 2rem 2.25rem;
+  border-left: 2px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: rgba(251, 246, 236, 0.85);
+}
+
+.ing + .ing {
+  margin-top: 1rem;
+}
+
+.ing__tagline {
+  color: var(--gold-ink);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.ing__name {
+  margin-top: 0.6rem;
   font-size: var(--fs-h3);
 }
 
-.ingredient p {
-  max-width: 28ch;
-  margin: 0.6rem auto 0;
+.ing__text {
+  margin-top: 0.75rem;
+  max-width: 38ch;
 }
 
-.ingredient__panel {
-  position: relative;
+.goodness__hint {
+  display: none;
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+}
+
+/* With JavaScript, the panel shows one ingredient at a time. */
+.js .ing {
+  display: none;
+}
+
+.js .ing.is-active {
+  display: block;
+  animation: ing-in 0.7s var(--ease) both;
+}
+
+.js .goodness__hint {
+  display: block;
+}
+
+@keyframes ing-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+
+@media (min-width: 960px) {
+  .goodness__grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      'head orbit'
+      'panel orbit';
+    align-items: center;
+    column-gap: clamp(3rem, 6vw, 6rem);
+    row-gap: 2.5rem;
+  }
+
+  .goodness__head {
+    grid-area: head;
+    align-self: end;
+  }
+
+  .orbit {
+    grid-area: orbit;
+  }
+
+  .goodness__panel {
+    grid-area: panel;
+    align-self: start;
+  }
+}
+
+/* ------------------------------------------------------------------ ritual, method, faq (product page) */
+
+.patch {
+  max-width: 44rem;
+  margin: clamp(3rem, 2rem + 3vw, 4.5rem) auto 0;
+  padding: 1.75rem 2rem;
+  border: 1px solid rgba(195, 154, 69, 0.45);
+  border-radius: var(--radius);
+  background: rgba(251, 246, 236, 0.8);
+  text-align: center;
+}
+
+.patch__title {
+  margin-bottom: 0.5rem;
+  color: var(--gold-ink);
+  font-family: var(--sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.method__steps {
   display: grid;
+  gap: 1rem;
+  counter-reset: none;
+}
+
+.method__steps li {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius);
+  background: rgba(251, 246, 236, 0.05);
+}
+
+.method__num {
+  display: grid;
+  flex: none;
   place-items: center;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 999px 999px var(--radius) var(--radius);
-  background: var(--grad-green);
-  color: var(--gold-light);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--grad-gold);
+  color: var(--green-deep);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.ingredient__value {
+.method__title {
+  color: var(--on-green);
   font-family: var(--serif);
-  font-size: clamp(7rem, 5rem + 8vw, 10rem);
-  font-style: italic;
-  line-height: 1;
-}
-
-.ingredient__panel .mark {
-  position: absolute;
-  bottom: 12%;
-  width: 2.5rem;
-  height: 2.5rem;
-  color: var(--cream);
+  font-size: clamp(1.4rem, 1.2rem + 0.6vw, 1.75rem);
+  line-height: 1.2;
 }
 
 @media (min-width: 768px) {
-  .inside__grid {
+  .method__steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.5rem, 3vw, 3rem);
   }
+
+  .method__steps li {
+    flex-direction: column;
+    text-align: center;
+    padding: 2.25rem 1.5rem;
+  }
+}
+
+.faq__list {
+  border-top: 1px solid var(--line);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq__item summary {
+  position: relative;
+  padding: 1.35rem 2.5rem 1.35rem 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 1.15rem + 0.5vw, 1.6rem);
+  line-height: 1.3;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq__item summary::after {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  color: var(--gold-ink);
+  font-family: var(--sans);
+  font-size: 1.5rem;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: transform 0.5s var(--ease);
+}
+
+.faq__item[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.faq__item p {
+  max-width: 60ch;
+  padding-bottom: 1.5rem;
 }
 
 /* ------------------------------------------------------------------ floating enquire (phones) */
@@ -1281,45 +1554,46 @@ main:focus {
 
 .cards {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .tile {
-  padding: 2.5rem 2rem;
+  overflow: hidden;
   border: 1px solid rgba(195, 154, 69, 0.3);
   border-radius: var(--radius);
-  background: rgba(251, 246, 236, 0.75);
-  transition: transform 0.8s var(--ease), background-color 0.8s var(--ease);
+  background: rgba(251, 246, 236, 0.85);
+  transition: transform 0.8s var(--ease), box-shadow 0.8s var(--ease);
 }
 
 .tile:hover {
-  background: var(--cream);
+  box-shadow: 0 24px 40px -28px rgba(19, 48, 33, 0.45);
   transform: translateY(-4px);
 }
 
-.tile__icon {
-  display: grid;
-  place-items: center;
-  width: 3.75rem;
-  height: 3.75rem;
-  margin-bottom: 1.75rem;
-  border-radius: 50%;
-  background: var(--grad-green);
-  color: var(--gold-light);
+.tile__media {
+  border-radius: 0;
 }
 
-.tile__icon .leaf {
-  width: 1.6rem;
-  transform: rotate(var(--turn, 0deg));
+.tile__body {
+  padding: 1.75rem 1.75rem 2rem;
 }
 
 .tile__title {
-  margin-bottom: 0.75rem;
   font-size: var(--fs-h3);
 }
 
-.tile p {
-  max-width: 30ch;
+.tile__sub {
+  margin-top: 0.35rem;
+  color: var(--leaf);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.tile p:last-child {
+  max-width: 34ch;
+  margin-top: 0.75rem;
 }
 
 @media (min-width: 768px) {
@@ -1452,6 +1726,11 @@ main:focus {
 .site-footer__grid {
   display: grid;
   gap: 3.25rem;
+}
+
+.site-footer__logo img {
+  width: 11rem;
+  height: auto;
 }
 
 .site-footer__slogan {
@@ -2393,14 +2672,6 @@ main:focus {
   transform: translateY(-6px);
 }
 
-.tile__icon .leaf {
-  transition: transform 0.9s var(--ease);
-}
-
-.tile:hover .tile__icon .leaf {
-  transform: rotate(calc(var(--turn, 0deg) + 35deg)) scale(1.1);
-}
-
 .step__num {
   transition: transform 0.8s var(--ease);
 }
@@ -2423,6 +2694,10 @@ main:focus {
   .badge,
   .badge__ring,
   .drift .leaf,
+  .orbit__ring,
+  .orbit__nodes,
+  .orbit__icon,
+  .orbit__core img,
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;

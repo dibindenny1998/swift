@@ -1,12 +1,13 @@
-import { esc, html } from '../lib.mjs';
+import { esc, html, pad } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { highlights, image, productCard } from '../components.mjs';
+import { goodness, highlights, image, productCard } from '../components.mjs';
 
 export default function product(ctx, p) {
   const key = `products.items.${p.slug}`;
   const others = ctx.products.filter((o) => o.slug !== p.slug);
   const name = ctx.raw(`${key}.name`);
   const variant = ctx.raw(`${key}.variant`);
+  const data = ctx.raw(key);
 
   const body = html`
 <nav class="breadcrumb container" aria-label="${ctx.tx('nav.breadcrumb')}">
@@ -54,6 +55,47 @@ ${p.specs.map(
     </div>
   </div>
 </article>
+
+${p.goodness ? goodness(ctx) : ''}
+
+${data.ritual ? html`<section class="section section--sand ritual" aria-labelledby="ritual-title">
+  <div class="container">
+    <header class="section-head center">
+      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('products.page.ritualSub')}</p>
+      <h2 class="h2" id="ritual-title" data-reveal>${ctx.t('products.page.ritualTitle')}</h2>
+    </header>
+    <ol class="steps" data-reveal>
+${data.ritual.map(
+    (_, i) => `      <li class="step" data-reveal style="--delay:${i * 200}ms"><span class="step__num" aria-hidden="true">${pad(i + 1)}</span><h3 class="step__title">${ctx.t(`${key}.ritual.${i}.title`)}</h3><p class="step__text">${ctx.t(`${key}.ritual.${i}.text`)}</p></li>\n`,
+  )}    </ol>
+    ${data.patch ? `<aside class="patch" data-reveal><h3 class="patch__title">${ctx.t(`${key}.patch.title`)}</h3><p>${ctx.t(`${key}.patch.text`)}</p></aside>` : ''}
+  </div>
+</section>` : ''}
+
+${data.method ? html`<section class="section section--green method" aria-labelledby="method-title">
+  <div class="container">
+    <header class="section-head center">
+      <h2 class="h2" id="method-title" data-reveal>${ctx.t('products.page.methodTitle')}</h2>
+      <p class="lead lead--center" data-reveal>${ctx.t('products.page.methodSub')}</p>
+    </header>
+    <ol class="method__steps">
+${data.method.map(
+    (_, i) => `      <li data-reveal style="--delay:${i * 200}ms"><span class="method__num">${pad(i + 1)}</span><span class="method__title">${ctx.t(`${key}.method.${i}.title`)}</span></li>\n`,
+  )}    </ol>
+  </div>
+</section>` : ''}
+
+${data.faq ? html`<section class="section faq" aria-labelledby="faq-title">
+  <div class="container container--narrow">
+    <header class="section-head center">
+      <h2 class="h2" id="faq-title" data-reveal>${ctx.t('products.page.faqTitle')}</h2>
+    </header>
+    <div class="faq__list" data-reveal>
+${data.faq.map(
+    (_, i) => `      <details class="faq__item"${i === 0 ? ' open' : ''}><summary>${ctx.t(`${key}.faq.${i}.q`)}</summary><p>${ctx.t(`${key}.faq.${i}.a`)}</p></details>\n`,
+  )}    </div>
+  </div>
+</section>` : ''}
 
 ${others.length ? html`<section class="section more" aria-labelledby="more-title">
   <div class="container">

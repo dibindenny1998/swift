@@ -135,6 +135,61 @@
     });
   }
 
+  /* ---------------------------------------------------------------- ingredient orbit */
+
+  doc.querySelectorAll('[data-orbit]').forEach(function (orbit) {
+    var section = orbit.closest('section');
+    var buttons = Array.prototype.slice.call(orbit.querySelectorAll('[data-ing]'));
+    var panels = section.querySelectorAll('[data-ing-panel]');
+    var total = panels.length;
+    var current = 0;
+    var timer = null;
+    var userPicked = false;
+
+    function show(i) {
+      current = i;
+      buttons.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-ing')) === i));
+      });
+      panels.forEach(function (p) {
+        p.classList.toggle('is-active', Number(p.getAttribute('data-ing-panel')) === i);
+      });
+    }
+
+    function stop() {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    }
+
+    function play() {
+      if (timer || userPicked || calm) return;
+      timer = window.setInterval(function () {
+        show((current + 1) % total);
+      }, 4200);
+    }
+
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        userPicked = true;
+        stop();
+        show(Number(b.getAttribute('data-ing')));
+      });
+    });
+
+    orbit.addEventListener('mouseenter', stop);
+    orbit.addEventListener('mouseleave', play);
+
+    // Only cycle while the orbit is on screen.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) play();
+          else stop();
+        });
+      }, { threshold: 0.3 }).observe(orbit);
+    }
+  });
+
   /* ---------------------------------------------------------------- enquiry form */
 
   var form = doc.querySelector('[data-enquiry-form]');

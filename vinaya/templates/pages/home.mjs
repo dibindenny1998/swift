@@ -1,6 +1,6 @@
 import { LEAF, MARK, esc, html, pad } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { highlights, image } from '../components.mjs';
+import { goodness, highlights, image } from '../components.mjs';
 
 // Circular badge with slowly rotating text around the leaf mark.
 function badge(ctx) {
@@ -12,35 +12,6 @@ function badge(ctx) {
   </svg>
   <span class="badge__mark">${MARK}</span>
 </div>`;
-}
-
-// "What's inside": two ingredient close-ups and a closing "nothing synthetic" card.
-function inside(ctx) {
-  const slots = ['home-coconut', 'home-leaves'];
-  return html`<section class="section inside" aria-labelledby="inside-title">
-  <div class="container">
-    <header class="section-head center">
-      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.inside.eyebrow')}</p>
-      <h2 class="h2" id="inside-title" data-reveal>${ctx.t('home.inside.title')}</h2>
-    </header>
-    <ul class="inside__grid">
-${ctx.raw('home.inside.items').map((item, i) =>
-    slots[i]
-      ? html`      <li class="ingredient" data-reveal style="--delay:${i * 180}ms">
-        ${image(ctx, slots[i], { arch: true, sizes: '(min-width: 768px) 30vw, 92vw' })}
-        <h3 class="ingredient__title">${ctx.t(`home.inside.items.${i}.title`)}</h3>
-        <p>${ctx.t(`home.inside.items.${i}.text`)}</p>
-      </li>
-`
-      : html`      <li class="ingredient ingredient--none" data-reveal style="--delay:${i * 180}ms">
-        <div class="ingredient__panel"><span class="ingredient__value">${ctx.t(`home.inside.items.${i}.value`)}</span>${MARK}</div>
-        <h3 class="ingredient__title">${ctx.t(`home.inside.items.${i}.title`)}</h3>
-        <p>${ctx.t(`home.inside.items.${i}.text`)}</p>
-      </li>
-`,
-  )}    </ul>
-  </div>
-</section>`;
 }
 
 export default function home(ctx) {
@@ -105,7 +76,7 @@ export default function home(ctx) {
   </div>
 </section>
 
-${inside(ctx)}
+${goodness(ctx)}
 
 <section class="section section--photo source" aria-labelledby="source-title">
   <div class="section__bg" data-parallax="0.12">${image(ctx, 'home-source', { decorative: true, sizes: '100vw' })}</div>
@@ -133,14 +104,16 @@ ${ctx.raw('home.source.steps').map(
     <header class="section-head center">
       <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.approach.eyebrow')}</p>
       <h2 class="h2" id="approach-title" data-reveal>${ctx.t('home.approach.title')}</h2>
-      <p class="lead lead--center" data-reveal>${ctx.t('home.approach.intro')}</p>
     </header>
     <ul class="cards">
 ${ctx.raw('home.approach.pillars').map(
     (_, i) => html`      <li class="tile" data-reveal style="--delay:${i * 180}ms">
-        <span class="tile__icon" style="--turn:${i * 40 - 40}deg">${LEAF}</span>
-        <h3 class="tile__title">${ctx.t(`home.approach.pillars.${i}.title`)}</h3>
-        <p>${ctx.t(`home.approach.pillars.${i}.text`)}</p>
+        ${image(ctx, `approach-${i + 1}`, { className: 'tile__media', sizes: '(min-width: 768px) 30vw, 92vw' })}
+        <div class="tile__body">
+          <h3 class="tile__title">${ctx.t(`home.approach.pillars.${i}.title`)}</h3>
+          ${ctx.raw('home.approach.pillars')[i].subtitle ? `<p class="tile__sub">${ctx.t(`home.approach.pillars.${i}.subtitle`)}</p>` : ''}
+          <p>${ctx.t(`home.approach.pillars.${i}.text`)}</p>
+        </div>
       </li>
 `,
   )}    </ul>

@@ -1,8 +1,9 @@
 {
   "site": {
     "name": "Vinaya",
-    "slogan": "The Best of Nature, for the Best of You.",
-    "tagline": "Natural personal care from India"
+    "slogan": "A Way of Being.",
+    "tagline": "Natural cosmetics, rooted in traditional wisdom",
+    "motto": "People · Purpose · Progress"
   },
   "nav": {
     "skip": "Skip to content",
@@ -33,10 +34,9 @@
     "secondary": "Export information"
   },
   "footer": {
-    "tagline": "Natural personal care, rooted in Indian tradition.",
+    "tagline": "Natural cosmetics, rooted in traditional wisdom.",
     "explore": "Explore",
     "reach": "Get in touch",
-    "origin": "Product of India",
     "rights": "All rights reserved."
   },
   "placeholder": {
@@ -46,31 +46,32 @@
   "images": {
     "home-hero": "Vinaya Hair Oil bottle with a gold cap beside a fresh coconut, green leaves and a wooden comb in warm sunlight",
     "home-source": "Vinaya Hair Oil laid on stone with a wooden comb, coconut, green leaves and small white flowers",
-    "story-hero": "Vinaya Hair Oil resting on natural stone beside a wooden comb, fresh coconut and green leaves",
+    "story-hero": "Sunset over the Kerala backwaters, with coconut palms and a traditional houseboat",
     "story-coconut": "A freshly opened coconut and green leaves in morning sunlight",
     "story-stone": "Vinaya Hair Oil standing on a stone slab between a coconut and green leaves",
     "export-hero": "Vinaya Gift Set in a sheer pouch: hair oil, wooden comb and illustrated story card",
     "products/hair-oil": "Vinaya Hair Oil, Green Leaves & Coconut Oil, 110 ml bottle with a gold cap",
     "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch",
-    "home-coconut": "Close view of a freshly opened coconut with small white flowers",
-    "home-leaves": "Fresh green leaves in warm sunlight"
+    "approach-1": "Vinaya Hair Oil standing on natural stone among green leaves",
+    "approach-2": "A brass bowl of herbal oil with hibiscus, coconut, cinnamon and fresh leaves",
+    "approach-3": "The Kerala backwaters at sunset, lined with coconut palms"
   },
   "meta": {
     "home": {
-      "title": "Vinaya | The Best of Nature, for the Best of You",
-      "description": "Vinaya makes natural personal care rooted in traditional Indian knowledge. 100% botanical hair oil and gift sets, made in India. Export enquiries welcome."
+      "title": "Vinaya | A Way of Being · Natural Cosmetics",
+      "description": "Vinaya is a natural cosmetics brand bringing traditional ingredients and personal care rituals into modern life, starting with a botanical hair oil from Kerala. Export enquiries welcome."
     },
     "story": {
       "title": "Our Story | Vinaya",
-      "description": "Vinaya is rooted in a simple belief: nature has always been a part of how we care for ourselves. Read the story behind our natural personal care."
+      "description": "The wisdom of tradition, thoughtfully brought into modern life. The story behind Vinaya natural cosmetics."
     },
     "products": {
-      "title": "Products | Vinaya",
-      "description": "Natural personal care products from India: Vinaya Hair Oil with green leaves and coconut oil, and the Vinaya Gift Set."
+      "title": "Products | Vinaya Natural Cosmetics",
+      "description": "Natural cosmetics by Vinaya. Our first product is a botanical hair oil made by steeping herbs and spices in coconut oil, with more to come."
     },
     "export": {
       "title": "Partner With Us | Export | Vinaya",
-      "description": "Vinaya works with importers, distributors and retailers worldwide. Markets, minimum order quantities, private label, packaging and shipping."
+      "description": "Vinaya natural cosmetics works with importers, distributors and retailers worldwide. Markets, minimum order quantities, private label, packaging and shipping."
     },
     "contact": {
       "title": "Contact | Vinaya",
@@ -83,18 +84,18 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Natural personal care · India",
-      "title": "The Best of Nature,\n*for the Best of You.*",
-      "text": "Personal care rooted in natural ingredients and traditional Indian knowledge.",
-      "badge": "100% Botanical · Zero Synthetics · Product of India · "
+      "eyebrow": "Natural cosmetics · Kerala",
+      "title": "A Way\n*of Being.*",
+      "text": "Personal care rooted in natural ingredients with traditional Indian knowledge.",
+      "badge": "100% Botanical · Zero Synthetics · Cruelty Free · "
     },
     "belief": {
       "eyebrow": "Our belief",
-      "quote": "Nature has always been a part of how we care for ourselves.",
-      "text": "Across India, generations have cared for themselves with natural ingredients and knowledge kept alive at home. Vinaya brings that connection back, in a way that fits life today."
+      "quote": "The wisdom of tradition, thoughtfully brought into modern life.",
+      "text": "Across cultures and generations, nature has inspired the way we care for ourselves. Vinaya brings the timeless wisdom of traditional ingredients and personal care rituals into the rhythm of modern living, preserving their essence while reimagining them for today."
     },
     "featured": {
-      "eyebrow": "Featured"
+      "eyebrow": "Our first product"
     },
     "source": {
       "eyebrow": "Our journey",
@@ -119,19 +120,19 @@
     "approach": {
       "eyebrow": "The Vinaya Approach",
       "title": "Inspired by *nature* and tradition.",
-      "intro": "Bringing the best of nature back into everyday life, from hair and skin to other forms of personal care.",
       "pillars": [
         {
-          "title": "Simplicity",
-          "text": "Care that feels clear, honest and unhurried."
+          "title": "Thoughtful Simplicity",
+          "text": "Personal care doesn’t need to be complicated. Traditional goodness, made simple for modern living."
         },
         {
-          "title": "Care",
-          "text": "Respect for every ingredient, and the knowledge behind it."
+          "title": "Conscious Care",
+          "text": "Thoughtfully selected ingredients, prepared with care and hygiene, without unnecessary additives."
         },
         {
-          "title": "Purpose",
-          "text": "Bringing nature back into the everyday."
+          "title": "Our Purpose",
+          "subtitle": "Old-world wisdom, made for today.",
+          "text": "Timeless traditions, honoured and crafted for the needs of today."
         }
       ]
     },
@@ -140,24 +141,11 @@
       "title": "A ritual *worth sharing.*",
       "text": "Our hair oil, a wooden comb and an illustrated story card, gathered in a sheer pouch."
     },
-    "inside": {
-      "eyebrow": "What’s inside",
-      "title": "Simple, *botanical* ingredients.",
-      "items": [
-        {
-          "title": "Coconut oil",
-          "text": "A familiar base in Indian hair care for generations."
-        },
-        {
-          "title": "Green leaves",
-          "text": "Fresh greens, named first on every bottle."
-        },
-        {
-          "title": "Nothing synthetic",
-          "value": "0",
-          "text": "100% botanical, with zero synthetic ingredients."
-        }
-      ]
+    "goodness": {
+      "eyebrow": "The goodness within",
+      "title": "Herbs and spices, *steeped in coconut oil.*",
+      "text": "Vinaya’s hair oil is made by steeping selected herbs and aromatic spices in coconut oil.",
+      "hint": "Tap an ingredient to learn more"
     }
   },
   "story": {
@@ -202,22 +190,28 @@
         "Bringing the best of nature back into everyday life with simplicity, care and purpose, from hair and skin to other forms of personal care."
       ]
     },
-    "closing": "The Best of Nature, for the Best of You."
+    "closing": "A Way *of Being.*"
   },
   "products": {
     "page": {
       "eyebrow": "Products",
-      "title": "Made with nature, *in India.*",
-      "intro": "A small, considered collection. More is on the way.",
+      "title": "Natural cosmetics, *thoughtfully made.*",
+      "intro": "Our first product is a botanical hair oil from Kerala. More natural cosmetics are on the way.",
       "comingSoonTitle": "Coming soon",
-      "comingSoon": "Skin care and other personal care products will join the collection.",
+      "comingSoon": "Skin care, body care and more natural cosmetics will join the collection soon.",
       "detailsTitle": "Product details",
       "highlightsTitle": "At a glance",
       "enquire": "Enquire about this product",
       "enquireNote": "For trade terms, samples and availability, contact our export team.",
       "exportLink": "Export information",
       "back": "All products",
-      "more": "Also from Vinaya"
+      "more": "Also from Vinaya",
+      "ritualTitle": "Your Vinaya ritual",
+      "ritualSub": "Simple steps and natural care",
+      "methodTitle": "Made the Vinaya way",
+      "methodSub": "A time-honoured preparation where herbs and spices are slowly cooked in pure coconut oil.",
+      "faqTitle": "Your questions, our answers",
+      "promisesTitle": "Our promises"
     },
     "categories": {
       "hair": "Hair care",
@@ -231,31 +225,84 @@
       "shelfLife": "Shelf life",
       "usage": "How to use",
       "packaging": "Packaging",
-      "origin": "Origin"
+      "method": "Preparation"
     },
     "items": {
       "hair-oil": {
         "name": "Hair Oil",
         "variant": "Green Leaves & Coconut Oil",
-        "short": "A 100% botanical hair oil of green leaves and coconut oil.",
+        "short": "Selected herbs and aromatic spices, slowly cooked in pure coconut oil.",
         "description": [
-          "Green leaves and coconut oil, brought together in a hair oil with zero synthetics.",
-          "Inspired by the way hair has long been cared for in Indian homes."
+          "A time-honoured hair-care ritual from Kerala.",
+          "Selected herbs and aromatic spices are slowly cooked in pure coconut oil, then filtered and bottled with care. Its natural aroma comes from the botanicals and coconut oil."
         ],
         "highlights": [
           "110 ml",
           "100% Botanical",
           "Zero Synthetics",
-          "Product of India"
+          "No Artificial Fragrance",
+          "Preservative Free",
+          "Cruelty Free"
         ],
         "specs": {
-          "ingredients": "Green leaves and coconut oil. [PLACEHOLDER: full ingredient list]",
+          "ingredients": "Coconut oil, aloe vera, bhringraj, hibiscus, holy basil (tulsi), true cinnamon leaf and curry leaves. [PLACEHOLDER: full ingredient list (INCI)]",
           "size": "110 ml",
+          "method": "Herbs and spices slowly cooked in pure coconut oil, then filtered and bottled with care.",
           "shelfLife": "[PLACEHOLDER]",
-          "usage": "[PLACEHOLDER]",
-          "packaging": "[PLACEHOLDER: bottle material, closure and outer packaging]",
-          "origin": "Product of India"
-        }
+          "usage": "Use 2–3 times a week. Give your hair time: noticeable changes may take 3 months or longer.",
+          "packaging": "[PLACEHOLDER: bottle material, closure and outer packaging]"
+        },
+        "ritual": [
+          {
+            "title": "Apply & comb",
+            "text": "Take 1–2 ml in your palm. Apply gently to the scalp and hair lengths. Use your wooden comb to spread the oil evenly and remove excess."
+          },
+          {
+            "title": "Massage & relax",
+            "text": "Gently massage your scalp with your fingertips for 5–6 minutes. Leave for 20–30 minutes before washing."
+          },
+          {
+            "title": "Wash",
+            "text": "Wash away with your favourite shampoo and towel dry."
+          }
+        ],
+        "patch": {
+          "title": "Patch test first",
+          "text": "Check ingredients for known allergies. Apply a small drop to your inner forearm and wait 24 hours. If irritation occurs, wash off and do not use. Natural doesn’t always mean allergy-free."
+        },
+        "method": [
+          {
+            "title": "Selected herbs & spices"
+          },
+          {
+            "title": "Slowly cooked in coconut oil"
+          },
+          {
+            "title": "Filtered & bottled with care"
+          }
+        ],
+        "faq": [
+          {
+            "q": "Why does Vinaya smell different?",
+            "a": "Vinaya has a natural botanical aroma of green leaves, coconut, herbs and spices. It is not designed to smell like artificial perfume."
+          },
+          {
+            "q": "What is it used for?",
+            "a": "For everyday hair care to nourish, condition and keep hair soft, smooth and healthy-looking. Suitable for all hair types."
+          },
+          {
+            "q": "Can I leave it overnight?",
+            "a": "No. 20–30 minutes is enough. Wash away the remaining oil with your favourite shampoo."
+          },
+          {
+            "q": "Can I use the wooden comb every day?",
+            "a": "Of course. Smooth, rounded edges feel gentle on your hair and scalp while being kinder to the planet."
+          },
+          {
+            "q": "How do I care for my comb?",
+            "a": "Wipe clean after use. If needed, rinse quickly with mild soap and water. Do not soak. Dry thoroughly before storing."
+          }
+        ]
       },
       "gift-set": {
         "name": "Gift Set",
@@ -273,13 +320,22 @@
         ],
         "specs": {
           "contents": "Vinaya Hair Oil (110 ml), wooden comb, illustrated story card.",
-          "ingredients": "Hair Oil: green leaves and coconut oil. [PLACEHOLDER: full ingredient list]",
+          "ingredients": "Hair Oil: coconut oil, aloe vera, bhringraj, hibiscus, holy basil (tulsi), true cinnamon leaf and curry leaves. [PLACEHOLDER: full ingredient list (INCI)]",
           "size": "Hair Oil 110 ml. [PLACEHOLDER: comb and pouch dimensions]",
           "shelfLife": "[PLACEHOLDER]",
-          "usage": "[PLACEHOLDER]",
-          "packaging": "Sheer pouch. [PLACEHOLDER: further packaging details]",
-          "origin": "Product of India"
-        }
+          "usage": "See the Vinaya ritual on the Hair Oil page. Wipe the comb clean after use; do not soak.",
+          "packaging": "Sheer pouch. [PLACEHOLDER: further packaging details]"
+        },
+        "faq": [
+          {
+            "q": "Can I use the wooden comb every day?",
+            "a": "Of course. Smooth, rounded edges feel gentle on your hair and scalp while being kinder to the planet."
+          },
+          {
+            "q": "How do I care for my comb?",
+            "a": "Wipe clean after use. If needed, rinse quickly with mild soap and water. Do not soak. Dry thoroughly before storing."
+          }
+        ]
       }
     }
   },
@@ -292,7 +348,7 @@
       "items": [
         {
           "title": "Importers",
-          "text": "Bringing natural Indian personal care into new countries."
+          "text": "Bringing natural cosmetics rooted in Indian tradition to new countries."
         },
         {
           "title": "Distributors",
@@ -409,5 +465,49 @@
     "title": "This page could not be found.",
     "text": "It may have moved, or the address may be mistyped.",
     "home": "Return home"
-  }
+  },
+  "ingredients": [
+    {
+      "key": "coconut",
+      "name": "Coconut Oil",
+      "tagline": "The tropical powerhouse",
+      "text": "Rich in lauric acid, can penetrate the hair shaft and help reduce protein loss."
+    },
+    {
+      "key": "aloe-vera",
+      "name": "Aloe Vera",
+      "tagline": "The soothing succulent",
+      "text": "A familiar favourite in hair care, helps hydrate and soothe the scalp and hair."
+    },
+    {
+      "key": "cinnamon",
+      "name": "True Cinnamon Leaf",
+      "tagline": "Spiced leaves",
+      "text": "While the bark is the familiar kitchen spice, its aromatic leaves are traditionally valued for their natural antimicrobial properties."
+    },
+    {
+      "key": "hibiscus",
+      "name": "Hibiscus",
+      "tagline": "The flower of softness",
+      "text": "Its leaves contain natural mucilage, giving this beloved hair-care flower its softening and conditioning character."
+    },
+    {
+      "key": "curry-leaves",
+      "name": "Curry Leaves",
+      "tagline": "Leaves of nourishment",
+      "text": "Packed with antioxidants and plant nutrients, curry leaves support nourished hair and natural shine."
+    },
+    {
+      "key": "tulsi",
+      "name": "Holy Basil · Tulsi",
+      "tagline": "The sacred green leaf",
+      "text": "Known as Tulsi, a sacred and aromatic Indian plant, traditionally treasured for its cleansing and refreshing character."
+    },
+    {
+      "key": "bhringraj",
+      "name": "Bhringraj",
+      "tagline": "The king of hair",
+      "text": "Known in India as Keshraj, or “King of Hair”. Cherished for generations in hair and scalp care."
+    }
+  ]
 }

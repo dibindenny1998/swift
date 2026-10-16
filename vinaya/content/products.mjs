@@ -10,11 +10,12 @@ export default [
     slug: 'hair-oil',
     category: 'hair',
     featured: true,
-    specs: ['ingredients', 'size', 'shelfLife', 'usage', 'packaging', 'origin'],
+    goodness: true, // shows "The goodness within" ingredient orbit on its page
+    specs: ['ingredients', 'size', 'method', 'usage', 'shelfLife', 'packaging'],
   },
   {
     slug: 'gift-set',
     category: 'gift',
-    specs: ['contents', 'ingredients', 'size', 'shelfLife', 'usage', 'packaging', 'origin'],
+    specs: ['contents', 'ingredients', 'size', 'usage', 'shelfLife', 'packaging'],
   },
 ];
