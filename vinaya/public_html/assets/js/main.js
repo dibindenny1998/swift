@@ -85,7 +85,9 @@
   // Elements with data-parallax="<speed>" drift slightly as the page scrolls.
   var floaters = doc.querySelectorAll('[data-parallax]');
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (floaters.length && !calm) {
+  // Parallax only on larger screens with a mouse: on phones it costs smoothness.
+  var roomy = window.matchMedia('(min-width: 960px) and (hover: hover)').matches;
+  if (floaters.length && !calm && roomy) {
     var ticking = false;
     var drift = function () {
       var vh = window.innerHeight;
@@ -204,10 +206,11 @@
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
+          orbit.classList.toggle('is-offscreen', !e.isIntersecting);
           if (e.isIntersecting) play();
           else stop();
         });
-      }, { threshold: 0.3 }).observe(orbit);
+      }, { threshold: 0.05 }).observe(orbit);
     }
   });
 

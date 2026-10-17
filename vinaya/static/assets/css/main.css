@@ -83,7 +83,7 @@ html {
 
 body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip, not hidden: hidden turns the page into its own scroll box on Android */
   background: var(--cream);
   color: var(--ink-soft);
   font-family: var(--sans);
@@ -491,9 +491,9 @@ main:focus {
 
 .site-header.is-scrolled {
   border-bottom-color: var(--line);
-  background: rgba(251, 246, 236, 0.92);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  /* Solid, no blur: a blur here would trap the full-screen phone menu inside the header
+     and costs a repaint on every scroll. */
+  background: rgba(251, 246, 236, 0.97);
 }
 
 .site-header__inner {
@@ -573,6 +573,7 @@ main:focus {
 
 .site-nav.is-open {
   opacity: 1;
+  overflow-y: auto;
   visibility: visible;
   transition: opacity 0.6s var(--ease);
 }
@@ -952,6 +953,13 @@ main:focus {
   position: absolute;
   inset: 0;
   animation: spin 40s linear infinite;
+  will-change: transform;
+}
+
+/* Nothing in the orbit animates while it is off screen (keeps scrolling smooth on phones). */
+.orbit.is-offscreen *,
+.orbit.is-offscreen *::after {
+  animation-play-state: paused !important;
 }
 
 .orbit__slot {
@@ -1454,9 +1462,7 @@ main:focus {
   position: relative;
   left: auto;
   bottom: auto;
-  background: rgba(19, 48, 33, 0.55);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(19, 48, 33, 0.7);
   border: 1px solid rgba(226, 196, 127, 0.4);
 }
 
@@ -1954,7 +1960,7 @@ main:focus {
 }
 
 .js .tale {
-  height: calc((var(--steps) + 0.6) * 100svh);
+  height: calc(100svh + var(--steps) * 60svh);
 }
 
 .tale__sticky {
