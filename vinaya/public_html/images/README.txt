@@ -10,7 +10,9 @@ collection-hair.jpg                        800 x 1000 px    Home: collections, H
 collection-skin.jpg                        800 x 1000 px    Home: collections, Skin Care
 collection-body.jpg                        800 x 1000 px    Home: collections, Body Care
 collection-gift.jpg                        800 x 1000 px    Home: collections, Gifting
-home-journey-bg.jpg                        1920 x 1080 px   Home: "From the Source to You" background
+tale-nature.jpg                            1000 x 1250 px   Home scroll story: 01 Nature
+tale-tradition.jpg                         1000 x 1250 px   Home scroll story: 02 Tradition
+tale-you.jpg                               1000 x 1250 px   Home scroll story: 03 You
 approach-simplicity.jpg                    1200 x 900 px    Home: Thoughtful Simplicity card
 approach-care.jpg                          1200 x 900 px    Home: Conscious Care card
 approach-purpose.jpg                       1200 x 900 px    Home: Our Purpose card

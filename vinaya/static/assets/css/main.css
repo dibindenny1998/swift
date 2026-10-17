@@ -1540,7 +1540,7 @@ main:focus {
 
 .collection__body {
   position: relative;
-  padding: 1.5rem 1.5rem 1.75rem;
+  padding: 1.25rem 1.5rem 1.4rem;
 }
 
 .collection__soon {
@@ -1903,6 +1903,248 @@ main:focus {
   color: var(--green);
   text-decoration: underline;
   text-underline-offset: 0.25em;
+}
+
+/* ------------------------------------------------------------------ home: statement */
+
+.statement {
+  padding-block: clamp(7rem, 5rem + 10vw, 13rem);
+}
+
+.statement .ornament {
+  margin-bottom: 2.5rem;
+}
+
+.statement__quote {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 1.4rem + 4vw, 4.75rem);
+  font-style: italic;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+/* Words rise one by one. */
+.js .words[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.js .words .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: calc(var(--w) * 80ms);
+}
+
+.js .words.is-visible .w {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ home: scroll story */
+
+.tale {
+  position: relative;
+  background: var(--green-deep);
+  color: var(--on-green);
+}
+
+.js .tale {
+  height: calc((var(--steps) + 0.6) * 100svh);
+}
+
+.tale__sticky {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.js .tale__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.tale__media {
+  position: absolute;
+  inset: 0;
+}
+
+.tale__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(19, 48, 33, 0.95) 0%, rgba(19, 48, 33, 0.5) 45%, rgba(19, 48, 33, 0.05) 100%);
+}
+
+.tale__img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease);
+}
+
+.tale__img.is-active {
+  opacity: 1;
+}
+
+.tale__img .media {
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+
+.tale__img img {
+  transform: scale(1.12);
+  transition: transform 7s linear;
+}
+
+.tale__img.is-active img {
+  transform: none;
+}
+
+.tale__text {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  padding: 0 var(--gutter) clamp(3rem, 9vh, 5.5rem);
+}
+
+.tale__text .eyebrow {
+  color: var(--gold-light);
+}
+
+.tale__steps {
+  position: relative;
+  min-height: clamp(9rem, 6rem + 10vw, 13rem);
+  margin-top: 1.5rem;
+}
+
+.tale__step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+}
+
+.tale__step.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.tale__num {
+  color: var(--gold-light);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+}
+
+.tale__word {
+  margin-top: 0.4rem;
+  color: var(--on-green);
+  font-size: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+  line-height: 1;
+}
+
+.tale__line {
+  margin-top: 0.85rem;
+  color: var(--on-green-soft);
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+}
+
+.tale__dots {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.tale__dots span {
+  width: 2rem;
+  height: 2px;
+  background: var(--line-light);
+  transition: background-color 0.6s var(--ease), width 0.6s var(--ease);
+}
+
+.tale__dots span.is-active {
+  width: 3.5rem;
+  background: var(--gold-light);
+}
+
+/* Without JavaScript: the three steps are simply listed over the first image. */
+.no-js .tale__img:first-child {
+  opacity: 1;
+}
+
+.no-js .tale__step {
+  position: relative;
+  opacity: 1;
+  transform: none;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 960px) {
+  .tale__sticky {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .tale__media {
+    position: relative;
+    order: 2;
+    inset: auto;
+    min-height: 100%;
+  }
+
+  .tale__media::after {
+    background: linear-gradient(90deg, rgba(19, 48, 33, 0.35) 0%, rgba(19, 48, 33, 0) 40%);
+  }
+
+  .tale__text {
+    align-self: center;
+    padding: 0 clamp(2rem, 6vw, 7rem) 0 max(var(--gutter), calc((100vw - 78rem) / 2));
+  }
+}
+
+/* ------------------------------------------------------------------ hero scroll cue */
+
+.scroll-cue {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  z-index: 1;
+  width: 1px;
+  height: 3rem;
+  overflow: hidden;
+  background: rgba(251, 246, 236, 0.25);
+}
+
+.scroll-cue::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gold-light);
+  animation: cue 2.2s ease-in-out infinite;
+}
+
+@keyframes cue {
+  to {
+    top: 100%;
+  }
+}
+
+.feature__title {
+  font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
 }
 
 /* ------------------------------------------------------------------ floating enquire (phones) */
@@ -3367,6 +3609,7 @@ main:focus {
   .drift .leaf,
   .orbit__node::after,
   .goodness__tap,
+  .scroll-cue::after,
   .hero__bg img,
   .orbit__core img,
   ::view-transition-old(root),

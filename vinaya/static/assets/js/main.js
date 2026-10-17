@@ -211,6 +211,38 @@
     }
   });
 
+  /* ---------------------------------------------------------------- scroll story */
+
+  // The section is several screens tall; as it scrolls past, the pinned panel shows step 1, 2, 3.
+  doc.querySelectorAll('[data-tale]').forEach(function (tale) {
+    var parts = tale.querySelectorAll('[data-step]');
+    var count = tale.querySelectorAll('.tale__step').length;
+    var shown = 0;
+    var queued = false;
+    function update() {
+      queued = false;
+      var travel = tale.offsetHeight - window.innerHeight;
+      var progress = travel > 0 ? Math.min(Math.max(-tale.getBoundingClientRect().top / travel, 0), 0.999) : 0;
+      var step = Math.floor(progress * count);
+      if (step === shown) return;
+      shown = step;
+      parts.forEach(function (el) {
+        el.classList.toggle('is-active', Number(el.getAttribute('data-step')) === step);
+      });
+    }
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!queued) {
+          queued = true;
+          window.requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  });
+
   /* ---------------------------------------------------------------- blog: category filter, copy link */
 
   var filters = doc.querySelector('[data-blog-filters]');

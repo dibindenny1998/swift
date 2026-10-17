@@ -36,7 +36,6 @@ export function productCard(ctx, product, { headingLevel = 2, delay = 0 } = {}) 
     <p class="eyebrow">${ctx.t(`products.categories.${product.category}`)}</p>
     <${h} class="card__title"><a class="card__link" href="${ctx.link(`products/${product.slug}/`)}">${ctx.t(`${key}.name`)}</a></${h}>
     <p class="card__variant">${ctx.t(`${key}.variant`)}</p>
-    <p class="card__text">${ctx.t(`${key}.short`)}</p>
     <span class="link" aria-hidden="true">${ctx.t('cta.viewDetails')}</span>
   </div>
 </article>`;
@@ -71,7 +70,7 @@ export function goodness(ctx, { headingLevel = 2, copy = 'goodness' } = {}) {
     <header class="goodness__head">
       <p class="eyebrow" data-reveal>${ctx.t(`${copy}.eyebrow`)}</p>
       <${h} class="h2" id="goodness-title" data-reveal>${ctx.t(`${copy}.title`)}</${h}>
-      <p class="lead" data-reveal>${ctx.t(`${copy}.text`)}</p>
+      ${ctx.opt(`${copy}.text`) ? `<p class="lead" data-reveal>${ctx.t(`${copy}.text`)}</p>` : ''}
       <p class="goodness__hint" data-reveal><span class="goodness__tap" aria-hidden="true"></span>${ctx.t('goodness.hint')}</p>
     </header>
     <div class="orbit" data-orbit data-reveal>

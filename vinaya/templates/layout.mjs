@@ -108,7 +108,7 @@ export function band(ctx, { secondary = true, title = 'band.title', text = 'band
   <div class="container band__inner">
     <p class="eyebrow" data-reveal>${ctx.t('band.eyebrow')}</p>
     <h2 class="band__title" id="band-title" data-reveal>${ctx.t(title)}</h2>
-    <p class="band__text" data-reveal>${ctx.t(text)}</p>
+    ${text ? `<p class="band__text" data-reveal>${ctx.t(text)}</p>` : ''}
     <div class="actions actions--center" data-reveal>
       <a class="btn btn--solid" href="${ctx.link('contact/')}">${ctx.t('band.primary')}</a>
       ${secondary ? `<a class="link" href="${ctx.link('export/')}">${ctx.t('band.secondary')}</a>` : ''}

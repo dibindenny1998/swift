@@ -1,6 +1,8 @@
 import { LEAF, MARK, esc, html, pad } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { goodness, highlights, image, postCard } from '../components.mjs';
+import { goodness, image } from '../components.mjs';
+
+// Home tells the story in pictures: few words, big images, colour and slow motion.
 
 // Circular badge with slowly rotating text around the leaf mark.
 function badge(ctx) {
@@ -14,7 +16,34 @@ function badge(ctx) {
 </div>`;
 }
 
-// "Our collections": every category of the brand, live ones linked, future ones marked.
+// Words that rise one by one as the line scrolls into view.
+const words = (text) =>
+  text
+    .split(' ')
+    .map((w, i) => `<span class="w" style="--w:${i}">${w}</span>`)
+    .join(' ');
+
+// "From the source to you": the screen pins while three images crossfade as you scroll.
+function tale(ctx) {
+  const steps = ctx.raw('home.tale.steps');
+  const slots = ['tale-nature', 'tale-tradition', 'tale-you'];
+  return html`<section class="tale" aria-labelledby="tale-title" data-tale style="--steps:${steps.length}">
+  <div class="tale__sticky">
+    <div class="tale__media">
+${slots.map((s, i) => `      <div class="tale__img${i === 0 ? ' is-active' : ''}" data-step="${i}">${image(ctx, s, { sizes: '(min-width: 960px) 50vw, 100vw' })}</div>\n`)}    </div>
+    <div class="tale__text">
+      <h2 class="eyebrow" id="tale-title">${ctx.t('home.tale.eyebrow')}</h2>
+      <ol class="tale__steps">
+${steps.map(
+    (_, i) => `        <li class="tale__step${i === 0 ? ' is-active' : ''}" data-step="${i}"><span class="tale__num">${pad(i + 1)}</span><h3 class="tale__word">${ctx.t(`home.tale.steps.${i}.word`)}</h3><p class="tale__line">${ctx.t(`home.tale.steps.${i}.line`)}</p></li>\n`,
+  )}      </ol>
+      <div class="tale__dots" aria-hidden="true">${steps.map((_, i) => `<span${i === 0 ? ' class="is-active"' : ''} data-step="${i}"></span>`).join('')}</div>
+    </div>
+  </div>
+</section>`;
+}
+
+// Collections: image and name only. Live ones link, future ones are marked.
 function collections(ctx) {
   const items = ctx.raw('home.collections.items');
   return html`<section class="section collections" aria-labelledby="collections-title">
@@ -22,40 +51,18 @@ function collections(ctx) {
     <header class="section-head center">
       <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.collections.eyebrow')}</p>
       <h2 class="h2" id="collections-title" data-reveal>${ctx.t('home.collections.title')}</h2>
-      <p class="lead lead--center" data-reveal>${ctx.t('home.collections.intro')}</p>
     </header>
     <ul class="collection-grid">
 ${items.map(
     (item, i) => html`      <li class="collection${item.link ? '' : ' collection--soon'}" data-reveal style="--delay:${i * 140}ms">
-        ${image(ctx, `col-${item.key}`, { className: 'collection__media', sizes: '(min-width: 960px) 24vw, (min-width: 600px) 46vw, 92vw' })}
+        ${image(ctx, `col-${item.key}`, { className: 'collection__media', sizes: '(min-width: 1024px) 24vw, (min-width: 600px) 46vw, 92vw' })}
         <div class="collection__body">
           ${item.link ? '' : `<span class="collection__soon">${ctx.t('home.collections.soon')}</span>`}
           <h3 class="collection__title">${item.link ? `<a class="card__link" href="${ctx.link(item.link)}">${ctx.t(`home.collections.items.${i}.title`)}</a>` : ctx.t(`home.collections.items.${i}.title`)}</h3>
-          <p>${ctx.t(`home.collections.items.${i}.text`)}</p>
-          ${item.link ? `<span class="link" aria-hidden="true">${ctx.t('home.collections.explore')}</span>` : ''}
         </div>
       </li>
 `,
   )}    </ul>
-  </div>
-</section>`;
-}
-
-// Latest three blog posts.
-function journal(ctx) {
-  if (!ctx.posts.length) return '';
-  return html`<section class="section section--sand journal" aria-labelledby="journal-title">
-  <div class="container">
-    <header class="section-head journal__head">
-      <div>
-        <p class="eyebrow" data-reveal>${ctx.t('home.journal.eyebrow')}</p>
-        <h2 class="h2" id="journal-title" data-reveal>${ctx.t('home.journal.title')}</h2>
-      </div>
-      <a class="link" href="${ctx.link('blog/')}" data-reveal>${ctx.t('home.journal.all')}</a>
-    </header>
-    <div class="post-grid">
-${ctx.posts.slice(0, 3).map((p, i) => postCard(ctx, p, { headingLevel: 3, delay: i * 150 }))}
-    </div>
   </div>
 </section>`;
 }
@@ -77,25 +84,22 @@ export default function home(ctx) {
         .join('')}</h1>
       <p class="lead hero-in" style="--i:2">${ctx.t('home.hero.text')}</p>
       <div class="actions hero-in" style="--i:3">
-        <a class="btn btn--gold" href="${ctx.link('products/')}">${ctx.t('cta.discover')}</a>
-        <a class="link" href="${ctx.link('our-story/')}">${ctx.t('cta.readStory')}</a>
+        <a class="btn btn--gold" href="${ctx.link('products/')}">${ctx.t('home.hero.cta')}</a>
       </div>
     </div>
   </div>
   <div class="hero__badge hero-in" style="--i:4">${badge(ctx)}</div>
+  <span class="scroll-cue" aria-hidden="true"></span>
 </section>
 
-<section class="section belief" aria-labelledby="belief-title">
+<section class="section statement" aria-label="${ctx.tx('home.belief.eyebrow')}">
   <div class="container container--narrow center">
     <span class="ornament" data-reveal>${LEAF}</span>
-    <h2 class="eyebrow eyebrow--center" id="belief-title" data-reveal>${ctx.t('home.belief.eyebrow')}</h2>
-    <blockquote class="belief__quote" data-reveal style="--delay:150ms">
-      <p>${ctx.t('home.belief.quote')}</p>
-    </blockquote>
-    <p class="belief__text" data-reveal style="--delay:300ms">${ctx.t('home.belief.text')}</p>
-    <p data-reveal style="--delay:400ms"><a class="link" href="${ctx.link('our-story/')}">${ctx.t('cta.readStory')}</a></p>
+    <p class="statement__quote words" data-reveal>${words(ctx.raw('home.belief.quote'))}</p>
   </div>
 </section>
+
+${tale(ctx)}
 
 ${collections(ctx)}
 
@@ -105,41 +109,17 @@ ${collections(ctx)}
       ${image(ctx, `products/${featured.slug}`, { arch: true, sizes: '(min-width: 960px) 40vw, 92vw' })}
     </div>
     <div class="split__text">
-      <p class="eyebrow" data-reveal>${ctx.t('home.featured.eyebrow')} · ${ctx.t(`products.categories.${featured.category}`)}</p>
-      <h2 class="h2" id="featured-title" data-reveal>${ctx.t(`${fKey}.name`)}</h2>
+      <p class="eyebrow" data-reveal>${ctx.t('home.featured.eyebrow')}</p>
+      <h2 class="h2 feature__title" id="featured-title" data-reveal>${ctx.t(`${fKey}.name`)}</h2>
       <p class="variant" data-reveal>${ctx.t(`${fKey}.variant`)}</p>
-      <p class="measure" data-reveal>${ctx.t(`${fKey}.short`)}</p>
-      <div data-reveal>${highlights(ctx, featured)}</div>
       <div class="actions" data-reveal>
-        <a class="btn btn--gold" href="${ctx.link(`products/${featured.slug}/`)}">${ctx.t('cta.viewDetails')}</a>
-        <a class="link" href="${ctx.link('contact/')}?product=${esc(featured.slug)}#enquiry">${ctx.t('cta.enquire')}</a>
+        <a class="btn btn--gold" href="${ctx.link(`products/${featured.slug}/`)}">${ctx.t('home.hero.cta')}</a>
       </div>
     </div>
   </div>
 </section>
 
 ${goodness(ctx, { copy: 'home.goodness' })}
-
-<section class="section section--photo source" aria-labelledby="source-title">
-  <div class="section__bg" data-parallax="0.12">${image(ctx, 'home-source', { decorative: true, sizes: '100vw' })}</div>
-  <div class="container">
-    <header class="section-head center">
-      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.source.eyebrow')}</p>
-      <h2 class="h2" id="source-title" data-reveal>${ctx.t('home.source.title')}</h2>
-      <p class="lead lead--center" data-reveal>${ctx.t('home.source.intro')}</p>
-    </header>
-    <ol class="steps" data-reveal>
-${ctx.raw('home.source.steps').map(
-    (_, i) => html`      <li class="step" data-reveal style="--delay:${i * 220}ms">
-        <span class="step__num" aria-hidden="true">${pad(i + 1)}</span>
-        <h3 class="step__title">${ctx.t(`home.source.steps.${i}.title`)}</h3>
-        <p class="step__text">${ctx.t(`home.source.steps.${i}.text`)}</p>
-      </li>
-`,
-  )}    </ol>
-    <p class="closing" data-reveal>${ctx.t('home.source.closing')}</p>
-  </div>
-</section>
 
 <section class="section section--sand approach" aria-labelledby="approach-title">
   <div class="container">
@@ -153,7 +133,6 @@ ${ctx.raw('home.approach.pillars').map(
         ${image(ctx, `approach-${i + 1}`, { className: 'tile__media', sizes: '(min-width: 768px) 30vw, 92vw' })}
         <div class="tile__body">
           <h3 class="tile__title">${ctx.t(`home.approach.pillars.${i}.title`)}</h3>
-          ${ctx.raw('home.approach.pillars')[i].subtitle ? `<p class="tile__sub">${ctx.t(`home.approach.pillars.${i}.subtitle`)}</p>` : ''}
           <p>${ctx.t(`home.approach.pillars.${i}.text`)}</p>
         </div>
       </li>
@@ -162,9 +141,7 @@ ${ctx.raw('home.approach.pillars').map(
   </div>
 </section>
 
-${journal(ctx)}
-
-${band(ctx)}
+${band(ctx, { secondary: false, text: null })}
 `;
 
   return layout(ctx, {

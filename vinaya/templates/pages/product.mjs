@@ -29,7 +29,8 @@ export default function product(ctx, p) {
       <h1 class="product__title hero-in" style="--i:1">${ctx.t(`${key}.name`)}</h1>
       <p class="variant hero-in" style="--i:2">${ctx.t(`${key}.variant`)}</p>
       <div class="product__desc hero-in" style="--i:3">
-${ctx.raw(`${key}.description`).map((_, i) => `        <p>${ctx.t(`${key}.description.${i}`)}</p>\n`)}      </div>
+        <p>${ctx.t(`${key}.description.0`)}</p>
+      </div>
 
       <section class="product__block" aria-labelledby="highlights-title" data-reveal>
         <h2 class="eyebrow" id="highlights-title">${ctx.t('products.page.highlightsTitle')}</h2>
@@ -76,7 +77,6 @@ ${data.method ? html`<section class="section section--green method" aria-labelle
   <div class="container">
     <header class="section-head center">
       <h2 class="h2" id="method-title" data-reveal>${ctx.t('products.page.methodTitle')}</h2>
-      <p class="lead lead--center" data-reveal>${ctx.t('products.page.methodSub')}</p>
     </header>
     <ol class="method__steps">
 ${data.method.map(

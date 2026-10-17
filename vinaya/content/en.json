@@ -47,7 +47,6 @@
   },
   "images": {
     "home-hero": "Sunset over the Kerala backwaters, lined with coconut palms",
-    "home-source": "Vinaya Hair Oil laid on stone with a wooden comb, coconut, green leaves and small white flowers",
     "story-hero": "Sunset over the Kerala backwaters, with coconut palms and a traditional houseboat",
     "story-coconut": "A freshly opened coconut and green leaves in morning sunlight",
     "story-stone": "Vinaya Hair Oil standing on a stone slab between a coconut and green leaves",
@@ -60,7 +59,10 @@
     "col-hair": "Vinaya Hair Oil on natural stone among green leaves",
     "col-skin": "Fresh green leaves and small white flowers in warm sunlight",
     "col-body": "A freshly opened coconut with green leaves and white flowers",
-    "col-gift": "Vinaya Gift Set in a sheer pouch"
+    "col-gift": "Vinaya Gift Set in a sheer pouch",
+    "tale-nature": "Sunset over the Kerala backwaters with coconut palms",
+    "tale-tradition": "Vinaya Hair Oil with a wooden comb, coconut and leaves",
+    "tale-you": "Vinaya Hair Oil on natural stone among green leaves"
   },
   "meta": {
     "home": {
@@ -97,7 +99,8 @@
       "eyebrow": "Natural cosmetics · Kerala",
       "title": "A Way\n*of Being.*",
       "text": "Personal care rooted in natural ingredients with traditional Indian knowledge.",
-      "badge": "100% Botanical · Zero Synthetics · Cruelty Free · "
+      "badge": "100% Botanical · Zero Synthetics · Cruelty Free · ",
+      "cta": "Discover"
     },
     "belief": {
       "eyebrow": "Our belief",
@@ -133,16 +136,15 @@
       "pillars": [
         {
           "title": "Thoughtful Simplicity",
-          "text": "Personal care doesn’t need to be complicated. Traditional goodness, made simple for modern living."
+          "text": "Personal care, made simple."
         },
         {
           "title": "Conscious Care",
-          "text": "Thoughtfully selected ingredients, prepared with care and hygiene, without unnecessary additives."
+          "text": "Every ingredient, chosen with care."
         },
         {
           "title": "Our Purpose",
-          "subtitle": "Old-world wisdom, made for today.",
-          "text": "Timeless traditions, honoured and crafted for the needs of today."
+          "text": "Old-world wisdom, made for today."
         }
       ]
     },
@@ -154,7 +156,7 @@
     "collections": {
       "eyebrow": "Our collections",
       "title": "Natural care, *from head to toe.*",
-      "intro": "One philosophy across every ritual: traditional ingredients, made for modern living.",
+      "intro": "",
       "soon": "Coming soon",
       "explore": "Explore",
       "items": [
@@ -189,8 +191,25 @@
     },
     "goodness": {
       "eyebrow": "The goodness within",
-      "title": "Botanicals at the *heart of Vinaya.*",
-      "text": "Our first product steeps seven traditional botanicals in pure coconut oil. Watch them turn, and tap one to discover it."
+      "title": "Seven botanicals, *one ritual.*",
+      "text": ""
+    },
+    "tale": {
+      "eyebrow": "From the source to you",
+      "steps": [
+        {
+          "word": "Nature",
+          "line": "It begins with natural ingredients."
+        },
+        {
+          "word": "Tradition",
+          "line": "Guided by generations of knowledge."
+        },
+        {
+          "word": "You",
+          "line": "Made for life today."
+        }
+      ]
     }
   },
   "story": {
@@ -241,13 +260,13 @@
     "page": {
       "eyebrow": "Products",
       "title": "Natural cosmetics, *thoughtfully made.*",
-      "intro": "Our first product is a botanical hair oil from Kerala. More natural cosmetics are on the way.",
+      "intro": "Our first product, from Kerala. More to come.",
       "comingSoonTitle": "Coming soon",
       "comingSoon": "Skin care, body care and more natural cosmetics will join the collection soon.",
       "detailsTitle": "Product details",
       "highlightsTitle": "At a glance",
       "enquire": "Enquire about this product",
-      "enquireNote": "For trade terms, samples and availability, contact our export team.",
+      "enquireNote": "Trade terms, samples and availability on request.",
       "exportLink": "Export information",
       "back": "All products",
       "more": "Also from Vinaya",
@@ -278,8 +297,7 @@
         "variant": "Green Leaves & Coconut Oil",
         "short": "Selected herbs and aromatic spices, slowly cooked in pure coconut oil.",
         "description": [
-          "A time-honoured hair-care ritual from Kerala.",
-          "Selected herbs and aromatic spices are slowly cooked in pure coconut oil, then filtered and bottled with care. Its natural aroma comes from the botanicals and coconut oil."
+          "A time-honoured hair-care ritual from Kerala: herbs and spices, slowly cooked in pure coconut oil."
         ],
         "highlights": [
           "110 ml",
@@ -354,8 +372,7 @@
         "variant": "Hair Oil, Comb & Story Card",
         "short": "Our hair oil, a wooden comb and an illustrated story card in a sheer pouch.",
         "description": [
-          "Everything needed for a simple hair care ritual, gathered in one sheer pouch.",
-          "The illustrated story card shares the story behind Vinaya."
+          "Our hair oil, a wooden comb and an illustrated story card, gathered in a sheer pouch."
         ],
         "highlights": [
           "Hair Oil, 110 ml",
@@ -387,21 +404,21 @@
   "export": {
     "eyebrow": "Partner With Us",
     "title": "Bring Vinaya *to your market.*",
-    "intro": "We work with importers, distributors and retailers who share our respect for nature and tradition.",
+    "intro": "For importers, distributors and retailers worldwide.",
     "who": {
       "title": "Who we work with",
       "items": [
         {
           "title": "Importers",
-          "text": "Bringing natural cosmetics rooted in Indian tradition to new countries."
+          "text": "New markets."
         },
         {
           "title": "Distributors",
-          "text": "Regional and national partners with established networks."
+          "text": "Established networks."
         },
         {
           "title": "Retailers",
-          "text": "Specialty stores, boutiques and online shops."
+          "text": "Stores and online shops."
         }
       ]
     },
@@ -437,22 +454,22 @@
     },
     "cta": {
       "title": "Ready *to begin?*",
-      "text": "Tell us about your market. We will take it from there."
+      "text": "Tell us about your market."
     },
     "steps": {
       "title": "How to begin",
       "items": [
         {
           "title": "Enquire",
-          "text": "Tell us about your company, your market and the products you are interested in."
+          "text": "Tell us about your market."
         },
         {
           "title": "Discuss",
-          "text": "We share product information and talk through your requirements."
+          "text": "We share the details."
         },
         {
           "title": "Partner",
-          "text": "Together we agree the details and plan your first order."
+          "text": "We plan your first order."
         }
       ]
     }
@@ -460,7 +477,7 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Let’s *talk.*",
-    "intro": "Tell us about your business and what you are looking for.",
+    "intro": "Tell us what you are looking for.",
     "formTitle": "Enquiry form",
     "form": {
       "name": "Name",

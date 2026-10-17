@@ -122,6 +122,7 @@ function makeContext(page, { absolute = false } = {}) {
     t: (key) => rich(lookup(key)),
     tx: (key) => esc(lookup(key)),
     raw: (key) => lookup(key),
+    opt: (key) => dig(copy, key) || '', // optional text: empty or missing is fine
     list: (key) => lookup(key).map(rich),
     link: (path) => rel(path),
     asset: (file, versioned = false) => rel(file) + (versioned && versions[file] ? `?v=${versions[file]}` : ''),
