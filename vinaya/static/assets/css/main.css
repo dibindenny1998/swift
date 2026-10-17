@@ -3107,6 +3107,10 @@ main:focus {
 }
 
 @media (min-width: 960px) {
+  .contact__grid.contact__grid--single {
+    grid-template-columns: minmax(0, 52rem);
+  }
+
   .contact__grid {
     grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
     gap: clamp(4rem, 7vw, 8rem);

@@ -4,10 +4,16 @@ const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;
 
 export const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ESC[c]);
 
-// Escaped text, with [PLACEHOLDER…] markers highlighted, *accent* in italics and \n as line breaks.
+// [PLACEHOLDER…] markers mark facts still to come from the client. They are never shown:
+// the marker is removed, and a row or section left empty is skipped by the templates.
+export const stripPlaceholders = (value) =>
+  String(value ?? '')
+    .replace(/\s*\[PLACEHOLDER(?::[^\]]*)?\]/g, '')
+    .trim();
+
+// Escaped text, with *accent* in italics and \n as line breaks.
 export const rich = (value) =>
-  esc(value)
-    .replace(/\[PLACEHOLDER(?::[^\]]*)?\]/g, (m) => `<span class="tbd">${m}</span>`)
+  esc(stripPlaceholders(value))
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
     .replace(/\n/g, '<br>');
 

@@ -52,7 +52,7 @@ ${pageHero(ctx, {
   })}
 
 <section class="contact" aria-label="${ctx.tx('contact.eyebrow')}">
-  <div class="container contact__grid">
+  <div class="container contact__grid${links.email || links.whatsapp ? '' : ' contact__grid--single'}">
     <div class="contact__form hero-in" style="--i:3" id="enquiry">
       <div class="notice notice--success" id="enquiry-sent" tabindex="-1" role="status">
         <h2>${ctx.t('contact.success.title')}</h2>
@@ -61,7 +61,7 @@ ${pageHero(ctx, {
       </div>
 
       <div class="notice notice--error" id="enquiry-error" tabindex="-1" role="alert">
-        <p><span data-error-text>${ctx.t('contact.errors.server')}</span> <a href="${esc(links.email.href)}">${links.email.text}</a></p>
+        <p><span data-error-text>${ctx.t('contact.errors.server')}</span>${links.email ? ` <a href="${esc(links.email.href)}">${links.email.text}</a>` : ''}</p>
       </div>
 
       <form action="${ctx.asset('contact.php')}" method="post" novalidate data-enquiry-form data-messages="${esc(JSON.stringify(messages))}">
@@ -91,23 +91,23 @@ ${pageHero(ctx, {
       </form>
     </div>
 
-    <aside class="direct hero-in" style="--i:4" aria-labelledby="direct-title">
+    ${links.email || links.whatsapp ? html`    <aside class="direct hero-in" style="--i:4" aria-labelledby="direct-title">
       <h2 id="direct-title">${ctx.t('contact.direct.title')}</h2>
       <dl>
-        <div>
+        ${links.email ? `<div>
           <dt>${ctx.t('contact.direct.email')}</dt>
           <dd><a href="${esc(links.email.href)}">${links.email.text}</a></dd>
-        </div>
-        <div>
+        </div>` : ''}
+        ${links.whatsapp ? `<div>
           <dt>${ctx.t('contact.direct.whatsapp')}</dt>
           <dd><a href="${esc(links.whatsapp.href)}" target="_blank" rel="noopener">${ctx.t('contact.direct.whatsappText')}</a><br><span class="small">${links.whatsapp.text}</span></dd>
-        </div>
+        </div>` : ''}
         <div>
           <dt>${ctx.t('contact.direct.location')}</dt>
           <dd>${ctx.t('contact.direct.locationText')}</dd>
         </div>
       </dl>
-    </aside>
+    </aside>` : ''}
   </div>
 </section>
 `;

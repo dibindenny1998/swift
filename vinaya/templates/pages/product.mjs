@@ -45,7 +45,7 @@ export default function product(ctx, p) {
       <section class="product__block" aria-labelledby="details-title" data-reveal>
         <h2 class="eyebrow" id="details-title">${ctx.t('products.page.detailsTitle')}</h2>
         <dl class="details">
-${p.specs.map(
+${p.specs.filter((spec) => ctx.filled(`${key}.specs.${spec}`)).map(
     (spec) => html`          <div>
             <dt>${ctx.t(`products.labels.${spec}`)}</dt>
             <dd>${ctx.t(`${key}.specs.${spec}`)}</dd>

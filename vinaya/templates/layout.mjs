@@ -1,4 +1,4 @@
-import { MARK, esc, html, rich } from './lib.mjs';
+import { MARK, esc, html, isPlaceholder, rich } from './lib.mjs';
 
 const NAV = [
   { id: 'story', path: 'our-story/' },
@@ -62,11 +62,12 @@ ${NAV.map(
 </header>`;
 }
 
+// Email and WhatsApp links. Each is null until its real value is set in site.config.mjs.
 export function contactLinks(ctx) {
   const { publicEmail, whatsapp } = ctx.config;
   return {
-    email: { href: `mailto:${publicEmail}`, text: rich(publicEmail) },
-    whatsapp: { href: `https://wa.me/${whatsapp}`, text: rich(`+${whatsapp}`.replace('+[', '[')) },
+    email: isPlaceholder(publicEmail) ? null : { href: `mailto:${publicEmail}`, text: esc(publicEmail) },
+    whatsapp: isPlaceholder(whatsapp) ? null : { href: `https://wa.me/${whatsapp}`, text: esc(`+${whatsapp}`) },
   };
 }
 
@@ -88,8 +89,8 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
       <div class="site-footer__col">
         <h2 class="site-footer__title">${ctx.t('footer.reach')}</h2>
         <ul>
-          <li><a href="${esc(links.email.href)}">${links.email.text}</a></li>
-          <li><a href="${esc(links.whatsapp.href)}" rel="noopener" target="_blank">${ctx.t('contact.direct.whatsapp')}</a></li>
+          ${links.email ? `<li><a href="${esc(links.email.href)}">${links.email.text}</a></li>` : ''}
+          ${links.whatsapp ? `<li><a href="${esc(links.whatsapp.href)}" rel="noopener" target="_blank">${ctx.t('contact.direct.whatsapp')}</a></li>` : ''}
           <li><a href="${ctx.link('contact/')}">${ctx.t('cta.enquire')}</a></li>
         </ul>
       </div>

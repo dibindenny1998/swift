@@ -3,6 +3,8 @@ import { band, layout } from '../layout.mjs';
 import { image, pageHero } from '../components.mjs';
 
 export default function exportPage(ctx) {
+  // Trade facts still to come from the client are hidden; the section appears once one is filled.
+  const trade = ctx.raw('export.details.items').map((_, i) => i).filter((i) => ctx.filled(`export.details.items.${i}.text`));
   const body = html`
 ${pageHero(ctx, {
     eyebrow: ctx.t('export.eyebrow'),
@@ -33,22 +35,22 @@ ${ctx.raw('export.who.items').map(
   </div>
 </section>
 
-<section class="section section--sand" aria-labelledby="trade-title">
+${trade.length ? html`<section class="section section--sand" aria-labelledby="trade-title">
   <div class="container">
     <header class="section-head">
       <h2 class="h2" id="trade-title" data-reveal>${ctx.t('export.details.title')}</h2>
       <p class="note" data-reveal>${ctx.t('export.details.note')}</p>
     </header>
     <dl class="trade">
-${ctx.raw('export.details.items').map(
-    (_, i) => html`      <div data-reveal style="--delay:${(i % 2) * 150}ms">
+${trade.map(
+    (i) => html`      <div data-reveal style="--delay:${(i % 2) * 150}ms">
         <dt>${ctx.t(`export.details.items.${i}.title`)}</dt>
         <dd>${ctx.t(`export.details.items.${i}.text`)}</dd>
       </div>
 `,
   )}    </dl>
   </div>
-</section>
+</section>` : ''}
 
 <section class="section" aria-labelledby="begin-title">
   <div class="container">

@@ -506,7 +506,7 @@
       "phone": "Please enter a valid phone number.",
       "summary": "Please check the highlighted fields.",
       "server": "Your enquiry could not be sent. Please try again, or email us directly.",
-      "notConfigured": "The form is not active yet. Please email us directly."
+      "notConfigured": "Our enquiry form opens very soon. Thank you for your patience."
     },
     "success": {
       "title": "Thank you.",

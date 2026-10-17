@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import config from './site.config.mjs';
 import products from './content/products.mjs';
 import imageSlots, { BLOG_IMAGE, INGREDIENT_IMAGE } from './content/images.mjs';
-import { esc, isPlaceholder, rich } from './templates/lib.mjs';
+import { esc, isPlaceholder, rich, stripPlaceholders } from './templates/lib.mjs';
 import home from './templates/pages/home.mjs';
 import story from './templates/pages/story.mjs';
 import productsPage from './templates/pages/products.mjs';
@@ -123,6 +123,7 @@ function makeContext(page, { absolute = false } = {}) {
     tx: (key) => esc(lookup(key)),
     raw: (key) => lookup(key),
     opt: (key) => dig(copy, key) || '', // optional text: empty or missing is fine
+    filled: (key) => stripPlaceholders(dig(copy, key)) !== '', // false while only a placeholder
     list: (key) => lookup(key).map(rich),
     link: (path) => rel(path),
     asset: (file, versioned = false) => rel(file) + (versioned && versions[file] ? `?v=${versions[file]}` : ''),
@@ -230,6 +231,15 @@ write('sitemap.xml', sitemap);
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /images/guide.html\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`);
 
 // ---------------------------------------------------------------- report
+
+// Facts still marked [PLACEHOLDER] in en.json: hidden on the site, listed here to ask the client.
+(function scan(node, path) {
+  if (typeof node === 'string') {
+    if (/\[PLACEHOLDER/.test(node)) warn(`ask the client (hidden for now): ${path}`);
+  } else if (node && typeof node === 'object') {
+    for (const [k, v] of Object.entries(node)) scan(v, path ? `${path}.${k}` : k);
+  }
+})(copy, '');
 
 for (const [key, value] of Object.entries(config)) {
   if (typeof value === 'string' && isPlaceholder(value)) warn(`site.config.mjs: "${key}" is still a placeholder (${value})`);
