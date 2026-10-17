@@ -945,13 +945,13 @@ main:focus {
   inset: 11%;
   border: 1.5px dashed rgba(27, 46, 34, 0.45);
   border-radius: 50%;
-  animation: spin 120s linear infinite reverse;
+  animation: spin 60s linear infinite reverse;
 }
 
 .orbit__nodes {
   position: absolute;
   inset: 0;
-  animation: spin 70s linear infinite;
+  animation: spin 40s linear infinite;
 }
 
 .orbit__slot {
@@ -987,7 +987,7 @@ main:focus {
   place-items: center;
   width: 100%;
   height: 100%;
-  animation: spin 70s linear infinite reverse;
+  animation: spin 40s linear infinite reverse;
 }
 
 .orbit__icon img {
@@ -1032,9 +1032,15 @@ main:focus {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* Hovering or focusing the orbit pauses it, so the ingredients are easy to pick. */
-.orbit:hover :is(.orbit__nodes, .orbit__icon, .orbit__ring),
-.orbit:focus-within :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
+/* A mouse resting on the orbit, or keyboard focus inside it, pauses the rotation so an
+   ingredient is easy to pick. A tap on a phone does not: the ring keeps turning. */
+@media (hover: hover) {
+  .orbit:hover :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
+    animation-play-state: paused;
+  }
+}
+
+.orbit:has(:focus-visible) :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
   animation-play-state: paused;
 }
 
@@ -3350,15 +3356,18 @@ main:focus {
     scroll-behavior: auto;
   }
 
+  /* The client asked for the ingredient orbit to always turn; it stays slow and pausable. */
+  .orbit__nodes,
+  .orbit__icon {
+    animation-duration: 60s;
+  }
+
   .badge,
   .badge__ring,
   .drift .leaf,
-  .orbit__ring,
-  .orbit__nodes,
   .orbit__node::after,
   .goodness__tap,
   .hero__bg img,
-  .orbit__icon,
   .orbit__core img,
   ::view-transition-old(root),
   ::view-transition-new(root) {

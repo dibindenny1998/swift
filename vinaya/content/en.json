@@ -151,14 +151,6 @@
       "title": "A ritual *worth sharing.*",
       "text": "Our hair oil, a wooden comb and an illustrated story card, gathered in a sheer pouch."
     },
-    "goodness": {
-      "eyebrow": "The goodness within",
-      "title": "Herbs and spices, *steeped in coconut oil.*",
-      "text": "Vinaya’s hair oil is made by steeping selected herbs and aromatic spices in coconut oil.",
-      "hint": "Tap any ingredient to explore",
-      "prev": "Previous ingredient",
-      "next": "Next ingredient"
-    },
     "collections": {
       "eyebrow": "Our collections",
       "title": "Natural care, *from head to toe.*",
@@ -194,6 +186,11 @@
       "eyebrow": "From the blog",
       "title": "Notes on nature, *ritual and care.*",
       "all": "Read the blog"
+    },
+    "goodness": {
+      "eyebrow": "The goodness within",
+      "title": "Botanicals at the *heart of Vinaya.*",
+      "text": "Our first product steeps seven traditional botanicals in pure coconut oil. Watch them turn, and tap one to discover it."
     }
   },
   "story": {
@@ -571,5 +568,13 @@
     "share": "Share",
     "copy": "Copy link",
     "copied": "Link copied"
+  },
+  "goodness": {
+    "eyebrow": "The goodness within",
+    "title": "Herbs and spices, *steeped in coconut oil.*",
+    "text": "Vinaya’s hair oil is made by steeping selected herbs and aromatic spices in coconut oil.",
+    "hint": "Tap any ingredient to explore",
+    "prev": "Previous ingredient",
+    "next": "Next ingredient"
   }
 }

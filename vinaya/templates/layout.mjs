@@ -10,7 +10,7 @@ const NAV = [
 
 function head(ctx, { title, description, image }) {
   const { config } = ctx;
-  const ogImage = image ?? `${config.siteUrl}/assets/img/og-image.jpg`;
+  const ogImage = image ?? `${config.siteUrl}/images/share-image.jpg`;
   return html`<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

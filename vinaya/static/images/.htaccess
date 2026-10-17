@@ -1,0 +1,11 @@
+# Images here are meant to be replaced by hand, so browsers re-check them daily
+# instead of caching them for months.
+<IfModule mod_expires.c>
+  ExpiresByType image/jpeg "access plus 1 day"
+  ExpiresByType image/png "access plus 1 day"
+  ExpiresByType image/webp "access plus 1 day"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<Files "guide.html">
+  Header set X-Robots-Tag "noindex, nofollow"
+</Files>

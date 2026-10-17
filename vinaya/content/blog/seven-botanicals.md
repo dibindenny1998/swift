@@ -3,8 +3,7 @@ title: Seven botanicals, one bottle
 excerpt: Meet the ingredients inside Vinaya hair oil, from coconut oil, the tropical powerhouse, to bhringraj, the king of hair.
 category: Ingredients
 date: 2026-10-10
-image: photos/hair-oil-coconut
-position: 60% 45%
+image: blog-seven-botanicals.jpg
 alt: Vinaya Hair Oil with a fresh coconut, green leaves and a wooden comb
 ---
 Vinaya hair oil is made by steeping selected herbs and aromatic spices in coconut oil. Each one was chosen for a reason.

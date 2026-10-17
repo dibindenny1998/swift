@@ -61,20 +61,29 @@ them with real values when you have them.
 1. Add an entry to `content/products.mjs` (slug, category, which detail rows to show).
 2. Add its copy under `products.items.<slug>` in `en.json`. Copy an existing product
    as a template. New categories go under `products.categories`.
-3. Add an image slot `'products/<slug>': { ratio: 4 / 5 }` to `content/images.mjs`, plus its alt
-   text under `images` in `en.json`.
-4. Add the photo as `static/assets/img/products/<slug>.jpg`, then build.
+3. Add an image slot `'products/<slug>': { file: 'product-<slug>.jpg', width: 1200, height: 1500, page: '…' }`
+   to `content/images.mjs`, plus its alt text under `images` in `en.json`.
+4. Add the photo as `static/images/product-<slug>.jpg` (1200 × 1500), then build.
 
 The product grid, product page, sitemap, footer and the contact form's "Product interest" list
 update automatically.
 
-### Adding photos
+### Changing images
 
-Photos live in `static/assets/img/photos/` as WebP (a full 1024 px version plus a `-640`
-version for phones). `content/images.mjs` decides which photo goes in which spot, how it is
-cropped (`ratio`) and which part stays in view (`position`). To change a picture, drop a new
-file in `photos/` and point the slot's `src` at it. Any slot whose file is missing shows a
-labelled placeholder box instead. Alt text is in `en.json` under `images`.
+Every photo and illustration is one file in `static/images/` (on the server:
+`public_html/images/`), with a fixed name such as `home-hero.jpg` or `product-hair-oil.jpg`.
+
+- **On the live site, no rebuild needed:** in Hostinger File Manager open `public_html/images/`,
+  upload a new picture with exactly the same file name and overwrite the old one.
+- **Any size works:** the site crops each picture to its frame automatically, keeping the
+  centre (or the slot's `focus` point) in view.
+- **Recommended sizes:** listed in `content/images.mjs`, in `public_html/images/README.txt`, and
+  on the image guide page **`/images/guide.html`**. The guide shows every image, where it appears,
+  and checks each uploaded file: good / different shape (auto-cropped) / too small / file too heavy.
+- Keep each file under ~400 KB (JPG, quality about 80) so pages stay fast.
+- Copy the replaced file into `static/images/` here too, or the next build will put the old one back.
+
+Alt text (the description for screen readers and Google) is in `en.json` under `images`.
 
 ### Logo and favicon
 

@@ -1,6 +1,6 @@
 import { LEAF, MARK, esc, html, pad } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { highlights, image, postCard } from '../components.mjs';
+import { goodness, highlights, image, postCard } from '../components.mjs';
 
 // Circular badge with slowly rotating text around the leaf mark.
 function badge(ctx) {
@@ -117,6 +117,8 @@ ${collections(ctx)}
     </div>
   </div>
 </section>
+
+${goodness(ctx, { copy: 'home.goodness' })}
 
 <section class="section section--photo source" aria-labelledby="source-title">
   <div class="section__bg" data-parallax="0.12">${image(ctx, 'home-source', { decorative: true, sizes: '100vw' })}</div>

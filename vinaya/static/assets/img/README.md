@@ -1,7 +1,5 @@
-# Images
+# Logo files
 
-- `photos/` — product photography (WebP, full size + `-640` phone size).
-- `og-image.jpg` — social media share preview (1200 × 630).
-
-Which photo appears where, its crop and focus point are set in `content/images.mjs`.
-Alt text is in `content/en.json` under `images`. This README is not copied into the website.
+`logo-full.svg` (dark, for light backgrounds) and `logo-full-light.svg` (light, for the green
+footer) are the official Vinaya logo. All photos and illustrations live in `static/images/`;
+see `public_html/images/guide.html` for the full list with recommended sizes.

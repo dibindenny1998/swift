@@ -3,8 +3,7 @@ title: Made the Vinaya way: herbs, spices and slow heat
 excerpt: How our hair oil is made: selected herbs and aromatic spices, slowly cooked in pure coconut oil, then filtered and bottled with care.
 category: Craft
 date: 2026-10-14
-image: photos/hair-oil-flatlay
-position: 50% 45%
+image: blog-made-the-vinaya-way.jpg
 alt: Vinaya Hair Oil on natural stone beside a wooden comb, coconut and leaves
 featured: true
 ---

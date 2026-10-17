@@ -7,16 +7,13 @@ export function image(ctx, slot, { eager = false, sizes = '100vw', className = '
   const def = ctx.images[slot];
   if (!def) throw new Error(`Unknown image slot "${slot}" (add it to content/images.mjs)`);
   const alt = decorative ? '' : altText !== undefined ? esc(altText) : ctx.tx(`images.${slot}`);
-  const ratio = def.ratio;
-  const style = `--ratio:${ratio.toFixed(4)}${def.position ? `;--pos:${def.position}` : ''}${def.fit ? `;--fit:${def.fit}` : ''}`;
-  const cls = `media${arch ? ' media--arch' : ''}${def.fit === 'contain' ? ' media--contain' : ''} ${className}`;
+  const ratio = def.width / def.height;
+  const style = `--ratio:${ratio.toFixed(4)}${def.focus ? `;--pos:${def.focus}` : ''}`;
+  const cls = `media${arch ? ' media--arch' : ''} ${className}`;
 
-  if (def.file) {
-    const w = 1024;
-    const h = Math.round(w / ratio);
-    const srcset = def.small ? ` srcset="${ctx.asset(def.small)} 640w, ${ctx.asset(def.file)} 1024w"` : '';
+  if (def.exists) {
     return html`<div class="${cls}" style="${style}">
-  <img src="${ctx.asset(def.file)}"${srcset} alt="${alt}" width="${w}" height="${h}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">
+  <img src="${ctx.asset(`images/${def.file}`)}" alt="${alt}" width="${def.width}" height="${def.height}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">
 </div>`;
   }
 
@@ -24,7 +21,7 @@ export function image(ctx, slot, { eager = false, sizes = '100vw', className = '
   <div class="placeholder" aria-hidden="true">
     <span class="placeholder__tag">${ctx.t('placeholder.image')}</span>
     <span class="placeholder__alt">${alt}</span>
-    <span class="placeholder__file">assets/img/${esc(slot)}.jpg</span>
+    <span class="placeholder__file">images/${esc(def.file)}</span>
   </div>
 </div>`;
 }
@@ -63,19 +60,19 @@ export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
 // "The goodness within": the ingredients orbiting slowly around coconut oil. Each ingredient is
 // a button; the panel beside it shows the one selected (it cycles on its own until someone picks).
 // Without JavaScript every ingredient's text is simply listed.
-export function goodness(ctx, { headingLevel = 2 } = {}) {
+export function goodness(ctx, { headingLevel = 2, copy = 'goodness' } = {}) {
   const items = ctx.raw('ingredients');
   const [core, ...ring] = items;
   const h = `h${headingLevel}`;
-  const icon = (item) => `<img src="${ctx.asset(`assets/img/ingredients/${item.key}.webp`)}" alt="" loading="lazy" decoding="async">`;
+  const icon = (item) => `<img src="${ctx.asset(`images/ingredient-${item.key}.png`)}" alt="" width="400" height="400" loading="lazy" decoding="async">`;
   const step = 360 / ring.length;
   return html`<section class="section goodness" aria-labelledby="goodness-title">
   <div class="container goodness__grid">
     <header class="goodness__head">
-      <p class="eyebrow" data-reveal>${ctx.t('home.goodness.eyebrow')}</p>
-      <${h} class="h2" id="goodness-title" data-reveal>${ctx.t('home.goodness.title')}</${h}>
-      <p class="lead" data-reveal>${ctx.t('home.goodness.text')}</p>
-      <p class="goodness__hint" data-reveal><span class="goodness__tap" aria-hidden="true"></span>${ctx.t('home.goodness.hint')}</p>
+      <p class="eyebrow" data-reveal>${ctx.t(`${copy}.eyebrow`)}</p>
+      <${h} class="h2" id="goodness-title" data-reveal>${ctx.t(`${copy}.title`)}</${h}>
+      <p class="lead" data-reveal>${ctx.t(`${copy}.text`)}</p>
+      <p class="goodness__hint" data-reveal><span class="goodness__tap" aria-hidden="true"></span>${ctx.t('goodness.hint')}</p>
     </header>
     <div class="orbit" data-orbit data-reveal>
       <span class="orbit__ring" aria-hidden="true"></span>
@@ -93,9 +90,9 @@ ${items.map(
         <p class="ing__text">${esc(item.text)}</p>
       </article>\n`,
   )}      <div class="goodness__controls" aria-hidden="true" hidden data-ing-controls>
-        <button type="button" class="goodness__arrow" data-ing-prev tabindex="-1" aria-label="${ctx.tx('home.goodness.prev')}">&larr;</button>
+        <button type="button" class="goodness__arrow" data-ing-prev tabindex="-1" aria-label="${ctx.tx('goodness.prev')}">&larr;</button>
         <span class="goodness__count" data-ing-count>1 / ${items.length}</span>
-        <button type="button" class="goodness__arrow" data-ing-next tabindex="-1" aria-label="${ctx.tx('home.goodness.next')}">&rarr;</button>
+        <button type="button" class="goodness__arrow" data-ing-next tabindex="-1" aria-label="${ctx.tx('goodness.next')}">&rarr;</button>
       </div>
     </div>
   </div>
