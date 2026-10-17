@@ -59,6 +59,28 @@ export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
 // "The goodness within": the ingredients orbiting slowly around coconut oil. Each ingredient is
 // a button; the panel beside it shows the one selected (it cycles on its own until someone picks).
 // Without JavaScript every ingredient's text is simply listed.
+// The ingredients as a calm grid: icon, name, one line. Used on the product page, so the
+// rotating orbit stays a Home page moment.
+export function ingredientGrid(ctx) {
+  const items = ctx.raw('ingredients');
+  return html`<section class="section goodness-list" aria-labelledby="goodness-title">
+  <div class="container">
+    <header class="section-head center">
+      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('goodness.eyebrow')}</p>
+      <h2 class="h2" id="goodness-title" data-reveal>${ctx.t('goodness.title')}</h2>
+    </header>
+    <ul class="ing-grid">
+${items.map(
+    (item, i) => `      <li class="ing-card" data-reveal style="--delay:${(i % 4) * 120}ms">
+        <span class="ing-card__icon"><img src="${ctx.asset(`images/ingredient-${item.key}.png`)}" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+        <h3 class="ing-card__name">${esc(item.name)}</h3>
+        <p class="ing-card__text">${esc(item.text)}</p>
+      </li>\n`,
+  )}    </ul>
+  </div>
+</section>`;
+}
+
 export function goodness(ctx, { headingLevel = 2, copy = 'goodness' } = {}) {
   const items = ctx.raw('ingredients');
   const [core, ...ring] = items;
@@ -118,3 +140,10 @@ export function postCard(ctx, post, { feature = false, headingLevel = 2, delay =
   </div>
 </article>`;
 }
+
+// Words that rise one by one as the line scrolls into view.
+export const words = (text) =>
+  text
+    .split(' ')
+    .map((w, i) => `<span class="w" style="--w:${i}">${w}</span>`)
+    .join(' ');

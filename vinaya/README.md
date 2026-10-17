@@ -81,6 +81,8 @@ Every photo and illustration is one file in `static/images/` (on the server:
   on the image guide page **`/images/guide.html`**. The guide shows every image, where it appears,
   and checks each uploaded file: good / different shape (auto-cropped) / too small / file too heavy.
 - Keep each file under ~400 KB (JPG, quality about 80) so pages stay fast.
+- **New photos:** `IMAGE-PROMPTS.md` has a ready-to-use AI image prompt for every file, with its size,
+  aspect ratio and where text sits over it.
 - Copy the replaced file into `static/images/` here too, or the next build will put the old one back.
 
 Alt text (the description for screen readers and Google) is in `en.json` under `images`.

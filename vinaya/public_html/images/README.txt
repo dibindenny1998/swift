@@ -10,15 +10,19 @@ collection-hair.jpg                        800 x 1000 px    Home: collections, H
 collection-skin.jpg                        800 x 1000 px    Home: collections, Skin Care
 collection-body.jpg                        800 x 1000 px    Home: collections, Body Care
 collection-gift.jpg                        800 x 1000 px    Home: collections, Gifting
-tale-nature.jpg                            1000 x 1250 px   Home scroll story: 01 Nature
-tale-tradition.jpg                         1000 x 1250 px   Home scroll story: 02 Tradition
-tale-you.jpg                               1000 x 1250 px   Home scroll story: 03 You
+tale-nature.jpg                            1000 x 1250 px   Home: From the source to you, 01 Nature
+tale-tradition.jpg                         1000 x 1250 px   Home: From the source to you, 02 Tradition
+tale-you.jpg                               1000 x 1250 px   Home: From the source to you, 03 You
 approach-simplicity.jpg                    1200 x 900 px    Home: Thoughtful Simplicity card
 approach-care.jpg                          1200 x 900 px    Home: Conscious Care card
 approach-purpose.jpg                       1200 x 900 px    Home: Our Purpose card
 story-hero.jpg                             1920 x 1080 px   Our Story: top image
-story-1.jpg                                800 x 1000 px    Our Story: image pair, left (arch)
-story-2.jpg                                1200 x 800 px    Our Story: image pair, right
+story-heritage.jpg                         1000 x 1250 px   Our Story: I Heritage
+story-change.jpg                           1000 x 1250 px   Our Story: II Change (arch)
+story-reconnect.jpg                        1000 x 1250 px   Our Story: III Reconnection
+story-value.jpg                            1920 x 1080 px   Our Story: full-width quote background
+story-source.jpg                           1200 x 900 px    Our Story: From the Source to You card
+story-approach.jpg                         1200 x 900 px    Our Story: The Vinaya Approach card
 export-hero.jpg                            1920 x 1080 px   Partner With Us: top image
 product-hair-oil.jpg                       1200 x 1500 px   Hair Oil: product photo and cards
 product-gift-set.jpg                       1200 x 1500 px   Gift Set: product photo and cards

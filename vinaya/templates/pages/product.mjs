@@ -1,6 +1,6 @@
 import { esc, html, pad } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { goodness, highlights, image, productCard } from '../components.mjs';
+import { highlights, ingredientGrid, image, productCard } from '../components.mjs';
 
 export default function product(ctx, p) {
   const key = `products.items.${p.slug}`;
@@ -57,7 +57,7 @@ ${p.specs.filter((spec) => ctx.filled(`${key}.specs.${spec}`)).map(
   </div>
 </article>
 
-${p.goodness ? goodness(ctx) : ''}
+${p.goodness ? ingredientGrid(ctx) : ''}
 
 ${data.ritual ? html`<section class="section section--sand ritual" aria-labelledby="ritual-title">
   <div class="container">

@@ -1,6 +1,6 @@
 import { LEAF, MARK, esc, html, pad } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { goodness, image } from '../components.mjs';
+import { goodness, image, words } from '../components.mjs';
 
 // Home tells the story in pictures: few words, big images, colour and slow motion.
 
@@ -16,29 +16,27 @@ function badge(ctx) {
 </div>`;
 }
 
-// Words that rise one by one as the line scrolls into view.
-const words = (text) =>
-  text
-    .split(' ')
-    .map((w, i) => `<span class="w" style="--w:${i}">${w}</span>`)
-    .join(' ');
-
-// "From the source to you": the screen pins while three images crossfade as you scroll.
-function tale(ctx) {
+// "From the source to you": three tall pictures side by side, one word each.
+function journey(ctx) {
   const steps = ctx.raw('home.tale.steps');
   const slots = ['tale-nature', 'tale-tradition', 'tale-you'];
-  return html`<section class="tale" aria-labelledby="tale-title" data-tale style="--steps:${steps.length}">
-  <div class="tale__sticky">
-    <div class="tale__media">
-${slots.map((s, i) => `      <div class="tale__img${i === 0 ? ' is-active' : ''}" data-step="${i}">${image(ctx, s, { sizes: '(min-width: 960px) 50vw, 100vw' })}</div>\n`)}    </div>
-    <div class="tale__text">
-      <h2 class="eyebrow" id="tale-title">${ctx.t('home.tale.eyebrow')}</h2>
-      <ol class="tale__steps">
+  return html`<section class="section section--green journey" aria-labelledby="journey-title">
+  <div class="container">
+    <header class="section-head center">
+      <h2 class="eyebrow eyebrow--center" id="journey-title" data-reveal>${ctx.t('home.tale.eyebrow')}</h2>
+    </header>
+    <ol class="journey__grid">
 ${steps.map(
-    (_, i) => `        <li class="tale__step${i === 0 ? ' is-active' : ''}" data-step="${i}"><span class="tale__num">${pad(i + 1)}</span><h3 class="tale__word">${ctx.t(`home.tale.steps.${i}.word`)}</h3><p class="tale__line">${ctx.t(`home.tale.steps.${i}.line`)}</p></li>\n`,
-  )}      </ol>
-      <div class="tale__dots" aria-hidden="true">${steps.map((_, i) => `<span${i === 0 ? ' class="is-active"' : ''} data-step="${i}"></span>`).join('')}</div>
-    </div>
+    (_, i) => html`      <li class="journey__card" data-reveal style="--delay:${i * 180}ms">
+        ${image(ctx, slots[i], { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' })}
+        <div class="journey__body">
+          <span class="journey__num" aria-hidden="true">${pad(i + 1)}</span>
+          <h3 class="journey__word">${ctx.t(`home.tale.steps.${i}.word`)}</h3>
+          <p class="journey__line">${ctx.t(`home.tale.steps.${i}.line`)}</p>
+        </div>
+      </li>
+`,
+  )}    </ol>
   </div>
 </section>`;
 }
@@ -73,7 +71,7 @@ export default function home(ctx) {
 
   const body = html`
 <section class="hero hero--brand" aria-labelledby="hero-title">
-  <div class="hero__bg" data-parallax="0.15">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw' })}</div>
+  <div class="hero__bg">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw' })}</div>
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="eyebrow hero-in" style="--i:0">${ctx.t('home.hero.eyebrow')}</p>
@@ -99,7 +97,7 @@ export default function home(ctx) {
   </div>
 </section>
 
-${tale(ctx)}
+${journey(ctx)}
 
 ${collections(ctx)}
 
@@ -148,6 +146,6 @@ ${band(ctx, { secondary: false, text: null })}
     title: ctx.raw('meta.home.title'),
     description: ctx.raw('meta.home.description'),
     body,
-    bodyClass: 'page-home',
+    bodyClass: 'page-home has-cover',
   });
 }

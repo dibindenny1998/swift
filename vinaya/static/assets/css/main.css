@@ -1131,6 +1131,58 @@ main:focus {
   }
 }
 
+/* ------------------------------------------------------------------ ingredient grid (product page) */
+
+/* Flex, so a short last row sits centred. */
+.ing-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.5rem 1.5rem;
+}
+
+.ing-card {
+  flex: 0 1 calc(50% - 0.75rem);
+  text-align: center;
+}
+
+.ing-card__icon {
+  display: grid;
+  place-items: center;
+  width: min(100%, 8.5rem);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border: 1px solid rgba(195, 154, 69, 0.35);
+  border-radius: 50%;
+  background: var(--grad-sand);
+}
+
+.ing-card__icon img {
+  width: 78%;
+  height: auto;
+}
+
+.ing-card__name {
+  margin-top: 1rem;
+  font-size: var(--fs-h3);
+}
+
+.ing-card__text {
+  max-width: 26ch;
+  margin: 0.4rem auto 0;
+  font-size: var(--fs-small);
+}
+
+@media (min-width: 768px) {
+  .ing-grid {
+    gap: 3.5rem 2rem;
+  }
+
+  .ing-card {
+    flex-basis: calc(25% - 1.5rem);
+  }
+}
+
 /* ------------------------------------------------------------------ ritual, method, faq (product page) */
 
 .patch {
@@ -1396,7 +1448,7 @@ main:focus {
 
 .hero__bg {
   position: absolute;
-  inset: -12% 0;
+  inset: 0;
   z-index: 0;
 }
 
@@ -1488,20 +1540,20 @@ main:focus {
 }
 
 /* Header sits on the dark photo until the page scrolls. */
-.page-home:not(.menu-open) .site-header:not(.is-scrolled) :is(.brand, .wordmark, .menu-toggle) {
+.has-cover:not(.menu-open) .site-header:not(.is-scrolled) :is(.brand, .wordmark, .menu-toggle) {
   color: var(--on-green);
 }
 
-.page-home:not(.menu-open) .site-header:not(.is-scrolled) .menu-toggle {
+.has-cover:not(.menu-open) .site-header:not(.is-scrolled) .menu-toggle {
   border-color: rgba(251, 246, 236, 0.5);
 }
 
 @media (min-width: 960px) {
-  .page-home .site-header:not(.is-scrolled) .site-nav__link:not(.site-nav__link--cta) {
+  .has-cover .site-header:not(.is-scrolled) .site-nav__link:not(.site-nav__link--cta) {
     color: var(--on-green);
   }
 
-  .page-home .site-header:not(.is-scrolled) .site-nav__link--cta {
+  .has-cover .site-header:not(.is-scrolled) .site-nav__link--cta {
     background: var(--grad-gold);
     color: var(--green-deep);
   }
@@ -1951,171 +2003,78 @@ main:focus {
   transform: none;
 }
 
-/* ------------------------------------------------------------------ home: scroll story */
+/* ------------------------------------------------------------------ home: from the source to you */
 
-.tale {
-  position: relative;
-  background: var(--green-deep);
-  color: var(--on-green);
-}
-
-.js .tale {
-  height: calc(100svh + var(--steps) * 60svh);
-}
-
-.tale__sticky {
-  position: relative;
+.journey__grid {
   display: grid;
-  min-height: 100svh;
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.journey__card {
+  position: relative;
   overflow: hidden;
+  border-radius: var(--radius);
+  isolation: isolate;
 }
 
-.js .tale__sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-}
-
-.tale__media {
-  position: absolute;
-  inset: 0;
-}
-
-.tale__media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(19, 48, 33, 0.95) 0%, rgba(19, 48, 33, 0.5) 45%, rgba(19, 48, 33, 0.05) 100%);
-}
-
-.tale__img {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 1.2s var(--ease);
-}
-
-.tale__img.is-active {
-  opacity: 1;
-}
-
-.tale__img .media {
-  height: 100%;
-  aspect-ratio: auto;
+.journey__media {
   border-radius: 0;
 }
 
-.tale__img img {
-  transform: scale(1.12);
-  transition: transform 7s linear;
+.journey__media img {
+  transition: transform 1.6s var(--ease);
 }
 
-.tale__img.is-active img {
-  transform: none;
-}
-
-.tale__text {
-  position: relative;
-  z-index: 1;
-  align-self: end;
-  padding: 0 var(--gutter) clamp(3rem, 9vh, 5.5rem);
-}
-
-.tale__text .eyebrow {
-  color: var(--gold-light);
-}
-
-.tale__steps {
-  position: relative;
-  min-height: clamp(9rem, 6rem + 10vw, 13rem);
-  margin-top: 1.5rem;
-}
-
-.tale__step {
+.journey__card::after {
+  content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transform: translateY(1.5rem);
-  transition:
-    opacity 0.9s var(--ease),
-    transform 0.9s var(--ease);
+  inset: 0;
+  background: linear-gradient(0deg, rgba(19, 48, 33, 0.92) 0%, rgba(19, 48, 33, 0.35) 45%, rgba(19, 48, 33, 0) 70%);
+  pointer-events: none;
 }
 
-.tale__step.is-active {
-  opacity: 1;
-  transform: none;
+.journey__body {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  padding: 1.75rem 1.75rem 2rem;
 }
 
-.tale__num {
+.journey__num {
   color: var(--gold-light);
   font-size: var(--fs-eyebrow);
   font-weight: 500;
   letter-spacing: 0.24em;
 }
 
-.tale__word {
-  margin-top: 0.4rem;
+.journey__word {
+  margin-top: 0.3rem;
   color: var(--on-green);
-  font-size: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+  font-size: clamp(2.6rem, 2rem + 2.4vw, 4rem);
   line-height: 1;
 }
 
-.tale__line {
-  margin-top: 0.85rem;
+.journey__line {
+  margin-top: 0.6rem;
   color: var(--on-green-soft);
-  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
 }
 
-.tale__dots {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
+@media (hover: hover) {
+  .journey__card:hover .journey__media img {
+    transform: scale(1.06);
+  }
 }
 
-.tale__dots span {
-  width: 2rem;
-  height: 2px;
-  background: var(--line-light);
-  transition: background-color 0.6s var(--ease), width 0.6s var(--ease);
-}
-
-.tale__dots span.is-active {
-  width: 3.5rem;
-  background: var(--gold-light);
-}
-
-/* Without JavaScript: the three steps are simply listed over the first image. */
-.no-js .tale__img:first-child {
-  opacity: 1;
-}
-
-.no-js .tale__step {
-  position: relative;
-  opacity: 1;
-  transform: none;
-  margin-bottom: 2rem;
-}
-
-@media (min-width: 960px) {
-  .tale__sticky {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+@media (min-width: 768px) {
+  .journey__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
   }
 
-  .tale__media {
-    position: relative;
-    order: 2;
-    inset: auto;
-    min-height: 100%;
-  }
-
-  .tale__media::after {
-    background: linear-gradient(90deg, rgba(19, 48, 33, 0.35) 0%, rgba(19, 48, 33, 0) 40%);
-  }
-
-  .tale__text {
-    align-self: center;
-    padding: 0 clamp(2rem, 6vw, 7rem) 0 max(var(--gutter), calc((100vw - 78rem) / 2));
+  /* The middle picture sits lower, so the three read as a gentle wave. */
+  .journey__card:nth-child(2) {
+    margin-top: clamp(2rem, 5vw, 4.5rem);
   }
 }
 
@@ -2720,35 +2679,34 @@ main:focus {
   background: var(--cream);
 }
 
-.story-lead {
-  max-width: 22ch;
-  margin-inline: auto;
+.hero--cover {
+  min-height: 78svh;
 }
 
-.chapter {
-  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+.hero--cover .hero__title {
+  max-width: 14ch;
 }
 
-.chapter__grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.chapter__label {
+.scene__label {
   display: flex;
   align-items: baseline;
   gap: 1rem;
 }
 
-.chapter__label .eyebrow::before {
+.scene__label .eyebrow::before {
   display: none;
 }
 
-.chapter__num {
+.scene__num {
   color: var(--gold-ink);
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-style: italic;
+  line-height: 1;
+}
+
+.scene__text .pull {
+  margin-top: 2.5rem;
 }
 
 .prose-lg {
@@ -2776,36 +2734,45 @@ main:focus {
   text-wrap: balance;
 }
 
-.story-figures {
-  display: grid;
-  gap: 2rem;
+.story-value {
+  padding-block: clamp(7rem, 5rem + 10vw, 13rem);
 }
 
-.story-value {
+.story-value .quote {
   max-width: 26ch;
   margin-inline: auto;
 }
 
+.cards--two {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.story-closing__line {
+  margin-top: 1.5rem;
+  color: var(--green);
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 2rem + 5vw, 6.5rem);
+  line-height: 1;
+}
+
+.story-closing__line em {
+  color: var(--gold-ink);
+}
+
+.story-closing .actions {
+  margin-top: 2.75rem;
+}
+
+@media (min-width: 768px) {
+  .cards--two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 960px) {
-  .chapter__grid {
-    grid-template-columns: 15rem minmax(0, 1fr);
-    gap: 4rem;
-  }
-
-  .chapter__label {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding-top: 0.9rem;
-  }
-
-  .story-figures {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    align-items: end;
-    gap: clamp(3rem, 6vw, 6rem);
-  }
-
-  .story-figures > :last-child {
-    margin-bottom: clamp(4rem, 10vw, 9rem);
+  .hero--cover {
+    min-height: min(86svh, 52rem);
   }
 }
 
@@ -3432,15 +3399,6 @@ main:focus {
   }
 }
 
-/* Parallax: JavaScript sets --py; `translate` composes with other transforms. */
-[data-parallax] {
-  translate: 0 var(--py, 0);
-}
-
-.section__bg[data-parallax] {
-  inset: -14% 0;
-}
-
 /* Hero: headline rises line by line from behind a mask, photo unveils upwards. */
 .hero__title .line {
   display: block;
@@ -3625,10 +3583,6 @@ main:focus {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;
-  }
-
-  [data-parallax] {
-    translate: none !important;
   }
 
   .hero-in,

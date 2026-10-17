@@ -48,8 +48,6 @@
   "images": {
     "home-hero": "Sunset over the Kerala backwaters, lined with coconut palms",
     "story-hero": "Sunset over the Kerala backwaters, with coconut palms and a traditional houseboat",
-    "story-coconut": "A freshly opened coconut and green leaves in morning sunlight",
-    "story-stone": "Vinaya Hair Oil standing on a stone slab between a coconut and green leaves",
     "export-hero": "Vinaya Gift Set in a sheer pouch: hair oil, wooden comb and illustrated story card",
     "products/hair-oil": "Vinaya Hair Oil, Green Leaves & Coconut Oil, 110 ml bottle with a gold cap",
     "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch",
@@ -62,7 +60,13 @@
     "col-gift": "Vinaya Gift Set in a sheer pouch",
     "tale-nature": "Sunset over the Kerala backwaters with coconut palms",
     "tale-tradition": "Vinaya Hair Oil with a wooden comb, coconut and leaves",
-    "tale-you": "Vinaya Hair Oil on natural stone among green leaves"
+    "tale-you": "Vinaya Hair Oil on natural stone among green leaves",
+    "story-heritage": "Vinaya Hair Oil resting on stone beside a wooden comb, an opened coconut and green leaves",
+    "story-change": "Vinaya Hair Oil with a wooden comb, coconut and leaves",
+    "story-reconnect": "Vinaya Hair Oil standing on a stone slab between a coconut and green leaves",
+    "story-value": "A brass bowl of herbal oil with hibiscus, coconut, cinnamon and fresh leaves",
+    "story-source": "The Kerala backwaters at sunset, lined with coconut palms",
+    "story-approach": "Vinaya Hair Oil standing on natural stone among green leaves"
   },
   "meta": {
     "home": {
