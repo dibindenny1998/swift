@@ -59,6 +59,59 @@ function restore_photos(string $images): void
     }
 }
 
+/** The product list from the editor, checked field by field. */
+function clean_catalog($catalog): array
+{
+    $slug = '/^[a-z0-9][a-z0-9-]{1,60}$/';
+    $text = static function ($value, int $max) {
+        $value = trim((string) $value);
+        if (mb_strlen($value) > $max) {
+            fail('Some product text is too long.');
+        }
+        return $value;
+    };
+    $hidden = [];
+    foreach ((array) ($catalog['hidden'] ?? []) as $s) {
+        if (is_string($s) && preg_match($slug, $s)) {
+            $hidden[] = $s;
+        }
+    }
+    $custom = [];
+    foreach ((array) ($catalog['custom'] ?? []) as $c) {
+        if (!is_array($c) || !preg_match($slug, (string) ($c['slug'] ?? '')) || !preg_match('/^[a-z]{2,20}$/', (string) ($c['category'] ?? ''))) {
+            fail('A product is missing its name or category.');
+        }
+        $item = [
+            'slug' => $c['slug'],
+            'category' => $c['category'],
+            'name' => $text($c['name'] ?? '', 120),
+            'variant' => $text($c['variant'] ?? '', 160),
+            'short' => $text($c['short'] ?? '', 300),
+            'description' => $text($c['description'] ?? '', 3000),
+            'highlights' => [],
+            'specs' => [],
+        ];
+        if ($item['name'] === '' || $item['variant'] === '') {
+            fail('Every product needs a name and a subtitle.');
+        }
+        foreach (array_slice((array) ($c['highlights'] ?? []), 0, 12) as $hl) {
+            if (($hl = $text($hl, 160)) !== '') {
+                $item['highlights'][] = $hl;
+            }
+        }
+        foreach (['ingredients', 'size', 'usage', 'shelfLife', 'packaging'] as $k) {
+            if (($v = $text($c['specs'][$k] ?? '', 2000)) !== '') {
+                $item['specs'][$k] = $v;
+            }
+        }
+        $custom[] = $item;
+        if (count($custom) > 60) {
+            fail('Too many products.');
+        }
+    }
+    return ['hidden' => array_values(array_unique($hidden)), 'custom' => $custom];
+}
+
 function valid_email(string $value): bool
 {
     return $value === '' || filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
@@ -95,6 +148,7 @@ try {
                 'storage' => str_starts_with(data_dir(), site_root() . '/') ? 'inside' : 'safe',
                 'overrides' => read_json('content.json', new stdClass()),
                 'settings' => read_json('settings.json', new stdClass()),
+                'catalog' => read_json('products.json', ['hidden' => [], 'custom' => []]),
                 'images' => $files,
                 'versions' => $versions,
                 'blog' => $blog,
@@ -132,6 +186,8 @@ try {
             }
             $clean['whatsapp'] = $whatsapp;
 
+            $catalog = clean_catalog($body['catalog'] ?? []);
+
             // Validate every page before writing any.
             $pages = [];
             foreach ($body['files'] as $path => $content) {
@@ -148,8 +204,17 @@ try {
 
             write_json('content.json', (object) $overrides);
             write_json('settings.json', $clean);
+            write_json('products.json', $catalog);
             foreach ($pages as $path => $content) {
                 write_atomic(site_root() . '/' . $path, $content);
+            }
+            // Take down the pages of products that were deleted or hidden.
+            foreach (glob(site_root() . '/products/*/index.html') ?: [] as $file) {
+                $rel = 'products/' . basename(dirname($file)) . '/index.html';
+                if (!isset($pages[$rel])) {
+                    @unlink($file);
+                    @rmdir(dirname($file));
+                }
             }
             $stamp = ['at' => time(), 'by' => $_SESSION['user']];
             write_json('last-publish.json', $stamp);

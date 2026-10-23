@@ -144,6 +144,10 @@ The client edits the site at `https://YOUR-SITE/admin/` (username `vinaya`; the 
 shared privately, and can be changed under **Account**).
 
 - **Text:** every line of copy from `content/en.json`, grouped by page, with search.
+- **Products:** add new products (name, subtitle, category, photo, description, tags, details),
+  edit or delete them, and hide or show any product. Each gets its own page, a card on the
+  Products page and an entry in the enquiry form. Stored in `../vinaya-data/products.json`
+  and merged by `core/catalog.mjs`.
 - **Photos:** replace any image; it is resized in the browser and the site crops it to fit.
 - **Contact details:** enquiry email (used by `contact.php` at once), public email, WhatsApp.
 - **Publish** regenerates every page in the browser with the same renderer as `build.mjs`

@@ -8,6 +8,7 @@ export default function product(ctx, p) {
   const name = ctx.raw(`${key}.name`);
   const variant = ctx.raw(`${key}.variant`);
   const data = ctx.raw(key);
+  const specs = p.specs.filter((spec) => ctx.filled(`${key}.specs.${spec}`));
 
   const body = html`
 <nav class="breadcrumb container" aria-label="${ctx.tx('nav.breadcrumb')}">
@@ -42,17 +43,17 @@ export default function product(ctx, p) {
         <p class="small">${ctx.t('products.page.enquireNote')} <a href="${ctx.link('export/')}">${ctx.t('products.page.exportLink')}</a></p>
       </div>
 
-      <section class="product__block" aria-labelledby="details-title" data-reveal>
+      ${specs.length ? html`<section class="product__block" aria-labelledby="details-title" data-reveal>
         <h2 class="eyebrow" id="details-title">${ctx.t('products.page.detailsTitle')}</h2>
         <dl class="details">
-${p.specs.filter((spec) => ctx.filled(`${key}.specs.${spec}`)).map(
+${specs.map(
     (spec) => html`          <div>
             <dt>${ctx.t(`products.labels.${spec}`)}</dt>
             <dd>${ctx.t(`${key}.specs.${spec}`)}</dd>
           </div>
 `,
   )}        </dl>
-      </section>
+      </section>` : ''}
     </div>
   </div>
 </article>

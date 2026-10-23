@@ -6,6 +6,7 @@ import { renderSite } from './engine/core/site.mjs';
 import baseConfig from './engine/site.config.mjs';
 import products from './engine/content/products.mjs';
 import imageSlots, { INGREDIENT_IMAGE } from './engine/content/images.mjs';
+import { SPEC_KEYS, applyCatalog } from './engine/core/catalog.mjs';
 
 const csrf = document.querySelector('meta[name="csrf"]').content;
 const app = document.getElementById('app');
@@ -104,6 +105,7 @@ const state = {
   defaults: null, // en.json as built
   content: null, // defaults + saved edits
   settings: {},
+  catalog: { hidden: [], custom: [] },
   images: [],
   versions: {},
   blog: [],
@@ -136,11 +138,12 @@ function siteConfig() {
 }
 
 function render() {
+  const merged = applyCatalog({ copy: state.content, products, imageSlots }, state.catalog);
   return renderSite({
-    copy: state.content,
+    copy: merged.copy,
     config: siteConfig(),
-    products,
-    imageSlots,
+    products: merged.products,
+    imageSlots: merged.imageSlots,
     blogSources: state.blog,
     imageFiles: state.images.map((i) => i.file),
     versions: state.versions,
@@ -151,7 +154,7 @@ function render() {
 // ---------------------------------------------------------------- publish
 
 async function publish({ quiet = false } = {}) {
-  if (state.busy) return;
+  if (state.busy) return false;
   state.busy = true;
   setStatus('Publishing…', 'busy');
   await new Promise(requestAnimationFrame);
@@ -163,12 +166,14 @@ async function publish({ quiet = false } = {}) {
       const m = /Missing text "([^"]+)"/.exec(e.message);
       throw new Error(m ? `"${label(m[1])}" in ${GROUPS[m[1].split('.')[0]] || words(m[1].split('.')[0])} can't be empty.` : e.message);
     }
-    const res = await api('publish', { method: 'POST', json: { overrides: overrides(), settings: state.settings, files: site.files } });
+    const res = await api('publish', { method: 'POST', json: { overrides: overrides(), settings: state.settings, catalog: state.catalog, files: site.files } });
     state.dirty = false;
     state.lastPublish = res.lastPublish;
     setStatus(quiet ? 'Your changes were re-applied to the website.' : 'Published. The website is updated.', 'ok');
+    return true;
   } catch (e) {
     setStatus(e.message, 'error');
+    return false;
   } finally {
     state.busy = false;
     updateBar();
@@ -199,6 +204,7 @@ function updateBar() {
 
 const TABS = [
   ['text', 'Text'],
+  ['products', 'Products'],
   ['photos', 'Photos'],
   ['contact', 'Contact details'],
   ['account', 'Account'],
@@ -239,7 +245,7 @@ function shell() {
 function go(tab) {
   state.tab = tab;
   document.querySelectorAll('.tab').forEach((b) => b.toggleAttribute('aria-current', b.dataset.tab === tab));
-  ({ text: textTab, photos: photosTab, contact: contactTab, account: accountTab })[tab]();
+  ({ text: textTab, products: productsTab, photos: photosTab, contact: contactTab, account: accountTab })[tab]();
 }
 
 // ---------------------------------------------------------------- text
@@ -325,6 +331,183 @@ function textTab() {
     h('div', { class: 'text-layout' }, side, h('section', {}, h('p', { class: 'tip' }, 'Wrap words in *stars* to show them in gold italics. A new line in the box starts a new line on the page.'), list)),
   );
   fill();
+}
+
+// ---------------------------------------------------------------- products
+
+const SPEC_LABELS = { ingredients: 'Ingredients', size: 'Size', usage: 'How to use', shelfLife: 'Shelf life', packaging: 'Packaging' };
+const slugify = (name) =>
+  name
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 50) || 'product';
+
+function productsTab() {
+  const cats = state.content.products.categories;
+  const all = [
+    ...products.map((p) => ({ slug: p.slug, builtIn: true, category: p.category, name: state.content.products.items[p.slug]?.name, variant: state.content.products.items[p.slug]?.variant })),
+    ...state.catalog.custom.map((c) => ({ ...c, builtIn: false })),
+  ];
+  const list = h('div', { class: 'products' });
+  for (const item of all) {
+    const hidden = state.catalog.hidden.includes(item.slug);
+    const file = `product-${item.slug}.jpg`;
+    const v = state.versions[`images/${file}`];
+    list.append(
+      h(
+        'article',
+        { class: `product-row${hidden ? ' product-row--hidden' : ''}` },
+        h('div', { class: 'product-row__thumb' }, v ? h('img', { src: `../images/${file}?v=${v}`, alt: '' }) : h('span', {}, 'No photo')),
+        h(
+          'div',
+          { class: 'product-row__body' },
+          h('h3', {}, item.name || item.slug),
+          h('p', {}, `${cats[item.category] || item.category} · ${item.variant || ''}`),
+          hidden ? h('p', { class: 'note' }, 'Hidden from the website') : null,
+        ),
+        h(
+          'div',
+          { class: 'product-row__actions' },
+          item.builtIn
+            ? h('button', { type: 'button', class: 'link', onclick: () => {
+                state.search = `products.items.${item.slug}`;
+                go('text');
+              } }, 'Edit text')
+            : h('button', { type: 'button', class: 'link', onclick: () => productForm(item) }, 'Edit'),
+          h('button', { type: 'button', class: 'link', onclick: () => {
+            state.catalog.hidden = hidden ? state.catalog.hidden.filter((s) => s !== item.slug) : [...state.catalog.hidden, item.slug];
+            markDirty();
+            productsTab();
+          } }, hidden ? 'Show on website' : 'Hide'),
+          item.builtIn
+            ? null
+            : h('button', { type: 'button', class: 'link danger', onclick: () => {
+                if (!confirm(`Delete "${item.name}"? Its page will be removed from the website when you publish.`)) return;
+                state.catalog.custom = state.catalog.custom.filter((c) => c.slug !== item.slug);
+                markDirty();
+                productsTab();
+              } }, 'Delete'),
+        ),
+      ),
+    );
+  }
+  mainEl.replaceChildren(
+    h('div', { class: 'row-head' }, h('h2', {}, 'Products'), h('button', { class: 'btn', type: 'button', onclick: () => productForm(null) }, '+ Add product')),
+    h('p', { class: 'tip' }, 'New products get their own page, appear on the Products page and in the enquiry form. Press Publish after adding, editing or hiding.'),
+    list,
+  );
+}
+
+function productForm(existing) {
+  const cats = state.content.products.categories;
+  const data = existing || { category: 'face', specs: {}, highlights: [] };
+  const input = (value, attrs = {}) => {
+    const el = h('input', attrs);
+    el.value = value || '';
+    return el;
+  };
+  const area = (value, rows = 3) => {
+    const el = h('textarea', { rows });
+    el.value = value || '';
+    el.style.overflow = 'auto';
+    return el;
+  };
+  const f = {
+    name: input(data.name, { required: true, maxlength: 120 }),
+    variant: input(data.variant, { required: true, maxlength: 160 }),
+    category: h('select', {}, Object.entries(cats).map(([k, v]) => h('option', { value: k, selected: k === data.category }, v))),
+    short: input(data.short, { maxlength: 300 }),
+    description: area(data.description, 4),
+    highlights: area((data.highlights || []).join('\n'), 4),
+    specs: Object.fromEntries(SPEC_KEYS.map((k) => [k, area(data.specs?.[k], 2)])),
+  };
+  const photo = h('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp,image/heic' });
+  const preview = h('img', { class: 'product-form__preview', alt: '', hidden: true });
+  if (existing && state.versions[`images/product-${existing.slug}.jpg`]) {
+    preview.src = `../images/product-${existing.slug}.jpg?v=${state.versions[`images/product-${existing.slug}.jpg`]}`;
+    preview.hidden = false;
+  }
+  photo.addEventListener('change', () => {
+    if (photo.files[0]) {
+      preview.src = URL.createObjectURL(photo.files[0]);
+      preview.hidden = false;
+    }
+  });
+  const msg = h('p', { role: 'alert' });
+  const row = (labelText, el, hint) => h('label', { class: 'field' }, h('span', { class: 'field__label' }, labelText), el, hint ? h('span', { class: 'field__hint' }, hint) : null);
+  const save = h('button', { class: 'btn', type: 'submit' }, existing ? 'Save product' : 'Add product');
+
+  const form = h(
+    'form',
+    { class: 'form form--wide', onsubmit: async (e) => {
+      e.preventDefault();
+      const name = f.name.value.trim();
+      const variant = f.variant.value.trim();
+      if (!name || !variant) return (msg.textContent = 'Please fill in the name and the subtitle.'), (msg.className = 'alert alert--error');
+      if (!existing && !photo.files[0]) return (msg.textContent = 'Please choose a photo for the new product.'), (msg.className = 'alert alert--error');
+      let slug = existing?.slug;
+      if (!slug) {
+        const taken = new Set([...products.map((p) => p.slug), ...state.catalog.custom.map((c) => c.slug)]);
+        const base = slugify(name);
+        slug = base;
+        for (let i = 2; taken.has(slug); i++) slug = `${base}-${i}`;
+      }
+      const item = {
+        slug,
+        category: f.category.value,
+        name,
+        variant,
+        short: f.short.value.trim(),
+        description: f.description.value.trim(),
+        highlights: f.highlights.value.split('\n').map((x) => x.trim()).filter(Boolean),
+        specs: Object.fromEntries(SPEC_KEYS.map((k) => [k, f.specs[k].value.trim()]).filter(([, v]) => v)),
+      };
+      save.disabled = true;
+      save.textContent = 'Saving…';
+      try {
+        if (photo.files[0]) {
+          const blob = await prepare(photo.files[0], { file: `product-${slug}.jpg`, w: 1200, h: 1500 });
+          if (!blob) throw new Error('This photo could not be read. Try a JPG or PNG.');
+          const form = new FormData();
+          form.append('target', `product-${slug}.jpg`);
+          form.append('photo', blob, `product-${slug}.jpg`);
+          const res = await api('upload', { method: 'POST', form });
+          state.versions[`images/${res.file}`] = res.version;
+          state.images = [...state.images.filter((i) => i.file !== res.file), { file: res.file, w: res.w, h: res.h, kb: res.kb }];
+        }
+        const before = state.catalog.custom;
+        state.catalog.custom = existing ? before.map((c) => (c.slug === slug ? item : c)) : [...before, item];
+        state.dirty = true;
+        if (!(await publish())) {
+          state.catalog.custom = before;
+          throw new Error(statusEl.textContent);
+        }
+        productsTab();
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.className = 'alert alert--error';
+        save.disabled = false;
+        save.textContent = existing ? 'Save product' : 'Add product';
+      }
+    } },
+    row('Product name *', f.name, 'e.g. Face Oil'),
+    row('Subtitle *', f.variant, 'Shown under the name, e.g. Kumkumadi & Saffron'),
+    row('Category', f.category),
+    row('Photo' + (existing ? '' : ' *'), h('div', { class: 'product-form__photo' }, preview, photo), 'Upright (portrait) photos look best; the site crops to fit.'),
+    row('Description', f.description, 'One or two sentences about the product.'),
+    row('At a glance', f.highlights, 'Short tags, one per line, e.g. 50 ml · 100% Botanical'),
+    h('h3', { class: 'form__sub' }, 'Product details (optional, empty ones are not shown)'),
+    SPEC_KEYS.map((k) => row(SPEC_LABELS[k], f.specs[k])),
+    row('Search description (optional)', f.short, 'One line for Google and link previews.'),
+    msg,
+    h('div', { class: 'form__actions' }, save, h('button', { type: 'button', class: 'link', onclick: productsTab }, 'Cancel')),
+  );
+  mainEl.replaceChildren(h('h2', {}, existing ? `Edit ${existing.name}` : 'Add a product'), h('p', { class: 'tip' }, 'The product is published as soon as you save.'), form);
+  window.scrollTo({ top: 0 });
+  f.name.focus();
 }
 
 // ---------------------------------------------------------------- photos
@@ -489,6 +672,7 @@ try {
     defaults,
     content: applyOverrides(defaults, data.overrides),
     settings: { ...data.settings },
+    catalog: { hidden: data.catalog?.hidden || [], custom: data.catalog?.custom || [] },
     images: data.images,
     versions: data.versions,
     blog: data.blog,
