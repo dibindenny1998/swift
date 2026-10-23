@@ -100,13 +100,12 @@ function organizationSchema() {
   };
 }
 
-// Asset fingerprints so browsers pick up new CSS/JS after an upload.
+// Asset fingerprints (?v=…) so browsers pick up a changed CSS, JS or image file after an
+// upload instead of showing the copy they saved earlier.
 const fingerprint = (file) =>
-  createHash('sha1').update(readFileSync(join(STATIC, file))).digest('hex').slice(0, 10);
-const versions = {
-  'assets/css/main.css': fingerprint('assets/css/main.css'),
-  'assets/js/main.js': fingerprint('assets/js/main.js'),
-};
+  existsSync(join(STATIC, file)) ? createHash('sha1').update(readFileSync(join(STATIC, file))).digest('hex').slice(0, 10) : '';
+const versions = {};
+const version = (file) => (versions[file] ??= fingerprint(file));
 
 function makeContext(page, { absolute = false } = {}) {
   const depth = page.path.split('/').filter(Boolean).length;
@@ -126,7 +125,7 @@ function makeContext(page, { absolute = false } = {}) {
     filled: (key) => stripPlaceholders(dig(copy, key)) !== '', // false while only a placeholder
     list: (key) => lookup(key).map(rich),
     link: (path) => rel(path),
-    asset: (file, versioned = false) => rel(file) + (versioned && versions[file] ? `?v=${versions[file]}` : ''),
+    asset: (file, versioned = false) => rel(file) + (versioned && version(file) ? `?v=${version(file)}` : ''),
     absUrl: () => `${config.siteUrl}/${page.path}`,
   };
 }

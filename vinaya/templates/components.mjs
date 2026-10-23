@@ -14,9 +14,9 @@ export function image(ctx, slot, { eager = false, sizes = '100vw', className = '
 
   if (def.exists) {
     const m = mobile && ctx.images[mobile]?.exists ? ctx.images[mobile] : null;
-    const source = m ? `<source media="(max-width: 767px)" srcset="${ctx.asset(`images/${m.file}`)}" width="${m.width}" height="${m.height}">` : '';
+    const source = m ? `<source media="(max-width: 767px)" srcset="${ctx.asset(`images/${m.file}`, true)}" width="${m.width}" height="${m.height}">` : '';
     return html`<div class="${cls}" style="${style}">
-  ${m ? '<picture>' : ''}${source}<img src="${ctx.asset(`images/${def.file}`)}" alt="${alt}" width="${def.width}" height="${def.height}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${m ? '</picture>' : ''}
+  ${m ? '<picture>' : ''}${source}<img src="${ctx.asset(`images/${def.file}`, true)}" alt="${alt}" width="${def.width}" height="${def.height}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${m ? '</picture>' : ''}
 </div>`;
   }
 
@@ -66,7 +66,7 @@ export function goodness(ctx, { headingLevel = 2, copy = 'goodness' } = {}) {
   const items = ctx.raw('ingredients');
   const [core, ...ring] = items;
   const h = `h${headingLevel}`;
-  const icon = (item) => `<img src="${ctx.asset(`images/ingredient-${item.key}.png`)}" alt="" width="400" height="400" loading="lazy" decoding="async">`;
+  const icon = (item) => `<img src="${ctx.asset(`images/ingredient-${item.key}.png`, true)}" alt="" width="400" height="400" loading="lazy" decoding="async">`;
   const step = 360 / ring.length;
   return html`<section class="section goodness" aria-labelledby="goodness-title">
   <div class="container goodness__grid">
