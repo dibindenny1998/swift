@@ -2579,6 +2579,13 @@ main:focus {
   font-size: 0.8125rem;
 }
 
+.site-footer__credit em {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
 .site-footer :focus-visible {
   outline-color: var(--gold-light);
 }

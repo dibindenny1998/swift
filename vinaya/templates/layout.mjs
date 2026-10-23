@@ -98,6 +98,7 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
     <div class="site-footer__bottom">
       <p>&copy; ${new Date().getFullYear()} Vinaya. ${ctx.t('footer.rights')}</p>
       <p>${ctx.t('site.motto')}</p>
+      <p class="site-footer__credit">${ctx.t('footer.credit')}</p>
     </div>
   </div>
 </footer>`;
