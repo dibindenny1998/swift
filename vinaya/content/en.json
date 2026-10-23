@@ -46,27 +46,26 @@
     "file": "File"
   },
   "images": {
-    "home-hero": "Sunset over the Kerala backwaters, lined with coconut palms",
+    "home-hero": "Women carrying baskets of fresh herbs along a forest path in the misty Kerala hills at sunrise",
     "story-hero": "Sunset over the Kerala backwaters, with coconut palms and a traditional houseboat",
     "export-hero": "Vinaya Gift Set in a sheer pouch: hair oil, wooden comb and illustrated story card",
     "products/hair-oil": "Vinaya Hair Oil, Green Leaves & Coconut Oil, 110 ml bottle with a gold cap",
     "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch",
-    "approach-1": "Vinaya Hair Oil standing on natural stone among green leaves",
-    "approach-2": "A brass bowl of herbal oil with hibiscus, coconut, cinnamon and fresh leaves",
-    "approach-3": "The Kerala backwaters at sunset, lined with coconut palms",
-    "col-hair": "Vinaya Hair Oil on natural stone among green leaves",
-    "col-skin": "Fresh green leaves and small white flowers in warm sunlight",
-    "col-body": "A freshly opened coconut with green leaves and white flowers",
-    "col-gift": "Vinaya Gift Set in a sheer pouch",
-    "tale-nature": "Sunset over the Kerala backwaters with coconut palms",
-    "tale-tradition": "Vinaya Hair Oil with a wooden comb, coconut and leaves",
-    "tale-you": "Vinaya Hair Oil on natural stone among green leaves",
-    "story-heritage": "Vinaya Hair Oil resting on stone beside a wooden comb, an opened coconut and green leaves",
-    "story-change": "Vinaya Hair Oil with a wooden comb, coconut and leaves",
-    "story-reconnect": "Vinaya Hair Oil standing on a stone slab between a coconut and green leaves",
+    "approach-1": "A green leaf, a smooth stone and a clay bowl of water on handloom cloth",
+    "approach-2": "Cupped hands holding hibiscus, jasmine and curry leaves",
+    "approach-3": "Hands planting a seedling in a terracotta pot beside a brass watering vessel",
+    "col-hair": "A woman at a wooden vanity running her fingers through long, wavy dark hair",
+    "col-body": "A woman in a cream cotton wrap smoothing her arm, hibiscus flowers on wet stone",
+    "col-gift": "Hands tying jasmine and leaves onto a gift wrapped in cream handloom cloth",
+    "tale-nature": "Nature inspired us. A drop of water falls from a green leaf into a stone basin",
+    "tale-tradition": "Tradition guides us. A woman grinds fresh herbs beside a brass vessel of herbal oil in a Kerala courtyard",
+    "tale-you": "You are at the heart of what we do. Vinaya Hair Oil on a marble tray beside a mirror",
+    "story-heritage": "A hand reaching to touch dewy leaves among hibiscus and jasmine in a Kerala garden",
+    "story-change": "A grandmother and a young girl picking fresh herbs into a basket on the steps of a Kerala home",
+    "story-reconnect": "A young woman combing her long hair with a wooden comb by a sunlit window",
     "story-value": "A brass bowl of herbal oil with hibiscus, coconut, cinnamon and fresh leaves",
-    "story-source": "The Kerala backwaters at sunset, lined with coconut palms",
-    "story-approach": "Vinaya Hair Oil standing on natural stone among green leaves"
+    "home-hero-mobile": "Women carrying baskets of fresh herbs along a forest path in the misty Kerala hills at sunrise",
+    "col-face": "A woman with eyes closed, splashing water on her face over a stone basin"
   },
   "meta": {
     "home": {
@@ -111,9 +110,6 @@
       "quote": "The wisdom of tradition, thoughtfully brought into modern life.",
       "text": "Across cultures and generations, nature has inspired the way we care for ourselves. Vinaya brings the timeless wisdom of traditional ingredients and personal care rituals into the rhythm of modern living, preserving their essence while reimagining them for today."
     },
-    "featured": {
-      "eyebrow": "Our first product"
-    },
     "source": {
       "eyebrow": "Our journey",
       "title": "From the Source *to You*",
@@ -134,24 +130,6 @@
       ],
       "closing": "What begins in nature should not lose its connection to nature along the way."
     },
-    "approach": {
-      "eyebrow": "The Vinaya Approach",
-      "title": "Inspired by *nature* and tradition.",
-      "pillars": [
-        {
-          "title": "Thoughtful Simplicity",
-          "text": "Personal care, made simple."
-        },
-        {
-          "title": "Conscious Care",
-          "text": "Every ingredient, chosen with care."
-        },
-        {
-          "title": "Our Purpose",
-          "text": "Old-world wisdom, made for today."
-        }
-      ]
-    },
     "gift": {
       "eyebrow": "The Gift Set",
       "title": "A ritual *worth sharing.*",
@@ -159,31 +137,30 @@
     },
     "collections": {
       "eyebrow": "Our collections",
-      "title": "Natural care, *from head to toe.*",
-      "intro": "",
-      "soon": "Coming soon",
-      "explore": "Explore",
+      "title": "From head *to toe.*",
       "items": [
         {
           "key": "hair",
           "title": "Hair Care",
-          "text": "Botanical oils and rituals for hair and scalp.",
+          "text": "Nourishment for stronger-looking, healthier hair.",
           "link": "products/hair-oil/"
         },
         {
-          "key": "skin",
-          "title": "Skin Care",
-          "text": "Gentle, natural care for your skin."
+          "key": "face",
+          "title": "Face Care",
+          "text": "Clean, fresh skin. A naturally cared-for feel.",
+          "link": "products/"
         },
         {
           "key": "body",
           "title": "Body Care",
-          "text": "Everyday rituals from head to toe."
+          "text": "Soft, hydrated skin that feels cared for.",
+          "link": "products/"
         },
         {
           "key": "gift",
-          "title": "Gifting",
-          "text": "Thoughtful sets, beautifully presented.",
+          "title": "Care Kits & Gifts",
+          "text": "Give someone you love the gift of natural care.",
           "link": "products/gift-set/"
         }
       ]
@@ -192,11 +169,6 @@
       "eyebrow": "From the blog",
       "title": "Notes on nature, *ritual and care.*",
       "all": "Read the blog"
-    },
-    "goodness": {
-      "eyebrow": "The goodness within",
-      "title": "Seven botanicals, *one ritual.*",
-      "text": ""
     },
     "tale": {
       "eyebrow": "From the source to you",
@@ -222,43 +194,51 @@
     "lead": "Nature has always been a part of how we care for ourselves.",
     "chapters": [
       {
-        "label": "Heritage",
+        "label": "Nature inspires us",
+        "title": "A simple belief, rooted in nature.",
         "paragraphs": [
-          "Across India, generations have used natural ingredients and traditional knowledge in everyday beauty and personal care."
+          "Across generations and cultures, nature has inspired the ways people care for themselves.",
+          "We began with a simple belief: that the wisdom found in nature and traditional personal care deserves a place in modern life."
         ]
       },
       {
-        "label": "Change",
+        "label": "Tradition guides us",
+        "title": "Keeping traditional wisdom alive.",
         "paragraphs": [
-          "Modern lifestyles brought convenience, but moved us away from many of these practices."
-        ],
-        "quote": "Much of that knowledge still lives in homes, gardens and local communities."
+          "Traditional personal-care knowledge is a valuable part of our shared heritage.",
+          "At Vinaya, we seek to honour this knowledge by carrying forward time-honoured ingredients and practices, thoughtfully adapting their inspiration for today’s world."
+        ]
       },
       {
-        "label": "Reconnection",
+        "label": "You are at the heart of what we do",
+        "title": "The best of both worlds.",
         "paragraphs": [
-          "Vinaya is about finding that connection again.",
-          "Bringing together natural ingredients, traditional knowledge and time-tested practices, in a way that feels relevant to life today."
+          "We want you to experience the goodness of traditional personal care with the convenience of modern living.",
+          "Every Vinaya product is developed with care, keeping your everyday needs in mind, bringing thoughtful personal care from its natural inspiration to your home."
         ]
       }
     ],
     "value": "The value lies not only in the ingredients, but in understanding where they come from and respecting the knowledge behind them.",
-    "source": {
-      "label": "From the Source to You",
-      "paragraphs": [
-        "Vinaya aims to stay close to the source.",
-        "To understand the ingredients, to respect the knowledge behind them, and to keep the journey to the customer clear."
-      ],
-      "quote": "What begins in nature should not lose its connection to nature along the way."
-    },
-    "approach": {
-      "label": "The Vinaya Approach",
-      "paragraphs": [
-        "Personal care inspired by nature and tradition.",
-        "Bringing the best of nature back into everyday life with simplicity, care and purpose, from hair and skin to other forms of personal care."
+    "closing": "A Way *of Being.*",
+    "approachSection": {
+      "eyebrow": "The Vinaya Approach",
+      "title": "Inspired by *nature* and tradition.",
+      "pillars": [
+        {
+          "title": "Thoughtful Simplicity",
+          "text": "Personal care doesn’t need to be complicated. Traditional goodness, made simple for modern living."
+        },
+        {
+          "title": "Conscious Care",
+          "text": "Thoughtfully selected ingredients, prepared with care and hygiene, without unnecessary additives."
+        },
+        {
+          "title": "Our Purpose",
+          "subtitle": "Old-world wisdom, made for today.",
+          "text": "Timeless traditions, honoured and crafted for the needs of today."
+        }
       ]
-    },
-    "closing": "A Way *of Being.*"
+    }
   },
   "products": {
     "page": {
@@ -592,10 +572,6 @@
   },
   "goodness": {
     "eyebrow": "The goodness within",
-    "title": "Herbs and spices, *steeped in coconut oil.*",
-    "text": "Vinaya’s hair oil is made by steeping selected herbs and aromatic spices in coconut oil.",
-    "hint": "Tap any ingredient to explore",
-    "prev": "Previous ingredient",
-    "next": "Next ingredient"
+    "title": "Herbs and spices, *steeped in coconut oil.*"
   }
 }

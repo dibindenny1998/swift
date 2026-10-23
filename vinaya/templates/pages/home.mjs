@@ -1,6 +1,6 @@
-import { LEAF, MARK, esc, html, pad } from '../lib.mjs';
+import { LEAF, MARK, esc, html } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { goodness, image, words } from '../components.mjs';
+import { image, words } from '../components.mjs';
 
 // Home tells the story in pictures: few words, big images, colour and slow motion.
 
@@ -16,7 +16,7 @@ function badge(ctx) {
 </div>`;
 }
 
-// "From the source to you": three tall pictures side by side, one word each.
+// "From the source to you": three tall pictures side by side. Their words are part of the pictures.
 function journey(ctx) {
   const steps = ctx.raw('home.tale.steps');
   const slots = ['tale-nature', 'tale-tradition', 'tale-you'];
@@ -29,11 +29,7 @@ function journey(ctx) {
 ${steps.map(
     (_, i) => html`      <li class="journey__card" data-reveal style="--delay:${i * 180}ms">
         ${image(ctx, slots[i], { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' })}
-        <div class="journey__body">
-          <span class="journey__num" aria-hidden="true">${pad(i + 1)}</span>
-          <h3 class="journey__word">${ctx.t(`home.tale.steps.${i}.word`)}</h3>
-          <p class="journey__line">${ctx.t(`home.tale.steps.${i}.line`)}</p>
-        </div>
+        <h3 class="visually-hidden">${ctx.t(`home.tale.steps.${i}.word`)}: ${ctx.t(`home.tale.steps.${i}.line`)}</h3>
       </li>
 `,
   )}    </ol>
@@ -41,7 +37,7 @@ ${steps.map(
 </section>`;
 }
 
-// Collections: image and name only. Live ones link, future ones are marked.
+// Collections: four bright pictures, each with its name and one line over the light upper corner.
 function collections(ctx) {
   const items = ctx.raw('home.collections.items');
   return html`<section class="section collections" aria-labelledby="collections-title">
@@ -52,11 +48,12 @@ function collections(ctx) {
     </header>
     <ul class="collection-grid">
 ${items.map(
-    (item, i) => html`      <li class="collection${item.link ? '' : ' collection--soon'}" data-reveal style="--delay:${i * 140}ms">
-        ${image(ctx, `col-${item.key}`, { className: 'collection__media', sizes: '(min-width: 1024px) 24vw, (min-width: 600px) 46vw, 92vw' })}
+    (item, i) => html`      <li class="collection" data-reveal style="--delay:${(i % 2) * 160}ms">
+        ${image(ctx, `col-${item.key}`, { className: 'collection__media', sizes: '(min-width: 768px) 46vw, 92vw' })}
         <div class="collection__body">
-          ${item.link ? '' : `<span class="collection__soon">${ctx.t('home.collections.soon')}</span>`}
-          <h3 class="collection__title">${item.link ? `<a class="card__link" href="${ctx.link(item.link)}">${ctx.t(`home.collections.items.${i}.title`)}</a>` : ctx.t(`home.collections.items.${i}.title`)}</h3>
+          <h3 class="collection__title"><a class="card__link" href="${ctx.link(item.link)}">${ctx.t(`home.collections.items.${i}.title`)}</a></h3>
+          <p class="collection__text">${ctx.t(`home.collections.items.${i}.text`)}</p>
+          <span class="collection__rule" aria-hidden="true"></span>
         </div>
       </li>
 `,
@@ -66,12 +63,9 @@ ${items.map(
 }
 
 export default function home(ctx) {
-  const featured = ctx.products.find((p) => p.featured) ?? ctx.products[0];
-  const fKey = `products.items.${featured.slug}`;
-
   const body = html`
 <section class="hero hero--brand" aria-labelledby="hero-title">
-  <div class="hero__bg">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw' })}</div>
+  <div class="hero__bg">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'home-hero-mobile' })}</div>
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="eyebrow hero-in" style="--i:0">${ctx.t('home.hero.eyebrow')}</p>
@@ -101,45 +95,7 @@ ${journey(ctx)}
 
 ${collections(ctx)}
 
-<section class="section section--green feature" aria-labelledby="featured-title">
-  <div class="container split">
-    <div class="split__media" data-reveal>
-      ${image(ctx, `products/${featured.slug}`, { arch: true, sizes: '(min-width: 960px) 40vw, 92vw' })}
-    </div>
-    <div class="split__text">
-      <p class="eyebrow" data-reveal>${ctx.t('home.featured.eyebrow')}</p>
-      <h2 class="h2 feature__title" id="featured-title" data-reveal>${ctx.t(`${fKey}.name`)}</h2>
-      <p class="variant" data-reveal>${ctx.t(`${fKey}.variant`)}</p>
-      <div class="actions" data-reveal>
-        <a class="btn btn--gold" href="${ctx.link(`products/${featured.slug}/`)}">${ctx.t('home.hero.cta')}</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-${goodness(ctx, { copy: 'home.goodness' })}
-
-<section class="section section--sand approach" aria-labelledby="approach-title">
-  <div class="container">
-    <header class="section-head center">
-      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.approach.eyebrow')}</p>
-      <h2 class="h2" id="approach-title" data-reveal>${ctx.t('home.approach.title')}</h2>
-    </header>
-    <ul class="cards">
-${ctx.raw('home.approach.pillars').map(
-    (_, i) => html`      <li class="tile" data-reveal style="--delay:${i * 180}ms">
-        ${image(ctx, `approach-${i + 1}`, { className: 'tile__media', sizes: '(min-width: 768px) 30vw, 92vw' })}
-        <div class="tile__body">
-          <h3 class="tile__title">${ctx.t(`home.approach.pillars.${i}.title`)}</h3>
-          <p>${ctx.t(`home.approach.pillars.${i}.text`)}</p>
-        </div>
-      </li>
-`,
-  )}    </ul>
-  </div>
-</section>
-
-${band(ctx, { secondary: false, text: null })}
+${band(ctx)}
 `;
 
   return layout(ctx, {

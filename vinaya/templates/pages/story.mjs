@@ -5,7 +5,7 @@ import { image, words } from '../components.mjs';
 // Our Story is told like Home: a full-screen picture, a line that rises word by word, then
 // three scenes of one picture and a few words each.
 
-// One scene: a tall picture beside its numeral, label and short text. Scenes alternate sides.
+// One scene: a tall picture beside its numeral, heading, short line and text. Scenes alternate sides.
 function scene(ctx, key, n, slot) {
   const data = ctx.raw(key);
   return html`<section class="section scene${n % 2 ? '' : ' section--sand'}" aria-labelledby="scene-${n}">
@@ -14,18 +14,16 @@ function scene(ctx, key, n, slot) {
       ${image(ctx, slot, { arch: n === 2, sizes: '(min-width: 960px) 40vw, 92vw' })}
     </div>
     <div class="split__text scene__text">
-      <h2 class="scene__label" id="scene-${n}" data-reveal><span class="scene__num" aria-hidden="true">${roman(n)}</span><span class="eyebrow">${ctx.t(`${key}.label`)}</span></h2>
-${data.paragraphs.map((_, i) => `      <p class="prose-lg" data-reveal style="--delay:${150 + i * 150}ms">${ctx.t(`${key}.paragraphs.${i}`)}</p>\n`)}${data.quote ? `      <blockquote class="pull" data-reveal style="--delay:300ms"><p>${ctx.t(`${key}.quote`)}</p></blockquote>\n` : ''}    </div>
+      <span class="scene__num" aria-hidden="true" data-reveal>${roman(n)}</span>
+      <h2 class="h2 scene__title" id="scene-${n}" data-reveal>${ctx.t(`${key}.label`)}</h2>
+      <p class="scene__sub" data-reveal>${ctx.t(`${key}.title`)}</p>
+${data.paragraphs.map((_, i) => `      <p class="scene__p" data-reveal style="--delay:${150 + i * 150}ms">${ctx.t(`${key}.paragraphs.${i}`)}</p>\n`)}    </div>
   </div>
 </section>`;
 }
 
 export default function story(ctx) {
   const slots = ['story-heritage', 'story-change', 'story-reconnect'];
-  const pair = [
-    { key: 'story.source', slot: 'story-source' },
-    { key: 'story.approach', slot: 'story-approach' },
-  ];
 
   const body = html`
 <section class="hero hero--brand hero--cover" aria-labelledby="hero-title">
@@ -55,15 +53,20 @@ ${slots.map((slot, i) => scene(ctx, `story.chapters.${i}`, i + 1, slot))}
   </div>
 </section>
 
-<section class="section" aria-label="${ctx.tx('story.approach.label')}">
+<section class="section approach" aria-labelledby="approach-title">
   <div class="container">
-    <ul class="cards cards--two">
-${pair.map(
-    ({ key, slot }, i) => html`      <li class="tile" data-reveal style="--delay:${i * 180}ms">
-        ${image(ctx, slot, { className: 'tile__media', sizes: '(min-width: 768px) 46vw, 92vw' })}
+    <header class="section-head center">
+      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('story.approachSection.eyebrow')}</p>
+      <h2 class="h2" id="approach-title" data-reveal>${ctx.t('story.approachSection.title')}</h2>
+    </header>
+    <ul class="cards">
+${ctx.raw('story.approachSection.pillars').map(
+    (p, i) => html`      <li class="tile" data-reveal style="--delay:${i * 180}ms">
+        ${image(ctx, `approach-${i + 1}`, { className: 'tile__media', sizes: '(min-width: 768px) 30vw, 92vw' })}
         <div class="tile__body">
-          <h2 class="tile__title">${ctx.t(`${key}.label`)}</h2>
-          <p>${ctx.t(`${key}.paragraphs.0`)}</p>
+          <h3 class="tile__title">${ctx.t(`story.approachSection.pillars.${i}.title`)}</h3>
+          ${p.subtitle ? `<p class="tile__sub">${ctx.t(`story.approachSection.pillars.${i}.subtitle`)}</p>` : ''}
+          <p>${ctx.t(`story.approachSection.pillars.${i}.text`)}</p>
         </div>
       </li>
 `,

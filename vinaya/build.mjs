@@ -162,7 +162,7 @@ write('contact.php', php);
 const ingredientFiles = readdirSync(join(STATIC, 'images')).filter((f) => f.startsWith('ingredient-'));
 const guideRows = [
   ...Object.values(imageSlots).map((d) => ({ file: d.file, page: d.page, w: d.width, h: d.height })),
-  ...ingredientFiles.map((f) => ({ file: f, page: 'Ingredient orbit (transparent PNG)', w: INGREDIENT_IMAGE.width, h: INGREDIENT_IMAGE.height })),
+  ...ingredientFiles.map((f) => ({ file: f, page: 'Hair Oil page: ingredient icons (transparent PNG)', w: INGREDIENT_IMAGE.width, h: INGREDIENT_IMAGE.height })),
   { file: 'share-image.jpg', page: 'Preview when the site is shared on WhatsApp, Facebook, LinkedIn', w: 1200, h: 630 },
 ];
 const uniqueRows = [...new Map(guideRows.map((r) => [r.file, r])).values()];

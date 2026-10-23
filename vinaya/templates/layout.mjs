@@ -103,16 +103,14 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
 </footer>`;
 }
 
-// The export call-to-action band that closes most pages.
-export function band(ctx, { secondary = true, title = 'band.title', text = 'band.text' } = {}) {
+// The importers band that closes most pages: one line, one headline, one button.
+export function band(ctx, { title = 'band.title' } = {}) {
   return html`<section class="band" aria-labelledby="band-title">
   <div class="container band__inner">
-    <p class="eyebrow" data-reveal>${ctx.t('band.eyebrow')}</p>
+    <p class="band__eyebrow" data-reveal>${ctx.t('band.eyebrow')}</p>
     <h2 class="band__title" id="band-title" data-reveal>${ctx.t(title)}</h2>
-    ${text ? `<p class="band__text" data-reveal>${ctx.t(text)}</p>` : ''}
     <div class="actions actions--center" data-reveal>
       <a class="btn btn--solid" href="${ctx.link('contact/')}">${ctx.t('band.primary')}</a>
-      ${secondary ? `<a class="link" href="${ctx.link('export/')}">${ctx.t('band.secondary')}</a>` : ''}
     </div>
   </div>
 </section>`;

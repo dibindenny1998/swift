@@ -1,5 +1,7 @@
 # VINAYA · Image prompts
 
+> **Update:** the client has supplied the Home banner (desktop + phone `home-hero-mobile.jpg`), the Nature / Tradition / You cards (words are part of those pictures), the four collection cards, the three Our Story sections and the three approach cards (now on Our Story). The prompts below remain for any future replacements; current sizes are listed in `/images/guide.html`.
+
 There are 27 photos and 7 optional ingredient icons. Each one has a file name, a size and a prompt.
 Generate each image, save it as a JPG with the **exact file name** below and upload it to
 `public_html/images/`, overwriting the old file. The site crops automatically, but using the

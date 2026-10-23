@@ -3,7 +3,8 @@ import { esc, html } from './lib.mjs';
 // An image slot from content/images.mjs. Renders the real image when a file exists in
 // static/assets/img/, otherwise a clearly labelled placeholder box of the same shape.
 // `arch` gives the frame a rounded, temple-arch top.
-export function image(ctx, slot, { eager = false, sizes = '100vw', className = '', arch = false, decorative = false, alt: altText } = {}) {
+// `mobile` names a second slot (a portrait crop) that phones load instead.
+export function image(ctx, slot, { eager = false, sizes = '100vw', className = '', arch = false, decorative = false, alt: altText, mobile } = {}) {
   const def = ctx.images[slot];
   if (!def) throw new Error(`Unknown image slot "${slot}" (add it to content/images.mjs)`);
   const alt = decorative ? '' : altText !== undefined ? esc(altText) : ctx.tx(`images.${slot}`);
@@ -12,8 +13,10 @@ export function image(ctx, slot, { eager = false, sizes = '100vw', className = '
   const cls = `media${arch ? ' media--arch' : ''} ${className}`;
 
   if (def.exists) {
+    const m = mobile && ctx.images[mobile]?.exists ? ctx.images[mobile] : null;
+    const source = m ? `<source media="(max-width: 767px)" srcset="${ctx.asset(`images/${m.file}`)}" width="${m.width}" height="${m.height}">` : '';
     return html`<div class="${cls}" style="${style}">
-  <img src="${ctx.asset(`images/${def.file}`)}" alt="${alt}" width="${def.width}" height="${def.height}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">
+  ${m ? '<picture>' : ''}${source}<img src="${ctx.asset(`images/${def.file}`)}" alt="${alt}" width="${def.width}" height="${def.height}" sizes="${sizes}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${m ? '</picture>' : ''}
 </div>`;
   }
 
@@ -56,11 +59,7 @@ export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
 </section>`;
 }
 
-// "The goodness within": the ingredients orbiting slowly around coconut oil. Each ingredient is
-// a button; the panel beside it shows the one selected (it cycles on its own until someone picks).
-// Without JavaScript every ingredient's text is simply listed.
-// The ingredients as a calm grid: icon, name, one line. Used on the product page, so the
-// rotating orbit stays a Home page moment.
+// "The goodness within" on the product page: each ingredient's icon, name and one line.
 export function ingredientGrid(ctx) {
   const items = ctx.raw('ingredients');
   return html`<section class="section goodness-list" aria-labelledby="goodness-title">
@@ -77,45 +76,6 @@ ${items.map(
         <p class="ing-card__text">${esc(item.text)}</p>
       </li>\n`,
   )}    </ul>
-  </div>
-</section>`;
-}
-
-export function goodness(ctx, { headingLevel = 2, copy = 'goodness' } = {}) {
-  const items = ctx.raw('ingredients');
-  const [core, ...ring] = items;
-  const h = `h${headingLevel}`;
-  const icon = (item) => `<img src="${ctx.asset(`images/ingredient-${item.key}.png`)}" alt="" width="400" height="400" loading="lazy" decoding="async">`;
-  const step = 360 / ring.length;
-  return html`<section class="section goodness" aria-labelledby="goodness-title">
-  <div class="container goodness__grid">
-    <header class="goodness__head">
-      <p class="eyebrow" data-reveal>${ctx.t(`${copy}.eyebrow`)}</p>
-      <${h} class="h2" id="goodness-title" data-reveal>${ctx.t(`${copy}.title`)}</${h}>
-      ${ctx.opt(`${copy}.text`) ? `<p class="lead" data-reveal>${ctx.t(`${copy}.text`)}</p>` : ''}
-      <p class="goodness__hint" data-reveal><span class="goodness__tap" aria-hidden="true"></span>${ctx.t('goodness.hint')}</p>
-    </header>
-    <div class="orbit" data-orbit data-reveal>
-      <span class="orbit__ring" aria-hidden="true"></span>
-      <ul class="orbit__nodes">
-${ring.map(
-    (item, i) => `        <li class="orbit__slot" style="--a:${(i * step).toFixed(1)}deg"><button class="orbit__node" type="button" data-ing="${i + 1}" aria-controls="ing-${i + 1}" aria-pressed="false"><span class="orbit__icon">${icon(item)}<span class="orbit__plus" aria-hidden="true">+</span></span><span class="visually-hidden">${esc(item.name)}</span></button></li>\n`,
-  )}      </ul>
-      <button class="orbit__core" type="button" data-ing="0" aria-controls="ing-0" aria-pressed="true">${icon(core)}<span class="visually-hidden">${esc(core.name)}</span></button>
-    </div>
-    <div class="goodness__panel" data-reveal>
-${items.map(
-    (item, i) => `      <article class="ing${i === 0 ? ' is-active' : ''}" id="ing-${i}" data-ing-panel="${i}">
-        <p class="ing__tagline">${esc(item.tagline)}</p>
-        <h3 class="ing__name">${esc(item.name)}</h3>
-        <p class="ing__text">${esc(item.text)}</p>
-      </article>\n`,
-  )}      <div class="goodness__controls" aria-hidden="true" hidden data-ing-controls>
-        <button type="button" class="goodness__arrow" data-ing-prev tabindex="-1" aria-label="${ctx.tx('goodness.prev')}">&larr;</button>
-        <span class="goodness__count" data-ing-count>1 / ${items.length}</span>
-        <button type="button" class="goodness__arrow" data-ing-next tabindex="-1" aria-label="${ctx.tx('goodness.next')}">&rarr;</button>
-      </div>
-    </div>
   </div>
 </section>`;
 }

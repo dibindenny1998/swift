@@ -741,6 +741,10 @@ main:focus {
   border-radius: 999px 999px var(--radius) var(--radius);
 }
 
+.media picture {
+  display: contents;
+}
+
 .media img {
   width: 100%;
   height: 100%;
@@ -917,220 +921,6 @@ main:focus {
   }
 }
 
-/* ------------------------------------------------------------------ the goodness within (orbit) */
-
-.goodness {
-  overflow: hidden;
-  background: var(--grad-cream);
-}
-
-.goodness__grid {
-  display: grid;
-  gap: 3rem;
-}
-
-.goodness__head > * + * {
-  margin-top: 1.25rem;
-}
-
-.orbit {
-  position: relative;
-  width: min(100%, 34rem);
-  aspect-ratio: 1;
-  margin-inline: auto;
-}
-
-/* Dashed ring, like the leaflet */
-.orbit__ring {
-  position: absolute;
-  inset: 11%;
-  border: 1.5px dashed rgba(27, 46, 34, 0.45);
-  border-radius: 50%;
-  animation: spin 60s linear infinite reverse;
-}
-
-.orbit__nodes {
-  position: absolute;
-  inset: 0;
-  animation: spin 40s linear infinite;
-  will-change: transform;
-}
-
-/* Nothing in the orbit animates while it is off screen (keeps scrolling smooth on phones). */
-.orbit.is-offscreen *,
-.orbit.is-offscreen *::after {
-  animation-play-state: paused !important;
-}
-
-.orbit__slot {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 22%;
-  aspect-ratio: 1;
-  margin: -11% 0 0 -11%;
-  transform: rotate(var(--a)) translateY(-177%) rotate(calc(-1 * var(--a)));
-}
-
-.orbit__node {
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 1px solid rgba(195, 154, 69, 0.55);
-  border-radius: 50%;
-  background: var(--cream);
-  box-shadow: 0 14px 30px -18px rgba(19, 48, 33, 0.45);
-  cursor: pointer;
-  transition:
-    transform 0.6s var(--ease),
-    border-color 0.6s var(--ease),
-    box-shadow 0.6s var(--ease),
-    background-color 0.6s var(--ease);
-}
-
-/* Counter-spins so every ingredient stays upright while the ring turns. */
-.orbit__icon {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  animation: spin 40s linear infinite reverse;
-}
-
-.orbit__icon img {
-  width: 68%;
-  height: 68%;
-  object-fit: contain;
-}
-
-.orbit__node:hover,
-.orbit__node[aria-pressed='true'] {
-  border-color: var(--green);
-  background: #fff8ea;
-  box-shadow: 0 0 0 4px rgba(195, 154, 69, 0.35), 0 18px 34px -18px rgba(19, 48, 33, 0.55);
-  transform: scale(1.12);
-}
-
-.orbit__core {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 38%;
-  aspect-ratio: 1;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(232, 210, 171, 0.95) 0%, rgba(232, 210, 171, 0) 70%);
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  transition: transform 0.6s var(--ease);
-}
-
-.orbit__core img {
-  width: 92%;
-  height: auto;
-  animation: float 6s ease-in-out infinite;
-}
-
-.orbit__core:hover,
-.orbit__core[aria-pressed='true'] {
-  transform: translate(-50%, -50%) scale(1.05);
-}
-
-/* A mouse resting on the orbit, or keyboard focus inside it, pauses the rotation so an
-   ingredient is easy to pick. A tap on a phone does not: the ring keeps turning. */
-@media (hover: hover) {
-  .orbit:hover :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
-    animation-play-state: paused;
-  }
-}
-
-.orbit:has(:focus-visible) :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
-  animation-play-state: paused;
-}
-
-.goodness__panel {
-  position: relative;
-  max-width: 30rem;
-}
-
-.ing {
-  padding: 2rem 2rem 2.25rem;
-  border-left: 2px solid var(--gold);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  background: rgba(251, 246, 236, 0.85);
-}
-
-.ing + .ing {
-  margin-top: 1rem;
-}
-
-.ing__tagline {
-  color: var(--gold-ink);
-  font-size: var(--fs-eyebrow);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.ing__name {
-  margin-top: 0.6rem;
-  font-size: var(--fs-h3);
-}
-
-.ing__text {
-  margin-top: 0.75rem;
-  max-width: 38ch;
-}
-
-
-/* With JavaScript, the panel shows one ingredient at a time. */
-.js .ing {
-  display: none;
-}
-
-.js .ing.is-active {
-  display: block;
-  animation: ing-in 0.7s var(--ease) both;
-}
-
-
-@keyframes ing-in {
-  from {
-    opacity: 0;
-    transform: translateX(-12px);
-  }
-}
-
-@media (min-width: 960px) {
-  .goodness__grid {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    grid-template-areas:
-      'head orbit'
-      'panel orbit';
-    align-items: center;
-    column-gap: clamp(3rem, 6vw, 6rem);
-    row-gap: 2.5rem;
-  }
-
-  .goodness__head {
-    grid-area: head;
-    align-self: end;
-  }
-
-  .orbit {
-    grid-area: orbit;
-  }
-
-  .goodness__panel {
-    grid-area: panel;
-    align-self: start;
-  }
-}
-
 /* ------------------------------------------------------------------ ingredient grid (product page) */
 
 /* Flex, so a short last row sits centred. */
@@ -1298,139 +1088,6 @@ main:focus {
   padding-bottom: 1.5rem;
 }
 
-/* ------------------------------------------------------------------ orbit: tap cues and controls */
-
-.orbit__node {
-  position: relative;
-}
-
-/* A soft ring pulses out from each ingredient, so it reads as something to tap. */
-.orbit__node::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border: 1.5px solid var(--gold);
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  animation: ping 3.2s ease-out infinite;
-}
-
-.orbit__slot:nth-child(2) .orbit__node::after { animation-delay: 0.5s; }
-.orbit__slot:nth-child(3) .orbit__node::after { animation-delay: 1s; }
-.orbit__slot:nth-child(4) .orbit__node::after { animation-delay: 1.5s; }
-.orbit__slot:nth-child(5) .orbit__node::after { animation-delay: 2s; }
-.orbit__slot:nth-child(6) .orbit__node::after { animation-delay: 2.5s; }
-
-@keyframes ping {
-  0% {
-    opacity: 0.75;
-    transform: scale(0.92);
-  }
-  70%,
-  100% {
-    opacity: 0;
-    transform: scale(1.28);
-  }
-}
-
-.orbit__icon {
-  position: relative;
-}
-
-.orbit__plus {
-  position: absolute;
-  right: 2%;
-  bottom: 2%;
-  display: grid;
-  place-items: center;
-  width: 30%;
-  aspect-ratio: 1;
-  border: 2px solid var(--cream);
-  border-radius: 50%;
-  background: var(--grad-green);
-  color: var(--gold-light);
-  font-size: clamp(0.75rem, 2.4vw, 1rem);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.orbit__node[aria-pressed='true'] .orbit__plus {
-  background: var(--grad-gold);
-  color: var(--green-deep);
-}
-
-.goodness__hint {
-  display: none;
-  align-items: center;
-  gap: 0.85rem;
-  color: var(--green);
-  font-size: 0.9375rem;
-  font-weight: 500;
-}
-
-.js .goodness__hint {
-  display: flex;
-}
-
-.goodness__tap {
-  flex: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--gold);
-  animation: tap 1.8s ease-out infinite;
-}
-
-@keyframes tap {
-  0% {
-    box-shadow: 0 0 0 0 rgba(195, 154, 69, 0.6);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 12px rgba(195, 154, 69, 0);
-  }
-}
-
-.goodness__controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1.25rem;
-}
-
-.goodness__controls[hidden] {
-  display: none;
-}
-
-.goodness__arrow {
-  display: grid;
-  place-items: center;
-  width: 2.9rem;
-  height: 2.9rem;
-  border: 1px solid var(--gold);
-  border-radius: 50%;
-  background: var(--cream);
-  color: var(--green);
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
-}
-
-.goodness__arrow:hover {
-  background: var(--green);
-  color: var(--cream);
-}
-
-.goodness__count {
-  min-width: 3.5rem;
-  color: var(--ink);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-align: center;
-}
-
 /* ------------------------------------------------------------------ brand hero (home) */
 
 .hero--brand {
@@ -1569,15 +1226,9 @@ main:focus {
 .collection {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(195, 154, 69, 0.3);
   border-radius: var(--radius);
-  background: var(--cream);
-  transition: transform 0.8s var(--ease), box-shadow 0.8s var(--ease);
-}
-
-.collection:not(.collection--soon):hover {
-  box-shadow: 0 24px 40px -28px rgba(19, 48, 33, 0.5);
-  transform: translateY(-5px);
+  isolation: isolate;
+  transition: box-shadow 0.8s var(--ease);
 }
 
 .collection__media {
@@ -1585,46 +1236,48 @@ main:focus {
 }
 
 .collection .media img {
-  transition: transform 1.4s var(--ease);
+  transition: transform 1.6s var(--ease);
 }
 
-.collection:not(.collection--soon):hover .media img {
-  transform: scale(1.05);
-}
-
-.collection--soon .media img {
-  filter: saturate(0.8);
+/* A soft cream glow from the upper left keeps the title readable on any photo. */
+.collection::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 70% at 0% 0%, rgba(251, 246, 236, 0.78) 0%, rgba(251, 246, 236, 0.35) 45%, rgba(251, 246, 236, 0) 70%);
+  pointer-events: none;
 }
 
 .collection__body {
-  position: relative;
-  padding: 1.25rem 1.5rem 1.4rem;
-}
-
-.collection__soon {
   position: absolute;
-  top: -1rem;
-  left: 1.5rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-  background: var(--grad-gold);
-  color: var(--green-deep);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  max-width: min(62%, 20rem);
+  padding: clamp(1.5rem, 1rem + 3vw, 3rem);
 }
 
 .collection__title {
-  font-size: var(--fs-h3);
+  color: var(--green-deep);
+  font-size: clamp(2.2rem, 1.6rem + 2.2vw, 3.4rem);
+  line-height: 1.04;
 }
 
-.collection__body p {
-  margin-top: 0.5rem;
-}
-
-.collection .link {
+.collection__text {
   margin-top: 0.75rem;
+  color: var(--green-deep);
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.45rem);
+  line-height: 1.3;
+}
+
+.collection__rule {
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  margin-top: 1.25rem;
+  background: var(--gold);
+  transition: width 0.8s var(--ease);
 }
 
 .collection:focus-within {
@@ -1632,15 +1285,24 @@ main:focus {
   outline-offset: 4px;
 }
 
-@media (min-width: 600px) {
-  .collection-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (hover: hover) {
+  .collection:hover {
+    box-shadow: 0 28px 48px -30px rgba(19, 48, 33, 0.55);
+  }
+
+  .collection:hover .media img {
+    transform: scale(1.04);
+  }
+
+  .collection:hover .collection__rule {
+    width: 5.5rem;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .collection-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
   }
 }
 
@@ -2024,40 +1686,6 @@ main:focus {
 
 .journey__media img {
   transition: transform 1.6s var(--ease);
-}
-
-.journey__card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(19, 48, 33, 0.92) 0%, rgba(19, 48, 33, 0.35) 45%, rgba(19, 48, 33, 0) 70%);
-  pointer-events: none;
-}
-
-.journey__body {
-  position: absolute;
-  inset: auto 0 0;
-  z-index: 1;
-  padding: 1.75rem 1.75rem 2rem;
-}
-
-.journey__num {
-  color: var(--gold-light);
-  font-size: var(--fs-eyebrow);
-  font-weight: 500;
-  letter-spacing: 0.24em;
-}
-
-.journey__word {
-  margin-top: 0.3rem;
-  color: var(--on-green);
-  font-size: clamp(2.6rem, 2rem + 2.4vw, 4rem);
-  line-height: 1;
-}
-
-.journey__line {
-  margin-top: 0.6rem;
-  color: var(--on-green-soft);
 }
 
 @media (hover: hover) {
@@ -2541,44 +2169,38 @@ main:focus {
   text-align: center;
 }
 
-.band .eyebrow {
+/* Small centred line, no side dash, so it wraps cleanly on phones. */
+.band__eyebrow {
+  max-width: 32rem;
+  margin-inline: auto;
   color: var(--green-deep);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .band__inner {
   position: relative;
 }
 
-.band__inner > * + * {
-  margin-top: 1.5rem;
-}
-
 .band__title {
-  max-width: 18ch;
-  margin-inline: auto;
+  max-width: 14ch;
+  margin: 1.25rem auto 0;
   color: var(--green-deep);
-  font-size: var(--fs-h2);
+  font-size: clamp(2.9rem, 2rem + 3.6vw, 5rem);
+  line-height: 1.04;
+  text-wrap: balance;
 }
 
 .band__title em {
   color: var(--green-deep);
 }
 
-.band__text {
-  max-width: 36ch;
-  margin-inline: auto;
-}
-
 .band .actions {
   margin-top: 2.75rem;
-}
-
-.band .link {
-  color: var(--green-deep);
-}
-
-.band .link::after {
-  background: var(--green-deep);
 }
 
 /* ------------------------------------------------------------------ footer */
@@ -2687,17 +2309,8 @@ main:focus {
   max-width: 14ch;
 }
 
-.scene__label {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-}
-
-.scene__label .eyebrow::before {
-  display: none;
-}
-
 .scene__num {
+  display: block;
   color: var(--gold-ink);
   font-family: var(--serif);
   font-size: 2.5rem;
@@ -2705,8 +2318,30 @@ main:focus {
   line-height: 1;
 }
 
-.scene__text .pull {
-  margin-top: 2.5rem;
+.scene__title {
+  max-width: 16ch;
+  margin-top: 0.75rem;
+}
+
+.scene__sub {
+  color: var(--leaf);
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.8rem);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.scene__p {
+  max-width: 40ch;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+}
+
+.split__text .scene__sub {
+  margin-top: 1rem;
+}
+
+.split__text .scene__p + .scene__p {
+  margin-top: 1rem;
 }
 
 .prose-lg {
@@ -3566,20 +3201,11 @@ main:focus {
     scroll-behavior: auto;
   }
 
-  /* The client asked for the ingredient orbit to always turn; it stays slow and pausable. */
-  .orbit__nodes,
-  .orbit__icon {
-    animation-duration: 60s;
-  }
-
   .badge,
   .badge__ring,
   .drift .leaf,
-  .orbit__node::after,
-  .goodness__tap,
   .scroll-cue::after,
   .hero__bg img,
-  .orbit__core img,
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;
