@@ -1,4 +1,4 @@
-import { MARK, esc, html, isPlaceholder, rich } from './lib.mjs';
+import { KOLAM, MARK, esc, html, isPlaceholder, rich } from './lib.mjs';
 
 const NAV = [
   { id: 'story', path: 'our-story/' },
@@ -106,6 +106,7 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
 // The importers band that closes most pages: one line, one headline, one button.
 export function band(ctx, { title = 'band.title' } = {}) {
   return html`<section class="band" aria-labelledby="band-title">
+  ${KOLAM}
   <div class="container band__inner">
     <p class="band__eyebrow" data-reveal>${ctx.t('band.eyebrow')}</p>
     <h2 class="band__title" id="band-title" data-reveal>${ctx.t(title)}</h2>

@@ -36,3 +36,70 @@ export const isPlaceholder = (value) => /\[[^\]]+\]/.test(String(value ?? ''));
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 export const roman = (n) => ROMAN[n - 1] ?? String(n);
 export const pad = (n) => String(n).padStart(2, '0');
+
+// ---------------------------------------------------------------- botanical line art
+// Fine gold line drawings used as floating decoration. All stroke in currentColor.
+
+const svg = (cls, viewBox, body) =>
+  `<svg class="${cls}" viewBox="${viewBox}" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+
+// Five-petal jasmine flower.
+export const JASMINE = svg(
+  'bot bot--jasmine',
+  '0 0 48 48',
+  [0, 72, 144, 216, 288]
+    .map((a) => `<path transform="rotate(${a} 24 24)" d="M24 22C20.5 15 21 8 24 4c3 4 3.5 11 0 18z"/>`)
+    .join('') + '<circle cx="24" cy="24" r="2.2"/>',
+);
+
+// A curry-leaf sprig: a curved stem with paired leaflets.
+const leaflet = (x, y, deg) =>
+  `<path transform="translate(${x} ${y}) rotate(${deg})" d="M0 0C3-3.6 8.5-3.6 11.5 0 8.5 3.6 3 3.6 0 0z"/>`;
+export const CURRY = svg(
+  'bot bot--curry',
+  '0 0 64 64',
+  '<path d="M6 58C20 44 36 26 58 6"/>' +
+    [
+      [14, 50.5],
+      [22, 42],
+      [30, 33.5],
+      [38, 25],
+      [46, 16.5],
+    ]
+      .map(([x, y]) => leaflet(x, y, -100) + leaflet(x, y, 10))
+      .join('') +
+    leaflet(54, 9, -45),
+);
+
+// A single hibiscus petal with its veins.
+export const PETAL = svg(
+  'bot bot--petal',
+  '0 0 48 48',
+  '<path d="M24 45C9 37 6 16 17 6c2.5 3 4.5 4 7 4s4.5-1 7-4c11 10 8 31-7 39z"/><path d="M24 45V14M24 32l-7-9M24 28l7-9"/>',
+);
+
+// A gold vine that draws itself between sections (every path has pathLength="1").
+export const VINE = `<svg class="vine" viewBox="0 0 260 40" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">${[
+  'M6 20C40 6 74 34 108 20',
+  'M152 20C186 6 220 34 254 20',
+  'M40 13C46 4 56 4 60 8 54 13 46 15 40 13z',
+  'M76 27C82 36 92 36 96 32 90 27 82 25 76 27z',
+  'M220 13C214 4 204 4 200 8 206 13 214 15 220 13z',
+  'M184 27C178 36 168 36 164 32 170 27 178 25 184 27z',
+  ...[0, 72, 144, 216, 288].map((a) => `M130 18C127.5 13 128 8 130 5c2 3 2.5 8 0 13z" transform="rotate(${a} 130 20)`),
+]
+  .map((d) => `<path pathLength="1" d="${d}"/>`)
+  .join('')}<circle cx="130" cy="20" r="1.6" fill="currentColor" stroke="none"/></svg>`;
+
+// A kolam: eight looping petals inside rings of dots, turning slowly behind the importers band.
+export const KOLAM = `<svg class="kolam" viewBox="0 0 200 200" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="0.8">${[
+  ...Array.from({ length: 8 }, (_, i) => `<path transform="rotate(${i * 45} 100 100)" d="M100 100C116 76 116 46 100 26 84 46 84 76 100 100z"/>`),
+  ...Array.from({ length: 8 }, (_, i) => `<path transform="rotate(${i * 45 + 22.5} 100 100)" d="M100 100C108 86 108 70 100 58 92 70 92 86 100 100z"/>`),
+  '<circle cx="100" cy="100" r="94"/>',
+  '<circle cx="100" cy="100" r="74" stroke-dasharray="2 5"/>',
+  ...Array.from({ length: 24 }, (_, i) => {
+    const a = (i * 15 * Math.PI) / 180;
+    return `<circle cx="${(100 + 84 * Math.cos(a)).toFixed(1)}" cy="${(100 + 84 * Math.sin(a)).toFixed(1)}" r="1.4" fill="currentColor" stroke="none"/>`;
+  }),
+  '<circle cx="100" cy="100" r="6"/>',
+].join('')}</svg>`;

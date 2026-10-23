@@ -1,6 +1,6 @@
-import { LEAF, html, roman } from '../lib.mjs';
+import { VINE, html, roman } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { image, words } from '../components.mjs';
+import { flora, image, words } from '../components.mjs';
 
 // Our Story is told like Home: a full-screen picture, a line that rises word by word, then
 // three scenes of one picture and a few words each.
@@ -14,7 +14,7 @@ function scene(ctx, key, n, slot) {
       ${image(ctx, slot, { arch: n === 2, sizes: '(min-width: 960px) 40vw, 92vw' })}
     </div>
     <div class="split__text scene__text">
-      <span class="scene__num" aria-hidden="true" data-reveal>${roman(n)}</span>
+      <span class="scene__num" aria-hidden="true" data-reveal><span>${roman(n)}</span></span>
       <h2 class="h2 scene__title" id="scene-${n}" data-reveal>${ctx.t(`${key}.label`)}</h2>
       <p class="scene__sub" data-reveal>${ctx.t(`${key}.title`)}</p>
 ${data.paragraphs.map((_, i) => `      <p class="scene__p" data-reveal style="--delay:${150 + i * 150}ms">${ctx.t(`${key}.paragraphs.${i}`)}</p>\n`)}    </div>
@@ -28,6 +28,12 @@ export default function story(ctx) {
   const body = html`
 <section class="hero hero--brand hero--cover" aria-labelledby="hero-title">
   <div class="hero__bg">${image(ctx, 'story-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'story-hero-mobile' })}</div>
+  <span class="hero__rays hero__rays--left" aria-hidden="true"></span>
+  ${flora([
+    ['jasmine', 62, 14, 2.8, 0, 12, 0.5, false],
+    ['curry', 84, 58, 4.4, -15, 15, 0.4, false],
+    ['petal', 88, 18, 2.2, 20, 11, 0.45],
+  ], { tone: 'light' })}
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="eyebrow hero-in" style="--i:0">${ctx.t('story.eyebrow')}</p>
@@ -36,9 +42,13 @@ export default function story(ctx) {
   </div>
 </section>
 
-<section class="section statement" aria-label="${ctx.tx('story.eyebrow')}">
+<section class="section statement has-flora" aria-label="${ctx.tx('story.eyebrow')}">
+  ${flora([
+    ['curry', 6, 20, 4.4, 10, 15, 0.4],
+    ['jasmine', 88, 55, 3, 0, 12, 0.5],
+  ])}
   <div class="container container--narrow center">
-    <span class="ornament" data-reveal>${LEAF}</span>
+    <span class="ornament ornament--vine" data-reveal>${VINE}</span>
     <p class="statement__quote words" data-reveal>${words(ctx.raw('story.lead'))}</p>
   </div>
 </section>
@@ -53,7 +63,11 @@ ${slots.map((slot, i) => scene(ctx, `story.chapters.${i}`, i + 1, slot))}
   </div>
 </section>
 
-<section class="section approach" aria-labelledby="approach-title">
+<section class="section approach has-flora" aria-labelledby="approach-title">
+  ${flora([
+    ['petal', 6, 6, 2.6, -20, 12, 0.4],
+    ['jasmine', 91, 4, 2.6, 0, 11, 0.5],
+  ])}
   <div class="container">
     <header class="section-head center">
       <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('story.approachSection.eyebrow')}</p>
@@ -76,7 +90,7 @@ ${ctx.raw('story.approachSection.pillars').map(
 
 <section class="section section--sand story-closing" aria-label="${ctx.tx('site.slogan')}">
   <div class="container center">
-    <span class="ornament" data-reveal>${LEAF}</span>
+    <span class="ornament ornament--vine" data-reveal>${VINE}</span>
     <p class="story-closing__line" data-reveal>${ctx.t('story.closing')}</p>
     <div class="actions actions--center" data-reveal style="--delay:200ms">
       <a class="btn" href="${ctx.link('products/')}">${ctx.t('cta.discover')}</a>

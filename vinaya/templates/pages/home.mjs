@@ -1,6 +1,6 @@
-import { LEAF, MARK, esc, html } from '../lib.mjs';
+import { MARK, VINE, esc, html } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { image, words } from '../components.mjs';
+import { flora, image, petals, words } from '../components.mjs';
 
 // Home tells the story in pictures: few words, big images, colour and slow motion.
 
@@ -20,7 +20,11 @@ function badge(ctx) {
 function journey(ctx) {
   const steps = ctx.raw('home.tale.steps');
   const slots = ['tale-nature', 'tale-tradition', 'tale-you'];
-  return html`<section class="section section--green journey" aria-labelledby="journey-title">
+  return html`<section class="section section--green journey has-flora" aria-labelledby="journey-title">
+  ${flora([
+    ['leaf', 4, 6, 3, 30, 13, 0.35],
+    ['jasmine', 91, 5, 2.6, 0, 11, 0.45],
+  ], { tone: 'light' })}
   <div class="container">
     <header class="section-head center">
       <h2 class="eyebrow eyebrow--center" id="journey-title" data-reveal>${ctx.t('home.tale.eyebrow')}</h2>
@@ -40,7 +44,11 @@ ${steps.map(
 // Collections: four bright pictures, each with its name and one line over the light upper corner.
 function collections(ctx) {
   const items = ctx.raw('home.collections.items');
-  return html`<section class="section collections" aria-labelledby="collections-title">
+  return html`<section class="section collections has-flora" aria-labelledby="collections-title">
+  ${flora([
+    ['curry', 5, 3, 4, 25, 15, 0.4],
+    ['jasmine', 92, 2, 2.6, 0, 12, 0.5],
+  ])}
   <div class="container">
     <header class="section-head center">
       <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('home.collections.eyebrow')}</p>
@@ -66,6 +74,14 @@ export default function home(ctx) {
   const body = html`
 <section class="hero hero--brand" aria-labelledby="hero-title">
   <div class="hero__bg">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'home-hero-mobile' })}</div>
+  <span class="hero__rays hero__rays--right" aria-hidden="true"></span>
+  ${petals(7)}
+  ${flora([
+    ['jasmine', 60, 16, 3, 10, 13, 0.55, false],
+    ['curry', 82, 52, 4.6, -20, 15, 0.45, false],
+    ['petal', 50, 70, 2.4, 30, 11, 0.4, false],
+    ['jasmine', 88, 20, 2.2, -15, 10, 0.5],
+  ], { tone: 'light' })}
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="eyebrow hero-in" style="--i:0">${ctx.t('home.hero.eyebrow')}</p>
@@ -84,9 +100,14 @@ export default function home(ctx) {
   <span class="scroll-cue" aria-hidden="true"></span>
 </section>
 
-<section class="section statement" aria-label="${ctx.tx('home.belief.eyebrow')}">
+<section class="section statement has-flora" aria-label="${ctx.tx('home.belief.eyebrow')}">
+  ${flora([
+    ['jasmine', 7, 18, 3, 0, 12, 0.55],
+    ['curry', 85, 48, 5, 15, 16, 0.4, false],
+    ['petal', 14, 72, 2.4, -25, 11, 0.4, false],
+  ])}
   <div class="container container--narrow center">
-    <span class="ornament" data-reveal>${LEAF}</span>
+    <span class="ornament ornament--vine" data-reveal>${VINE}</span>
     <p class="statement__quote words" data-reveal>${words(ctx.raw('home.belief.quote'))}</p>
   </div>
 </section>

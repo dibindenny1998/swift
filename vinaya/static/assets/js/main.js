@@ -104,6 +104,44 @@
     });
   }
 
+  /* ---------------------------------------------------------------- living details */
+
+  // Looping decoration (petals, botanicals, rays, kolam) pauses while its section is off screen.
+  if ('IntersectionObserver' in window) {
+    var stillObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle('is-still', !entry.isIntersecting);
+      });
+    });
+    doc.querySelectorAll('.hero, .has-flora, .band').forEach(function (el) {
+      stillObserver.observe(el);
+    });
+  }
+
+  // Cards tilt gently toward a mouse pointer, with a soft glare.
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (finePointer && !still) {
+    doc.querySelectorAll('.collection, .tile, .journey__card').forEach(function (card) {
+      card.classList.add('tilt');
+      card.addEventListener('pointermove', function (e) {
+        var box = card.getBoundingClientRect();
+        var x = (e.clientX - box.left) / box.width;
+        var y = (e.clientY - box.top) / box.height;
+        card.classList.add('is-tilting');
+        card.style.setProperty('--ry', ((x - 0.5) * 7).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', ((0.5 - y) * 7).toFixed(2) + 'deg');
+        card.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
+        card.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+      });
+      card.addEventListener('pointerleave', function () {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.classList.remove('is-tilting');
+      });
+    });
+  }
+
   /* ---------------------------------------------------------------- ingredient orbit */
 
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

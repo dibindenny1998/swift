@@ -3491,9 +3491,401 @@ main:focus {
   }
 }
 
+/* ------------------------------------------------------------------ living details
+   Floating botanicals, falling jasmine, light rays, gold vines, the kolam, and a different
+   entrance for each kind of section. Loops pause while their section is off screen. */
+
+/* Floating botanicals */
+.has-flora {
+  isolation: isolate;
+}
+
+.flora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero .flora {
+  z-index: 0;
+}
+
+.flora--gold {
+  color: var(--gold);
+}
+
+.flora--light {
+  color: var(--gold-light);
+}
+
+.flora__item {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--s);
+  opacity: var(--o);
+}
+
+.flora__item svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: drift var(--d) ease-in-out infinite alternate;
+}
+
+.flora__item:nth-child(even) svg {
+  animation-direction: alternate-reverse;
+}
+
+@media (max-width: 767px) {
+  .flora__item {
+    width: calc(var(--s) * 0.75);
+  }
+
+  .flora__item--wide {
+    display: none;
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--r));
+  }
+  50% {
+    transform: translate(10px, -16px) rotate(calc(var(--r) + 10deg));
+  }
+  100% {
+    transform: translate(-8px, 8px) rotate(calc(var(--r) - 8deg));
+  }
+}
+
+/* Jasmine petals falling through the Home banner */
+.petals {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.petal {
+  position: absolute;
+  top: -6%;
+  left: var(--px);
+  width: calc(0.9rem * var(--ps));
+  aspect-ratio: 1 / 1.6;
+  border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+  background: radial-gradient(circle at 40% 30%, #fffdf6 0%, #f6ecd6 70%);
+  opacity: 0;
+  animation: fall var(--pd) linear var(--pdl) infinite;
+}
+
+@keyframes fall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(40px, 52svh) rotate(160deg);
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-20px, 105svh) rotate(320deg);
+  }
+}
+
+/* Soft sun rays over the banner photo (warm light only) */
+.hero__rays {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 200deg at var(--sun), rgba(255, 233, 180, 0) 0deg 7deg, rgba(255, 233, 180, 0.16) 9deg 12deg, rgba(255, 233, 180, 0) 14deg 22deg);
+  -webkit-mask-image: radial-gradient(circle at var(--sun), #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle at var(--sun), #000 0%, transparent 62%);
+  mix-blend-mode: screen;
+  animation: rays 9s ease-in-out infinite alternate;
+}
+
+.hero__rays--right {
+  --sun: 88% 4%;
+}
+
+.hero__rays--left {
+  --sun: 14% 8%;
+}
+
+@keyframes rays {
+  from {
+    opacity: 0.35;
+    transform: rotate(-1.2deg) scale(1.02);
+  }
+  to {
+    opacity: 0.9;
+    transform: rotate(1.2deg) scale(1.06);
+  }
+}
+
+/* The banner photo keeps breathing slowly after it settles. */
+.hero--brand .hero__bg img {
+  animation:
+    settle 3.5s var(--ease) both,
+    breathe 26s ease-in-out 3.5s infinite alternate;
+}
+
+@keyframes breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07) translate(-1%, -1%);
+  }
+}
+
+/* Gold vine that draws itself */
+.ornament--vine {
+  display: block;
+  width: min(15rem, 70%);
+  margin-inline: auto;
+  color: var(--gold);
+}
+
+.ornament--vine .vine {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.js .vine path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.8s var(--ease);
+}
+
+.js .vine path:nth-child(n + 3) {
+  transition-delay: 0.9s;
+}
+
+.js .vine path:nth-child(n + 7) {
+  transition-delay: 1.4s;
+}
+
+.js .is-visible .vine path,
+.js .vine.is-visible path {
+  stroke-dashoffset: 0;
+}
+
+.js .vine circle {
+  opacity: 0;
+  transition: opacity 0.8s ease 1.6s;
+}
+
+.js .is-visible .vine circle {
+  opacity: 1;
+}
+
+/* The kolam turning slowly behind the importers band */
+.band {
+  isolation: isolate;
+}
+
+.band .kolam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: min(46rem, 130vw);
+  color: var(--green-deep);
+  opacity: 0.09;
+  translate: -50% -50%;
+  animation: spin 140s linear infinite;
+  pointer-events: none;
+}
+
+/* Gold shimmer passing once over italic headline words */
+.js :is(.h2, .band__title, .story-closing__line, .page-hero__title, .hero__title) em {
+  padding-inline: 0.06em;
+  margin-inline: -0.06em;
+  background-image: linear-gradient(100deg, currentColor 0 40%, color-mix(in srgb, currentColor 40%, #fff6dc) 50%, currentColor 60% 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 2.6s var(--ease) 1.1s both;
+}
+
+.js [data-reveal]:not(.is-visible) em {
+  animation-play-state: paused;
+}
+
+@keyframes shine {
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* Nature / Tradition / You: each picture comes into focus. */
+.js .journey__card[data-reveal] .media {
+  clip-path: none;
+}
+
+.js .journey__card[data-reveal] .media img {
+  filter: blur(18px) saturate(0.7);
+  transform: scale(1.1);
+  transition:
+    filter 1.8s var(--ease) var(--delay, 0ms),
+    transform 2.4s var(--ease) var(--delay, 0ms);
+}
+
+.js .journey__card[data-reveal].is-visible .media img {
+  filter: none;
+  transform: none;
+}
+
+/* Collections: the picture opens from its bright corner, then the words slide in. */
+.js .collection[data-reveal] {
+  transform: none;
+}
+
+.js .collection[data-reveal] .media {
+  clip-path: circle(0% at 0 0);
+  transition: clip-path 1.8s var(--ease) var(--delay, 0ms);
+}
+
+.js .collection[data-reveal].is-visible .media {
+  clip-path: circle(150% at 0 0);
+}
+
+.js .collection[data-reveal] :is(.collection__title, .collection__text) {
+  opacity: 0;
+  transform: translateX(-1.25rem);
+  transition:
+    opacity 1s var(--ease),
+    transform 1s var(--ease);
+  transition-delay: calc(var(--delay, 0ms) + 700ms);
+}
+
+.js .collection[data-reveal] .collection__text {
+  transition-delay: calc(var(--delay, 0ms) + 850ms);
+}
+
+.js .collection[data-reveal] .collection__rule {
+  width: 0;
+  transition: width 1s var(--ease) calc(var(--delay, 0ms) + 1100ms);
+}
+
+.js .collection[data-reveal].is-visible :is(.collection__title, .collection__text) {
+  opacity: 1;
+  transform: none;
+}
+
+.js .collection[data-reveal].is-visible .collection__rule {
+  width: 3.5rem;
+}
+
+/* Our Story scenes: the picture opens upwards like a door; the numeral writes itself. */
+.js .scene .split__media[data-reveal] .media {
+  clip-path: inset(100% 0 0 0 round 999px 999px 0 0);
+  transition: clip-path 1.9s var(--ease) 0.1s;
+}
+
+.js .scene .split__media[data-reveal].is-visible .media {
+  clip-path: inset(0 0 0 0 round 0);
+}
+
+.js .scene__num[data-reveal] {
+  transform: none;
+}
+
+.js .scene__num[data-reveal] > span {
+  display: inline-block;
+  padding-right: 0.2em;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.6s var(--ease) 0.3s;
+}
+
+.js .scene__num[data-reveal].is-visible > span {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Cards tilt gently toward the pointer with a soft glare (mouse only, set by main.js). */
+.tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+}
+
+.js .tilt[data-reveal].is-visible {
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+}
+
+.js .tilt[data-reveal].is-visible.is-tilting {
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-4px);
+  transition: transform 0.25s ease-out, box-shadow 0.6s var(--ease);
+}
+
+.tilt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 45%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+  pointer-events: none;
+}
+
+.tilt.is-tilting::before {
+  opacity: 1;
+}
+
+/* Nothing loops while its section is off screen. */
+.is-still :is(.flora__item svg, .petal, .hero__rays, .kolam, .hero__bg img) {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .petals,
+  .hero__rays {
+    display: none;
+  }
+
+  .flora__item svg,
+  .band .kolam,
+  .hero--brand .hero__bg img {
+    animation: none !important;
+  }
+
+  .js :is(.h2, .band__title, .story-closing__line, .page-hero__title, .hero__title) em {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .js .journey__card[data-reveal] .media img,
+  .js .collection[data-reveal] .media,
+  .js .scene .split__media[data-reveal] .media,
+  .js .scene__num[data-reveal] > span {
+    filter: none;
+    clip-path: none;
+    transform: none;
+  }
+
+  .js .collection[data-reveal] .collection__rule {
+    width: 3.5rem;
   }
 
   /* The client asked for the ingredient orbit to always turn; it stays slow and pausable. */

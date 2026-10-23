@@ -1,4 +1,4 @@
-import { esc, html } from './lib.mjs';
+import { CURRY, JASMINE, LEAF, PETAL, esc, html } from './lib.mjs';
 
 // An image slot from content/images.mjs. Renders the real image when a file exists in
 // static/assets/img/, otherwise a clearly labelled placeholder box of the same shape.
@@ -128,3 +128,23 @@ export const words = (text) =>
     .split(' ')
     .map((w, i) => `<span class="w" style="--w:${i}">${w}</span>`)
     .join(' ');
+
+// Floating botanicals: fine gold line art that drifts and sways slowly. Each item is
+// [shape, left %, top %, size rem, start angle, seconds per sway, opacity, phone? ].
+const SHAPES = { jasmine: JASMINE, curry: CURRY, petal: PETAL, leaf: LEAF };
+export function flora(items, { tone = 'gold' } = {}) {
+  return `<div class="flora flora--${tone}" aria-hidden="true">${items
+    .map(
+      ([shape, x, y, size, r = 0, d = 12, o = 0.5, phone = true]) =>
+        `<span class="flora__item${phone ? '' : ' flora__item--wide'}" style="--x:${x}%;--y:${y}%;--s:${size}rem;--r:${r}deg;--d:${d}s;--o:${o}">${SHAPES[shape]}</span>`,
+    )
+    .join('')}</div>`;
+}
+
+// Jasmine petals falling slowly through the Home banner.
+export function petals(count = 6) {
+  return `<div class="petals" aria-hidden="true">${Array.from(
+    { length: count },
+    (_, i) => `<span class="petal" style="--px:${8 + ((i * 37) % 84)}%;--pd:${14 + ((i * 5) % 9)}s;--pdl:-${(i * 3.7).toFixed(1)}s;--ps:${0.7 + ((i * 3) % 5) / 10}"></span>`,
+  ).join('')}</div>`;
+}
