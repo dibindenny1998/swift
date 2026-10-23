@@ -14,7 +14,8 @@ collection-hair.jpg                        1145 x 1374 px   Home: Hair Care card
 collection-skin.jpg                        1145 x 1374 px   Home: Face Care card (keep the upper left light for the title)
 collection-body.jpg                        1145 x 1374 px   Home: Body Care card (keep the upper left light for the title)
 collection-gift.jpg                        1145 x 1374 px   Home: Care Kits & Gifts card (keep the upper left light for the title)
-story-hero.jpg                             1920 x 1080 px   Our Story: top banner
+story-hero.jpg                             1920 x 1080 px   Our Story: top banner (desktop and tablet)
+story-hero-mobile.jpg                      1024 x 1536 px   Our Story: top banner on phones (portrait)
 story-heritage.jpg                         1122 x 1402 px   Our Story: I Nature inspires us
 story-change.jpg                           1122 x 1402 px   Our Story: II Tradition guides us (arch)
 story-reconnect.jpg                        1122 x 1402 px   Our Story: III You are at the heart of what we do

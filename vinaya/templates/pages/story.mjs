@@ -27,7 +27,7 @@ export default function story(ctx) {
 
   const body = html`
 <section class="hero hero--brand hero--cover" aria-labelledby="hero-title">
-  <div class="hero__bg">${image(ctx, 'story-hero', { eager: true, decorative: true, sizes: '100vw' })}</div>
+  <div class="hero__bg">${image(ctx, 'story-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'story-hero-mobile' })}</div>
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="eyebrow hero-in" style="--i:0">${ctx.t('story.eyebrow')}</p>

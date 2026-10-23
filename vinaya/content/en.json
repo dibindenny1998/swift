@@ -47,8 +47,8 @@
   },
   "images": {
     "home-hero": "Women carrying baskets of fresh herbs along a forest path in the misty Kerala hills at sunrise",
-    "story-hero": "Sunset over the Kerala backwaters, with coconut palms and a traditional houseboat",
-    "export-hero": "Vinaya Gift Set in a sheer pouch: hair oil, wooden comb and illustrated story card",
+    "story-hero": "A grandmother in a cream kasavu saree sorting fresh herbs on the steps of a traditional Kerala home at sunrise, beside a tulsi plant on its stone stand",
+    "export-hero": "A woman in a kasavu saree tying jasmine onto kraft-paper parcels in a sunlit Kerala packing room",
     "products/hair-oil": "Vinaya Hair Oil, Green Leaves & Coconut Oil, 110 ml bottle with a gold cap",
     "products/gift-set": "Vinaya Gift Set: hair oil, wooden comb and illustrated story card in a sheer pouch",
     "approach-1": "A green leaf, a smooth stone and a clay bowl of water on handloom cloth",
@@ -65,7 +65,8 @@
     "story-reconnect": "A young woman combing her long hair with a wooden comb by a sunlit window",
     "story-value": "A brass bowl of herbal oil with hibiscus, coconut, cinnamon and fresh leaves",
     "home-hero-mobile": "Women carrying baskets of fresh herbs along a forest path in the misty Kerala hills at sunrise",
-    "col-face": "A woman with eyes closed, splashing water on her face over a stone basin"
+    "col-face": "A woman with eyes closed, splashing water on her face over a stone basin",
+    "story-hero-mobile": "A grandmother in a cream kasavu saree sorting fresh herbs on the steps of a traditional Kerala home at sunrise, beside a tulsi plant on its stone stand"
   },
   "meta": {
     "home": {
@@ -387,7 +388,7 @@
   },
   "export": {
     "eyebrow": "Partner With Us",
-    "title": "Bring Vinaya *to your market.*",
+    "title": "Partner *with Vinaya.*",
     "intro": "For importers, distributors and retailers worldwide.",
     "who": {
       "title": "Who we work with",
