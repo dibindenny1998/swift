@@ -921,55 +921,217 @@ main:focus {
   }
 }
 
-/* ------------------------------------------------------------------ ingredient grid (product page) */
+/* ------------------------------------------------------------------ the goodness within (orbit) */
 
-/* Flex, so a short last row sits centred. */
-.ing-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2.5rem 1.5rem;
+.goodness {
+  overflow: hidden;
+  background: var(--grad-cream);
 }
 
-.ing-card {
-  flex: 0 1 calc(50% - 0.75rem);
-  text-align: center;
-}
-
-.ing-card__icon {
+.goodness__grid {
   display: grid;
-  place-items: center;
-  width: min(100%, 8.5rem);
+  gap: 3rem;
+}
+
+.goodness__head > * + * {
+  margin-top: 1.25rem;
+}
+
+.orbit {
+  position: relative;
+  width: min(100%, 34rem);
   aspect-ratio: 1;
   margin-inline: auto;
-  border: 1px solid rgba(195, 154, 69, 0.35);
+}
+
+/* Dashed ring, like the leaflet */
+.orbit__ring {
+  position: absolute;
+  inset: 11%;
+  border: 1.5px dashed rgba(27, 46, 34, 0.45);
   border-radius: 50%;
-  background: var(--grad-sand);
+  animation: spin 60s linear infinite reverse;
 }
 
-.ing-card__icon img {
-  width: 78%;
+.orbit__nodes {
+  position: absolute;
+  inset: 0;
+  animation: spin 40s linear infinite;
+  will-change: transform;
+}
+
+/* Nothing in the orbit animates while it is off screen (keeps scrolling smooth on phones). */
+.orbit.is-offscreen *,
+.orbit.is-offscreen *::after {
+  animation-play-state: paused !important;
+}
+
+.orbit__slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22%;
+  aspect-ratio: 1;
+  margin: -11% 0 0 -11%;
+  transform: rotate(var(--a)) translateY(-177%) rotate(calc(-1 * var(--a)));
+}
+
+.orbit__node {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid rgba(195, 154, 69, 0.55);
+  border-radius: 50%;
+  background: var(--cream);
+  box-shadow: 0 14px 30px -18px rgba(19, 48, 33, 0.45);
+  cursor: pointer;
+  transition:
+    transform 0.6s var(--ease),
+    border-color 0.6s var(--ease),
+    box-shadow 0.6s var(--ease),
+    background-color 0.6s var(--ease);
+}
+
+/* Counter-spins so every ingredient stays upright while the ring turns. */
+.orbit__icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  animation: spin 40s linear infinite reverse;
+}
+
+.orbit__icon img {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+.orbit__node:hover,
+.orbit__node[aria-pressed='true'] {
+  border-color: var(--green);
+  background: #fff8ea;
+  box-shadow: 0 0 0 4px rgba(195, 154, 69, 0.35), 0 18px 34px -18px rgba(19, 48, 33, 0.55);
+  transform: scale(1.12);
+}
+
+.orbit__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 38%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 210, 171, 0.95) 0%, rgba(232, 210, 171, 0) 70%);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 0.6s var(--ease);
+}
+
+.orbit__core img {
+  width: 92%;
   height: auto;
+  animation: float 6s ease-in-out infinite;
 }
 
-.ing-card__name {
+.orbit__core:hover,
+.orbit__core[aria-pressed='true'] {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* A mouse resting on the orbit, or keyboard focus inside it, pauses the rotation so an
+   ingredient is easy to pick. A tap on a phone does not: the ring keeps turning. */
+@media (hover: hover) {
+  .orbit:hover :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
+    animation-play-state: paused;
+  }
+}
+
+.orbit:has(:focus-visible) :is(.orbit__nodes, .orbit__icon, .orbit__ring) {
+  animation-play-state: paused;
+}
+
+.goodness__panel {
+  position: relative;
+  max-width: 30rem;
+}
+
+.ing {
+  padding: 2rem 2rem 2.25rem;
+  border-left: 2px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: rgba(251, 246, 236, 0.85);
+}
+
+.ing + .ing {
   margin-top: 1rem;
+}
+
+.ing__tagline {
+  color: var(--gold-ink);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.ing__name {
+  margin-top: 0.6rem;
   font-size: var(--fs-h3);
 }
 
-.ing-card__text {
-  max-width: 26ch;
-  margin: 0.4rem auto 0;
-  font-size: var(--fs-small);
+.ing__text {
+  margin-top: 0.75rem;
+  max-width: 38ch;
 }
 
-@media (min-width: 768px) {
-  .ing-grid {
-    gap: 3.5rem 2rem;
+
+/* With JavaScript, the panel shows one ingredient at a time. */
+.js .ing {
+  display: none;
+}
+
+.js .ing.is-active {
+  display: block;
+  animation: ing-in 0.7s var(--ease) both;
+}
+
+
+@keyframes ing-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+
+@media (min-width: 960px) {
+  .goodness__grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      'head orbit'
+      'panel orbit';
+    align-items: center;
+    column-gap: clamp(3rem, 6vw, 6rem);
+    row-gap: 2.5rem;
   }
 
-  .ing-card {
-    flex-basis: calc(25% - 1.5rem);
+  .goodness__head {
+    grid-area: head;
+    align-self: end;
+  }
+
+  .orbit {
+    grid-area: orbit;
+  }
+
+  .goodness__panel {
+    grid-area: panel;
+    align-self: start;
   }
 }
 
@@ -1086,6 +1248,139 @@ main:focus {
 .faq__item p {
   max-width: 60ch;
   padding-bottom: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ orbit: tap cues and controls */
+
+.orbit__node {
+  position: relative;
+}
+
+/* A soft ring pulses out from each ingredient, so it reads as something to tap. */
+.orbit__node::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: ping 3.2s ease-out infinite;
+}
+
+.orbit__slot:nth-child(2) .orbit__node::after { animation-delay: 0.5s; }
+.orbit__slot:nth-child(3) .orbit__node::after { animation-delay: 1s; }
+.orbit__slot:nth-child(4) .orbit__node::after { animation-delay: 1.5s; }
+.orbit__slot:nth-child(5) .orbit__node::after { animation-delay: 2s; }
+.orbit__slot:nth-child(6) .orbit__node::after { animation-delay: 2.5s; }
+
+@keyframes ping {
+  0% {
+    opacity: 0.75;
+    transform: scale(0.92);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.28);
+  }
+}
+
+.orbit__icon {
+  position: relative;
+}
+
+.orbit__plus {
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  display: grid;
+  place-items: center;
+  width: 30%;
+  aspect-ratio: 1;
+  border: 2px solid var(--cream);
+  border-radius: 50%;
+  background: var(--grad-green);
+  color: var(--gold-light);
+  font-size: clamp(0.75rem, 2.4vw, 1rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.orbit__node[aria-pressed='true'] .orbit__plus {
+  background: var(--grad-gold);
+  color: var(--green-deep);
+}
+
+.goodness__hint {
+  display: none;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--green);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.js .goodness__hint {
+  display: flex;
+}
+
+.goodness__tap {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: tap 1.8s ease-out infinite;
+}
+
+@keyframes tap {
+  0% {
+    box-shadow: 0 0 0 0 rgba(195, 154, 69, 0.6);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 12px rgba(195, 154, 69, 0);
+  }
+}
+
+.goodness__controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.goodness__controls[hidden] {
+  display: none;
+}
+
+.goodness__arrow {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--green);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.goodness__arrow:hover {
+  background: var(--green);
+  color: var(--cream);
+}
+
+.goodness__count {
+  min-width: 3.5rem;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-align: center;
 }
 
 /* ------------------------------------------------------------------ brand hero (home) */
@@ -3201,11 +3496,20 @@ main:focus {
     scroll-behavior: auto;
   }
 
+  /* The client asked for the ingredient orbit to always turn; it stays slow and pausable. */
+  .orbit__nodes,
+  .orbit__icon {
+    animation-duration: 60s;
+  }
+
   .badge,
   .badge__ring,
   .drift .leaf,
+  .orbit__node::after,
+  .goodness__tap,
   .scroll-cue::after,
   .hero__bg img,
+  .orbit__core img,
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;

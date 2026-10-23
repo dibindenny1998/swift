@@ -572,6 +572,10 @@
   },
   "goodness": {
     "eyebrow": "The goodness within",
-    "title": "Herbs and spices, *steeped in coconut oil.*"
+    "title": "Herbs and spices, *steeped in coconut oil.*",
+    "text": "Vinaya’s hair oil is made by steeping selected herbs and aromatic spices in coconut oil.",
+    "hint": "Tap any ingredient to explore",
+    "prev": "Previous ingredient",
+    "next": "Next ingredient"
   }
 }

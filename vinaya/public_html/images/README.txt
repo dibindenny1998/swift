@@ -30,11 +30,11 @@ blog-made-the-vinaya-way.jpg               1500 x 1000 px   Blog: Made the Vinay
 blog-seven-botanicals.jpg                  1500 x 1000 px   Blog: Seven botanicals, one bottle
 blog-weekly-hair-oil-ritual.jpg            1500 x 1000 px   Blog: Your weekly hair-oil ritual, step by step
 blog-why-natural-smells-different.jpg      1500 x 1000 px   Blog: Why natural products smell different
-ingredient-aloe-vera.png                   400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
-ingredient-bhringraj.png                   400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
-ingredient-cinnamon.png                    400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
-ingredient-coconut.png                     400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
-ingredient-curry-leaves.png                400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
-ingredient-hibiscus.png                    400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
-ingredient-tulsi.png                       400 x 400 px     Hair Oil page: ingredient icons (transparent PNG)
+ingredient-aloe-vera.png                   400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
+ingredient-bhringraj.png                   400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
+ingredient-cinnamon.png                    400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
+ingredient-coconut.png                     400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
+ingredient-curry-leaves.png                400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
+ingredient-hibiscus.png                    400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
+ingredient-tulsi.png                       400 x 400 px     Hair Oil page: rotating ingredient circle (transparent PNG)
 share-image.jpg                            1200 x 630 px    Preview when the site is shared on WhatsApp, Facebook, LinkedIn

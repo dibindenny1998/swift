@@ -59,23 +59,44 @@ export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
 </section>`;
 }
 
-// "The goodness within" on the product page: each ingredient's icon, name and one line.
-export function ingredientGrid(ctx) {
+// "The goodness within": the ingredients orbiting slowly around coconut oil. Each ingredient is
+// a button; the panel beside it shows the one selected (it cycles on its own until someone picks).
+// Without JavaScript every ingredient's text is simply listed.
+export function goodness(ctx, { headingLevel = 2, copy = 'goodness' } = {}) {
   const items = ctx.raw('ingredients');
-  return html`<section class="section goodness-list" aria-labelledby="goodness-title">
-  <div class="container">
-    <header class="section-head center">
-      <p class="eyebrow eyebrow--center" data-reveal>${ctx.t('goodness.eyebrow')}</p>
-      <h2 class="h2" id="goodness-title" data-reveal>${ctx.t('goodness.title')}</h2>
+  const [core, ...ring] = items;
+  const h = `h${headingLevel}`;
+  const icon = (item) => `<img src="${ctx.asset(`images/ingredient-${item.key}.png`)}" alt="" width="400" height="400" loading="lazy" decoding="async">`;
+  const step = 360 / ring.length;
+  return html`<section class="section goodness" aria-labelledby="goodness-title">
+  <div class="container goodness__grid">
+    <header class="goodness__head">
+      <p class="eyebrow" data-reveal>${ctx.t(`${copy}.eyebrow`)}</p>
+      <${h} class="h2" id="goodness-title" data-reveal>${ctx.t(`${copy}.title`)}</${h}>
+      ${ctx.opt(`${copy}.text`) ? `<p class="lead" data-reveal>${ctx.t(`${copy}.text`)}</p>` : ''}
+      <p class="goodness__hint" data-reveal><span class="goodness__tap" aria-hidden="true"></span>${ctx.t('goodness.hint')}</p>
     </header>
-    <ul class="ing-grid">
+    <div class="orbit" data-orbit data-reveal>
+      <span class="orbit__ring" aria-hidden="true"></span>
+      <ul class="orbit__nodes">
+${ring.map(
+    (item, i) => `        <li class="orbit__slot" style="--a:${(i * step).toFixed(1)}deg"><button class="orbit__node" type="button" data-ing="${i + 1}" aria-controls="ing-${i + 1}" aria-pressed="false"><span class="orbit__icon">${icon(item)}<span class="orbit__plus" aria-hidden="true">+</span></span><span class="visually-hidden">${esc(item.name)}</span></button></li>\n`,
+  )}      </ul>
+      <button class="orbit__core" type="button" data-ing="0" aria-controls="ing-0" aria-pressed="true">${icon(core)}<span class="visually-hidden">${esc(core.name)}</span></button>
+    </div>
+    <div class="goodness__panel" data-reveal>
 ${items.map(
-    (item, i) => `      <li class="ing-card" data-reveal style="--delay:${(i % 4) * 120}ms">
-        <span class="ing-card__icon"><img src="${ctx.asset(`images/ingredient-${item.key}.png`)}" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
-        <h3 class="ing-card__name">${esc(item.name)}</h3>
-        <p class="ing-card__text">${esc(item.text)}</p>
-      </li>\n`,
-  )}    </ul>
+    (item, i) => `      <article class="ing${i === 0 ? ' is-active' : ''}" id="ing-${i}" data-ing-panel="${i}">
+        <p class="ing__tagline">${esc(item.tagline)}</p>
+        <h3 class="ing__name">${esc(item.name)}</h3>
+        <p class="ing__text">${esc(item.text)}</p>
+      </article>\n`,
+  )}      <div class="goodness__controls" aria-hidden="true" hidden data-ing-controls>
+        <button type="button" class="goodness__arrow" data-ing-prev tabindex="-1" aria-label="${ctx.tx('goodness.prev')}">&larr;</button>
+        <span class="goodness__count" data-ing-count>1 / ${items.length}</span>
+        <button type="button" class="goodness__arrow" data-ing-next tabindex="-1" aria-label="${ctx.tx('goodness.next')}">&rarr;</button>
+      </div>
+    </div>
   </div>
 </section>`;
 }
