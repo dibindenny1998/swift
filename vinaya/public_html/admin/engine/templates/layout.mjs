@@ -34,7 +34,7 @@ ${ctx.page.noindex ? '<meta name="robots" content="noindex">' : `<link rel="cano
 <link rel="manifest" href="${ctx.asset('site.webmanifest')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap">
 <link rel="stylesheet" href="${ctx.asset('assets/css/main.css', true)}">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script src="${ctx.asset('assets/js/main.js', true)}" defer></script>
@@ -104,12 +104,12 @@ ${NAV.map((item) => `          <li><a href="${ctx.link(item.path)}">${ctx.t(`nav
 </footer>`;
 }
 
-// The importers band that closes most pages: one line, one headline, one button.
-export function band(ctx, { title = 'band.title' } = {}) {
+// The "Let's Connect" band that closes every page: a bold headline, one line, one button.
+export function band(ctx) {
   return html`<section class="band" aria-labelledby="band-title">
   <div class="container band__inner">
-    <p class="band__eyebrow" data-reveal>${ctx.t('band.eyebrow')}</p>
-    <h2 class="band__title" id="band-title" data-reveal>${ctx.t(title)}</h2>
+    <h2 class="band__title" id="band-title" data-reveal>${ctx.t('band.title')}</h2>
+    <p class="band__text" data-reveal>${ctx.t('band.text')}</p>
     <div class="actions actions--center" data-reveal>
       <a class="btn btn--solid" href="${ctx.link('contact/')}">${ctx.t('band.primary')}</a>
     </div>

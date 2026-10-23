@@ -29,11 +29,9 @@
     "readMore": "Read article"
   },
   "band": {
-    "eyebrow": "For importers, distributors and retailers",
-    "title": "Bring Vinaya *to your market.*",
-    "text": "We are building long-term partnerships around the world.",
-    "primary": "Send an enquiry",
-    "secondary": "Export information"
+    "title": "Let’s Connect.",
+    "text": "Interested in Vinaya, business or gifting?",
+    "primary": "Get in touch"
   },
   "footer": {
     "tagline": "Natural cosmetics, rooted in traditional wisdom.",
@@ -439,10 +437,6 @@
           "text": "[PLACEHOLDER: Incoterms, port of dispatch, lead times]"
         }
       ]
-    },
-    "cta": {
-      "title": "Ready *to begin?*",
-      "text": "Tell us about your market."
     },
     "steps": {
       "title": "How to begin",

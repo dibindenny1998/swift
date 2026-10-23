@@ -69,7 +69,7 @@ ${ctx.raw('export.steps.items').map(
   </div>
 </section>
 
-${band(ctx, { title: 'export.cta.title' })}
+${band(ctx)}
 `;
 
   return layout(ctx, {
