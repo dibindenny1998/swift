@@ -2579,6 +2579,10 @@ main:focus {
   font-size: 0.8125rem;
 }
 
+.site-footer__credit a:hover em {
+  color: var(--on-green);
+}
+
 .site-footer__credit em {
   color: var(--gold-light);
   font-family: var(--serif);
