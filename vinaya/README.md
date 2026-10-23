@@ -148,6 +148,9 @@ shared privately, and can be changed under **Account**).
   edit or delete them, and hide or show any product. Each gets its own page, a card on the
   Products page and an entry in the enquiry form. Stored in `../vinaya-data/products.json`
   and merged by `core/catalog.mjs`.
+- **Blog:** write, edit and delete posts with a formatting toolbar (headings, bold, italic,
+  bullet and numbered lists, quotes, links, photos inside the article), a cover photo,
+  category, date and a "featured" switch. Saved as Markdown in `../vinaya-data/blog.json`.
 - **Photos:** replace any image; it is resized in the browser and the site crops it to fit.
 - **Contact details:** enquiry email (used by `contact.php` at once), public email, WhatsApp.
 - **Publish** regenerates every page in the browser with the same renderer as `build.mjs`

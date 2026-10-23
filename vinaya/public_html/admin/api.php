@@ -112,6 +112,30 @@ function clean_catalog($catalog): array
     return ['hidden' => array_values(array_unique($hidden)), 'custom' => $custom];
 }
 
+/** Blog posts written or edited in the admin: full Markdown source per post, plus deletions. */
+function clean_blog($blog): array
+{
+    $slug = '/^[a-z0-9][a-z0-9-]{1,80}$/';
+    $posts = [];
+    foreach ((array) ($blog['posts'] ?? []) as $key => $source) {
+        if (!is_string($key) || !preg_match($slug, $key) || !is_string($source)
+            || strlen($source) > 300_000 || !str_starts_with($source, "---\n")) {
+            fail('A blog post could not be saved.');
+        }
+        $posts[$key] = $source;
+        if (count($posts) > 300) {
+            fail('Too many blog posts.');
+        }
+    }
+    $deleted = [];
+    foreach ((array) ($blog['deleted'] ?? []) as $s) {
+        if (is_string($s) && preg_match($slug, $s)) {
+            $deleted[] = $s;
+        }
+    }
+    return ['posts' => (object) $posts, 'deleted' => array_values(array_unique($deleted))];
+}
+
 function valid_email(string $value): bool
 {
     return $value === '' || filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
@@ -149,6 +173,7 @@ try {
                 'overrides' => read_json('content.json', new stdClass()),
                 'settings' => read_json('settings.json', new stdClass()),
                 'catalog' => read_json('products.json', ['hidden' => [], 'custom' => []]),
+                'blogEdits' => read_json('blog.json', ['posts' => new stdClass(), 'deleted' => []]),
                 'images' => $files,
                 'versions' => $versions,
                 'blog' => $blog,
@@ -187,6 +212,7 @@ try {
             $clean['whatsapp'] = $whatsapp;
 
             $catalog = clean_catalog($body['catalog'] ?? []);
+            $blogEdits = clean_blog($body['blog'] ?? []);
 
             // Validate every page before writing any.
             $pages = [];
@@ -205,12 +231,13 @@ try {
             write_json('content.json', (object) $overrides);
             write_json('settings.json', $clean);
             write_json('products.json', $catalog);
+            write_json('blog.json', $blogEdits);
             foreach ($pages as $path => $content) {
                 write_atomic(site_root() . '/' . $path, $content);
             }
-            // Take down the pages of products that were deleted or hidden.
-            foreach (glob(site_root() . '/products/*/index.html') ?: [] as $file) {
-                $rel = 'products/' . basename(dirname($file)) . '/index.html';
+            // Take down the pages of products and blog posts that were deleted or hidden.
+            foreach (array_merge(glob(site_root() . '/products/*/index.html') ?: [], glob(site_root() . '/blog/*/index.html') ?: []) as $file) {
+                $rel = basename(dirname(dirname($file))) . '/' . basename(dirname($file)) . '/index.html';
                 if (!isset($pages[$rel])) {
                     @unlink($file);
                     @rmdir(dirname($file));

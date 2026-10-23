@@ -1899,6 +1899,16 @@ main:focus {
   color: var(--gold);
 }
 
+.prose__figure {
+  margin: 2.2em 0;
+}
+
+.prose__figure img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
 .prose strong {
   color: var(--ink);
   font-weight: 500;
