@@ -91,15 +91,3 @@ export const VINE = `<svg class="vine" viewBox="0 0 260 40" aria-hidden="true" f
   .map((d) => `<path pathLength="1" d="${d}"/>`)
   .join('')}<circle cx="130" cy="20" r="1.6" fill="currentColor" stroke="none"/></svg>`;
 
-// A kolam: eight looping petals inside rings of dots, turning slowly behind the importers band.
-export const KOLAM = `<svg class="kolam" viewBox="0 0 200 200" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="0.8">${[
-  ...Array.from({ length: 8 }, (_, i) => `<path transform="rotate(${i * 45} 100 100)" d="M100 100C116 76 116 46 100 26 84 46 84 76 100 100z"/>`),
-  ...Array.from({ length: 8 }, (_, i) => `<path transform="rotate(${i * 45 + 22.5} 100 100)" d="M100 100C108 86 108 70 100 58 92 70 92 86 100 100z"/>`),
-  '<circle cx="100" cy="100" r="94"/>',
-  '<circle cx="100" cy="100" r="74" stroke-dasharray="2 5"/>',
-  ...Array.from({ length: 24 }, (_, i) => {
-    const a = (i * 15 * Math.PI) / 180;
-    return `<circle cx="${(100 + 84 * Math.cos(a)).toFixed(1)}" cy="${(100 + 84 * Math.sin(a)).toFixed(1)}" r="1.4" fill="currentColor" stroke="none"/>`;
-  }),
-  '<circle cx="100" cy="100" r="6"/>',
-].join('')}</svg>`;

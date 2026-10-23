@@ -1,6 +1,6 @@
 import { MARK, VINE, esc, html } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
-import { flora, image, petals, words } from '../components.mjs';
+import { flora, image, words } from '../components.mjs';
 
 // Home tells the story in pictures: few words, big images, colour and slow motion.
 
@@ -75,7 +75,6 @@ export default function home(ctx) {
 <section class="hero hero--brand" aria-labelledby="hero-title">
   <div class="hero__bg">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'home-hero-mobile' })}</div>
   <span class="hero__rays hero__rays--right" aria-hidden="true"></span>
-  ${petals(7)}
   ${flora([
     ['jasmine', 60, 16, 3, 10, 13, 0.55, false],
     ['curry', 82, 52, 4.6, -20, 15, 0.45, false],

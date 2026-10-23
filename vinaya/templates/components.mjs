@@ -50,7 +50,13 @@ ${ctx.list(`products.items.${product.slug}.highlights`).map((item, i) => `  <li 
 }
 
 export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
-  return html`<section class="page-hero page-hero--${align}">
+  return html`<section class="page-hero page-hero--${align} has-flora">
+  ${flora([
+    ['jasmine', 70, 30, 3, 0, 13, 0.55],
+    ['curry', 84, 52, 5, -15, 16, 0.45, false],
+    ['petal', 90, 18, 2.4, 25, 12, 0.45],
+    ['leaf', 60, 72, 2.4, 40, 14, 0.35, false],
+  ])}
   <div class="container">
     <p class="eyebrow hero-in" style="--i:0">${eyebrow}</p>
     <h1 class="page-hero__title hero-in" style="--i:1">${title}</h1>
@@ -141,10 +147,3 @@ export function flora(items, { tone = 'gold' } = {}) {
     .join('')}</div>`;
 }
 
-// Jasmine petals falling slowly through the Home banner.
-export function petals(count = 6) {
-  return `<div class="petals" aria-hidden="true">${Array.from(
-    { length: count },
-    (_, i) => `<span class="petal" style="--px:${8 + ((i * 37) % 84)}%;--pd:${14 + ((i * 5) % 9)}s;--pdl:-${(i * 3.7).toFixed(1)}s;--ps:${0.7 + ((i * 3) % 5) / 10}"></span>`,
-  ).join('')}</div>`;
-}
