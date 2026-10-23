@@ -91,6 +91,8 @@ try {
             reply([
                 'ok' => true,
                 'user' => $_SESSION['user'],
+                // Where edits are kept: 'safe' = next to public_html, survives website uploads.
+                'storage' => str_starts_with(data_dir(), site_root() . '/') ? 'inside' : 'safe',
                 'overrides' => read_json('content.json', new stdClass()),
                 'settings' => read_json('settings.json', new stdClass()),
                 'images' => $files,

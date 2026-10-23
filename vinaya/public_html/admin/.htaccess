@@ -9,8 +9,11 @@ DirectoryIndex index.php
 </IfModule>
 
 <IfModule mod_headers.c>
-  Header set Cache-Control "no-cache"
   Header set X-Robots-Tag "noindex, nofollow"
+  # Static editor files revalidate every time; the PHP scripts send their own no-store.
+  <FilesMatch "\.(mjs|js|css|json|md)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>
 
 # Helpers are only included by the other scripts, never opened directly.
