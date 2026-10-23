@@ -2,15 +2,24 @@
 /**
  * VINAYA — enquiry form handler (Hostinger web hosting, PHP 8+).
  *
- * The values below are filled in from site.config.mjs when you run `node build.mjs`.
+ * The addresses come from the admin panel (Contact details), or else from site.config.mjs
+ * when you run `node build.mjs`.
  * With JavaScript the form posts here in the background and gets JSON back; without
  * JavaScript the visitor is redirected back to the contact page with a message.
  */
 
 declare(strict_types=1);
 
-const TO_EMAIL = '__CONTACT_EMAIL__';
-const FROM_EMAIL = '__FROM_EMAIL__';
+// Addresses set in the admin panel (Contact details) take over from the built-in ones.
+$settings = [];
+foreach ([dirname(__DIR__) . '/vinaya-data/settings.json', __DIR__ . '/admin/data/settings.json'] as $settingsFile) {
+    if (is_file($settingsFile)) {
+        $settings = json_decode((string) file_get_contents($settingsFile), true) ?: [];
+        break;
+    }
+}
+define('TO_EMAIL', (string) (($settings['contactEmail'] ?? '') ?: '__CONTACT_EMAIL__'));
+define('FROM_EMAIL', (string) (($settings['fromEmail'] ?? '') ?: '__FROM_EMAIL__'));
 const SITE_NAME = 'Vinaya';
 const MIN_SECONDS_BETWEEN_SENDS = 30;
 

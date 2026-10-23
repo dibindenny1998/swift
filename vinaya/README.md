@@ -137,3 +137,23 @@ cd public_html && php -S localhost:8000     # then open http://localhost:8000
 ```
 
 (Any static server works for browsing; PHP is only needed to try the form.)
+
+## Admin panel (`/admin/`)
+
+The client edits the site at `https://YOUR-SITE/admin/` (username `vinaya`; the password is
+shared privately, and can be changed under **Account**).
+
+- **Text:** every line of copy from `content/en.json`, grouped by page, with search.
+- **Photos:** replace any image; it is resized in the browser and the site crops it to fit.
+- **Contact details:** enquiry email (used by `contact.php` at once), public email, WhatsApp.
+- **Publish** regenerates every page in the browser with the same renderer as `build.mjs`
+  (`core/site.mjs`, shipped as `admin/engine/`) and saves them through `admin/api.php`.
+
+Edits live **outside** `public_html`, in `../vinaya-data/` (text overrides, contact settings,
+uploaded photos, password, login lockouts), so a new upload of `public_html` never loses them.
+After a developer upload the admin notices (`admin/engine/build.json`) and re-applies the
+saved edits the next time someone opens it. Saved text only overrides the lines that were
+changed, so new copy added in `en.json` still comes through.
+
+Security: sessions with an idle timeout, CSRF tokens, a 15-minute lockout after 5 wrong
+passwords, upload type checks, and a fixed allow-list of files Publish may write.

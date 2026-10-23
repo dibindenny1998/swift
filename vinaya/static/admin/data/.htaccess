@@ -1,0 +1,2 @@
+# Admin data (only used if the folder next to public_html cannot be created). Never public.
+Require all denied

@@ -1,0 +1,19 @@
+# VINAYA admin: never cached (so an update is picked up at once), never indexed.
+AddType text/javascript .mjs
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache"
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+
+# Helpers are only included by the other scripts, never opened directly.
+<FilesMatch "^(lib|config)\.php$">
+  Require all denied
+</FilesMatch>

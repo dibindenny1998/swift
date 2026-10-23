@@ -10,17 +10,8 @@ import { fileURLToPath } from 'node:url';
 import config from './site.config.mjs';
 import products from './content/products.mjs';
 import imageSlots, { BLOG_IMAGE, INGREDIENT_IMAGE } from './content/images.mjs';
-import { esc, isPlaceholder, rich, stripPlaceholders } from './templates/lib.mjs';
-import home from './templates/pages/home.mjs';
-import story from './templates/pages/story.mjs';
-import productsPage from './templates/pages/products.mjs';
-import product from './templates/pages/product.mjs';
-import exportPage from './templates/pages/export.mjs';
-import contact from './templates/pages/contact.mjs';
-import notFound from './templates/pages/not-found.mjs';
-import blog from './templates/pages/blog.mjs';
-import postPage from './templates/pages/post.mjs';
-import { parsePost, renderMarkdown } from './templates/markdown.mjs';
+import { esc, isPlaceholder } from './templates/lib.mjs';
+import { renderSite } from './core/site.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, 'public_html');
@@ -29,106 +20,34 @@ const STATIC = join(ROOT, 'static');
 const warnings = new Set();
 const warn = (msg) => warnings.add(msg);
 
-// ---------------------------------------------------------------- copy
+// ---------------------------------------------------------------- inputs
 
 const copy = JSON.parse(readFileSync(join(ROOT, 'content', 'en.json'), 'utf8'));
 
-const dig = (obj, key) => key.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
-const empty = (v) => v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0);
-
-function lookup(key) {
-  const value = dig(copy, key);
-  if (empty(value)) throw new Error(`Missing text "${key}" in content/en.json`);
-  return value;
-}
-
-// ---------------------------------------------------------------- blog
-// Every content/blog/*.md file is a post; newest first. Its image becomes the slot blog/<slug>.
-
 const BLOG = join(ROOT, 'content', 'blog');
-const posts = (existsSync(BLOG) ? readdirSync(BLOG) : [])
+const blogSources = (existsSync(BLOG) ? readdirSync(BLOG) : [])
   .filter((f) => f.endsWith('.md'))
-  .map((f) => {
-    const slug = f.replace(/\.md$/, '');
-    const post = parsePost(readFileSync(join(BLOG, f), 'utf8'));
-    for (const key of ['title', 'excerpt', 'category', 'date', 'image']) {
-      if (!post.meta[key]) throw new Error(`content/blog/${f}: missing "${key}" in front matter`);
-    }
-    imageSlots[`blog/${slug}`] = { file: post.meta.image, ...BLOG_IMAGE, focus: post.meta.focus, page: `Blog: ${post.meta.title}` };
-    return { slug, ...post, html: renderMarkdown(post.body) };
-  })
-  .sort((a, b) => b.meta.date.localeCompare(a.meta.date));
+  .map((f) => ({ slug: f.replace(/\.md$/, ''), source: readFileSync(join(BLOG, f), 'utf8') }));
 
-// ---------------------------------------------------------------- images
+// Content fingerprints for every image and the CSS/JS, so browsers fetch changed files.
+const fingerprint = (rel) => createHash('sha1').update(readFileSync(join(STATIC, rel))).digest('hex').slice(0, 10);
+const imageFiles = readdirSync(join(STATIC, 'images')).filter((f) => /\.(jpe?g|png|webp|svg)$/i.test(f));
+const versions = Object.fromEntries(
+  [...imageFiles.map((f) => `images/${f}`), 'assets/css/main.css', 'assets/js/main.js'].map((rel) => [rel, fingerprint(rel)]),
+);
 
-for (const [slot, def] of Object.entries(imageSlots)) {
-  def.exists = existsSync(join(STATIC, 'images', def.file));
-  if (!def.exists) warn(`image missing (placeholder shown): static/images/${def.file}`);
-}
-
-// ---------------------------------------------------------------- pages
-
-const pages = [
-  { id: 'home', section: 'home', path: '', render: home, schema: organizationSchema() },
-  { id: 'story', section: 'story', path: 'our-story/', render: story },
-  { id: 'products', section: 'products', path: 'products/', render: productsPage },
-  ...products.map((p) => ({
-    id: `product-${p.slug}`,
-    section: 'products',
-    path: `products/${p.slug}/`,
-    render: (ctx) => product(ctx, p),
-  })),
-  { id: 'blog', section: 'blog', path: 'blog/', render: blog },
-  ...posts.map((p) => ({
-    id: `post-${p.slug}`,
-    section: 'blog',
-    path: `blog/${p.slug}/`,
-    render: (ctx) => postPage(ctx, p),
-  })),
-  { id: 'export', section: 'export', path: 'export/', render: exportPage },
-  { id: 'contact', section: 'contact', path: 'contact/', render: contact },
-];
-
-function organizationSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Vinaya',
-    url: `${config.siteUrl}/`,
-    slogan: copy.site.slogan,
-    logo: `${config.siteUrl}/apple-touch-icon.png`,
-  };
-}
-
-// Asset fingerprints (?v=…) so browsers pick up a changed CSS, JS or image file after an
-// upload instead of showing the copy they saved earlier.
-const fingerprint = (file) =>
-  existsSync(join(STATIC, file)) ? createHash('sha1').update(readFileSync(join(STATIC, file))).digest('hex').slice(0, 10) : '';
-const versions = {};
-const version = (file) => (versions[file] ??= fingerprint(file));
-
-function makeContext(page, { absolute = false } = {}) {
-  const depth = page.path.split('/').filter(Boolean).length;
-  const base = absolute ? '/' : '../'.repeat(depth);
-  const rel = (target) => base + target || './';
-
-  return {
-    page,
-    config,
-    products,
-    posts,
-    images: imageSlots,
-    t: (key) => rich(lookup(key)),
-    tx: (key) => esc(lookup(key)),
-    raw: (key) => lookup(key),
-    opt: (key) => dig(copy, key) || '', // optional text: empty or missing is fine
-    filled: (key) => stripPlaceholders(dig(copy, key)) !== '', // false while only a placeholder
-    list: (key) => lookup(key).map(rich),
-    link: (path) => rel(path),
-    asset: (file, versioned = false) => rel(file) + (versioned && version(file) ? `?v=${version(file)}` : ''),
-    absUrl: () => `${config.siteUrl}/${page.path}`,
-  };
-}
+const site = renderSite({
+  copy,
+  config,
+  products,
+  imageSlots,
+  blogSources,
+  imageFiles,
+  versions,
+  today: new Date().toISOString().slice(0, 10),
+});
+const { pages } = site;
+for (const w of site.warnings) warn(w);
 
 // ---------------------------------------------------------------- build
 
@@ -142,13 +61,14 @@ const write = (rel, content) => {
   writeFileSync(file, content);
 };
 
-for (const page of pages) {
-  write(`${page.path}index.html`, page.render(makeContext(page)));
-}
+for (const [rel, content] of Object.entries(site.files)) write(rel, content);
 
-// 404 uses root-absolute links because Apache serves it from any depth.
-const notFoundPage = { id: '404', section: null, path: '', noindex: true };
-write('404.html', notFound(makeContext(notFoundPage, { absolute: true })));
+// Admin panel engine: the same renderer and content, so Publish in the admin rebuilds the
+// pages exactly as this script does.
+for (const dir of ['core', 'templates', 'content']) cpSync(join(ROOT, dir), join(OUT, 'admin', 'engine', dir), { recursive: true });
+cpSync(join(ROOT, 'site.config.mjs'), join(OUT, 'admin', 'engine', 'site.config.mjs'));
+// Lets the admin notice a fresh upload and re-apply the client's saved edits.
+write('admin/engine/build.json', JSON.stringify({ builtAt: Math.floor(Date.now() / 1000) }));
 
 // Enquiry form handler: inject the settings.
 const php = readFileSync(join(STATIC, 'contact.php'), 'utf8')
@@ -160,7 +80,7 @@ write('contact.php', php);
 // recommended size, and checks the uploaded files live in the browser. Plus a plain README.txt.
 const ingredientFiles = readdirSync(join(STATIC, 'images')).filter((f) => f.startsWith('ingredient-'));
 const guideRows = [
-  ...Object.values(imageSlots).map((d) => ({ file: d.file, page: d.page, w: d.width, h: d.height })),
+  ...Object.values(site.slots).map((d) => ({ file: d.file, page: d.page, w: d.width, h: d.height })),
   ...ingredientFiles.map((f) => ({ file: f, page: 'Hair Oil page: rotating ingredient circle (transparent PNG)', w: INGREDIENT_IMAGE.width, h: INGREDIENT_IMAGE.height })),
   { file: 'share-image.jpg', page: 'Preview when the site is shared on WhatsApp, Facebook, LinkedIn', w: 1200, h: 630 },
 ];
@@ -219,15 +139,7 @@ document.querySelectorAll('.card').forEach(function (card) {
 </script></body></html>
 `);
 
-// Sitemap
-const today = new Date().toISOString().slice(0, 10);
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map((page) => `  <url>\n    <loc>${config.siteUrl}/${page.path}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`).join('\n')}
-</urlset>
-`;
-write('sitemap.xml', sitemap);
-write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /images/guide.html\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`);
+write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /images/guide.html\nDisallow: /admin/\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`);
 
 // ---------------------------------------------------------------- report
 
