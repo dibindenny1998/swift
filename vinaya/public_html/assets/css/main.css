@@ -2544,6 +2544,33 @@ main:focus {
   line-height: 1.25;
 }
 
+.social {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.social a {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(226, 196, 127, 0.4);
+  border-radius: 50%;
+  color: var(--gold-light);
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.social a:hover {
+  background: var(--gold-light);
+  color: var(--green-deep);
+}
+
+.social svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
 .site-footer__tagline {
   max-width: 32ch;
   margin-top: 1rem;

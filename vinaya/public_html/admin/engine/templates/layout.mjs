@@ -71,6 +71,17 @@ export function contactLinks(ctx) {
   };
 }
 
+const SOCIAL = [
+  ['instagram', 'Instagram', '<path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4.7a5.1 5.1 0 1 0 0 10.2 5.1 5.1 0 0 0 0-10.2zm0 8.4a3.3 3.3 0 1 1 0-6.6 3.3 3.3 0 0 1 0 6.6zm5.3-9.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>'],
+  ['youtube', 'YouTube', '<path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>'],
+  ['x', 'X (Twitter)', '<path d="M18.2 2.3h3.4l-7.4 8.4 8.7 11.5h-6.8l-5.3-7-6.1 7H1.3l7.9-9L.9 2.3h7l4.8 6.4 5.5-6.4zm-1.2 17.9h1.9L7 4.2H5l12 16z"/>'],
+];
+
+// Social links that are set in site.config.mjs (or the admin's Contact details).
+export function socialLinks(ctx) {
+  return SOCIAL.filter(([key]) => /^https:\/\//.test(ctx.config[key] || '')).map(([key, label, path]) => ({ key, label, href: ctx.config[key], path }));
+}
+
 function footer(ctx) {
   const links = contactLinks(ctx);
   return html`<footer class="site-footer">
@@ -79,6 +90,9 @@ function footer(ctx) {
       <div class="site-footer__brand">
         <a class="site-footer__logo" href="${ctx.link('')}"><img src="${ctx.asset('assets/img/logo-full-light.svg')}" alt="Vinaya, A Way of Being. People, Purpose, Progress" width="196" height="183" loading="lazy" decoding="async"></a>
         <p class="site-footer__tagline">${ctx.t('footer.tagline')}</p>
+        ${socialLinks(ctx).length ? `<ul class="social" aria-label="Vinaya on social media">${socialLinks(ctx)
+          .map((s) => `<li><a href="${esc(s.href)}" target="_blank" rel="noopener" aria-label="${s.label}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">${s.path}</svg></a></li>`)
+          .join('')}</ul>` : ''}
       </div>
       <nav class="site-footer__col" aria-labelledby="footer-explore">
         <h2 class="site-footer__title" id="footer-explore">${ctx.t('footer.explore')}</h2>

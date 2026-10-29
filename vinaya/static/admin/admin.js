@@ -98,6 +98,9 @@ const SETTINGS = [
   { key: 'publicEmail', label: 'Email shown on the website', hint: 'Shown on the contact page and in the footer. Leave empty to hide it.', type: 'email' },
   { key: 'whatsapp', label: 'WhatsApp number', hint: 'With country code, digits only, e.g. 919876543210. Leave empty to hide WhatsApp.', type: 'tel' },
   { key: 'fromEmail', label: 'Send form emails from (optional)', hint: 'An address on your own domain (e.g. noreply@yourdomain.com) helps the emails arrive. Leave empty to use the enquiry address.', type: 'email' },
+  { key: 'instagram', label: 'Instagram page', hint: 'Full link starting with https://. Leave empty to hide the icon.', type: 'url', social: true },
+  { key: 'youtube', label: 'YouTube channel', hint: 'Full link starting with https://. Leave empty to hide the icon.', type: 'url', social: true },
+  { key: 'x', label: 'X (Twitter) page', hint: 'Full link starting with https://. Leave empty to hide the icon.', type: 'url', social: true },
 ];
 
 // ---------------------------------------------------------------- state
@@ -135,7 +138,8 @@ function overrides() {
 
 function siteConfig() {
   const cfg = { ...baseConfig };
-  for (const { key } of SETTINGS) if (state.settings[key]) cfg[key] = state.settings[key];
+  // Social links may be cleared on purpose (hides the icon); the rest fall back when empty.
+  for (const { key, social } of SETTINGS) if (social ? state.settings[key] !== undefined : state.settings[key]) cfg[key] = state.settings[key];
   return cfg;
 }
 
@@ -1012,7 +1016,7 @@ try {
     user: data.user,
     defaults,
     content: applyOverrides(defaults, data.overrides),
-    settings: { ...data.settings },
+    settings: { ...Object.fromEntries(SETTINGS.filter((x) => x.social).map((x) => [x.key, baseConfig[x.key]])), ...data.settings },
     catalog: { hidden: data.catalog?.hidden || [], custom: data.catalog?.custom || [] },
     blogEdits: { posts: { ...(data.blogEdits?.posts || {}) }, deleted: data.blogEdits?.deleted || [] },
     images: data.images,

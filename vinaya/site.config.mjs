@@ -19,4 +19,9 @@ export default {
 
   // WhatsApp number in international format, digits only (e.g. 919876543210).
   whatsapp: '[WHATSAPP-NUMBER]',
+
+  // Social pages, shown as icons in the footer. Leave '' to hide one.
+  instagram: 'https://www.instagram.com/vinayaoffcial/',
+  youtube: 'https://www.youtube.com/@VinayaOfficial1',
+  x: 'https://x.com/Vinaya_Canada',
 };

@@ -210,6 +210,13 @@ try {
                 fail('The WhatsApp number needs the country code, e.g. 919876543210.');
             }
             $clean['whatsapp'] = $whatsapp;
+            foreach (['instagram', 'youtube', 'x'] as $k) {
+                $v = trim((string) ($settings[$k] ?? ''));
+                if ($v !== '' && (!preg_match('#^https://[^\s<>"]+$#', $v) || strlen($v) > 300)) {
+                    fail("That link should start with https:// — $v");
+                }
+                $clean[$k] = $v;
+            }
 
             $catalog = clean_catalog($body['catalog'] ?? []);
             $blogEdits = clean_blog($body['blog'] ?? []);

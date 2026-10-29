@@ -74,6 +74,7 @@ export function renderSite({ copy, config, products, imageSlots, blogSources, im
       url: `${config.siteUrl}/`,
       slogan: copy.site.slogan,
       logo: `${config.siteUrl}/apple-touch-icon.png`,
+      sameAs: ['instagram', 'youtube', 'x'].map((k) => config[k]).filter((u) => /^https:\/\//.test(u || '')),
     };
   }
 
