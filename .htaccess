@@ -1,0 +1,32 @@
+Options -Indexes
+DirectoryIndex index.php
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteRule ^(lib|data)(/|$) - [F,L]
+RewriteRule ^create/?$ create.php [L,QSA]
+RewriteRule ^i/([a-z0-9-]+)/?$ i.php?s=$1 [L,QSA]
+RewriteRule ^p/([a-f0-9]{32})/?$ p.php?t=$1 [L,QSA]
+RewriteRule ^m/([0-9]+)/([a-f0-9]{16}\.(jpg|mp3|m4a))$ m.php?i=$1&f=$2 [L,QSA]
+</IfModule>
+
+<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|db|log|md|json|lock)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  <FilesMatch "\.(css|js|jpg|svg|png|webp)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
