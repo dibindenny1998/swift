@@ -12,6 +12,7 @@
 </head>
 <body>
 <div id="invite"></div>
+<script>window.WL_BG = <?= json_for_script(theme_backdrops()) ?>;</script>
 <script src="<?= asset('assets/invite.js') ?>"></script>
 <script>
   // Parent pages call window.wlRender(data, opts) once this frame has loaded.

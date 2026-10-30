@@ -71,6 +71,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach (['rzp_key_secret', 'rzp_webhook_secret', 'capi_token'] as $k) { $v = trim((string)($_POST[$k] ?? '')); if ($v !== '') set_setting($k, $v); }
         header('Location: /admin/?v=settings&saved=1'); exit;
     }
+    if ($act === 'slot_upload' || $act === 'slot_remove') {
+        $key = (string)($_POST['slot'] ?? '');
+        $slots = all_slots();
+        if (!isset($slots[$key])) { header('Location: /admin/?v=images'); exit; }
+        $dest = slot_file($key);
+        if (!is_dir(dirname($dest))) @mkdir(dirname($dest), 0750, true);
+        if ($act === 'slot_remove') { @unlink($dest); header('Location: /admin/?v=images&ok=removed#' . $key); exit; }
+        $f = $_FILES['image'] ?? null;
+        $info = $f && $f['error'] === UPLOAD_ERR_OK ? @getimagesize($f['tmp_name']) : false;
+        if (!$info || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP], true)) { header('Location: /admin/?v=images&err=type#' . $key); exit; }
+        $img = @imagecreatefromstring((string)file_get_contents($f['tmp_name']));
+        if (!$img) { header('Location: /admin/?v=images&err=type#' . $key); exit; }
+        $w = imagesx($img); $h = imagesy($img);
+        $s = min(1, $slots[$key]['w'] / $w, $slots[$key]['h'] / $h);
+        if ($s >= 1) $s = min(1, max($slots[$key]['w'] / $w, $slots[$key]['h'] / $h));
+        $nw = max(1, (int)round($w * $s)); $nh = max(1, (int)round($h * $s));
+        $dst = imagecreatetruecolor($nw, $nh);
+        imagefill($dst, 0, 0, imagecolorallocate($dst, 255, 255, 255));
+        imagecopyresampled($dst, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+        imageinterlace($dst, true);
+        imagejpeg($dst, $dest, 84);
+        imagedestroy($img); imagedestroy($dst);
+        header('Location: /admin/?v=images&ok=uploaded#' . $key); exit;
+    }
     if ($act === 'rzp_clear') {
         set_setting('rzp_key_id', ''); set_setting('rzp_key_secret', '');
         header('Location: /admin/?v=settings&saved=1'); exit;
@@ -136,6 +160,12 @@ site_head('Admin | ' . setting('brand'));
   .pill.ok { background: #DFF2E5; color: var(--leaf); }
   .linkbtn { background: none; border: 0; color: var(--kumkum); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
   h2.sub { font-size: 1.6rem; margin: 30px 0 12px; }
+  .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .slot-card { padding: 18px; }
+  .slot-card h3 { font-family: var(--body); font-weight: 700; font-size: 1.05rem; margin-top: 12px; }
+  .slot-prev { width: 100%; max-height: 260px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #F7E7E3, #EBD9BF); display: grid; place-items: center; color: var(--plum-2); font-size: .9rem; }
+  .slot-prev img { width: 100%; height: 100%; object-fit: cover; }
+  .prompt { width: 100%; font: 400 .85rem/1.45 var(--body); color: var(--plum); background: var(--rose); border: 1px solid var(--line); border-radius: 10px; padding: 10px; resize: vertical; }
   @media (max-width: 800px) { .kpis { grid-template-columns: 1fr 1fr; } .grid2 { grid-template-columns: 1fr; } }
 </style>
 <header class="top"><div class="wrap top-in">
@@ -144,6 +174,7 @@ site_head('Admin | ' . setting('brand'));
     <a href="/admin/" class="<?= $view === 'dash' ? 'on' : '' ?>">Money</a>
     <a href="/admin/?v=orders" class="<?= $view === 'orders' ? 'on' : '' ?>">Orders</a>
     <a href="/admin/?v=leads" class="<?= $view === 'leads' ? 'on' : '' ?>">Unpaid</a>
+    <a href="/admin/?v=images" class="<?= $view === 'images' ? 'on' : '' ?>">Images</a>
     <a href="/admin/?v=settings" class="<?= $view === 'settings' ? 'on' : '' ?>">Settings</a>
     <a href="/admin/?logout=1">Log out</a>
   </nav>
@@ -211,7 +242,7 @@ site_head('Admin | ' . setting('brand'));
   <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Paid</th><th>Couple</th><th>Plan</th><th class="n">Amount</th><th>Phone</th><th>Campaign</th><th class="n">Opens</th><th>Links</th></tr></thead><tbody>
   <?php foreach ($rows as $row): $dd = invite_data($row); ?>
     <tr><td><?= date('j M, g:i a', strtotime($row['paid_at'])) ?></td><td><b><?= e(invite_title($dd)) ?></b></td>
-    <td><?= e(ucfirst($row['plan'])) ?> <?= $row['is_demo'] ? '<span class="pill">Test</span>' : '<span class="pill ok">Paid</span>' ?></td>
+    <td><?= e(PLAN_NAMES[$row['plan']] ?? $row['plan']) ?> <?= $row['is_demo'] ? '<span class="pill">Test</span>' : '<span class="pill ok">Paid</span>' ?></td>
     <td class="n"><?= $row['is_demo'] ? '–' : rupees((int)$row['amount']) ?></td>
     <td><a href="https://wa.me/91<?= e($row['phone']) ?>" target="_blank" rel="noopener"><?= e($row['phone']) ?></a></td>
     <td><?= e($row['utm_campaign'] ?: $row['utm_source']) ?></td><td class="n"><?= (int)$row['views'] ?></td>
@@ -233,6 +264,41 @@ site_head('Admin | ' . setting('brand'));
     <td><?= $ev ? e(date('j M Y', strtotime($ev['date']))) : '–' ?></td><td><?= e($row['phone']) ?></td><td><?= $row['checkout_at'] ? 'Yes' : 'No' ?></td>
     <td><a class="btn small wa-btn" style="width:auto" href="https://wa.me/91<?= e($row['phone']) ?>?text=<?= rawurlencode($msg) ?>" target="_blank" rel="noopener">WhatsApp</a></td></tr>
   <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
+<?php elseif ($view === 'images'): $groups = []; foreach (all_slots() as $k => $sl) $groups[$sl['group']][$k] = $sl; ?>
+  <h1 style="font-size:2.4rem">Images</h1>
+  <p class="lead" style="margin-top:8px;max-width:46em">Generate each picture with the prompt shown (ChatGPT, Gemini or Midjourney), then upload it here. Empty slots show a soft gradient, so the site never looks broken. <a href="/?slots=1" target="_blank" rel="noopener">See where each slot sits</a>.</p>
+  <?php if (($_GET['ok'] ?? '') === 'uploaded'): ?><p class="note" style="margin-top:12px">Image uploaded.</p><?php elseif (($_GET['ok'] ?? '') === 'removed'): ?><p class="note" style="margin-top:12px">Image removed.</p><?php elseif (!empty($_GET['err'])): ?><p class="err" style="margin-top:12px">Upload a JPG, PNG or WebP image.</p><?php endif; ?>
+  <?php foreach ($groups as $g => $items): ?>
+    <h2 class="sub"><?= e($g) ?></h2>
+    <?php if ($g === 'Design backdrops'): ?><p class="lead" style="margin:-4px 0 14px;max-width:46em">Optional. A backdrop sits faintly behind the names and on the opening doors of that design. The gold ornaments stay on top.</p><?php endif; ?>
+    <div class="slots-grid">
+    <?php foreach ($items as $k => $sl): $u = slot_url($k); ?>
+      <div class="card slot-card" id="<?= e($k) ?>">
+        <div class="slot-prev" style="aspect-ratio:<?= $sl['w'] ?>/<?= $sl['h'] ?>"><?= $u ? '<img src="' . e($u) . '" alt="">' : '<span>No image yet</span>' ?></div>
+        <h3><?= e($sl['label']) ?> <?= $u ? '<span class="pill ok">Added</span>' : '' ?></h3>
+        <p class="lead" style="font-size:.9rem;margin:2px 0 10px"><?= e($sl['where']) ?>. <?= $sl['w'] ?>×<?= $sl['h'] ?> (<?= e($sl['ratio']) ?>)</p>
+        <textarea class="prompt" readonly rows="5"><?= e(slot_prompt($sl)) ?></textarea>
+        <div class="inline-form" style="margin-top:10px">
+          <button type="button" class="btn small alt js-copy">Copy prompt</button>
+          <form method="post" enctype="multipart/form-data" class="inline-form"><?= csrf_field() ?><input type="hidden" name="act" value="slot_upload"><input type="hidden" name="slot" value="<?= e($k) ?>">
+            <label class="btn small" style="cursor:pointer">Upload<input type="file" name="image" accept="image/jpeg,image/png,image/webp" hidden onchange="this.form.submit()"></label></form>
+          <?php if ($u): ?><form method="post"><?= csrf_field() ?><input type="hidden" name="act" value="slot_remove"><input type="hidden" name="slot" value="<?= e($k) ?>"><button class="linkbtn">Remove</button></form><?php endif; ?>
+        </div>
+      </div>
+    <?php endforeach; ?>
+    </div>
+  <?php endforeach; ?>
+  <script>
+    document.querySelectorAll('.js-copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var t = b.closest('.slot-card').querySelector('.prompt');
+        t.select();
+        (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).catch(function () { document.execCommand('copy'); });
+        b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy prompt'; }, 1600);
+      });
+    });
+  </script>
 
 <?php else: /* settings */ ?>
   <h1 style="font-size:2.4rem">Settings</h1>

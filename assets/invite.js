@@ -4,18 +4,40 @@
   'use strict';
 
   var FONTS = {
+    champagne: 'family=Bodoni+Moda:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500',
     kasavu: 'family=Great+Vibes&family=Marcellus',
+    noor: 'family=Cormorant+Upright:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Amiri:wght@400;700',
+    chapel: 'family=Allura&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
     sindoor: 'family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    kesar: 'family=Yeseva+One&family=Mukta:wght@400;500;600&family=Noto+Serif+Gurmukhi:wght@600',
+    gopuram: 'family=Cinzel+Decorative:wght@400;700&family=Marcellus',
+    velvet: 'family=Limelight&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    qamar: 'family=Italianno&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Amiri:wght@400;700',
+    grace: 'family=Alex+Brush&family=EB+Garamond:ital,wght@0,400;0,500;1,400',
     marigold: 'family=Yatra+One&family=Mukta:wght@400;500;600',
     nilavu: 'family=Pinyon+Script&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400',
     mullappoo: 'family=Italiana&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
-    thamara: 'family=Parisienne&family=Lora:ital,wght@0,400;0,500;1,400'
+    thamara: 'family=Parisienne&family=Lora:ital,wght@0,400;0,500;1,400',
+    mayil: 'family=Rouge+Script&family=EB+Garamond:ital,wght@0,400;0,500;1,400',
+    jaipur: 'family=Gloock&family=Lora:ital,wght@0,400;0,500;1,400',
+    gulmohar: 'family=Tangerine:wght@700&family=Lora:ital,wght@0,400;0,500;1,400'
+  };
+  // Opening lines that suit each design when the couple leaves them empty.
+  var DEFAULTS = {
+    noor: { intro: 'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ', line: 'request the honour of your presence at their Nikah' },
+    qamar: { intro: 'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ', line: 'invite you to celebrate their Nikah' },
+    chapel: { intro: 'With joy and the blessings of God', line: 'invite you to celebrate their Holy Matrimony' },
+    grace: { intro: 'By the grace of God, two become one', line: 'invite you to witness their Holy Matrimony' },
+    kesar: { intro: 'With the blessings of Waheguru', line: 'request your presence at their Anand Karaj' },
+    gopuram: { intro: '|| Shree Ganeshaya Namah ||', line: 'invite you to grace their auspicious wedding' },
+    sindoor: { intro: '|| Shubh Vivah ||', line: 'invite you to celebrate their wedding' },
+    jaipur: { intro: '|| Shubh Vivah ||', line: 'request the pleasure of your company at their wedding' }
   };
   // Indian scripts: Google serves these with unicode-range, so they only download when the text uses them.
-  var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600';
+  var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
 
   var LIMITS = {
-    standard: { events: 3, photos: 4, rsvp: false, music: false, badge: true },
+    standard: { events: 3, photos: 1, rsvp: false, music: false, badge: true },
     premium: { events: 6, photos: 15, rsvp: true, music: true, badge: false }
   };
 
@@ -201,26 +223,215 @@
   }
   function kasavuBand() {
     return '<svg class="wl-band" width="100%" height="26" aria-hidden="true"><defs><pattern id="wlKb" width="16" height="26" patternUnits="userSpaceOnUse">' +
-      '<rect width="16" height="4" fill="#C9A227"/><rect y="6" width="16" height="1" fill="#C9A227"/><path d="M0,22 L8,10 L16,22Z" fill="#C9A227"/><circle cx="8" cy="17" r="1.6" fill="#FBF7EC"/><rect y="23" width="16" height="2" fill="#C9A227"/></pattern></defs>' +
+      '<rect width="16" height="4" fill="url(#wlFoil)"/><rect y="6" width="16" height="1" fill="url(#wlFoil)"/><path d="M0,22 L8,10 L16,22Z" fill="url(#wlFoil)"/><circle cx="8" cy="17" r="1.6" fill="#FBF7EC"/><rect y="23" width="16" height="2" fill="url(#wlFoil)"/></pattern></defs>' +
       '<rect width="100%" height="26" fill="url(#wlKb)"/></svg>';
   }
 
   function divider(theme) {
-    var c = {
-      kasavu: '#B8901F', sindoor: '#E3B85C', marigold: '#E0700A', nilavu: '#E8C77A', mullappoo: '#5D8B69', thamara: '#B5546B'
-    }[theme] || '#999';
-    return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><path d="M10,10 H82 M118,10 H190" stroke="' + c + '" stroke-width="1"/>' +
+    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : foil(theme);
+    return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" transform="translate(100,10)"><path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/></g></svg>';
+  }
+
+  /* ---------- foil + new ornaments ---------- */
+  var DEFS = '<svg class="wl-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>' +
+    '<linearGradient id="wlFoil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9A7425"/><stop offset=".28" stop-color="#F4DE95"/><stop offset=".5" stop-color="#B8902F"/><stop offset=".74" stop-color="#FFF0C2"/><stop offset="1" stop-color="#A07A22"/></linearGradient>' +
+    '<linearGradient id="wlFoilD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6E5212"/><stop offset=".3" stop-color="#C9A44A"/><stop offset=".52" stop-color="#84651A"/><stop offset=".76" stop-color="#DDBB66"/><stop offset="1" stop-color="#6E5212"/></linearGradient>' +
+    '<linearGradient id="wlSilver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5F7184"/><stop offset=".3" stop-color="#C9D3DD"/><stop offset=".55" stop-color="#7C8C9C"/><stop offset=".78" stop-color="#E6ECF1"/><stop offset="1" stop-color="#5F7184"/></linearGradient>' +
+    '<radialGradient id="wlBokeh"><stop offset="0" stop-color="#FFF3CF" stop-opacity=".95"/><stop offset=".6" stop-color="#E9C978" stop-opacity=".55"/><stop offset="1" stop-color="#C9A24A" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
+    '</defs></svg>';
+
+  var LIGHT = { kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
+
+  function bokeh(seed, n, w, h) {
+    var R = rng(seed), s = '';
+    for (var i = 0; i < n; i++) {
+      var r = 2 + R() * (i % 6 === 0 ? 16 : 6);
+      s += '<circle cx="' + f1(R() * w) + '" cy="' + f1(R() * h) + '" r="' + f1(r) + '" fill="url(#wlBokeh)" opacity="' + f1(.35 + R() * .6) + '"/>';
+    }
+    return '<svg class="wl-bokeh" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + s + '</svg>';
+  }
+  function cornerFrame(fill) {
+    var c = '<path d="M0,26 L0,0 L26,0" fill="none" stroke="' + fill + '" stroke-width="1.6"/><path d="M8,30 L8,8 L30,8" fill="none" stroke="' + fill + '" stroke-width=".8"/><rect x="-3" y="-3" width="6" height="6" transform="rotate(45)" fill="' + fill + '"/>';
+    return '<div class="wl-frame"><svg class="tl" viewBox="-4 -4 40 40">' + c + '</svg><svg class="tr" viewBox="-4 -4 40 40">' + c + '</svg><svg class="bl" viewBox="-4 -4 40 40">' + c + '</svg><svg class="br" viewBox="-4 -4 40 40">' + c + '</svg></div>';
+  }
+  function star8(cx, cy, r, extra) {
+    var a = '', b = '';
+    for (var i = 0; i < 4; i++) {
+      var t = i * Math.PI / 2, u = t + Math.PI / 4;
+      a += (i ? 'L' : 'M') + f1(cx + r * Math.cos(t)) + ',' + f1(cy + r * Math.sin(t));
+      b += (i ? 'L' : 'M') + f1(cx + r * Math.cos(u)) + ',' + f1(cy + r * Math.sin(u));
+    }
+    return '<path d="' + a + 'Z' + b + 'Z" ' + (extra || '') + '/>';
+  }
+  function starBand(fill) {
+    var s = '';
+    for (var x = 12; x < 400; x += 24) s += star8(x, 12, 9, '');
+    return '<svg class="wl-band" viewBox="0 0 400 24" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="' + fill + '" stroke-width="1">' + s + '</g><rect y="0" width="400" height=".8" fill="' + fill + '"/><rect y="23.2" width="400" height=".8" fill="' + fill + '"/></svg>';
+  }
+  function mihrab(fill) {
+    var arch = function (o) { return 'M' + (20 + o) + ',600 L' + (20 + o) + ',200 C' + (20 + o) + ',' + (120 + o) + ' ' + (110 + o * .5) + ',' + (78 + o) + ' 180,' + (26 + o * 1.4) + ' C' + (250 - o * .5) + ',' + (78 + o) + ' ' + (340 - o) + ',' + (120 + o) + ' ' + (340 - o) + ',200 L' + (340 - o) + ',600'; };
+    return '<svg class="wl-mihrab" viewBox="0 0 360 600" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><g fill="none" stroke="' + fill + '"><path d="' + arch(0) + '" stroke-width="1.6"/><path d="' + arch(9) + '" stroke-width=".8"/></g>' +
+      '<g fill="' + fill + '" transform="translate(180,0)"><path d="M-6,4 A12,12 0 1,0 6,22 A9.5,9.5 0 1,1 -6,4Z"/>' + star8(7, 10, 3.6, '') + '</g></svg>';
+  }
+  function lantern(x, drop, sc) {
+    return '<g transform="translate(' + x + ',0)"><rect x="-.4" width=".8" height="' + drop + '" fill="#C9A65A"/><g transform="translate(0,' + drop + ') scale(' + sc + ')">' +
+      '<circle cx="0" cy="2" r="2.4" fill="none" stroke="url(#wlFoil)" stroke-width="1.2"/><path d="M-7,10 Q0,0 7,10Z" fill="url(#wlFoil)"/>' +
+      '<path d="M-9,11 L9,11 L12,24 L9,40 L-9,40 L-12,24Z" fill="url(#wlFoil)"/>' +
+      '<path d="M-5.5,14 L5.5,14 L7.5,24 L5.5,36 L-5.5,36 L-7.5,24Z" fill="url(#wlLampIn)"/><path d="M0,14 L0,36 M-7.5,24 L7.5,24" stroke="#B8902F" stroke-width=".8"/>' +
+      '<path d="M-9,40 L9,40 L0,52Z" fill="url(#wlFoil)"/><circle cy="54" r="1.8" fill="url(#wlFoil)"/>' +
+      '<circle cy="25" r="22" fill="url(#wlBokeh)" opacity=".5"/></g></g>';
+  }
+  function lanterns() {
+    return '<svg class="wl-lanterns" viewBox="0 0 400 190" preserveAspectRatio="xMidYMin meet" aria-hidden="true">' +
+      lantern(46, 40, 1) + lantern(108, 92, .8) + lantern(292, 92, .8) + lantern(354, 40, 1) + '</svg>';
+  }
+  function crossWindow() {
+    var arch = 'M-62,110 L-62,-10 Q-62,-80 0,-118 Q62,-80 62,-10 L62,110Z';
+    var panes = '<defs><linearGradient id="wlGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B5BA9"/><stop offset=".35" stop-color="#8A4FA3"/><stop offset=".6" stop-color="#C9506E"/><stop offset="1" stop-color="#E7A93C"/></linearGradient><clipPath id="wlArchClip"><path d="' + arch + '"/></clipPath></defs>';
+    var rays = '';
+    for (var i = 0; i < 24; i++) { var a = i * 15; rays += '<rect x="-.5" y="-210" width="1" height="150" transform="rotate(' + a + ')" fill="#E9CF7A" opacity=".35"/>'; }
+    return '<svg class="wl-window" viewBox="-140 -190 280 320" aria-hidden="true">' + panes + '<g opacity=".7">' + rays + '</g>' +
+      '<path d="' + arch + '" fill="url(#wlGlass)" opacity=".38"/>' +
+      '<g clip-path="url(#wlArchClip)" fill="url(#wlFoilD)"><rect x="-21.5" y="-130" width="1.6" height="250"/><rect x="20" y="-130" width="1.6" height="250"/><rect x="-70" y="30" width="140" height="1.6"/><rect x="-70" y="70" width="140" height="1.6"/></g>' +
+      '<circle cy="-62" r="20" fill="none" stroke="url(#wlFoilD)" stroke-width="1.6"/>' +
+      '<path d="' + arch + '" fill="none" stroke="url(#wlFoilD)" stroke-width="3"/><path d="M-70,118 L-70,-12 Q-70,-88 0,-128 Q70,-88 70,-12 L70,118" fill="none" stroke="url(#wlFoilD)" stroke-width="1"/>' +
+      '<g fill="url(#wlFoil)"><rect x="-5" y="-30" width="10" height="92" rx="1.5"/><rect x="-26" y="-12" width="52" height="10" rx="1.5"/></g></svg>';
+  }
+  function wreath() {
+    function branch(flip) {
+      var s = '', pts = [];
+      for (var i = 0; i <= 12; i++) {
+        var t = (i / 12) * 2.5 + .35, r = 78;
+        pts.push([f1(Math.cos(Math.PI / 2 + t * (flip ? -1 : 1)) * r), f1(Math.sin(Math.PI / 2 + t * (flip ? -1 : 1)) * r)]);
+      }
+      s += '<path d="M' + pts.map(function (p) { return p.join(','); }).join(' L') + '" fill="none" stroke="url(#wlSilver)" stroke-width="1.6"/>';
+      pts.forEach(function (p, i) {
+        if (i === 0) return;
+        var ang = Math.atan2(p[1], p[0]) * 180 / Math.PI;
+        s += '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="9" ry="3.6" transform="rotate(' + f1(ang + (flip ? -55 : 55)) + ' ' + p[0] + ' ' + p[1] + ') translate(8,0)" fill="url(#wlSilver)"/>';
+        s += '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="8" ry="3.2" transform="rotate(' + f1(ang + (flip ? 55 : -55) + 180) + ' ' + p[0] + ' ' + p[1] + ') translate(8,0)" fill="url(#wlSilver)" opacity=".85"/>';
+      });
+      return s;
+    }
+    return '<svg class="wl-wreath" viewBox="-100 -100 200 200" aria-hidden="true">' + branch(false) + branch(true) +
+      '<g fill="none" stroke-width="3.2"><circle cx="-10" cy="0" r="17" stroke="url(#wlFoilD)"/><circle cx="10" cy="0" r="17" stroke="url(#wlSilver)"/></g></svg>';
+  }
+  function phulkari(seed) {
+    var s = '', cols = ['#F4A21C', '#E0457B', '#F7D27A', '#F07A1F'];
+    for (var x = 0; x < 420; x += 20) {
+      var c = cols[(x / 20) % 4];
+      s += '<rect x="' + (x - 7) + '" y="5" width="14" height="14" transform="rotate(45 ' + x + ' 12)" fill="' + c + '"/>' +
+        '<rect x="' + (x - 3) + '" y="9" width="6" height="6" transform="rotate(45 ' + x + ' 12)" fill="#1E3A8A"/>' +
+        '<rect x="' + (x + 7) + '" y="10.5" width="3" height="3" transform="rotate(45 ' + (x + 10) + ' 12)" fill="#F7D27A"/>';
+    }
+    return '<svg class="wl-band" viewBox="0 0 400 24" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + s + '</svg>';
+  }
+  function onkar() {
+    return '<div class="wl-onkar" aria-hidden="true"><svg viewBox="-50 -50 100 100"><circle r="46" fill="none" stroke="url(#wlFoil)" stroke-width="1.5"/><circle r="40" fill="none" stroke="url(#wlFoil)" stroke-width=".7"/></svg><span>ੴ</span></div>';
+  }
+  function gopuramSvg() {
+    var s = '', w = 150, y = 210, tiers = 7;
+    s += '<rect x="' + (-w / 2 - 10) + '" y="' + y + '" width="' + (w + 20) + '" height="10" fill="url(#wlFoil)"/>';
+    for (var i = 0; i < tiers; i++) {
+      var tw = w - i * 15, th = 20;
+      y -= th;
+      s += '<path d="M' + (-tw / 2) + ',' + (y + th) + ' L' + (-tw / 2 + 4) + ',' + y + ' L' + (tw / 2 - 4) + ',' + y + ' L' + (tw / 2) + ',' + (y + th) + 'Z" fill="url(#wlFoil)" opacity="' + (1 - i * .03) + '"/>';
+      s += '<rect x="' + (-tw / 2 - 3) + '" y="' + (y - 2.5) + '" width="' + (tw + 6) + '" height="3" fill="url(#wlFoil)"/>';
+      for (var k = -tw / 2 + 10; k < tw / 2 - 6; k += 12) s += '<rect x="' + f1(k) + '" y="' + (y + 5) + '" width="5" height="10" rx="2.5" fill="#5A0F1C" opacity=".55"/>';
+    }
+    y -= 20;
+    s += '<path d="M-36,' + (y + 20) + ' Q-36,' + (y - 6) + ' 0,' + (y - 8) + ' Q36,' + (y - 6) + ' 36,' + (y + 20) + 'Z" fill="url(#wlFoil)"/>';
+    [-24, -12, 0, 12, 24].forEach(function (x) {
+      s += '<path d="M' + (x - 3.5) + ',' + (y - 6) + ' Q' + x + ',' + (y - 16) + ' ' + (x + 3.5) + ',' + (y - 6) + 'Z" fill="url(#wlFoil)"/><rect x="' + (x - .6) + '" y="' + (y - 22) + '" width="1.2" height="8" fill="url(#wlFoil)"/>';
+    });
+    return '<svg class="wl-gopuram" viewBox="-90 ' + (y - 26) + ' 180 ' + (250 - y) + '" aria-hidden="true">' + s + '</svg>';
+  }
+  function kolam(fill) {
+    var s = '';
+    for (var x = 6; x < 400; x += 12) s += '<circle cx="' + x + '" cy="6" r="1.6"/>';
+    for (var x2 = 0; x2 < 400; x2 += 24) s += '<path d="M' + x2 + ',6 Q' + (x2 + 6) + ',-2 ' + (x2 + 12) + ',6 Q' + (x2 + 18) + ',14 ' + (x2 + 24) + ',6" fill="none" stroke="' + fill + '" stroke-width=".9"/>';
+    return '<svg class="wl-kolam" viewBox="0 -2 400 16" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="' + fill + '">' + s + '</g></svg>';
+  }
+  function deco() {
+    var s = '';
+    for (var i = 0; i <= 18; i++) { var a = -90 + i * 10; s += '<rect x="-.5" y="-150" width="1" height="118" transform="rotate(' + a + ')" fill="url(#wlFoil)" opacity="' + (i % 2 ? .55 : 1) + '"/>'; }
+    [32, 44, 150, 158].forEach(function (r, i) { s += '<path d="M' + (-r) + ',0 A' + r + ',' + r + ' 0 0 1 ' + r + ',0" fill="none" stroke="url(#wlFoil)" stroke-width="' + (i % 2 ? .8 : 1.6) + '"/>'; });
+    s += '<path d="M-26,0 A26,26 0 0 1 26,0Z" fill="url(#wlFoil)"/>';
+    return '<svg class="wl-deco" viewBox="-170 -170 340 172" aria-hidden="true">' + s + '<rect x="-170" y="0" width="340" height="1.6" fill="url(#wlFoil)"/></svg>';
+  }
+  function feather(len, rot, x, y) {
+    var s = '<g transform="translate(' + x + ',' + y + ') rotate(' + rot + ')">';
+    s += '<rect x="-.6" y="' + (-len) + '" width="1.2" height="' + len + '" fill="#C9A24A"/>';
+    for (var i = 8; i < len - 18; i += 3.2) {
+      var w = Math.min(18, 4 + (i / len) * 22);
+      s += '<path d="M0,' + f1(-i) + ' q' + f1(-w * .6) + ',' + f1(-w * .4) + ' ' + f1(-w) + ',' + f1(-w * .9) + ' M0,' + f1(-i) + ' q' + f1(w * .6) + ',' + f1(-w * .4) + ' ' + f1(w) + ',' + f1(-w * .9) + '" stroke="' + (i % 2 ? '#2E9E7A' : '#5DB37E') + '" stroke-width=".7" fill="none" opacity=".75"/>';
+    }
+    var ey = -len + 12;
+    s += '<ellipse cy="' + ey + '" rx="13" ry="16" fill="#7FB04A"/><ellipse cy="' + (ey + 1) + '" rx="10.5" ry="13" fill="url(#wlFoil)"/>' +
+      '<ellipse cy="' + (ey + 2) + '" rx="8" ry="10" fill="#0F9AA0"/><ellipse cy="' + (ey + 3) + '" rx="5" ry="6.4" fill="#173E8C"/><ellipse cx="-1.4" cy="' + (ey + 1) + '" rx="1.2" ry="1.8" fill="#9FE3E8" opacity=".8"/>';
+    return s + '</g>';
+  }
+  function peacock() {
+    var s = '';
+    [[-50, 118], [-25, 132], [0, 140], [25, 132], [50, 118]].forEach(function (f) { s += feather(f[1], f[0], 0, 150); });
+    return '<svg class="wl-peacock" viewBox="-120 0 240 160" aria-hidden="true">' + s + '</svg>';
+  }
+  function jharokha() {
+    function arch(cx, sc) {
+      var p = 'M-40,70 L-40,0 A10,10 0 0 1 -30,-12 A12,12 0 0 1 -14,-26 A14,14 0 0 1 14,-26 A12,12 0 0 1 30,-12 A10,10 0 0 1 40,0 L40,70Z';
+      return '<g transform="translate(' + cx + ',90) scale(' + sc + ')">' +
+        '<path d="M-48,-40 Q0,-82 48,-40Z" fill="#FFF6EE" stroke="url(#wlFoilD)" stroke-width="1.2"/><rect x="-1" y="-96" width="2" height="16" fill="url(#wlFoilD)"/><circle cy="-98" r="3" fill="url(#wlFoilD)"/>' +
+        '<rect x="-54" y="-42" width="108" height="6" fill="url(#wlFoilD)"/>' +
+        '<rect x="-50" y="-36" width="100" height="112" fill="#FBEDE6" stroke="url(#wlFoilD)" stroke-width="1"/>' +
+        '<path d="' + p + '" fill="#F6D2C6" stroke="url(#wlFoilD)" stroke-width="1.4"/>' +
+        '<path d="' + p + '" transform="scale(.8) translate(0,8)" fill="none" stroke="url(#wlFoilD)" stroke-width=".8"/></g>';
+    }
+    return '<svg class="wl-jharokha" viewBox="0 0 400 190" preserveAspectRatio="xMidYMin meet" aria-hidden="true">' + arch(70, .72) + arch(330, .72) + arch(200, 1) + '</svg>';
+  }
+  function gulmoharBranch(seed, flip) {
+    var R = rng(seed), s = '';
+    s += '<path d="M0,0 C60,30 110,40 170,90 C200,115 230,120 260,128" fill="none" stroke="#5B3A22" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M90,42 C110,70 116,96 112,130 M170,90 C176,60 196,40 224,30" fill="none" stroke="#5B3A22" stroke-width="2.4" stroke-linecap="round"/>';
+    function fern(x, y, a, l) {
+      var t = '<g transform="translate(' + x + ',' + y + ') rotate(' + a + ')"><rect width="' + l + '" height=".9" fill="#4E7D3A"/>';
+      for (var i = 4; i < l; i += 4) t += '<ellipse cx="' + i + '" cy="-2.6" rx="1.3" ry="2.6" fill="#5E9446"/><ellipse cx="' + i + '" cy="2.6" rx="1.3" ry="2.6" fill="#5E9446"/>';
+      return t + '</g>';
+    }
+    function flower(x, y, r, rot) {
+      var t = '<g transform="translate(' + f1(x) + ',' + f1(y) + ') rotate(' + f1(rot) + ')">';
+      for (var p = 0; p < 5; p++) t += '<ellipse cx="0" cy="' + f1(-r) + '" rx="' + f1(r * .62) + '" ry="' + f1(r * .9) + '" transform="rotate(' + (p * 72) + ')" fill="' + (p === 0 ? '#F6E7D3' : (p % 2 ? '#E2401C' : '#EF5A24')) + '"/>';
+      if (true) t += '<ellipse cx="0" cy="' + f1(-r) + '" rx="' + f1(r * .3) + '" ry="' + f1(r * .5) + '" fill="#E2401C" opacity=".55"/>';
+      return t + '<circle r="' + f1(r * .3) + '" fill="#B0270E"/></g>';
+    }
+    [[40, 22, 20, 36], [120, 58, -30, 40], [200, 108, 10, 34], [150, 70, 60, 30], [230, 30, -10, 30]].forEach(function (f) { s += fern(f[0], f[1], f[2], f[3]); });
+    [[96, 52], [130, 74], [176, 94], [112, 118], [222, 34], [200, 46], [250, 126], [70, 30], [160, 84]].forEach(function (p) {
+      s += flower(p[0] + (R() - .5) * 6, p[1] + (R() - .5) * 6, 7 + R() * 3, R() * 72);
+    });
+    return '<svg class="wl-gulmohar' + (flip ? ' r' : '') + '" viewBox="-6 -6 280 150" aria-hidden="true">' + s + '</svg>';
   }
 
   function heroDecor(theme) {
     switch (theme) {
       case 'kasavu': return '<div class="wl-hd-top">' + kasavuBand() + '</div>' + lamp();
-      case 'sindoor': return mandala('#E3B85C');
+      case 'sindoor': return mandala('url(#wlFoil)');
       case 'marigold': return toran();
       case 'nilavu': return night(11) + moon() + diyas();
       case 'mullappoo': return jasmine(380, 3, false) + jasmine(300, 9, true);
       case 'thamara': return lotus('wl-lotus wl-lotus-top');
+      case 'champagne': return bokeh(5, 34, 400, 700) + cornerFrame('url(#wlFoilD)');
+      case 'noor': return '<div class="wl-hd-top">' + starBand('url(#wlFoil)') + '</div>' + mihrab('url(#wlFoil)');
+      case 'qamar': return night(23) + lanterns() + '<svg class="wl-moon wl-moon-q" viewBox="0 0 60 60" aria-hidden="true"><path d="M38,4 A27,27 0 1,0 56,40 A22,22 0 1,1 38,4Z" fill="url(#wlFoil)"/></svg>';
+      case 'chapel': return crossWindow();
+      case 'grace': return wreath();
+      case 'kesar': return '<div class="wl-hd-top">' + phulkari(1) + '</div>' + onkar() + '<div class="wl-hd-bot">' + phulkari(2) + '</div>';
+      case 'gopuram': return gopuramSvg() + '<div class="wl-hd-bot">' + kolam('url(#wlFoil)') + '</div>';
+      case 'velvet': return deco() + cornerFrame('url(#wlFoil)');
+      case 'mayil': return peacock() + bokeh(9, 16, 400, 700);
+      case 'jaipur': return jharokha();
+      case 'gulmohar': return gulmoharBranch(4, false) + gulmoharBranch(8, true);
     }
     return '';
   }
@@ -231,18 +442,19 @@
     d = d || {};
     var plan = LIMITS[d.plan] ? d.plan : 'premium';
     var lim = LIMITS[plan];
+    var theme = FONTS[d.theme] ? d.theme : 'champagne';
     var evs = (d.events || []).filter(function (e) { return e && (e.date || e.name || e.venue); });
     evs = evs.slice(0, lim.events).sort(function (a, b) { return ((a.date || '9') + (a.time || '')).localeCompare((b.date || '9') + (b.time || '')); });
     return {
-      theme: FONTS[d.theme] ? d.theme : 'kasavu', plan: plan, lim: lim,
+      theme: theme, plan: plan, lim: lim, bg: d.bg || (w.WL_BG && w.WL_BG[theme]) || '',
       p1: (d.p1 || '').trim() || 'Arjun', p2: (d.p2 || '').trim() || 'Meera',
       p1f: (d.p1_family || '').trim(), p2f: (d.p2_family || '').trim(),
-      intro: (d.intro || '').trim() || 'Together with their families',
-      line: (d.line || '').trim() || 'invite you to celebrate their wedding',
+      intro: (d.intro || '').trim() || (DEFAULTS[theme] || {}).intro || 'Together with their families',
+      line: (d.line || '').trim() || (DEFAULTS[theme] || {}).line || 'invite you to celebrate their wedding',
       message: (d.message || '').trim(),
       closing: (d.closing || '').trim() || 'Your presence is the blessing we look forward to.',
       events: evs,
-      main: evs.filter(function (e) { return e.date && /wedding|marriage|muhurt|kalyan|vivah|nikah|thali|minnu|matrimony|shaadi/i.test(e.name || ''); })[0] || evs.filter(function (e) { return e.date; })[0],
+      main: evs.filter(function (e) { return e.date && /wedding|marriage|muhurt|kalyan|vivah|nikah|thali|minnu|matrimony|shaadi|anand karaj/i.test(e.name || ''); })[0] || evs.filter(function (e) { return e.date; })[0],
       photos: (d.photos || []).slice(0, lim.photos),
       music: lim.music ? (d.music || '') : '',
       contactName: (d.contact_name || '').trim(), contactPhone: (d.contact_phone || '').replace(/[^\d+]/g, ''),
@@ -294,7 +506,8 @@
     var photos = v.photos;
     var showCover = opts.cover && mode !== 'editor';
 
-    var html = '<div class="wl" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '">';
+    var bgStyle = v.bg ? ' style="--bgimg:url(&quot;' + esc(v.bg).replace(/[()]/g, '') + '&quot;)"' : '';
+    var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '"' + bgStyle + '>' + DEFS;
 
     if (showCover) {
       html += '<div class="wl-cover" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
@@ -451,5 +664,5 @@
     }
   }
 
-  w.WL = { render: render, longDate: longDate, time12: time12, LIMITS: LIMITS };
+  w.WL = { render: render, longDate: longDate, time12: time12, LIMITS: LIMITS, DEFAULTS: DEFAULTS };
 })(window, document);

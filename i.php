@@ -33,7 +33,9 @@ foreach (sorted_events($d) as $ev) { if (preg_match('/wedding|marriage|muhurt|ka
 $main = $main ?? (sorted_events($d)[0] ?? null);
 $desc = $main ? date('l, j F Y', strtotime($main['date'])) . ($main['venue'] ? ', ' . $main['venue'] : '') . '. Tap to open the invitation.' : 'Tap to open the invitation.';
 $og = $d['photos'] ? base_url() . $d['photos'][0] : base_url() . '/assets/og/' . $inv['theme'] . '.jpg';
-$colors = ['kasavu' => '#FBF7EC', 'sindoor' => '#6E0B1D', 'marigold' => '#FFF1C9', 'nilavu' => '#0B1533', 'mullappoo' => '#F2F8F3', 'thamara' => '#FADDE3'];
+$colors = ['kasavu' => '#FBF7EC', 'sindoor' => '#6E0B1D', 'marigold' => '#FFF1C9', 'nilavu' => '#0B1533', 'mullappoo' => '#F2F8F3', 'thamara' => '#FADDE3',
+    'champagne' => '#FFF8F3', 'noor' => '#0E3B2E', 'chapel' => '#FDFBF6', 'kesar' => '#172C6E', 'gopuram' => '#5E1020', 'velvet' => '#4A0A22',
+    'qamar' => '#120E2E', 'grace' => '#DCE6EE', 'mayil' => '#0D4651', 'jaipur' => '#EFB9A8', 'gulmohar' => '#FFF4E6'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -58,6 +60,7 @@ $colors = ['kasavu' => '#FBF7EC', 'sindoor' => '#6E0B1D', 'marigold' => '#FFF1C9
 <body>
 <div id="invite"></div>
 <noscript><p style="padding:40px;text-align:center"><?= e(invite_title($d)) ?>. <?= e($desc) ?></p></noscript>
+<script>window.WL_BG = <?= json_for_script(theme_backdrops()) ?>;</script>
 <script src="<?= asset('assets/invite.js') ?>"></script>
 <script>WL.render(document.getElementById('invite'), <?= json_for_script($d) ?>, { mode: 'live', cover: true });</script>
 </body>

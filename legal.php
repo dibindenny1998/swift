@@ -11,7 +11,7 @@ $contactLine = trim(($email ? "Email: <a href=\"mailto:$email\">$email</a>" : ''
 $pages = [
   'contact' => ['Contact us', "<p>We're happy to help with your invite, payments or refunds.</p><h2>Reach us</h2><p>$contactLine</p><h2>Business</h2><p>$biz<br>$addr</p><p>We reply within one working day, usually much sooner.</p>"],
   'terms' => ['Terms of service', "<p>These terms apply when you use $brand, operated by $biz.</p>
-    <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. Publishing costs ₹$ps (Standard) or ₹$pp (Premium), paid once.</p>
+    <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. Publishing costs ₹$ps (Basic) or ₹$pp (Premium), paid once.</p>
     <h2>Your content</h2><p>You are responsible for the names, text, photos and music you add. Only upload content you have the right to use. We may remove invites with unlawful or abusive content.</p>
     <h2>Availability</h2><p>Published invites stay online for 12 months from the date of payment. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
     <h2>Payments</h2><p>Payments are processed by Razorpay. Prices are in Indian rupees and include all charges shown at checkout.</p>

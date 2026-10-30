@@ -6,7 +6,15 @@
   var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
   var navBtns = Array.prototype.slice.call(document.querySelectorAll('.steps-nav button'));
   var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone'];
-  var EVENT_NAMES = ['Wedding', 'Engagement', 'Reception', 'Haldi', 'Mehendi', 'Sangeet', 'Madhuramvaypu', 'Nikah', 'Betrothal'];
+  var EVENT_SETS = {
+    hindu: ['Muhurtham', 'Wedding', 'Engagement', 'Haldi', 'Mehendi', 'Sangeet', 'Reception'],
+    christian: ['Holy Matrimony', 'Betrothal', 'Manasammatham', 'Madhuramvaypu', 'Bridal Shower', 'Reception'],
+    muslim: ['Nikah', 'Walima', 'Mehendi', 'Haldi', 'Engagement', 'Reception'],
+    sikh: ['Anand Karaj', 'Roka', 'Mehendi', 'Jaago', 'Milni', 'Reception'],
+    modern: ['Wedding', 'Engagement', 'Sangeet', 'Mehendi', 'Cocktail', 'Reception']
+  };
+  var PRIMARY = { noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
+  function eventNames() { return EVENT_SETS[PRIMARY[data.theme] || 'hindu']; }
   var MAX_PHOTOS = 15;
 
   var store = {
@@ -25,7 +33,7 @@
     data = Object.assign({}, saved, CFG.init.p1 ? { p1: CFG.init.p1 } : {}, CFG.init.p2 ? { p2: CFG.init.p2 } : {});
     if (!saved.theme || new URLSearchParams(location.search).get('t')) data.theme = CFG.init.theme;
   }
-  if (!data.events || !data.events.length) data.events = [{ name: 'Wedding', date: '', time: '', venue: '', address: '', map: '' }];
+  if (!data.events || !data.events.length) data.events = [{ name: ({ noor: 'Nikah', qamar: 'Nikah', chapel: 'Holy Matrimony', grace: 'Holy Matrimony', kesar: 'Anand Karaj' })[data.theme] || 'Wedding', date: '', time: '', venue: '', address: '', map: '' }];
 
   // ---------- fill form ----------
   TEXT.forEach(function (k) { var el = form.elements[k]; if (el && data[k]) el.value = data[k]; });
@@ -39,7 +47,7 @@
       return '<div class="ev-card" data-i="' + i + '">' +
         (data.events.length > 1 ? '<button type="button" class="x" data-del="' + i + '" aria-label="Remove this event">&times;</button>' : '') +
         '<div class="field"><label for="ev-name-' + i + '">Event</label><input id="ev-name-' + i + '" data-k="name" maxlength="40" value="' + esc(ev.name) + '" placeholder="Wedding">' +
-        '<div class="chips">' + EVENT_NAMES.map(function (n) { return '<button type="button" data-chip="' + n + '">' + n + '</button>'; }).join('') + '</div></div>' +
+        '<div class="chips">' + eventNames().map(function (n) { return '<button type="button" data-chip="' + n + '">' + n + '</button>'; }).join('') + '</div></div>' +
         '<div class="row2"><div class="field"><label for="ev-date-' + i + '">Date</label><input id="ev-date-' + i + '" type="date" data-k="date" value="' + esc(ev.date) + '"></div>' +
         '<div class="field"><label for="ev-time-' + i + '">Time</label><input id="ev-time-' + i + '" type="time" data-k="time" value="' + esc(ev.time) + '"></div></div>' +
         '<div class="field"><label for="ev-venue-' + i + '">Venue</label><input id="ev-venue-' + i + '" data-k="venue" maxlength="80" value="' + esc(ev.venue) + '" placeholder="St. Mary\'s Church"></div>' +
@@ -83,8 +91,26 @@
     if (TEXT.indexOf(e.target.name) > -1) { data[e.target.name] = e.target.value; changed(); }
   });
   form.addEventListener('change', function (e) {
-    if (e.target.name === 'theme') { data.theme = e.target.value; changed('hero'); }
+    if (e.target.name === 'theme') { data.theme = e.target.value; drawEvents(); placeholders(); changed('hero'); }
   });
+
+  // design filters
+  var catBtns = document.querySelectorAll('.cat-chips button');
+  catBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      catBtns.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      document.querySelectorAll('.theme-pick label').forEach(function (l) { l.hidden = b.dataset.f !== 'all' && l.dataset.tags.split(' ').indexOf(b.dataset.f) < 0; });
+    });
+  });
+
+  // the opening lines each design uses when left empty
+  var GENERIC = { intro: 'Together with their families', line: 'invite you to celebrate their wedding' };
+  function placeholders() {
+    var d = {};
+    try { d = (pv.contentWindow.WL.DEFAULTS || {})[data.theme] || {}; } catch (x) {}
+    form.elements.intro.placeholder = d.intro || GENERIC.intro;
+    form.elements.line.placeholder = d.line || GENERIC.line;
+  }
 
   // ---------- photos ----------
   var thumbs = document.getElementById('thumbs');
@@ -175,7 +201,7 @@
       if (!EX) { var d = Object.assign({}, data); store.set('wl_draft', d); }
     }, 140);
   }
-  pv.addEventListener('load', function () { paint(pv); });
+  pv.addEventListener('load', function () { paint(pv); placeholders(); });
   document.getElementById('open-sheet').addEventListener('click', function () {
     sheet.hidden = false;
     var secs = ['hero', 'hero', 'events', 'photos', 'hero'];

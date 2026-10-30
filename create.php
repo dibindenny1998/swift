@@ -9,7 +9,7 @@ if ($token) {
 }
 if (!$editing) count_visit('create_views');
 
-$init = ['theme' => isset(THEMES[$_GET['t'] ?? '']) ? $_GET['t'] : 'kasavu'];
+$init = ['theme' => isset(THEMES[$_GET['t'] ?? '']) ? $_GET['t'] : 'champagne'];
 if (!empty($_GET['n1'])) $init['p1'] = mb_substr(trim((string)$_GET['n1']), 0, 40);
 if (!empty($_GET['n2'])) $init['p2'] = mb_substr(trim((string)$_GET['n2']), 0, 40);
 $existing = null;
@@ -23,7 +23,7 @@ if ($editing) {
         'music' => !empty($d['music']) ? ['kind' => 'old', 'name' => $d['music'], 'url' => '/m/' . $editing['id'] . '/' . $d['music'], 'label' => $d['music_label'] ?? 'Your song'] : null,
     ];
 }
-$cfg = ['brand' => $brand, 'init' => $init, 'existing' => $existing, 'themes' => array_map(fn($t) => $t['name'], THEMES)];
+$cfg = ['brand' => $brand, 'init' => $init, 'existing' => $existing, 'themes' => array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags']], THEMES)];
 
 site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand);
 ?>
@@ -47,10 +47,14 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
 
     <section class="panel" data-step="0">
       <h1>Pick a design</h1>
-      <p class="lead">You can switch designs any time before you share.</p>
+      <p class="lead">Seventeen designs. You can switch any time before you share.</p>
+      <div class="chips cat-chips" role="group" aria-label="Filter designs">
+        <button type="button" data-f="all" aria-pressed="true">All</button>
+        <?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-f="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?>
+      </div>
       <div class="theme-pick">
         <?php foreach (THEMES as $id => $t): ?>
-          <label><input type="radio" name="theme" value="<?= $id ?>"><img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="180" height="320" loading="lazy"><b><?= e($t['name']) ?></b></label>
+          <label data-tags="<?= e(implode(' ', $t['tags'])) ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="180" height="320" loading="lazy"><b><?= e($t['name']) ?></b></label>
         <?php endforeach; ?>
       </div>
       <div class="nav-btns" style="margin-top:26px"><button type="button" class="btn js-next">Next: your names</button></div>
@@ -87,7 +91,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
       <p class="lead">All optional. The first photo is shown large under the countdown.</p>
       <div class="field">
         <span>Photos</span>
-        <label class="drop" for="photo-in"><b>Add photos</b><small>Up to 15. Standard shows the first 4.</small></label>
+        <label class="drop" for="photo-in"><b>Add photos</b><small>Up to 15. Basic shows the first 4.</small></label>
         <input type="file" id="photo-in" accept="image/*" multiple hidden>
         <div class="thumbs" id="thumbs"></div>
       </div>

@@ -56,7 +56,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <label class="plan-opt"><input type="radio" name="plan" value="premium" checked>
         <div><b>Premium</b><span>RSVPs with headcount, up to 15 photos, your song, 6 events, no <?= e($brand) ?> credit</span></div><em>₹<?= $pp ?></em></label>
       <label class="plan-opt"><input type="radio" name="plan" value="standard">
-        <div><b>Standard</b><span>Up to 3 events, 4 photos, countdown, maps and calendar</span></div><em>₹<?= $ps ?></em></label>
+        <div><b>Basic</b><span>Up to 3 events, 4 photos, countdown, maps and calendar</span></div><em>₹<?= $ps ?></em></label>
     </div>
     <button type="button" class="btn pay-btn" id="pay">Pay ₹<?= $pp ?> and publish</button>
     <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>

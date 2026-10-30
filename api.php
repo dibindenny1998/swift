@@ -186,7 +186,7 @@ try {
         db()->prepare('UPDATE invites SET rzp_order_id = ? WHERE id = ?')->execute([$res['body']['id'], $inv['id']]);
         $d = invite_data($inv);
         json_out(['ok' => true, 'key' => setting('rzp_key_id'), 'order_id' => $res['body']['id'], 'amount' => $amount, 'currency' => 'INR',
-            'name' => setting('brand'), 'description' => ($inv['status'] === 'paid' ? 'Premium upgrade: ' : ucfirst($plan) . ' invite: ') . invite_title($d),
+            'name' => setting('brand'), 'description' => ($inv['status'] === 'paid' ? 'Premium upgrade: ' : PLAN_NAMES[$plan] . ' invite: ') . invite_title($d),
             'prefill' => ['contact' => '+91' . $inv['phone'], 'email' => $inv['email'] ?: '']]);
     }
 

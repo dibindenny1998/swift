@@ -9,16 +9,31 @@ const APP_VERSION = '1.0.0';
 const ADMIN_DEFAULT_HASH = '$2y$11$ApuzEe1Z4lTaqYK1tTCOWurl.MtvnTE9WvLQB1nh5wtzOclMU4XNa';
 
 const THEMES = [
-    'kasavu'   => ['name' => 'Kasavu',    'note' => 'Ivory and gold, like a Kerala saree border'],
-    'sindoor'  => ['name' => 'Sindoor',   'note' => 'Deep red with a gold mandala'],
-    'marigold' => ['name' => 'Marigold',  'note' => 'Bright garlands for a festive day'],
-    'nilavu'   => ['name' => 'Nilavu',    'note' => 'Moonlit navy with hanging diyas'],
-    'mullappoo'=> ['name' => 'Mullappoo', 'note' => 'Jasmine strings on clean white'],
-    'thamara'  => ['name' => 'Thamara',   'note' => 'Soft pink with lotus line art'],
+    'champagne' => ['name' => 'Champagne', 'note' => 'Gold foil on blush and ivory silk', 'tags' => ['modern']],
+    'kasavu'    => ['name' => 'Kasavu',    'note' => 'Ivory and gold, like a Kerala saree border', 'tags' => ['hindu', 'christian', 'kerala']],
+    'noor'      => ['name' => 'Noor',      'note' => 'Emerald and gold with a mihrab arch', 'tags' => ['muslim']],
+    'chapel'    => ['name' => 'Chapel',    'note' => 'Stained-glass arch and a gold cross', 'tags' => ['christian', 'kerala']],
+    'sindoor'   => ['name' => 'Sindoor',   'note' => 'Deep red with a gold mandala', 'tags' => ['hindu']],
+    'kesar'     => ['name' => 'Kesar',     'note' => 'Royal blue, saffron and phulkari', 'tags' => ['sikh']],
+    'gopuram'   => ['name' => 'Gopuram',   'note' => 'Temple tower in gold on maroon', 'tags' => ['hindu', 'kerala']],
+    'velvet'    => ['name' => 'Velvet',    'note' => 'Wine velvet with art deco gold', 'tags' => ['modern']],
+    'qamar'     => ['name' => 'Qamar',     'note' => 'Midnight lanterns and a crescent moon', 'tags' => ['muslim']],
+    'grace'     => ['name' => 'Grace',     'note' => 'Dusty blue with a silver olive wreath', 'tags' => ['christian', 'modern']],
+    'marigold'  => ['name' => 'Marigold',  'note' => 'Bright garlands for a festive day', 'tags' => ['hindu', 'sikh']],
+    'nilavu'    => ['name' => 'Nilavu',    'note' => 'Moonlit navy with hanging diyas', 'tags' => ['hindu', 'muslim', 'modern']],
+    'mullappoo' => ['name' => 'Mullappoo', 'note' => 'Jasmine strings on clean white', 'tags' => ['kerala', 'hindu', 'christian', 'modern']],
+    'thamara'   => ['name' => 'Thamara',   'note' => 'Soft pink with lotus line art', 'tags' => ['hindu', 'modern']],
+    'mayil'     => ['name' => 'Mayil',     'note' => 'Peacock feathers in teal and gold', 'tags' => ['hindu', 'kerala', 'modern']],
+    'jaipur'    => ['name' => 'Jaipur',    'note' => 'Pink sandstone palace arches', 'tags' => ['hindu', 'sikh']],
+    'gulmohar'  => ['name' => 'Gulmohar',  'note' => 'A flowering branch on warm ivory', 'tags' => ['modern', 'christian', 'muslim']],
 ];
 
+const CATEGORIES = ['hindu' => 'Hindu', 'christian' => 'Christian', 'muslim' => 'Muslim', 'sikh' => 'Sikh', 'kerala' => 'Kerala', 'modern' => 'Modern'];
+
+const PLAN_NAMES = ['standard' => 'Basic', 'premium' => 'Premium'];
+
 const PLAN_LIMITS = [
-    'standard' => ['events' => 3, 'photos' => 4,  'rsvp' => false, 'music' => false, 'badge' => true],
+    'standard' => ['events' => 3, 'photos' => 1,  'rsvp' => false, 'music' => false, 'badge' => true],
     'premium'  => ['events' => 6, 'photos' => 15, 'rsvp' => true,  'music' => true,  'badge' => false],
 ];
 
@@ -85,6 +100,10 @@ function db(): PDO
         );
         CREATE TABLE IF NOT EXISTS visits (day TEXT PRIMARY KEY, landing INTEGER NOT NULL DEFAULT 0, create_views INTEGER NOT NULL DEFAULT 0);
     ");
+    // v2 pricing: Basic ₹199, Premium ₹499 (runs once, even if old prices were saved in admin)
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_prices_v2'")->fetchColumn()) {
+        $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_standard', '199'), ('price_premium', '499'), ('mig_prices_v2', '1')");
+    }
     return $pdo;
 }
 
@@ -98,8 +117,8 @@ const SETTING_DEFAULTS = [
     'support_phone'   => '',
     'support_email'   => '',
     'address'         => 'Bangalore, Karnataka, India',
-    'price_standard'  => '349',
-    'price_premium'   => '599',
+    'price_standard'  => '199',
+    'price_premium'   => '499',
     'rzp_key_id'      => '',
     'rzp_key_secret'  => '',
     'rzp_webhook_secret' => '',
@@ -348,3 +367,4 @@ function site_footer(): void
         . '</nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'
         . '</div></footer>';
 }
+require __DIR__ . '/slots.php';

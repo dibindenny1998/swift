@@ -15,6 +15,7 @@ RewriteRule ^(lib|data|\.git)(/|$) - [F,L]
 RewriteRule ^create/?$ create.php [L,QSA]
 RewriteRule ^i/([a-z0-9-]+)/?$ i.php?s=$1 [L,QSA]
 RewriteRule ^p/([a-f0-9]{32})/?$ p.php?t=$1 [L,QSA]
+RewriteRule ^s/([a-z0-9-]+)\.jpg$ s.php?k=$1 [L,QSA]
 RewriteRule ^m/([0-9]+)/([a-f0-9]{16}\.(jpg|mp3|m4a))$ m.php?i=$1&f=$2 [L,QSA]
 </IfModule>
 
