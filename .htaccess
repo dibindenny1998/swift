@@ -11,7 +11,8 @@ RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-RewriteRule ^(lib|data)(/|$) - [F,L]
+RewriteRule ^(lib|data|\.git)(/|$) - [F,L]
+RewriteRule (^|/)\.(?!well-known) - [F,L]
 RewriteRule ^create/?$ create.php [L,QSA]
 RewriteRule ^i/([a-z0-9-]+)/?$ i.php?s=$1 [L,QSA]
 RewriteRule ^p/([a-f0-9]{32})/?$ p.php?t=$1 [L,QSA]
