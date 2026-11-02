@@ -17,16 +17,12 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
     'Make a beautiful marriage biodata in minutes. Add your details, family and horoscope, pick a design and download a PDF or image. Free.', '/assets/og/site.jpg', $bioHead);
 ?>
 <body>
-<header class="top">
-  <div class="wrap top-in">
-    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#7E1239" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B08A3E" stroke-width="2.6"/></svg><?= e($brand) ?></a>
-    <?php if ($bio): ?><a class="btn small alt" href="/b/<?= e($bio['token']) ?>">Back to my biodata</a><?php else: ?><a class="btn small alt" href="/">Wedding websites</a><?php endif; ?>
-  </div>
-</header>
+<?php site_header('biodata'); ?>
 
 <main class="wrap">
   <div class="page-head">
-    <h1><?= $bio ? 'Edit your biodata' : 'Marriage biodata maker' ?></h1>
+    <?php if ($bio): ?><p style="margin-bottom:10px"><a href="/b/<?= e($bio['token']) ?>">← Back to my biodata</a></p><?php endif; ?>
+    <h1><?= $bio ? 'Edit your biodata' : 'Marriage biodata maker' ?> <span class="free-tag big">Free</span></h1>
     <p>Fill in what you like and leave the rest empty. Empty lines don't print. Write in English or your own language. Free with a small red “Created by <?= e($brand) ?>” strip at the bottom, or ₹<?= $pb ?> to remove it.</p>
   </div>
 

@@ -455,13 +455,41 @@ function site_head(string $title, string $desc = '', string $ogImage = '/assets/
         . '</head>';
 }
 
+/** Main site header with the menu. $active: designs | pricing | biodata | custom | contact | '' */
+function site_header(string $active = ''): void
+{
+    $brand = e(setting('brand'));
+    $items = [
+        'designs' => ['/designs', 'Designs'],
+        'pricing' => ['/pricing', 'Pricing'],
+        'biodata' => ['/biodata', 'Biodata'],
+        'custom'  => ['/custom', 'Custom website'],
+        'contact' => ['/legal.php?p=contact', 'Contact'],
+    ];
+    $free = '<span class="free-tag">Free</span>';
+    $links = '';
+    foreach ($items as $k => [$href, $label]) {
+        $links .= '<a href="' . $href . '"' . ($k === $active ? ' aria-current="page"' : '') . '>' . $label . ($k === 'biodata' ? $free : '') . '</a>';
+    }
+    echo '<header class="top" id="top"><div class="wrap top-in">'
+        . '<a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#7E1239" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B08A3E" stroke-width="2.6"/></svg>' . $brand . '</a>'
+        . '<nav class="menu" id="menu" aria-label="Main">' . $links
+        . '<a class="btn small js-make menu-cta" href="/create">Make our website</a></nav>'
+        . '<a class="bio-quick" href="/biodata">Biodata' . $free . '</a>'
+        . '<button type="button" class="menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>'
+        . '</div></header>'
+        . '<script>(function(){var b=document.getElementById("menu-btn"),m=document.getElementById("menu"),t=document.getElementById("top");'
+        . 'b.addEventListener("click",function(){var o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);t.classList.toggle("menu-open",o);});'
+        . 'addEventListener("scroll",function(){t.classList.toggle("scrolled",scrollY>8);},{passive:true});})();</script>';
+}
+
 function site_footer(): void
 {
     $brand = e(setting('brand'));
     $wa = normalize_phone(setting('support_phone'));
     echo '<footer class="foot"><div class="wrap foot-in">'
         . '<a class="logo" href="/">' . $brand . '</a>'
-        . '<nav class="foot-links"><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
+        . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Custom website</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
         . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
         . '</nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'
@@ -469,3 +497,4 @@ function site_footer(): void
 }
 require __DIR__ . '/slots.php';
 require __DIR__ . '/biodata.php';
+require __DIR__ . '/sections.php';

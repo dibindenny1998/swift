@@ -8,12 +8,7 @@ $wants = ['Custom design', 'Own domain name', 'Full photo gallery', 'Our story &
 site_head('Custom wedding website | ' . $brand, 'A wedding website designed only for you, on your own domain, with a full gallery, your story, RSVP and gift list.');
 ?>
 <body>
-<header class="top">
-  <div class="wrap top-in">
-    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#7E1239" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B08A3E" stroke-width="2.6"/></svg><?= e($brand) ?></a>
-    <a class="btn small alt" href="/#pricing">See all plans</a>
-  </div>
-</header>
+<?php site_header('custom'); ?>
 <main class="wrap" style="padding-bottom:80px">
   <div class="page-head">
     <span class="tag" style="margin:0 0 12px">Custom plan</span>

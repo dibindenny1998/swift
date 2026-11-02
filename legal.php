@@ -33,7 +33,7 @@ if (!isset($pages[$p])) $p = 'terms';
 site_head($pages[$p][0] . ' | ' . setting('brand'));
 ?>
 <body>
-<header class="top"><div class="wrap top-in"><a class="logo" href="/"><?= $brand ?></a><a class="btn small" href="/create">Make our invite</a></div></header>
+<?php site_header(($_GET['p'] ?? '') === 'contact' ? 'contact' : ''); ?>
 <main class="wrap legal"><h1><?= $pages[$p][0] ?></h1><?= $pages[$p][1] ?><p style="margin-top:28px;font-size:.9rem">Last updated <?= date('j F Y') ?>.</p></main>
 <?php site_footer(); ?>
 </body>
