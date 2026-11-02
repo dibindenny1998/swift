@@ -561,6 +561,76 @@
 .wl[data-theme=blush] .wl-hero { padding-top: 170px; }
 .wl[data-theme=blush] h2, .wl[data-theme=blush] .wl-ev h3 { font-style: italic; font-weight: 600; }
 
+/* ---------- photo-led hero (Lumière, Journal, Vogue) ---------- */
+.wl-pl { padding: 0 !important; min-height: 0; display: block; text-align: center; }
+.wl-pl-img { position: relative; overflow: hidden; }
+.wl-pl-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.wl-pl-img.none { display: grid; place-items: center; }
+.wl-pl-add { position: relative; z-index: 2; padding: 9px 16px; border-radius: 99px; background: rgba(255,255,255,.85); color: #444; font: 500 .8rem system-ui, sans-serif; letter-spacing: .02em; }
+.wl-pl .wl-names { line-height: 1.02; }
+.wl-pl-date { font-size: .82em; letter-spacing: .14em; text-transform: uppercase; margin: 16px 0 0; }
+.wl.revealed .wl-pl-img img { animation: wlKen 14s ease-out both; }
+@keyframes wlKen { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+/* Lumière: full-screen photo, white names over a soft fade */
+.wl[data-theme=lumiere] {
+  --page: #FBF8F3; --outer: #E9E2D6; --ink: #3A322B; --muted: #857868; --acc: #A8875A; --acc2: #8C6D46;
+  --card: #FFFFFF; --line: rgba(168,135,90,.28);
+  --fs: 'Cormorant Garamond'; --ft: 'Jost'; --fh: 'Cormorant Garamond'; --names: clamp(3rem, 16vw, 5.4rem); --tsize: .98rem;
+  --btn: #A8875A; --foil: linear-gradient(100deg, #8C6D46, #C9A979 40%, #9C7B4E 62%, #D8BC8E 85%, #8C6D46); --photo-r: 4px; --grain: .04; --veil: rgba(251,248,243,.6);
+}
+.wl[data-theme=lumiere] .wl-pl { position: relative; height: calc(100svh - 50px); min-height: 560px; }
+.wl[data-theme=lumiere] .wl-pl-img { position: absolute; inset: 0; }
+.wl[data-theme=lumiere] .wl-pl-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,14,8,0) 35%, rgba(20,14,8,.25) 55%, rgba(20,14,8,.72) 100%); }
+.wl[data-theme=lumiere] .wl-pl-img.none { background: radial-gradient(120% 80% at 30% 20%, #E9D6BE, #B89A72 60%, #7E6345); }
+.wl[data-theme=lumiere] .wl-pl-in { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 0 24px 46px; color: #fff; }
+.wl[data-theme=lumiere] .wl-pl .wl-intro { color: rgba(255,255,255,.85); letter-spacing: .22em; text-transform: uppercase; font-size: .72em; }
+.wl[data-theme=lumiere] .wl-pl .wl-names { font-style: italic; font-weight: 500; color: #fff; }
+.wl[data-theme=lumiere] .wl-pl .wl-names > span:not(.wl-amp) { -webkit-text-fill-color: #fff; background: none; }
+.wl[data-theme=lumiere] .wl-pl .wl-amp { color: #F0DDB8; }
+.wl[data-theme=lumiere] .wl-pl .wl-line { color: rgba(255,255,255,.9); font-style: italic; }
+.wl[data-theme=lumiere] .wl-pl-date { color: #F0DDB8; }
+.wl[data-theme=lumiere] h2 { font-style: italic; font-size: 1.9rem; }
+
+/* Journal: photo on top, cream paper and handwritten names below */
+.wl[data-theme=journal] {
+  --page: #FBF6EE; --outer: #EADFCF; --ink: #4A3B35; --muted: #8C7A70; --acc: #B07A7E; --acc2: #95606A;
+  --card: rgba(255,255,255,.75); --line: rgba(176,122,126,.28);
+  --fs: 'Allura'; --ft: 'Jost'; --fh: 'Cormorant Garamond'; --names: clamp(3.2rem, 19vw, 5.8rem); --tsize: .98rem;
+  --btn: #B07A7E; --foil: linear-gradient(100deg, #8E5560, #C9939A 40%, #9C6470 62%, #D8AAB0 85%, #8E5560); --photo-r: 6px; --grain: .08; --veil: rgba(251,246,238,.6);
+}
+.wl[data-theme=journal] .wl-pl-img { height: 62svh; min-height: 380px; margin: 14px 14px 0; border-radius: 6px; box-shadow: 0 18px 40px -24px rgba(74,59,53,.6); transform: rotate(-1.2deg); }
+.wl[data-theme=journal] .wl-pl-img::before, .wl[data-theme=journal] .wl-pl-img::after { content: ''; position: absolute; top: -6px; width: 90px; height: 26px; background: rgba(240,226,206,.85); z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.wl[data-theme=journal] .wl-pl-img::before { left: 18px; transform: rotate(-8deg); }
+.wl[data-theme=journal] .wl-pl-img::after { right: 18px; transform: rotate(7deg); }
+.wl[data-theme=journal] .wl-pl-img.none { background: linear-gradient(160deg, #F1DCD8, #E2C3BF 50%, #CFA6A4); }
+.wl[data-theme=journal] .wl-pl-in { padding: 34px 26px 56px; }
+.wl[data-theme=journal] .wl-pl .wl-intro { letter-spacing: .18em; text-transform: uppercase; font-size: .72em; color: var(--muted); }
+.wl[data-theme=journal] .wl-pl-date { color: var(--acc2); }
+.wl[data-theme=journal] h2 { font-style: italic; font-size: 1.8rem; }
+
+/* Vogue: editorial magazine cover */
+.wl[data-theme=vogue] {
+  --page: #F7F5F1; --outer: #DDD8CF; --ink: #1E1C1A; --muted: #6F6A62; --acc: #8C6D46; --acc2: #1E1C1A;
+  --card: #FFFFFF; --line: rgba(30,28,26,.16);
+  --fs: 'Bodoni Moda'; --ft: 'Jost'; --fh: 'Bodoni Moda'; --names: clamp(2.8rem, 15vw, 5rem); --tsize: .96rem;
+  --btn: #1E1C1A; --foil: linear-gradient(#1E1C1A, #1E1C1A); --photo-r: 0; --grain: .03; --veil: rgba(247,245,241,.6);
+}
+.wl[data-theme=vogue] .wl-pl { position: relative; height: calc(100svh - 50px); min-height: 580px; text-align: left; }
+.wl[data-theme=vogue] .wl-pl-img { position: absolute; inset: 0; }
+.wl[data-theme=vogue] .wl-pl-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 50%, rgba(0,0,0,.65) 100%); }
+.wl[data-theme=vogue] .wl-pl-img.none { background: linear-gradient(170deg, #D9CFC2, #A99883 55%, #6E6152); }
+.wl[data-theme=vogue] .wl-pl-in { position: absolute; inset: 0; z-index: 2; padding: 26px 24px 40px; color: #fff; display: flex; flex-direction: column; }
+.wl[data-theme=vogue] .wl-pl-kick { margin: 0; font-size: .74em; letter-spacing: .32em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,.6); padding-bottom: 10px; }
+.wl[data-theme=vogue] .wl-pl .wl-names { margin-top: auto; text-transform: uppercase; letter-spacing: .02em; font-weight: 400; display: flex; flex-direction: column; color: #fff; }
+.wl[data-theme=vogue] .wl-pl .wl-names > span:not(.wl-amp) { -webkit-text-fill-color: #fff; background: none; padding: 0; }
+.wl[data-theme=vogue] .wl-pl .wl-amp { font-style: italic; text-transform: none; font-size: .5em; color: #E7D3AE; margin: -.1em 0; }
+.wl[data-theme=vogue] .wl-pl-num { margin: 14px 0 0; font-family: 'Bodoni Moda', serif; font-size: clamp(2rem, 11vw, 3.4rem); line-height: 1; letter-spacing: .02em; }
+.wl[data-theme=vogue] .wl-pl-num i { font-style: normal; color: #E7D3AE; margin: 0 .12em; }
+.wl[data-theme=vogue] .wl-pl-date { color: rgba(255,255,255,.85); }
+.wl[data-theme=vogue] h2 { text-transform: uppercase; letter-spacing: .14em; font-size: 1.15rem; }
+.wl[data-theme=vogue] .wl-btn { border-radius: 0; }
+
 /* ---------- website header inside every invite ---------- */
 .wl-nav { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px;
   background: color-mix(in srgb, var(--page) 88%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
@@ -587,3 +657,4 @@
 @media (prefers-reduced-motion: reduce) {
   .wl *, .wl *::before, .wl *::after { animation: none !important; transition-duration: .01ms !important; }
 }
+.wl.has-bg .wl-pl::before, .wl.has-bg .wl-pl::after { display: none; }

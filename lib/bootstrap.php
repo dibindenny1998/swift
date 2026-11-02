@@ -25,6 +25,9 @@ const THEMES = [
     'thamara'   => ['name' => 'Thamara',   'note' => 'Soft pink with lotus line art', 'tags' => ['hindu', 'modern'], 'tier' => 'standard'],
     'gulmohar'  => ['name' => 'Gulmohar',  'note' => 'A flowering branch on warm ivory', 'tags' => ['modern', 'christian', 'muslim'], 'tier' => 'standard'],
     // Premium designs (₹499 plan).
+    'lumiere'   => ['name' => 'Lumière',   'note' => 'Your photo full screen, names in white', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh', 'kerala'], 'tier' => 'premium'],
+    'journal'   => ['name' => 'Journal',   'note' => 'A taped photo and handwritten names', 'tags' => ['modern', 'christian', 'hindu', 'kerala'], 'tier' => 'premium'],
+    'vogue'     => ['name' => 'Vogue',     'note' => 'A magazine cover of the two of you', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh'], 'tier' => 'premium'],
     'sage'      => ['name' => 'Sage',      'note' => 'Olive watercolour and a timeline of your day', 'tags' => ['modern', 'christian', 'kerala'], 'tier' => 'premium'],
     'seal'      => ['name' => 'Wax Seal',  'note' => 'Opens from a sealed champagne envelope', 'tags' => ['modern', 'christian', 'hindu', 'muslim'], 'tier' => 'premium'],
     'ink'       => ['name' => 'Ink',       'note' => 'A handwritten letter with a heart on the date', 'tags' => ['modern', 'christian'], 'tier' => 'premium'],

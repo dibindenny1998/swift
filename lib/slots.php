@@ -34,6 +34,9 @@ const SLOTS = [
 ];
 
 const THEME_SLOT_PROMPTS = [
+    'lumiere' => 'Romantic full-length photo of an Indian couple walking hand in hand through a sunlit garden aisle of white flowers, shot from behind at golden hour, lots of soft light.',
+    'journal' => 'Candid photo of a laughing Indian couple sitting close on a cream sofa near a window, soft morning light, warm and natural.',
+    'vogue' => 'Editorial fashion portrait of an elegant Indian bride and groom standing side by side against a plain warm stone wall, full length, confident poses, high fashion magazine look.',
     'classic' => 'Plain warm ivory cotton paper texture with very subtle fibres, soft even light.',
     'blush' => 'Soft blush pink watercolour wash on textured paper with a single faint rose stem at the top.',
     'sage' => 'Soft sage green and olive watercolour washes bleeding into ivory paper at the top corners, with delicate eucalyptus sprigs.',

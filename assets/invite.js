@@ -6,6 +6,9 @@
   var FONTS = {
     classic: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400',
     blush: 'family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    lumiere: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500',
+    journal: 'family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500',
+    vogue: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500',
     sage: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Italianno&family=Jost:wght@300;400;500',
     seal: 'family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400',
     ink: 'family=Mrs+Saint+Delafield&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@400;500',
@@ -249,7 +252,7 @@
     '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
     '</defs></svg>';
 
-  var LIGHT = { sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  var LIGHT = { lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
   function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
 
   function bokeh(seed, n, w, h) {
@@ -441,7 +444,8 @@
   }
 
   /* ---------- premium art: sage, seal, ink, toile ---------- */
-  var TIMELINE = { sage: 1, ink: 1, toile: 1 };
+  var TIMELINE = { sage: 1, ink: 1, toile: 1, journal: 1 };
+  var PHOTO_LED = { lumiere: 1, journal: 1, vogue: 1 };
   var CALENDAR = { ink: 1, toile: 1, seal: 1 };
   function sprig(cls) {
     var leaves = '';
@@ -652,6 +656,20 @@
     if (v.gifts.length) links.push(['gifts', 'Gifts']);
     html += '<nav class="wl-nav" aria-label="Invitation"><button type="button" class="wl-nav-mono" data-go="hero">' + esc(initial(v.p1)) + '<i>&amp;</i>' + esc(initial(v.p2)) + '</button><div class="wl-nav-l">' +
       links.map(function (l) { return '<button type="button" data-go="' + l[0] + '">' + l[1] + '</button>'; }).join('') + '</div></nav>';
+    if (PHOTO_LED[v.theme]) {
+      // photo-led designs: the couple's photo fills the first screen
+      var heroImg = photos[0] || v.bg || '';
+      var dp = first && first.date ? parts(first.date) : null;
+      html += '<header class="wl-hero wl-pl" data-sec="hero">' +
+        '<div class="wl-pl-img' + (heroImg ? '' : ' none') + '" data-sec="photos">' + (heroImg ? '<img src="' + esc(heroImg) + '" alt="' + esc(title) + '">' : '') +
+          (!heroImg && mode === 'editor' ? '<span class="wl-pl-add">Add your photo in the Photos step</span>' : '') + '</div>' +
+        '<div class="wl-pl-in">' +
+          (v.theme === 'vogue' ? '<p class="wl-pl-kick">The wedding of</p>' : '<p class="wl-intro">' + esc(v.intro) + '</p>') +
+          '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
+          (v.theme === 'vogue' && dp ? '<p class="wl-pl-num">' + String(dp.d).padStart(2, '0') + '<i>·</i>' + String(dp.mo + 1).padStart(2, '0') + '<i>·</i>' + String(dp.y).slice(2) + '</p>' : '<p class="wl-line">' + esc(v.line) + '</p>') +
+          (dp ? '<p class="wl-pl-date">' + esc(longDate(first.date)) + (first.venue ? ' · ' + esc(first.venue) : '') + '</p>' : '') +
+        '</div></header>';
+    } else {
     html += '<header class="wl-hero" data-sec="hero"><div class="wl-hd">' + heroDecor(v.theme) + '</div><div class="wl-hero-in">' +
       '<p class="wl-intro">' + esc(v.intro) + '</p>' +
       '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
@@ -665,6 +683,7 @@
       if (first.venue) html += '<p class="wl-venue">' + esc(first.venue) + '</p>';
     }
     html += '</div></header>';
+    }
 
     if (first && startOf(first)) {
       html += '<section class="wl-sec wl-count" data-sec="count" aria-label="Countdown"><div class="wl-cd">' +

@@ -6,6 +6,7 @@ $ps = price('standard');
 $pp = price('premium');
 $tick = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $swatch = [
+ 'lumiere' => 'linear-gradient(180deg,#B89A72 0 60%,#FBF8F3 60%)', 'journal' => 'linear-gradient(180deg,#E2C3BF 0 55%,#FBF6EE 55%)', 'vogue' => 'linear-gradient(180deg,#6E6152 0 70%,#F7F5F1 70%)',
     'sage' => 'radial-gradient(circle at 30% 30%,#A7B293 0 24%,#F6F3EA 25%)', 'seal' => 'radial-gradient(circle at 50% 55%,#C9A24A 0 20%,#D6C09E 21%)',
     'ink' => 'radial-gradient(circle at 50% 50%,#5A2E2A 0 14%,#F7F2EA 15%)', 'toile' => 'linear-gradient(135deg,#F8F6F0 0 55%,#2F4A7A 55%)',
     'classic' => 'linear-gradient(135deg,#FBF8F2 0 60%,#1E1E1E 60%)', 'blush' => 'radial-gradient(circle at 50% 40%,#E7A5AF 0 22%,#FDF1F2 23%)',
