@@ -555,7 +555,12 @@ function site_footer(): void
         . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
         . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'
-        . '</div></footer>';
+        . '</div></footer>'
+        // gentle scroll animations on the public pages
+        . '<script>(function(){if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;'
+        . 'var els=document.querySelectorAll(".sec-head,.gd,.plan,.quick>div,.steps li,.bio-band,.price-strip,.feat>div,.faq details,.cat,.guide-grid>*,.custom-grid>*");'
+        . 'var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting||e.boundingClientRect.top<0){e.target.classList.add("rv-on");io.unobserve(e.target);}});},{threshold:.1,rootMargin:"0px 0px -5% 0px"});'
+        . 'els.forEach(function(el,i){el.classList.add("rv");el.style.transitionDelay=(i%4)*70+"ms";io.observe(el);});})();</script>';
 }
 require __DIR__ . '/slots.php';
 require __DIR__ . '/biodata.php';

@@ -547,3 +547,24 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
 .custom-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px; align-items: start; margin-top: 24px; }
 .custom-grid > * { min-width: 0; }
 @media (max-width: 900px) { .custom-grid { grid-template-columns: 1fr; gap: 18px; } .custom-grid .row2 { grid-template-columns: 1fr; } }
+
+/* ================= movement ================= */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+.rv.rv-on { opacity: 1; transform: none; }
+.hero-copy > *, .hero .eyebrow, .hero .hero-title, .hero .hero-hint, .hero .hero-lead, .hero .ticks { animation: siteRise .9s cubic-bezier(.2,.7,.2,1) both; }
+.hero .hero-title { animation-delay: .12s; } .hero .hero-hint { animation-delay: .24s; } .hero .hero-lead { animation-delay: .36s; } .hero .ticks, .hero .hero-cta { animation-delay: .48s; }
+@keyframes siteRise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+.fan .phone.front { animation: siteFloat 6s ease-in-out infinite; }
+.fan .phone.back.l { animation: siteFloatL 7s ease-in-out infinite; }
+.fan .phone.back.r { animation: siteFloatR 7.5s ease-in-out infinite; }
+@keyframes siteFloat { 50% { transform: translateY(-10px); } }
+@keyframes siteFloatL { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(-11deg) translateY(-6px); } }
+@keyframes siteFloatR { 0%, 100% { transform: rotate(9deg); } 50% { transform: rotate(11deg) translateY(-6px); } }
+.gd img { transition: transform .35s ease, box-shadow .35s ease; }
+.gd:hover img { transform: translateY(-6px) scale(1.01); }
+.btn { transition: filter .15s, transform .15s, box-shadow .25s; }
+.btn:hover { transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1 !important; transform: none !important; }
+  .hero *, .fan .phone { animation: none !important; }
+}

@@ -446,6 +446,22 @@
   /* ---------- premium art: sage, seal, ink, toile ---------- */
   var TIMELINE = { sage: 1, ink: 1, toile: 1, journal: 1 };
   var PHOTO_LED = { lumiere: 1, journal: 1, vogue: 1 };
+  // Premium designs get an animated header: photos fading in, plus moving decor
+  var ANIM = { lumiere: 'petals', journal: 'petals', seal: 'petals', jaipur: 'petals', sage: 'petals', ink: 'petals',
+    vogue: 'sparkle', velvet: 'sparkle', mayil: 'sparkle', gopuram: 'sparkle', chapel: 'sparkle', toile: 'sparkle', qamar: 'lanterns' };
+  function particles(kind) {
+    if (!kind) return '';
+    var r = rng(kind.length * 97), o = '<div class="wl-fx wl-fx-' + kind + '" aria-hidden="true">';
+    for (var i = 0; i < 18; i++) {
+      o += '<i style="left:' + f1(r() * 100) + '%;animation-delay:' + f1(-r() * 14) + 's;animation-duration:' + f1(9 + r() * 9) + 's;--s:' + f1(.55 + r() * .9) + ';--x:' + f1(-40 + r() * 80) + 'px"></i>';
+    }
+    return o + '</div>';
+  }
+  function slides(imgs, alt) {
+    return '<div class="wl-slides">' + imgs.map(function (src, i) {
+      return '<img' + (i ? '' : ' class="on"') + ' src="' + esc(src) + '" alt="' + (i ? '' : esc(alt)) + '"' + (i ? ' loading="lazy"' : '') + '>';
+    }).join('') + '</div>';
+  }
   var CALENDAR = { ink: 1, toile: 1, seal: 1 };
   function sprig(cls) {
     var leaves = '';
@@ -633,7 +649,7 @@
     var showCover = opts.cover && mode !== 'editor';
 
     var bgStyle = v.bg ? ' style="--bgimg:url(&quot;' + esc(v.bg).replace(/[()]/g, '') + '&quot;)"' : '';
-    var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '"' + bgStyle + '>' + DEFS;
+    var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '"' + (ANIM[v.theme] ? ' data-anim="' + ANIM[v.theme] + '"' : '') + bgStyle + '>' + DEFS;
 
     if (showCover) {
       if (v.theme === 'seal') html += '<div class="wl-cover wl-cover-env" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
@@ -661,7 +677,7 @@
       var heroImg = photos[0] || v.bg || '';
       var dp = first && first.date ? parts(first.date) : null;
       html += '<header class="wl-hero wl-pl" data-sec="hero">' +
-        '<div class="wl-pl-img' + (heroImg ? '' : ' none') + '" data-sec="photos">' + (heroImg ? '<img src="' + esc(heroImg) + '" alt="' + esc(title) + '">' : '') +
+        '<div class="wl-pl-img' + (heroImg ? '' : ' none') + '" data-sec="photos">' + (heroImg ? slides(photos.length ? photos.slice(0, 5) : [heroImg], title) : '') + particles(ANIM[v.theme]) +
           (!heroImg && mode === 'editor' ? '<span class="wl-pl-add">Add your photo in the Photos step</span>' : '') + '</div>' +
         '<div class="wl-pl-in">' +
           (v.theme === 'vogue' ? '<p class="wl-pl-kick">The wedding of</p>' : '<p class="wl-intro">' + esc(v.intro) + '</p>') +
@@ -670,19 +686,26 @@
           (dp ? '<p class="wl-pl-date">' + esc(longDate(first.date)) + (first.venue ? ' · ' + esc(first.venue) : '') + '</p>' : '') +
         '</div></header>';
     } else {
-    html += '<header class="wl-hero" data-sec="hero"><div class="wl-hd">' + heroDecor(v.theme) + '</div><div class="wl-hero-in">' +
+    if (photos[0]) {
+      var cp = first && first.date ? parts(first.date) : null;
+      html += '<header class="wl-hero wl-cv" data-sec="hero">' + slides(ANIM[v.theme] ? photos.slice(0, 5) : [photos[0]], title) + particles(ANIM[v.theme]) +
+        '<div class="wl-cv-in"><p class="wl-intro">' + esc(v.intro) + '</p>' +
+        '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
+        (cp ? '<p class="wl-pl-date">' + esc(longDate(first.date)) + (first.venue ? ' · ' + esc(first.venue) : '') + '</p>' : '') +
+        '<span class="wl-cv-down" aria-hidden="true"></span></div></header>';
+    }
+    html += '<' + (photos[0] ? 'section' : 'header') + ' class="wl-hero' + (photos[0] ? ' wl-card-hero' : '') + '" data-sec="' + (photos[0] ? 'card' : 'hero') + '"><div class="wl-hd">' + heroDecor(v.theme) + (!photos[0] ? particles(ANIM[v.theme]) : '') + '</div><div class="wl-hero-in">' +
       '<p class="wl-intro">' + esc(v.intro) + '</p>' +
       '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
       '<p class="wl-line">' + esc(v.line) + '</p>' + (v.theme === 'ink' ? heartLine() : '');
-    if (photos[0]) html += '<figure class="wl-hero-photo" data-sec="photos"><img src="' + esc(photos[0]) + '" alt="' + esc(title) + '"></figure>';
-    else if (mode === 'editor') html += '<figure class="wl-hero-photo wl-ph-empty" data-sec="photos" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="45" cy="44" r="15"/><circle cx="76" cy="40" r="14"/><path d="M18 108c2-26 13-40 27-40s25 14 27 40M50 108c2-28 12-42 26-42s25 14 27 42"/></svg><figcaption>Your photo here</figcaption></figure>';
+    if (!photos[0] && mode === 'editor') html += '<figure class="wl-hero-photo wl-ph-empty" data-sec="photos" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="45" cy="44" r="15"/><circle cx="76" cy="40" r="14"/><path d="M18 108c2-26 13-40 27-40s25 14 27 40M50 108c2-28 12-42 26-42s25 14 27 42"/></svg><figcaption>Your photo here</figcaption></figure>';
     if (first && first.date) {
       var p = parts(first.date);
       html += '<div class="wl-date"><span class="wl-date-a">' + DAYS[p.wd] + '</span><span class="wl-date-d">' + p.d + '</span><span class="wl-date-a">' + MONTHS[p.mo] + ' ' + p.y + '</span></div>';
       if (first.time) html += '<p class="wl-time">' + esc(time12(first.time)) + '</p>';
       if (first.venue) html += '<p class="wl-venue">' + esc(first.venue) + '</p>';
     }
-    html += '</div></header>';
+    html += '</div></' + (photos[0] ? 'section' : 'header') + '>';
     }
 
     if (first && startOf(first)) {
@@ -760,6 +783,35 @@
       };
       cover.querySelector('.wl-open').addEventListener('click', open);
       if (opts.autoOpen) setTimeout(open, opts.autoOpen);
+    }
+
+    // photos coming in: cross-fade through the hero photos
+    root.querySelectorAll('.wl-slides').forEach(function (box) {
+      var imgs = box.querySelectorAll('img'); if (imgs.length < 2) return;
+      var k = 0;
+      var t = setInterval(function () {
+        if (!root.contains(box)) { clearInterval(t); return; }
+        imgs[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on');
+      }, 4200);
+    });
+
+    // sections rise into view as guests scroll (not in the editor, where it repaints often)
+    if (mode !== 'editor' && 'IntersectionObserver' in w) {
+      var targets = root.querySelectorAll('.wl-sec, .wl-card-hero .wl-hero-in, .wl-ev, .wl-gift, .wl-end, .wl-ph');
+      var io = new IntersectionObserver(function (es) {
+        // show it once seen, or if the guest has already scrolled past it (a jump via the header links)
+        es.forEach(function (en) { if (en.isIntersecting || en.boundingClientRect.top < 0) { en.target.classList.add('wl-in'); io.unobserve(en.target); } });
+      }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+      targets.forEach(function (t) { t.classList.add('wl-rv'); io.observe(t); });
+      // safety net for big jumps: anything at or above the screen's bottom edge is shown
+      var win = root.ownerDocument.defaultView || w, sweepT;
+      var sweep = function () {
+        clearTimeout(sweepT);
+        sweepT = setTimeout(function () {
+          root.querySelectorAll('.wl-rv:not(.wl-in)').forEach(function (t) { if (t.getBoundingClientRect().top < win.innerHeight) t.classList.add('wl-in'); });
+        }, 120);
+      };
+      win.addEventListener('scroll', sweep, { passive: true });
     }
 
     // header links scroll to their section
