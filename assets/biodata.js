@@ -29,87 +29,103 @@
     if (k === 'birth_time') return time12(v);
     return v;
   }
+  function applies(f, rel) { return !f.rel || f.rel.indexOf(rel) > -1; }
 
-  // Corners are drawn already rotated (no CSS transforms), so the PDF/image export draws them exactly.
-  function flip(path, fx, fy, w, h) {
-    return path.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, function (m, x, y) { return (fx ? w - +x : +x) + ',' + (fy ? h - +y : +y); });
+  /* ---------- ornaments (all drawn as SVG, gold via gradient) ---------- */
+  var PAL = {
+    royal: ['#8A6416', '#F6E3A1', '#B88A2A', '#FFF2C4', '#7A560F'],
+    emerald: ['#8A6416', '#F6E3A1', '#B88A2A', '#FFF2C4', '#7A560F'],
+    ivory: ['#8E6A22', '#E9CF86', '#A7802F', '#F7E4AE', '#7E5C17'],
+    khalsa: ['#B5701A', '#FFD98A', '#D9952C', '#FFEBB8', '#A1600F'],
+    kasavu: ['#8E6A16', '#EBCB6E', '#B08A2A', '#F7E3A0', '#7E5C10'],
+    noir: ['#8A6416', '#F6E3A1', '#B88A2A', '#FFF2C4', '#7A560F']
+  };
+  function gold(id, tpl) {
+    var p = PAL[tpl] || PAL.royal;
+    return '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
+      p.map(function (c, i) { return '<stop offset="' + (i / (p.length - 1)) + '" stop-color="' + c + '"/>'; }).join('') + '</linearGradient></defs>';
   }
-  function svgBox(cls, w, h, inner, pw, ph) {
-    return '<svg class="bd-c ' + cls + '" width="' + pw + '" height="' + ph + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+  function filigree(pos, tpl) {
+    // an ornate corner: double rule, a scroll and a leaf, drawn for the top-left and mirrored by coordinates
+    var fx = pos === 'tr' || pos === 'br', fy = pos === 'bl' || pos === 'br', S = 120;
+    function P(x, y) { return (fx ? S - x : x) + ',' + (fy ? S - y : y); }
+    var id = 'g' + pos + tpl;
+    var d1 = 'M' + P(4, 110) + ' L' + P(4, 4) + ' L' + P(110, 4);
+    var d2 = 'M' + P(14, 96) + ' L' + P(14, 14) + ' L' + P(96, 14);
+    var scroll = 'M' + P(14, 54) + ' C' + P(30, 52) + ' ' + P(40, 40) + ' ' + P(38, 28) + ' C' + P(36, 18) + ' ' + P(24, 18) + ' ' + P(24, 28) + ' C' + P(24, 34) + ' ' + P(30, 36) + ' ' + P(33, 31) +
+      ' M' + P(54, 14) + ' C' + P(52, 30) + ' ' + P(40, 40) + ' ' + P(28, 38);
+    var leaf = 'M' + P(38, 38) + ' C' + P(50, 44) + ' ' + P(58, 56) + ' ' + P(60, 66) + ' C' + P(50, 62) + ' ' + P(40, 52) + ' ' + P(38, 38) + 'Z';
+    return '<svg class="bd-c ' + pos + '" width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">' + gold(id, tpl) +
+      '<g fill="none" stroke="url(#' + id + ')" stroke-linecap="round"><path d="' + d1 + '" stroke-width="2.6"/><path d="' + d2 + '" stroke-width="1"/><path d="' + scroll + '" stroke-width="1.6"/></g>' +
+      '<path d="' + leaf + '" fill="url(#' + id + ')"/><circle cx="' + P(14, 14).split(',')[0] + '" cy="' + P(14, 14).split(',')[1] + '" r="3.5" fill="url(#' + id + ')"/></svg>';
   }
-  function corner(tpl) {
-    if (tpl === 'floral') {
-      var paths = ['M6,120 C30,90 50,60 96,40 C120,30 150,24 190,26', 'M40,80 C30,66 40,52 54,56 C50,68 46,76 40,80Z', 'M120,32 C126,18 142,16 150,22 C142,30 132,34 120,32Z',
-        'M88,44 C80,30 90,14 104,18 C118,22 116,38 106,42 C98,45 92,40 95,33 C98,27 105,28 106,33'];
-      var dots = [[70, 60, 3], [160, 22, 2.4], [24, 104, 2.4]];
-      return ['tl', 'br'].map(function (pos) {
-        var f = pos === 'br';
-        var g = paths.map(function (d) { return '<path d="' + flip(d, f, f, 200, 130) + '" fill="none" stroke="#C27A86" stroke-width="1.6" stroke-linecap="round"/>'; }).join('') +
-          dots.map(function (c) { return '<circle cx="' + (f ? 200 - c[0] : c[0]) + '" cy="' + (f ? 130 - c[1] : c[1]) + '" r="' + c[2] + '" fill="#F3C7CE"/>'; }).join('');
-        return svgBox(pos, 200, 130, g, 220, 143);
-      }).join('');
-    }
-    if (tpl === 'royal') {
-      return [['tl', 0, 0], ['tr', 1, 0], ['bl', 0, 1], ['br', 1, 1]].map(function (c) {
-        var fx = c[1], fy = c[2];
-        var g = '<path d="' + flip('M2,40 L2,2 L40,2', fx, fy, 54, 54) + '" fill="none" stroke="#C9A24A" stroke-width="2.4"/>' +
-          '<path d="' + flip('M12,46 L12,12 L46,12', fx, fy, 54, 54) + '" fill="none" stroke="#C9A24A" stroke-width="1"/>' +
-          '<path d="' + flip('M2,-4 L8,2 L2,8 L-4,2Z', fx, fy, 54, 54) + '" fill="#C9A24A"/>';
-        return svgBox(c[0], 54, 54, g, 54, 54);
-      }).join('');
-    }
-    return '';
+  function flourish(tpl, id) {
+    return '<svg class="bd-fl" width="300" height="24" viewBox="0 0 300 24" xmlns="http://www.w3.org/2000/svg">' + gold(id, tpl) +
+      '<g fill="none" stroke="url(#' + id + ')" stroke-linecap="round" stroke-width="1.3">' +
+      '<path d="M10,12 L110,12 M190,12 L290,12"/><path d="M110,12 C122,12 126,4 136,6 C142,7 142,14 136,14 C132,14 132,10 135,10"/>' +
+      '<path d="M190,12 C178,12 174,4 164,6 C158,7 158,14 164,14 C168,14 168,10 165,10"/></g>' +
+      '<path d="M150,4 L157,12 L150,20 L143,12Z" fill="url(#' + id + ')"/><circle cx="10" cy="12" r="2" fill="url(#' + id + ')"/><circle cx="290" cy="12" r="2" fill="url(#' + id + ')"/></svg>';
+  }
+  function emblem(kind, tpl) {
+    if (!kind) return '';
+    var id = 'em' + tpl, inner = '';
+    if (kind === 'om') inner = '<text x="40" y="54" text-anchor="middle" font-family="Noto Serif Devanagari, serif" font-size="40" font-weight="600" fill="url(#' + id + ')">ॐ</text>';
+    else if (kind === 'onkar') inner = '<text x="40" y="53" text-anchor="middle" font-family="Noto Serif Gurmukhi, serif" font-size="36" font-weight="600" fill="url(#' + id + ')">ੴ</text>';
+    else if (kind === 'crescent') inner = '<path d="M46,20 A21,21 0 1,0 58,52 A17,17 0 1,1 46,20Z" fill="url(#' + id + ')"/><path d="M55,27 l2.4,5 5.4,.6 -4,3.7 1.1,5.3 -4.9,-2.7 -4.9,2.7 1.1,-5.3 -4,-3.7 5.4,-.6Z" fill="url(#' + id + ')"/>';
+    else if (kind === 'cross') inner = '<path d="M36,16 h8 v12 h12 v8 h-12 v28 h-8 v-28 h-12 v-8 h12Z" fill="url(#' + id + ')"/>';
+    else if (kind === 'wheel') { inner = '<circle cx="40" cy="40" r="20" fill="none" stroke="url(#' + id + ')" stroke-width="2.4"/><circle cx="40" cy="40" r="5" fill="url(#' + id + ')"/>'; for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4; inner += '<path d="M' + (40 + 5 * Math.cos(a)).toFixed(1) + ',' + (40 + 5 * Math.sin(a)).toFixed(1) + ' L' + (40 + 20 * Math.cos(a)).toFixed(1) + ',' + (40 + 20 * Math.sin(a)).toFixed(1) + '" stroke="url(#' + id + ')" stroke-width="2"/>'; } }
+    else if (kind === 'jain') inner = '<path d="M40,18 C30,30 26,40 30,50 C33,57 47,57 50,50 C54,40 50,30 40,18Z" fill="none" stroke="url(#' + id + ')" stroke-width="2.4"/><circle cx="40" cy="44" r="4" fill="url(#' + id + ')"/>';
+    return '<svg class="bd-emblem" width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">' + gold(id, tpl) +
+      '<circle cx="40" cy="40" r="37" fill="none" stroke="url(#' + id + ')" stroke-width="1.6"/><circle cx="40" cy="40" r="33" fill="none" stroke="url(#' + id + ')" stroke-width=".7"/>' + inner + '</svg>';
   }
 
-  function ornament(tpl) {
-    var col = { royal: '#B08A3E', kasavu: '#B08A3E', floral: '#C27A86', simple: '#222' }[tpl] || '#B08A3E';
-    return '<svg class="bd-orn" width="210" height="21" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + col + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + col + '"/>' +
-      '<g fill="' + col + '" transform="translate(100,10)"><path d="M0,-7 L4,0 L0,7 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/></g></svg>';
-  }
+  function strip(brand) { return '<div class="bd-strip">Created by ' + esc(brand) + '</div>'; }
 
-  // Free version: one red strip along the bottom edge. Paid version: no strip.
-  function watermark(brand) {
-    return '<div class="bd-strip">Created by ' + esc(brand) + '</div>';
-  }
-
-  /** Renders the biodata page into el. opts: { watermark: bool, brand, host } */
+  /** Renders the biodata page into el. opts: { watermark: bool, brand } */
   function render(el, d, tpl, photo, opts) {
     opts = opts || {};
     d = d || {};
-    tpl = tpl || 'royal';
-    var sections = (CFG.sections || []).map(function (sec) {
-      var rows = sec.fields.map(function (f) {
-        if (f.k === 'name') return ''; // shown as the large heading
+    var rel = (CFG.religions && CFG.religions[d.religion]) ? d.religion : 'hindu';
+    var R = (CFG.religions || {})[rel] || {};
+    tpl = (CFG.templates && CFG.templates[tpl]) ? tpl : (R.template || 'royal');
+
+    var personal = '', blocks = [];
+    (CFG.sections || []).forEach(function (sec) {
+      var rows = '';
+      if (sec.title === '@religion' && rel !== 'other') rows += '<tr><th>Religion</th><td>' + esc(R.name) + '</td></tr>';
+      sec.fields.forEach(function (f) {
+        if (f.k === 'name' || !applies(f, rel)) return;
         var v = value(f.k, d);
-        return v ? '<tr><th>' + esc(f.label) + '</th><td>' + nl2br(v) + '</td></tr>' : '';
-      }).join('');
-      if (sec.title === 'Contact') return { title: sec.title, rows: rows, last: true };
-      return { title: sec.title, rows: rows };
+        if (v) rows += '<tr><th>' + esc(f.label) + '</th><td>' + nl2br(v) + '</td></tr>';
+      });
+      if (sec.title === 'Personal details') { personal = rows; return; }
+      blocks.push({ title: sec.title === '@religion' ? R.section : sec.title, rows: rows });
     });
     var extra = (d.extra || []).filter(function (x) { return x && x.label && x.value; })
       .map(function (x) { return '<tr><th>' + esc(x.label) + '</th><td>' + nl2br(x.value) + '</td></tr>'; }).join('');
-    if (extra) sections.splice(sections.length - 1, 0, { title: 'Other details', rows: extra });
+    if (extra) blocks.splice(blocks.length - 1, 0, { title: 'Other details', rows: extra });
 
+    function head(t) { return '<h3><span>' + esc(t) + '</span></h3>'; }
     var body = '';
-    sections.forEach(function (s) {
-      if (s.title === 'Personal details' || !s.rows) return;
-      body += '<section class="bd-sec"><h3>' + esc(s.title) + '</h3><table>' + s.rows + '</table></section>';
-    });
-    var personal = sections[0] && sections[0].rows;
+    blocks.forEach(function (b) { if (b.rows) body += '<section class="bd-sec">' + head(b.title) + '<table>' + b.rows + '</table></section>'; });
     var name = (d.name || '').trim() || 'Your name';
+    var top = d.no_top ? '' : ((d.top_line || '').trim() || R.top || '');
+    var corners = ['tl', 'tr', 'bl', 'br'].map(function (p) { return filigree(p, tpl); }).join('');
 
-    var html = '<div class="bd bd-' + esc(tpl) + (photo ? ' has-photo' : '') + (opts.watermark ? ' has-strip' : '') + '"><div class="bd-in">' + corner(tpl) +
-      (d.top_line ? '<p class="bd-top">' + esc(d.top_line) + '</p>' : '') +
-      '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1>' + ornament(tpl) +
+    var html = '<div class="bd bd-' + esc(tpl) + (photo ? ' has-photo' : '') + (opts.watermark ? ' has-strip' : '') + '" lang="' + (rel === 'muslim' ? 'ar' : 'en') + '">' +
+      '<div class="bd-frame-o"></div><div class="bd-in">' + corners +
+      '<header class="bd-hd">' + (d.no_top ? '' : emblem(R.emblem, tpl)) +
+        (top ? '<p class="bd-top">' + esc(top) + '</p>' : '') +
+        '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1>' + flourish(tpl, 'fl' + tpl) + '</header>' +
       '<div class="bd-head">' +
         (photo ? '<div class="bd-photo"><img src="' + esc(photo) + '" alt="" crossorigin="anonymous"></div>' : '') +
         '<div class="bd-headtxt"><h2 class="bd-name">' + esc(name) + '</h2>' +
         (personal ? '<table class="bd-personal">' + personal + '</table>' : '') + '</div>' +
       '</div>' +
-      (d.about ? '<section class="bd-sec bd-para"><h3>About me</h3><p>' + nl2br(d.about) + '</p></section>' : '') +
+      (d.about ? '<section class="bd-sec bd-para">' + head('About me') + '<p>' + nl2br(d.about) + '</p></section>' : '') +
       body +
-      (d.expect ? '<section class="bd-sec bd-para"><h3>Partner expectations</h3><p>' + nl2br(d.expect) + '</p></section>' : '') +
-      '</div>' + (opts.watermark ? watermark(opts.brand || 'WedLink') : '') + '</div>';
+      (d.expect ? '<section class="bd-sec bd-para">' + head('Partner expectations') + '<p>' + nl2br(d.expect) + '</p></section>' : '') +
+      '</div>' + (opts.watermark ? strip(opts.brand || 'WedLink') : '') + '</div>';
     el.innerHTML = html;
     fit(el.querySelector('.bd'));
   }
@@ -117,11 +133,11 @@
   // shrink the type until everything fits on one A4 page
   function fit(page) {
     if (!page) return;
-    var size = 19;
+    var size = 17.5;
     page.style.fontSize = size + 'px';
     var inner = page.querySelector('.bd-in');
     var guard = 0;
-    while (inner.scrollHeight > page.clientHeight - 4 && size > 9.5 && guard++ < 40) {
+    while (inner.scrollHeight > inner.clientHeight + 1 && size > 9.5 && guard++ < 40) {
       size -= 0.4;
       page.style.fontSize = size + 'px';
     }

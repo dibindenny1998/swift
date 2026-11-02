@@ -11,7 +11,7 @@ $existing = $bio ? [
 ] : null;
 $cfg = bio_js_config() + ['existing' => $existing, 'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url())];
 
-$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' . $brand,
     'Make a beautiful marriage biodata in minutes. Add your details, family and horoscope, pick a design and download a PDF or image. Free.', '/assets/og/site.jpg', $bioHead);
@@ -33,6 +33,14 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
   <div class="bio-layout edit">
     <form class="bio-form" id="bf" novalidate>
       <div class="card">
+        <h2>Religion</h2>
+        <p class="lead" style="margin:-6px 0 14px;font-size:.95rem;color:var(--plum-2)">We show the details families of your religion usually look for, and add the right blessing at the top.</p>
+        <div class="rel-pick" role="radiogroup" aria-label="Religion">
+          <?php foreach (BIO_RELIGIONS as $k => $r): ?><label><input type="radio" name="religion" value="<?= $k ?>"<?= $k === 'hindu' ? ' checked' : '' ?>><span><?= e($r['name']) ?></span></label><?php endforeach; ?>
+        </div>
+      </div>
+
+      <div class="card">
         <h2>Design</h2>
         <div class="tpl-pick" role="radiogroup" aria-label="Design">
           <?php foreach (BIO_TEMPLATES as $k => $t): ?>
@@ -44,9 +52,8 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
       <div class="card">
         <h2>Heading and photo</h2>
         <div class="row2">
-          <?php foreach (BIO_TEXT as [$k, $label, $max, $ph]): if (!in_array($k, ['title', 'top_line'], true)) continue; ?>
-            <div class="field"><label for="f-<?= $k ?>"><?= e($label) ?></label><input id="f-<?= $k ?>" name="<?= $k ?>" maxlength="<?= $max ?>" placeholder="<?= e($ph) ?>"></div>
-          <?php endforeach; ?>
+          <div class="field"><label for="f-title">Heading</label><input id="f-title" name="title" maxlength="40" placeholder="Marriage Biodata"></div>
+          <div class="field"><label for="f-top_line">Blessing line at the top</label><input id="f-top_line" name="top_line" maxlength="60" placeholder=""><small><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" name="no_top" id="f-no_top"> Don't show a blessing or symbol</label></small></div>
         </div>
         <div class="field"><span>Photo (optional)</span>
           <div class="photo-row"><img id="photo-th" alt="" hidden><label class="btn alt small" for="photo-in">Add a photo</label><button type="button" class="linkbtn" id="photo-x" hidden>Remove</button></div>
@@ -56,12 +63,12 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
 
       <?php foreach (BIO_SECTIONS as $title => $fields): ?>
       <div class="card">
-        <h2><?= e($title) ?></h2>
+        <h2 <?= $title === '@religion' ? 'id="rel-title"' : '' ?>><?= e($title === '@religion' ? BIO_RELIGIONS['hindu']['section'] : $title) ?></h2>
         <div class="row2">
-          <?php foreach ($fields as [$k, $label, $max, $ph, $type]): ?>
-            <div class="field"<?= $type === 'textarea' ? ' style="grid-column:1/-1"' : '' ?>><label for="f-<?= $k ?>"><?= e($label) ?></label>
-              <?php if ($type === 'textarea'): ?><textarea id="f-<?= $k ?>" name="<?= $k ?>" maxlength="<?= $max ?>" rows="2" placeholder="<?= e($ph) ?>"></textarea>
-              <?php else: ?><input id="f-<?= $k ?>" name="<?= $k ?>" type="<?= $type === 'tel' ? 'text' : $type ?>"<?= $type === 'tel' ? ' inputmode="tel"' : '' ?> maxlength="<?= $max ?>" placeholder="<?= e($ph) ?>"<?= $k === 'name' ? ' required' : '' ?>><?php endif; ?></div>
+          <?php foreach ($fields as $f): $k = $f['k']; $type = $f['type'] ?? 'text'; $ph = $f['ph'] ?? ''; ?>
+            <div class="field" data-rel="<?= e(implode(' ', $f['rel'] ?? [])) ?>" data-ph="<?= e(json_encode(is_array($ph) ? $ph : ['*' => $ph], JSON_UNESCAPED_UNICODE)) ?>"<?= $type === 'textarea' ? ' style="grid-column:1/-1"' : '' ?>><label for="f-<?= $k ?>"><?= e($f['label']) ?></label>
+              <?php if ($type === 'textarea'): ?><textarea id="f-<?= $k ?>" name="<?= $k ?>" maxlength="<?= $f['max'] ?>" rows="2" placeholder="<?= e(bio_ph($ph, 'hindu')) ?>"></textarea>
+              <?php else: ?><input id="f-<?= $k ?>" name="<?= $k ?>" type="<?= $type === 'tel' ? 'text' : $type ?>"<?= $type === 'tel' ? ' inputmode="tel"' : '' ?> maxlength="<?= $f['max'] ?>" placeholder="<?= e(bio_ph($ph, 'hindu')) ?>"<?= $k === 'name' ? ' required' : '' ?>><?php endif; ?></div>
           <?php endforeach; ?>
         </div>
       </div>
@@ -76,7 +83,7 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
 
       <div class="card">
         <h2>More details (optional)</h2>
-        <p class="lead" style="margin:-6px 0 14px;font-size:.95rem;color:var(--plum-2)">Anything else, like hobbies, diet, property or a second contact.</p>
+        <p class="lead" style="margin:-6px 0 14px;font-size:.95rem;color:var(--plum-2)">Anything else, like hobbies, languages known, property or a second contact.</p>
         <div id="extra"></div>
         <button type="button" class="btn alt small" id="add-extra">Add a line</button>
       </div>
@@ -117,9 +124,27 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
   var photo = EX && EX.photo ? { kind: 'old', url: EX.photo } : null;
   if (!Array.isArray(data.extra)) data.extra = [];
 
+  var SKIP = { template: 1, phone: 1, religion: 1, no_top: 1 };
   var names = [];
-  Array.prototype.forEach.call(f.elements, function (el) { if (el.name && el.name !== 'template' && el.name !== 'phone' && el.type !== 'file') { names.push(el.name); if (data[el.name]) el.value = data[el.name]; } });
+  Array.prototype.forEach.call(f.elements, function (el) { if (el.name && !SKIP[el.name] && el.type !== 'file') { names.push(el.name); if (data[el.name]) el.value = data[el.name]; } });
+  if (!C.religions[data.religion]) data.religion = 'hindu';
+  f.querySelector('input[name=religion][value="' + data.religion + '"]').checked = true;
+  f.elements.no_top.checked = !!data.no_top;
+  var tplChosen = !!EX || !!store.get('wlb_tpl_set');
   (f.querySelector('input[name=template][value="' + tpl + '"]') || f.querySelector('input[name=template]')).checked = true;
+  // show only the fields that fit the religion, with matching examples
+  function applyReligion() {
+    var r = data.religion, R = C.religions[r];
+    f.querySelectorAll('.field[data-rel]').forEach(function (fl) {
+      var rel = fl.dataset.rel; fl.hidden = !!rel && rel.split(' ').indexOf(r) < 0;
+      var ph = JSON.parse(fl.dataset.ph || '{}'), inp = fl.querySelector('input,textarea');
+      if (inp) inp.placeholder = ph[r] != null ? ph[r] : (ph['*'] || '');
+    });
+    document.getElementById('rel-title').textContent = R.section;
+    f.elements.top_line.placeholder = R.top || 'Optional';
+    if (!tplChosen) { tpl = R.template; f.querySelector('input[name=template][value="' + tpl + '"]').checked = true; }
+  }
+  applyReligion();
 
   var extraWrap = document.getElementById('extra');
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -161,7 +186,11 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
     t = setTimeout(function () { paint(pv); if (!sheet.hidden) paint(pvm); if (!EX) { store.set('wlb_draft', data); store.set('wlb_tpl', tpl); } }, 120);
   }
   f.addEventListener('input', function (e) { if (names.indexOf(e.target.name) > -1) { data[e.target.name] = e.target.value; changed(); } });
-  f.addEventListener('change', function (e) { if (e.target.name === 'template') { tpl = e.target.value; changed(); } });
+  f.addEventListener('change', function (e) {
+    if (e.target.name === 'template') { tpl = e.target.value; tplChosen = true; store.set('wlb_tpl_set', 1); changed(); }
+    if (e.target.name === 'religion') { data.religion = e.target.value; applyReligion(); changed(); }
+    if (e.target.name === 'no_top') { data.no_top = e.target.checked; changed(); }
+  });
   addEventListener('resize', function () { WLB.scaleTo(pv); if (!sheet.hidden) WLB.scaleTo(pvm); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { paint(pv); });
   paint(pv);

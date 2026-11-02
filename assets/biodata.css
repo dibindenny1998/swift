@@ -1,79 +1,87 @@
-/* WedLink marriage biodata: four templates on a fixed A4 page (794 x 1123 px), scaled to fit the screen. */
-.bd-frame { position: relative; width: 100%; overflow: hidden; border-radius: 6px; box-shadow: 0 0 0 1px rgba(46,14,26,.12), 0 30px 60px -30px rgba(46,14,26,.45); background: #fff; }
+/* WedLink marriage biodata: six luxury templates on a fixed A4 page (794 x 1123 px), scaled to fit the screen. */
+.bd-frame { position: relative; width: 100%; overflow: hidden; border-radius: 4px; box-shadow: 0 0 0 1px rgba(46,14,26,.12), 0 34px 70px -30px rgba(46,14,26,.55); background: #fff; }
 .bd-frame .bd { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
 .bd-snap { position: fixed; left: -10000px; top: 0; width: 794px; height: 1123px; }
 
-.bd { width: 794px; height: 1123px; position: relative; overflow: hidden; background: #fff; color: #2a2024;
-  font-family: 'Lora', 'Noto Serif Malayalam', 'Noto Serif Devanagari', 'Noto Serif Tamil', 'Noto Serif Kannada', 'Noto Serif Telugu', 'Noto Serif Gurmukhi', Georgia, serif;
-  font-size: 15.5px; line-height: 1.45; -webkit-font-smoothing: antialiased; box-sizing: border-box; }
+.bd {
+  --bg: #5E0A1C; --bg2: #3A0511; --paper: #FFF9EE; --paper2: #F7ECD6; --ink: #2E1A14; --label: #7A4A1E; --head: #6E0B1D;
+  --gold: linear-gradient(100deg, #8A6416 0%, #E9CB7A 22%, #FFF2C4 38%, #B88A2A 55%, #F6E3A1 74%, #7A560F 100%);
+  --goldline: #C9A24A; --rule: rgba(176,138,62,.45);
+  --goldtext: linear-gradient(100deg, #6E4C0C 0%, #B88A2A 28%, #5E420B 50%, #C99A35 74%, #6E4C0C 100%);
+  --fd: 'Cinzel Decorative', 'Cinzel', Georgia, serif; --fh: 'Cinzel', Georgia, serif; --fn: 'Great Vibes', 'Pinyon Script', cursive;
+  --ft: 'Cormorant Garamond', 'Noto Serif Malayalam', 'Noto Serif Devanagari', 'Noto Serif Tamil', 'Noto Serif Kannada', 'Noto Serif Telugu', 'Noto Serif Gurmukhi', 'Amiri', Georgia, serif;
+  width: 794px; height: 1123px; position: relative; overflow: hidden; color: var(--ink); font-family: var(--ft);
+  font-size: 17.5px; line-height: 1.42; -webkit-font-smoothing: antialiased; box-sizing: border-box;
+  background: radial-gradient(120% 80% at 50% 0%, var(--bg) 0%, var(--bg2) 100%);
+}
 .bd *, .bd *::before, .bd *::after { box-sizing: border-box; }
-.bd-in { position: absolute; inset: 0; padding: 70px 76px 64px; display: flex; flex-direction: column; overflow: hidden; }
-.bd-top { text-align: center; margin: 0 0 6px; font-size: .9em; letter-spacing: .08em; }
-.bd-title { text-align: center; margin: 0; font-size: 2.3em; line-height: 1.1; font-weight: 600; }
-.bd-orn { display: block; width: 210px; height: 20px; margin: 10px auto 18px; }
-.bd-head { display: flex; gap: 26px; align-items: flex-start; margin-bottom: 8px; }
-.bd-photo { flex: none; width: 168px; height: 210px; border-radius: 6px; overflow: hidden; }
-.bd-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* rich background pattern on the outer band */
+.bd::before { content: ''; position: absolute; inset: 0; opacity: .16;
+  background-image: radial-gradient(circle at 50% 50%, transparent 9px, rgba(233,203,122,.9) 10px, transparent 11px), radial-gradient(circle at 0 0, rgba(233,203,122,.9) 2px, transparent 3px);
+  background-size: 34px 34px, 34px 34px; background-position: 0 0, 17px 17px; }
+/* gold foil frame around the paper */
+.bd-frame-o { position: absolute; top: 24px; right: 24px; bottom: 24px; left: 24px; background: var(--gold); border-radius: 2px; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+.bd-in { position: absolute; top: 30px; right: 30px; bottom: 30px; left: 30px; padding: 44px 64px 46px; display: flex; flex-direction: column; overflow: hidden;
+  background: radial-gradient(90% 60% at 50% 30%, var(--paper) 0%, var(--paper) 55%, var(--paper2) 100%); }
+.bd-in::before { content: ''; position: absolute; top: 10px; right: 10px; bottom: 10px; left: 10px; border: 1px solid var(--goldline); pointer-events: none; }
+.bd.has-strip .bd-frame-o { bottom: 58px; }
+.bd.has-strip .bd-in { bottom: 64px; }
+.bd-c { position: absolute; z-index: 1; width: 120px; height: 120px; }
+.bd-c.tl { top: 4px; left: 4px; } .bd-c.tr { top: 4px; right: 4px; } .bd-c.bl { bottom: 4px; left: 4px; } .bd-c.br { bottom: 4px; right: 4px; }
+
+.bd-hd { text-align: center; position: relative; z-index: 2; }
+.bd-emblem { display: block; width: 62px; height: 62px; margin: 0 auto 4px; }
+.bd-top { margin: 0 0 2px; font-size: .92em; letter-spacing: .06em; color: var(--label); font-weight: 600; }
+.bd[lang=ar] .bd-top { font-family: 'Amiri', serif; font-size: 1.25em; letter-spacing: 0; }
+.bd-title { margin: 2px 0 0; font-family: var(--fd); font-weight: 700; font-size: 2.15em; line-height: 1.1; letter-spacing: .04em;
+  background: var(--goldtext); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.bd-fl { display: block; width: 260px; height: 21px; margin: 8px auto 14px; }
+
+.bd-head { display: flex; gap: 28px; align-items: center; margin-bottom: 4px; position: relative; z-index: 2; }
+.bd-photo { flex: none; width: 176px; height: 222px; border-radius: 50%; padding: 5px; background: var(--gold); box-shadow: 0 10px 24px -10px rgba(0,0,0,.45); }
+.bd-photo img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; border: 3px solid var(--paper); }
 .bd-headtxt { flex: 1; min-width: 0; }
-.bd-name { margin: 0 0 8px; font-size: 1.9em; line-height: 1.15; font-weight: 600; }
+.bd-name { margin: 0 0 8px; font-family: var(--fn); font-weight: 400; font-size: 3.1em; line-height: 1.05; color: var(--head); }
 .bd:not(.has-photo) .bd-name { text-align: center; }
+.bd:not(.has-photo) .bd-personal { max-width: 520px; margin: 0 auto; }
 .bd table { width: 100%; border-collapse: collapse; }
-.bd th { text-align: left; font-weight: 600; width: 38%; padding: 3px 12px 3px 0; vertical-align: top; }
-.bd td { padding: 3px 0; vertical-align: top; overflow-wrap: anywhere; }
-.bd-sec { margin-top: 14px; }
-.bd-sec h3 { margin: 0 0 6px; font-size: 1.12em; font-weight: 700; letter-spacing: .04em; padding-bottom: 4px; }
-.bd-para p { margin: 0; }
-.bd-c { position: absolute; z-index: 1; }
+.bd th { text-align: left; font-weight: 600; width: 40%; padding: 2px 14px 2px 0; vertical-align: top; color: var(--label); font-size: .9em; letter-spacing: .02em; }
+.bd td { padding: 2px 0; vertical-align: top; overflow-wrap: anywhere; font-weight: 500; }
+.bd-sec { margin-top: 12px; position: relative; z-index: 2; }
+.bd-sec h3 { margin: 0 0 6px; display: flex; align-items: center; gap: 12px; font-family: var(--fh); font-weight: 700; font-size: .98em; letter-spacing: .14em; text-transform: uppercase; color: var(--head); }
+.bd-sec h3::before, .bd-sec h3::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--goldline)); }
+.bd-sec h3::after { background: linear-gradient(90deg, var(--goldline), transparent); }
+.bd-sec h3 span { white-space: nowrap; }
+.bd-para p { margin: 0; text-align: center; font-style: italic; }
 
 /* free version: a red strip along the bottom */
-.bd-strip { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 38px; display: flex; align-items: center; justify-content: center;
-  background: #C0152F; color: #fff; font: 700 15px/1 Arial, Helvetica, sans-serif; letter-spacing: .06em; }
-.bd.has-strip .bd-in { bottom: 38px; }
-.bd-royal.has-strip .bd-in { bottom: 60px; }
+.bd-strip { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 36px; display: flex; align-items: center; justify-content: center;
+  background: #C0152F; color: #fff; font: 700 15px/1 Arial, Helvetica, sans-serif; letter-spacing: .08em; }
 
-/* ---------- Royal: maroon frame, gold lines, ivory page ---------- */
-.bd-royal { background: #6E0B1D; }
-.bd-royal .bd-in { top: 22px; right: 22px; bottom: 22px; left: 22px; background: #FFF9EF; border: 2px solid #C9A24A; padding: 56px 60px 54px; }
-.bd-royal .bd-in::before { content: ''; position: absolute; top: 8px; right: 8px; bottom: 8px; left: 8px; border: 1px solid #C9A24A; pointer-events: none; }
-.bd-royal .bd-title, .bd-royal .bd-name { font-family: 'Cinzel', 'Noto Serif Malayalam', 'Noto Serif Devanagari', Georgia, serif; color: #6E0B1D; }
-.bd-royal .bd-title { letter-spacing: .06em; }
-.bd-royal .bd-top { color: #8E6C1E; }
-.bd-royal .bd-sec h3 { color: #6E0B1D; border-bottom: 1px solid rgba(176,138,62,.6); font-family: 'Cinzel', Georgia, serif; }
-.bd-royal th { color: #5A2A1E; }
-.bd-royal .bd-photo { border: 3px solid #C9A24A; }
-.bd-royal .bd-c { width: 54px; height: 54px; }
-.bd-royal .bd-c.tl { top: 14px; left: 14px; } .bd-royal .bd-c.tr { top: 14px; right: 14px; }
-.bd-royal .bd-c.bl { bottom: 14px; left: 14px; } .bd-royal .bd-c.br { bottom: 14px; right: 14px; }
-
-/* ---------- Kasavu: ivory, gold side borders ---------- */
-.bd-kasavu { background: #FBF7EC; }
-.bd-kasavu::before, .bd-kasavu::after { content: ''; position: absolute; top: 0; bottom: 0; width: 34px; z-index: 1;
-  background: linear-gradient(90deg, #C9A227 0 22px, #FBF7EC 22px 25px, #8E1B1B 25px 28px, #FBF7EC 28px); }
-.bd-kasavu::before { left: 0; }
-.bd-kasavu::after { right: 0; transform: scaleX(-1); }
-.bd-kasavu .bd-in { padding: 64px 80px 60px; }
-.bd-kasavu .bd-title, .bd-kasavu .bd-name { font-family: 'Marcellus', 'Noto Serif Malayalam', Georgia, serif; color: #6B4E0E; }
-.bd-kasavu .bd-sec h3 { color: #8E1B1B; border-bottom: 2px solid #D9BC5C; font-family: 'Marcellus', Georgia, serif; }
-.bd-kasavu .bd-photo { border: 3px solid #C9A227; }
-
-/* ---------- Floral: blush with rose corners ---------- */
-.bd-floral { background: linear-gradient(#FDF1F2, #FFF9F9 40%, #FDF1F2); }
-.bd-floral .bd-title, .bd-floral .bd-name { font-family: 'Playfair Display', 'Noto Serif Malayalam', Georgia, serif; font-style: italic; color: #8E3E4C; }
-.bd-floral .bd-sec h3 { color: #9C4C5A; border-bottom: 1px solid #E7B5BD; font-family: 'Playfair Display', Georgia, serif; }
-.bd-floral .bd-photo { border-radius: 999px 999px 10px 10px; border: 3px solid #E7B5BD; }
-.bd-floral .bd-c { width: 220px; height: 143px; }
-.bd-floral .bd-c.tl { top: -6px; left: -6px; }
-.bd-floral .bd-c.br { bottom: -6px; right: -6px; }
-.bd-floral .bd-in { padding-top: 84px; }
-
-/* ---------- Simple: clean black and white ---------- */
-.bd-simple { background: #fff; font-family: 'DM Sans', 'Noto Sans Malayalam', 'Noto Serif Malayalam', Arial, sans-serif; }
-.bd-simple .bd-in { padding: 64px 70px; }
-.bd-simple .bd-title { font-family: 'DM Sans', Arial, sans-serif; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: 1.7em; }
-.bd-simple .bd-name { font-family: 'DM Sans', Arial, sans-serif; font-weight: 700; }
-.bd-simple .bd-sec h3 { text-transform: uppercase; font-size: .95em; letter-spacing: .12em; border-bottom: 2px solid #222; }
-.bd-simple th { color: #555; font-weight: 500; }
-.bd-simple .bd-photo { border-radius: 4px; }
+/* ---------- Maroon & Gold (Hindu) ---------- */
+.bd-royal { --bg: #6E0B1D; --bg2: #3A0511; --paper: #FFF9EE; --paper2: #F5E6CA; --head: #6E0B1D; --label: #7A4A1E; }
+/* ---------- Emerald & Gold (Muslim) ---------- */
+.bd-emerald { --bg: #0F5A43; --bg2: #062A1F; --paper: #FFFBF1; --paper2: #F1E9D2; --head: #0C4A37; --label: #6B5420; --ink: #1F2A24; }
+.bd-emerald::before { background-image: linear-gradient(45deg, rgba(233,203,122,.9) 1px, transparent 1px), linear-gradient(-45deg, rgba(233,203,122,.9) 1px, transparent 1px); background-size: 30px 30px; opacity: .12; }
+.bd-emerald .bd-in { border-radius: 180px 180px 0 0 / 70px 70px 0 0; }
+.bd-emerald .bd-frame-o { border-radius: 186px 186px 2px 2px / 74px 74px 2px 2px; }
+.bd-emerald .bd-in::before { border-radius: 172px 172px 0 0 / 64px 64px 0 0; }
+.bd-emerald .bd-c.tl, .bd-emerald .bd-c.tr { display: none; }
+/* ---------- Ivory & Gold (Christian, Jain, Buddhist) ---------- */
+.bd-ivory { --bg: #EFE4CF; --bg2: #D9C6A2; --paper: #FFFEFA; --paper2: #F8F1E2; --head: #6B4F1D; --label: #8A6A33; --ink: #2F2A22; }
+.bd-ivory::before { background-image: radial-gradient(circle at 50% 50%, transparent 9px, rgba(160,124,50,.9) 10px, transparent 11px), radial-gradient(circle at 0 0, rgba(160,124,50,.9) 2px, transparent 3px); opacity: .14; }
+/* ---------- Royal Blue (Sikh) ---------- */
+.bd-khalsa { --goldtext: linear-gradient(100deg, #8A4A08 0%, #D9952C 30%, #7A4006 52%, #E0A443 76%, #8A4A08 100%); --bg: #1B3279; --bg2: #0C1A45; --paper: #FFFAF0; --paper2: #F6EAD2; --head: #1B3279; --label: #A35E10; --ink: #1E2433;
+  --gold: linear-gradient(100deg, #B5701A 0%, #FFD98A 25%, #FFF0CC 40%, #D9952C 58%, #FFE3A0 76%, #A1600F 100%); --goldline: #E0A443; }
+/* ---------- Kerala Kasavu ---------- */
+.bd-kasavu { --bg: #FBF6E8; --bg2: #F1E6C8; --paper: #FFFDF6; --paper2: #FAF2DD; --head: #7A5A10; --label: #8E1B1B; --ink: #2E2614; }
+.bd-kasavu::before { opacity: 1; background: linear-gradient(90deg, #C9A227 0 16px, transparent 16px 19px, #8E1B1B 19px 22px, transparent 22px calc(100% - 22px), #8E1B1B calc(100% - 22px) calc(100% - 19px), transparent calc(100% - 19px) calc(100% - 16px), #C9A227 calc(100% - 16px)); }
+.bd-kasavu .bd-frame-o { left: 34px; right: 34px; }
+.bd-kasavu .bd-in { left: 40px; right: 40px; }
+/* ---------- Black & Gold ---------- */
+.bd-noir { --goldtext: var(--gold); --bg: #1A1714; --bg2: #050403; --paper: #14110E; --paper2: #0E0C0A; --head: #E9CB7A; --label: #C9A24A; --ink: #F3E9D2; --goldline: #8A6A2A; }
+.bd-noir .bd-name { background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; padding: 0 .1em; }
+.bd-noir .bd-photo img { border-color: #14110E; }
 
 /* ---------- biodata pages ---------- */
 .bio-layout { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 40px; align-items: start; padding: 10px 0 80px; }
@@ -88,10 +96,21 @@
 .tpl-pick i { display: block; aspect-ratio: 210 / 297; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); }
 .tpl-pick input:checked + i { box-shadow: 0 0 0 3px var(--kumkum); }
 .tpl-pick input:focus-visible + i { outline: 3px solid var(--turmeric); outline-offset: 3px; }
-.tpl-royal { background: linear-gradient(#FFF9EF, #FFF9EF) padding-box, #6E0B1D; border: 7px solid transparent; }
-.tpl-kasavu { background: linear-gradient(90deg, #C9A227 0 9%, #FBF7EC 9% 91%, #C9A227 91%); }
-.tpl-floral { background: radial-gradient(circle at 15% 12%, #E7A5AF 0 12%, transparent 13%), radial-gradient(circle at 85% 88%, #E7A5AF 0 12%, transparent 13%), #FDF1F2; }
-.tpl-simple { background: linear-gradient(#222, #222) 50% 18% / 50% 3px no-repeat, #fff; }
+.tpl-royal { background: linear-gradient(#FFF9EE, #FFF9EE) padding-box, linear-gradient(135deg, #E9CB7A, #8A6416) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #6E0B1D !important; }
+.tpl-emerald { background: linear-gradient(#FFFBF1, #FFFBF1) padding-box, linear-gradient(135deg, #E9CB7A, #8A6416) border-box; border: 3px solid transparent; border-radius: 40px 40px 6px 6px !important; box-shadow: 0 0 0 5px #0F5A43 !important; }
+.tpl-ivory { background: linear-gradient(#FFFEFA, #FFFEFA) padding-box, linear-gradient(135deg, #E9CF86, #8E6A22) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #E3D4B6 !important; }
+.tpl-khalsa { background: linear-gradient(#FFFAF0, #FFFAF0) padding-box, linear-gradient(135deg, #FFD98A, #B5701A) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #1B3279 !important; }
+.tpl-kasavu { background: linear-gradient(90deg, #C9A227 0 10%, #8E1B1B 10% 12%, #FFFDF6 12% 88%, #8E1B1B 88% 90%, #C9A227 90%); }
+.tpl-noir { background: linear-gradient(#14110E, #14110E) padding-box, linear-gradient(135deg, #F6E3A1, #8A6416) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #050403 !important; }
+.tpl-pick { grid-template-columns: repeat(3, 1fr) !important; gap: 18px 14px; }
+.tpl-pick input:checked + i { outline: 3px solid var(--kumkum); outline-offset: 7px; }
+.rel-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.rel-pick label { cursor: pointer; }
+.rel-pick input { position: absolute; opacity: 0; pointer-events: none; }
+.rel-pick span { display: inline-block; padding: 9px 16px; border-radius: 99px; background: #fff; box-shadow: 0 0 0 1px var(--line); font-weight: 600; font-size: .95rem; }
+.rel-pick input:checked + span { background: var(--plum); color: #fff; box-shadow: none; }
+.rel-pick input:focus-visible + span { outline: 3px solid var(--turmeric); outline-offset: 2px; }
+.bio-form .field[hidden] { display: none; }
 .photo-row { display: flex; gap: 14px; align-items: center; }
 .photo-row img { width: 72px; height: 90px; object-fit: cover; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
 .extra-row { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
