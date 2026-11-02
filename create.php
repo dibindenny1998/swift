@@ -61,7 +61,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
       </div>
       <div class="theme-pick">
         <?php foreach (showcase_themes() as $id => $t): ?>
-          <label data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>" data-tier="<?= $t['tier'] ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?> <span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b><small class="lock" hidden></small></label>
+          <label data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>" data-tier="<?= $t['tier'] ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="" width="232" height="480" loading="lazy"><b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?> <span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b><small class="lock" hidden></small></label>
         <?php endforeach; ?>
       </div>
       <p class="err" role="alert"></p>

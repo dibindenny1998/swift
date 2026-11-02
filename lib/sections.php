@@ -49,7 +49,7 @@ function sec_designs(int $limit = 0): void
             $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
           <a class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" href="/create?t=<?= $id ?>" data-tags="<?= e($tags) ?>">
             <span class="gd-img">
-              <img src="/assets/img/designs/<?= $id ?>.jpg" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
+              <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
               <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
             </span>
             <b><?= e($t['name']) ?></b>
