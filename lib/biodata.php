@@ -23,12 +23,12 @@ const BIO_LAYOUTS = [
 ];
 
 const BIO_TEMPLATES = [
-    'royal'   => ['name' => 'Maroon'],
-    'emerald' => ['name' => 'Emerald'],
-    'ivory'   => ['name' => 'Gold'],
-    'khalsa'  => ['name' => 'Navy'],
-    'kasavu'  => ['name' => 'Kerala'],
-    'noir'    => ['name' => 'Black'],
+    'royal'   => ['name' => 'Rose gold'],
+    'noir'    => ['name' => 'Blush'],
+    'ivory'   => ['name' => 'Champagne'],
+    'khalsa'  => ['name' => 'Peach'],
+    'emerald' => ['name' => 'Mint'],
+    'kasavu'  => ['name' => 'Kerala gold'],
 ];
 
 /* Fields: k, label, max, placeholder (string, or per-religion map), type, religions it applies to (null = all) */
