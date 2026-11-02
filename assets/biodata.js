@@ -31,6 +31,20 @@
   }
   function applies(f, rel) { return !f.rel || f.rel.indexOf(rel) > -1; }
 
+  // small religious symbol in the accent colour (off unless the person turns it on)
+  var SYMBOL = { hindu: 'om', jain: 'jain', sikh: 'onkar', muslim: 'crescent', christian: 'cross', buddhist: 'wheel' };
+  function symbol(rel) {
+    var k = SYMBOL[rel], g = '';
+    if (!k) return '';
+    if (k === 'om') return '<p class="bd-sym bd-sym-t" lang="hi">ॐ</p>';
+    if (k === 'onkar') return '<p class="bd-sym bd-sym-t" lang="pa">ੴ</p>';
+    if (k === 'crescent') g = '<path d="M17,3 A11,11 0 1,0 25,20 A9,9 0 1,1 17,3Z"/>';
+    else if (k === 'cross') g = '<path d="M12.5,3 h3 v6 h6 v3 h-6 v13 h-3 v-13 h-6 v-3 h6Z"/>';
+    else if (k === 'jain') g = '<path d="M14,3 C9,9 7,14 9,19 C10.5,22.5 17.5,22.5 19,19 C21,14 19,9 14,3Z M14,13 a2,2 0 1,1 0,4 a2,2 0 1,1 0,-4Z" fill-rule="evenodd"/>';
+    else if (k === 'wheel') { g = '<circle cx="14" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="14" r="2.2"/>'; for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4; g += '<path d="M' + (14 + 2.2 * Math.cos(a)).toFixed(1) + ',' + (14 + 2.2 * Math.sin(a)).toFixed(1) + ' L' + (14 + 9 * Math.cos(a)).toFixed(1) + ',' + (14 + 9 * Math.sin(a)).toFixed(1) + '" stroke="currentColor" stroke-width="1.3"/>'; } }
+    return '<svg class="bd-sym" width="28" height="28" viewBox="0 0 28 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' + g + '</svg>';
+  }
+
   function strip(brand) { return '<div class="bd-strip">Created by ' + esc(brand) + '</div>'; }
 
   /** Renders the biodata page into el. opts: { watermark: bool, brand } */
@@ -63,9 +77,11 @@
     var name = (d.name || '').trim() || 'Your name';
     var top = d.no_top ? '' : ((d.top_line || '').trim() || R.top || '');
 
-    var html = '<div class="bd bd-' + esc(tpl) + (photo ? ' has-photo' : '') + (opts.watermark ? ' has-strip' : '') + '" lang="' + (rel === 'muslim' ? 'ar' : 'en') + '">' +
+    var layout = (CFG.layouts && CFG.layouts[d.layout]) ? d.layout : 'center';
+    var html = '<div class="bd bd-' + esc(tpl) + ' bd-l-' + layout + (photo ? ' has-photo' : '') + (opts.watermark ? ' has-strip' : '') + '" lang="' + (rel === 'muslim' ? 'ar' : 'en') + '">' +
       '<div class="bd-in">' +
-      '<header class="bd-hd">' +
+      (layout === 'frame' ? '<i class="bd-tick tl"></i><i class="bd-tick tr"></i><i class="bd-tick bl"></i><i class="bd-tick br"></i>' : '') +
+      '<header class="bd-hd">' + (d.symbol ? symbol(rel) : '') +
         (top ? '<p class="bd-top">' + esc(top) + '</p>' : '') +
         '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1><span class="bd-rule"></span></header>' +
       '<div class="bd-head">' +

@@ -41,8 +41,14 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
       </div>
 
       <div class="card">
-        <h2>Design</h2>
-        <div class="tpl-pick" role="radiogroup" aria-label="Design">
+        <h2>Style</h2>
+        <div class="lay-pick" role="radiogroup" aria-label="Style">
+          <?php foreach (BIO_LAYOUTS as $k => $name): ?>
+            <label><input type="radio" name="layout" value="<?= $k ?>"<?= $k === 'center' ? ' checked' : '' ?>><i class="lay-<?= $k ?>"></i><?= e($name) ?></label>
+          <?php endforeach; ?>
+        </div>
+        <h2 style="margin-top:22px">Colour</h2>
+        <div class="tpl-pick" role="radiogroup" aria-label="Colour">
           <?php foreach (BIO_TEMPLATES as $k => $t): ?>
             <label><input type="radio" name="template" value="<?= $k ?>"<?= $k === 'royal' ? ' checked' : '' ?>><i class="tpl-<?= $k ?>"></i><?= e($t['name']) ?></label>
           <?php endforeach; ?>
@@ -53,7 +59,8 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
         <h2>Heading and photo</h2>
         <div class="row2">
           <div class="field"><label for="f-title">Heading</label><input id="f-title" name="title" maxlength="40" placeholder="Marriage Biodata"></div>
-          <div class="field"><label for="f-top_line">Blessing line at the top</label><input id="f-top_line" name="top_line" maxlength="60" placeholder=""><small><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" name="no_top" id="f-no_top"> Don't show a blessing line</label></small></div>
+          <div class="field"><label for="f-top_line">Blessing line at the top</label><input id="f-top_line" name="top_line" maxlength="60" placeholder=""><small><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" name="no_top" id="f-no_top"> Don't show a blessing line</label></small>
+            <small><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" name="symbol" id="f-symbol"> Show the religious symbol (<span id="sym-name">ॐ</span>)</label></small></div>
         </div>
         <div class="field"><span>Photo (optional)</span>
           <div class="photo-row"><img id="photo-th" alt="" hidden><label class="btn alt small" for="photo-in">Add a photo</label><button type="button" class="linkbtn" id="photo-x" hidden>Remove</button></div>
@@ -124,12 +131,16 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
   var photo = EX && EX.photo ? { kind: 'old', url: EX.photo } : null;
   if (!Array.isArray(data.extra)) data.extra = [];
 
-  var SKIP = { template: 1, phone: 1, religion: 1, no_top: 1 };
+  var SKIP = { template: 1, phone: 1, religion: 1, no_top: 1, symbol: 1, layout: 1 };
   var names = [];
   Array.prototype.forEach.call(f.elements, function (el) { if (el.name && !SKIP[el.name] && el.type !== 'file') { names.push(el.name); if (data[el.name]) el.value = data[el.name]; } });
   if (!C.religions[data.religion]) data.religion = 'hindu';
   f.querySelector('input[name=religion][value="' + data.religion + '"]').checked = true;
   f.elements.no_top.checked = !!data.no_top;
+  f.elements.symbol.checked = !!data.symbol;
+  if (!C.layouts[data.layout]) data.layout = 'center';
+  f.querySelector('input[name=layout][value="' + data.layout + '"]').checked = true;
+  var SYM = { hindu: 'ॐ', jain: 'Jain symbol', sikh: 'ੴ', muslim: 'crescent', christian: 'cross', buddhist: 'dharma wheel' };
   var tplChosen = !!EX || !!store.get('wlb_tpl_set');
   (f.querySelector('input[name=template][value="' + tpl + '"]') || f.querySelector('input[name=template]')).checked = true;
   // show only the fields that fit the religion, with matching examples
@@ -142,6 +153,8 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
     });
     document.getElementById('rel-title').textContent = R.section;
     f.elements.top_line.placeholder = R.top || 'Optional';
+    document.getElementById('sym-name').textContent = SYM[r] || 'none for this religion';
+    f.elements.symbol.disabled = !SYM[r];
     if (!tplChosen) { tpl = R.template; f.querySelector('input[name=template][value="' + tpl + '"]').checked = true; }
   }
   applyReligion();
@@ -190,6 +203,8 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
     if (e.target.name === 'template') { tpl = e.target.value; tplChosen = true; store.set('wlb_tpl_set', 1); changed(); }
     if (e.target.name === 'religion') { data.religion = e.target.value; applyReligion(); changed(); }
     if (e.target.name === 'no_top') { data.no_top = e.target.checked; changed(); }
+    if (e.target.name === 'symbol') { data.symbol = e.target.checked; changed(); }
+    if (e.target.name === 'layout') { data.layout = e.target.value; changed(); }
   });
   addEventListener('resize', function () { WLB.scaleTo(pv); if (!sheet.hidden) WLB.scaleTo(pvm); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { paint(pv); });

@@ -14,6 +14,14 @@ const BIO_RELIGIONS = [
     'other'     => ['name' => 'Other',     'top' => '',         'template' => 'noir',    'section' => 'Community'],
 ];
 
+/* Minimal layouts; the template below only sets the colour. */
+const BIO_LAYOUTS = [
+    'center' => 'Centered',
+    'left'   => 'Left aligned',
+    'cols'   => 'Two column',
+    'frame'  => 'Double frame',
+];
+
 const BIO_TEMPLATES = [
     'royal'   => ['name' => 'Maroon'],
     'emerald' => ['name' => 'Emerald'],
@@ -104,7 +112,8 @@ function bio_clip($v, int $max): string
 
 function bio_sanitize(array $r): array
 {
-    $d = ['religion' => isset(BIO_RELIGIONS[$r['religion'] ?? '']) ? $r['religion'] : 'hindu', 'no_top' => !empty($r['no_top'])];
+    $d = ['religion' => isset(BIO_RELIGIONS[$r['religion'] ?? '']) ? $r['religion'] : 'hindu', 'no_top' => !empty($r['no_top']),
+        'symbol' => !empty($r['symbol']), 'layout' => isset(BIO_LAYOUTS[$r['layout'] ?? '']) ? $r['layout'] : 'center'];
     foreach (BIO_SECTIONS as $fields) {
         foreach ($fields as $f) {
             $type = $f['type'] ?? 'text';
@@ -132,5 +141,5 @@ function bio_js_config(): array
     foreach (BIO_SECTIONS as $title => $fields) {
         $sections[] = ['title' => $title, 'fields' => array_map(fn($f) => ['k' => $f['k'], 'label' => $f['label'], 'rel' => $f['rel'] ?? null], $fields)];
     }
-    return ['sections' => $sections, 'religions' => BIO_RELIGIONS, 'templates' => array_map(fn($t) => $t['name'], BIO_TEMPLATES)];
+    return ['sections' => $sections, 'religions' => BIO_RELIGIONS, 'templates' => array_map(fn($t) => $t['name'], BIO_TEMPLATES), 'layouts' => BIO_LAYOUTS];
 }

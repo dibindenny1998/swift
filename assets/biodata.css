@@ -47,6 +47,49 @@
 .bd-kasavu .bd-in { border-left: 3px double var(--acc); border-right: 3px double var(--acc); }
 .bd-noir    { --acc: #111111; --line: rgba(17,17,17,.3); --label: #6B6B6B; }
 
+
+/* religious symbol (optional) */
+.bd-sym { display: block; width: 26px; height: 26px; margin: 0 auto 8px; color: var(--acc); }
+.bd-sym-t { width: auto; height: auto; font-size: 1.7em; line-height: 1; font-family: 'Noto Serif Devanagari', 'Noto Serif Gurmukhi', serif; text-align: center; margin: 0 0 6px; }
+
+/* layout: left aligned with a thin accent bar */
+.bd-l-left .bd-in { border: 0; border-left: 3px solid var(--acc); padding-left: 52px; }
+.bd-l-left .bd-hd { text-align: left; }
+.bd-l-left .bd-sym { margin-left: 0; }
+.bd-l-left .bd-sym-t { text-align: left; }
+.bd-l-left .bd-rule { margin-left: 0; }
+.bd-l-left:not(.has-photo) .bd-name { text-align: left; }
+
+/* layout: two columns of sections */
+.bd-l-cols .bd-in { display: block; column-count: 2; column-gap: 40px; column-fill: balance; }
+.bd-l-cols .bd-hd, .bd-l-cols .bd-head { column-span: all; }
+.bd-l-cols .bd-sec { break-inside: avoid; margin-top: 0; margin-bottom: 16px; }
+.bd-l-cols .bd-head { margin-bottom: 20px; }
+.bd-l-cols th { width: 44%; }
+.bd-l-cols .bd-in { padding-top: 46px; }
+
+/* layout: double hairline frame with corner marks */
+.bd-l-frame .bd-in { border: 3px double var(--acc); top: 40px; right: 40px; bottom: 40px; left: 40px; }
+.bd-l-frame.has-strip .bd-in { bottom: 66px; }
+.bd-l-frame .bd-tick { position: absolute; width: 14px; height: 14px; border-color: var(--acc); border-style: solid; border-width: 0; }
+.bd-l-frame .bd-tick.tl { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; }
+.bd-l-frame .bd-tick.tr { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
+.bd-l-frame .bd-tick.bl { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
+.bd-l-frame .bd-tick.br { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+.bd-l-frame .bd-sec h3 { text-align: center; border-bottom: 0; padding-bottom: 0; }
+.bd-l-frame .bd-sec h3::after { content: ''; display: block; width: 28px; height: 1px; background: var(--acc); margin: 6px auto 0; }
+
+.lay-pick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.lay-pick label { cursor: pointer; display: grid; gap: 6px; text-align: center; font-weight: 600; font-size: .85rem; }
+.lay-pick input { position: absolute; opacity: 0; pointer-events: none; }
+.lay-pick i { display: block; aspect-ratio: 210 / 297; border-radius: 4px; background: #fff; box-shadow: 0 0 0 1px var(--line); position: relative; overflow: hidden; }
+.lay-pick input:checked + i { outline: 3px solid var(--kumkum); outline-offset: 4px; }
+.lay-pick i::before, .lay-pick i::after { content: ''; position: absolute; background: #C9BFB8; }
+.lay-center::before { left: 30%; right: 30%; top: 14%; height: 3px; } .lay-center::after { left: 16%; right: 16%; top: 30%; height: 50%; background: repeating-linear-gradient(#E2DAD4 0 2px, transparent 2px 9px) !important; }
+.lay-left { border-left: 4px solid #7A1F2B; } .lay-left::before { left: 14%; width: 40%; top: 14%; height: 3px; } .lay-left::after { left: 14%; right: 14%; top: 30%; height: 50%; background: repeating-linear-gradient(#E2DAD4 0 2px, transparent 2px 9px) !important; }
+.lay-cols::before { left: 30%; right: 30%; top: 14%; height: 3px; } .lay-cols::after { left: 12%; right: 12%; top: 30%; height: 50%; background: repeating-linear-gradient(90deg, transparent 0 46%, #fff 46% 54%, transparent 54%), repeating-linear-gradient(#E2DAD4 0 2px, transparent 2px 9px) !important; }
+.lay-frame { box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 8px #7A1F2B, inset 0 0 0 10px #fff, 0 0 0 1px var(--line) !important; } .lay-frame::before { left: 30%; right: 30%; top: 16%; height: 3px; } .lay-frame::after { left: 20%; right: 20%; top: 32%; height: 46%; background: repeating-linear-gradient(#E2DAD4 0 2px, transparent 2px 9px) !important; }
+
 /* ---------- biodata pages ---------- */
 .bio-layout { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 40px; align-items: start; padding: 10px 0 80px; }
 .bio-layout > * { min-width: 0; }
