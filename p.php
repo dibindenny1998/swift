@@ -53,7 +53,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
 <body>
 <header class="top">
   <div class="wrap top-in">
-    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#141414" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B8913A" stroke-width="2.6"/></svg><?= e($brand) ?></a>
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B8913A" stroke-width="2.6"/></svg><?= e($brand) ?></a>
     <a class="btn small alt" href="/create?t=<?= e($inv['token']) ?>">Edit details</a>
   </div>
 </header>

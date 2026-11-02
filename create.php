@@ -34,7 +34,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
 <body>
 <header class="top">
   <div class="wrap top-in">
-    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#141414" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B8913A" stroke-width="2.6"/></svg><?= e($brand) ?></a>
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B8913A" stroke-width="2.6"/></svg><?= e($brand) ?></a>
     <?php if ($editing): ?><a class="btn small alt" href="/p/<?= e($editing['token']) ?>">Back to my invite</a><?php endif; ?>
   </div>
 </header>

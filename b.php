@@ -24,7 +24,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
 <body>
 <header class="top">
   <div class="wrap top-in">
-    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#141414" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B08D57" stroke-width="2.6"/></svg><?= e($brand) ?></a>
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#C9A26B" stroke-width="2.6"/></svg><?= e($brand) ?></a>
     <a class="btn small alt" href="/biodata?t=<?= e($bio['token']) ?>">Edit details</a>
   </div>
 </header>
@@ -125,7 +125,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
       if (o.demo) return post('/api.php?a=bio_demo_pay', { t: C.t }).then(function (r) { if (r.ok) location.reload(); else reset(r.error); });
       return loadRzp().then(function () {
         var rzp = new Razorpay({ key: o.key, amount: o.amount, currency: o.currency, name: o.name, description: o.description, order_id: o.order_id, prefill: o.prefill,
-          theme: { color: '#141414' }, retry: { enabled: true },
+          theme: { color: '#C9727F' }, retry: { enabled: true },
           handler: function (resp) {
             pay.textContent = 'Confirming payment…';
             post('/api.php?a=bio_verify', Object.assign({ t: C.t }, resp)).then(function (v) { if (v.ok) location.reload(); else reset(v.error + ' If money was taken, refresh this page in a minute.'); })
