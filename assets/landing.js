@@ -22,6 +22,10 @@
   var THEMES = window.WL_THEMES || {};
   var state = { theme: 'champagne', p1: '', p2: '', touched: false };
   var n1 = document.getElementById('n1'), n2 = document.getElementById('n2');
+  // the blinking cursor hint disappears once the visitor taps a name
+  var namesEl = document.getElementById('names');
+  [n1, n2].forEach(function (inp) { inp.addEventListener('focus', function () { namesEl.classList.add('typed'); }); });
+  document.querySelectorAll('.name-box').forEach(function (bx) { bx.addEventListener('click', function (e) { if (e.target.tagName !== 'INPUT') bx.querySelector('input').focus(); }); });
   var frame = document.getElementById('demo');
   var ready = false, first = true;
 
@@ -41,7 +45,7 @@
 
   var meas = document.createElement('span');
   meas.className = 'name-measure';
-  document.querySelector('.hero .hero-title').appendChild(meas);
+  document.getElementById('names').appendChild(meas);
   function fit(inp) { meas.textContent = inp.value || 'M'; inp.style.width = (meas.getBoundingClientRect().width + 6) + 'px'; }
   function fitAll() { fit(n1); fit(n2); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
@@ -60,6 +64,7 @@
     inp.addEventListener('focus', function () { if (!state.touched) inp.select(); });
     inp.addEventListener('input', function () {
       state.touched = true;
+      namesEl.classList.add('typed');
       fit(inp);
       state.p1 = n1.value.trim(); state.p2 = n2.value.trim();
       soon(); links();

@@ -609,3 +609,22 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
   .bio-quick { display: none !important; }
   .menu-btn { margin-left: auto; }
 }
+
+/* ================= hero name boxes look typeable ================= */
+.names { gap: .12em .22em; align-items: center; }
+.name-box { position: relative; display: inline-flex; align-items: center; gap: .08em; padding: .02em .22em .06em .26em; border-radius: .32em;
+  background: rgba(255,255,255,.75); box-shadow: 0 0 0 1px #F0D6DA, 0 8px 20px -14px rgba(168,86,106,.45); transition: box-shadow .2s, background .2s; cursor: text; }
+.name-box .name-in { border-bottom: 2px dashed #D9B983; padding-bottom: .02em; }
+.name-box:hover { box-shadow: 0 0 0 1.5px #E7A3AC, 0 10px 22px -14px rgba(168,86,106,.5); }
+.name-box:focus-within { background: #fff; box-shadow: 0 0 0 2px var(--kumkum), 0 12px 26px -14px rgba(168,86,106,.55); }
+.name-box:focus-within .name-in { border-bottom-style: solid; border-bottom-color: var(--kumkum); background: transparent; }
+.name-pen { flex: none; width: .3em; height: .3em; min-width: 14px; min-height: 14px; color: var(--kumkum); opacity: .75; margin-left: .04em; }
+.name-box:focus-within .name-pen { opacity: 0; }
+/* blinking cursor after the first name until the visitor interacts */
+.name-caret { display: none; }
+.name-box.hint .name-caret { display: block; width: 2px; height: .72em; margin-left: -.06em; background: var(--kumkum); border-radius: 1px; animation: nameBlink 1.05s steps(1) infinite; }
+.names.typed .name-caret { display: none !important; }
+@keyframes nameBlink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .name-box.hint .name-caret { animation: none; } }
+.hero .hero-title .names { font-size: .68em; }
+@media (max-width: 900px) { .hero .hero-title .names { font-size: .74em; } .name-box { padding: .02em .16em .06em .2em; } }
