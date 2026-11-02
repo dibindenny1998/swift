@@ -628,3 +628,13 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
 @media (prefers-reduced-motion: reduce) { .name-box.hint .name-caret { animation: none; } }
 .hero .hero-title .names { font-size: .68em; }
 @media (max-width: 900px) { .hero .hero-title .names { font-size: .74em; } .name-box { padding: .02em .16em .06em .2em; } }
+
+/* phones: the header tucks away while scrolling down; the bottom bar stays as the one action */
+.top { transition: transform .3s ease, background .2s, border-color .2s; }
+@media (max-width: 900px) {
+  .top.tuck { transform: translateY(-100%); }
+  .sticky-cta { box-shadow: 0 -10px 30px -18px rgba(168,86,106,.35); }
+  .sticky-cta .btn { min-height: 50px; }
+}
+@media (max-width: 900px) { body:has(.sticky-cta) .foot { padding-bottom: 120px; } }
+#enq { scroll-margin-top: 20px; }

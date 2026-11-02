@@ -53,6 +53,7 @@ site_head('Custom Wedding Website with Your Own Domain | ' . $brand, 'A wedding 
   </div>
 </main>
 <?php site_footer(); ?>
+<?= sticky_cta('#enq', 'Ask for a quote', 'We reply on WhatsApp within a day') ?>
 <script>
 (function () {
   var f = document.getElementById('enq'), err = f.querySelector('.err');

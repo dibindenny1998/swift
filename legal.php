@@ -36,5 +36,6 @@ site_head($pages[$p][0] . ' | ' . setting('brand'));
 <?php site_header(($_GET['p'] ?? '') === 'contact' ? 'contact' : ''); ?>
 <main class="wrap legal"><h1><?= $pages[$p][0] ?></h1><?= $pages[$p][1] ?><p style="margin-top:28px;font-size:.9rem">Last updated <?= date('j F Y') ?>.</p></main>
 <?php site_footer(); ?>
+<?= sticky_cta() ?>
 </body>
 </html>

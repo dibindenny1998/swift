@@ -15,5 +15,6 @@ site_head("Pricing: Free Wedding Website, ₹" . price('standard') . " and ₹" 
   <?php sec_faq(); ?>
 </main>
 <?php site_footer(); ?>
+<?= sticky_cta() ?>
 </body>
 </html>

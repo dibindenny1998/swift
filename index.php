@@ -157,7 +157,7 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
   </section>
 </main>
 <?php site_footer(); ?>
-<div class="sticky-cta"><a class="btn js-make" href="/create">Make our website</a><small>Free plan, no card needed</small></div>
+<?= sticky_cta() ?>
 <script>window.WL_DEMO_PHOTOS = <?= json_for_script(array_values(array_filter([slot_url('demo-1'), slot_url('demo-2'), slot_url('demo-3')]))) ?>;</script>
 <script>window.WL_THEMES = <?= json_for_script(array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags']], THEMES)) ?>;</script>
 <script src="<?= asset('assets/samples.js') ?>"></script>

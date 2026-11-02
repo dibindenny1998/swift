@@ -542,7 +542,15 @@ function site_header(string $active = ''): void
         . '</div></header>'
         . '<script>(function(){var b=document.getElementById("menu-btn"),m=document.getElementById("menu"),t=document.getElementById("top");'
         . 'b.addEventListener("click",function(){var o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);t.classList.toggle("menu-open",o);});'
-        . 'addEventListener("scroll",function(){t.classList.toggle("scrolled",scrollY>8);},{passive:true});})();</script>';
+        . 'var ly=scrollY;addEventListener("scroll",function(){var y=scrollY;t.classList.toggle("scrolled",y>8);'
+        . 'if(innerWidth<=900&&!t.classList.contains("menu-open")){t.classList.toggle("tuck",y>ly&&y>140);}ly=y;},{passive:true});})();</script>';
+}
+
+/** The single bottom action bar on phones. */
+function sticky_cta(string $href = '/create', string $label = 'Make our website', string $note = 'Free plan, no card needed'): string
+{
+    $cls = $href === '/create' ? 'btn js-make' : 'btn';
+    return '<div class="sticky-cta"><a class="' . $cls . '" href="' . e($href) . '">' . e($label) . '</a><small>' . e($note) . '</small></div>';
 }
 
 function site_footer(): void
