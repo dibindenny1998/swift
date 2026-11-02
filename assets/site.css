@@ -453,3 +453,22 @@ p { margin: 0; }
   .top { position: sticky; }
 }
 @media (max-width: 380px) { .logo { font-size: 1.3rem; } .bio-quick { padding: 7px 10px; font-size: .85rem; } }
+
+/* ================= lighter home page ================= */
+.quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.quick div { background: #fff; border-radius: var(--r-md); padding: 20px; box-shadow: 0 0 0 1px var(--line); display: grid; gap: 4px; }
+.quick b { font-size: 1.05rem; }
+.quick span { color: var(--plum-2); font-size: .92rem; line-height: 1.4; }
+.price-strip { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; text-decoration: none; color: var(--plum); background: #fff; border-radius: var(--r-lg); padding: 22px; box-shadow: 0 0 0 1px var(--line); }
+.price-strip span { display: grid; text-align: center; min-width: 110px; padding: 6px 14px; font-size: .88rem; color: var(--plum-2); }
+.price-strip b { font-family: var(--display); font-size: 1.7rem; color: var(--plum); line-height: 1.15; }
+.price-strip .hi b { color: var(--kumkum); }
+.price-strip em { font-style: normal; font-weight: 700; color: var(--kumkum); padding: 6px 14px; }
+.price-strip:hover { box-shadow: 0 0 0 2px var(--kumkum); }
+@media (max-width: 900px) {
+  .quick { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .quick div { padding: 14px; }
+  .price-strip span { min-width: 0; flex: 1 1 40%; }
+  .price-strip em { flex-basis: 100%; text-align: center; }
+  .grid-designs { grid-template-columns: 1fr 1fr; }
+}

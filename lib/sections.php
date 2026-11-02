@@ -15,7 +15,7 @@ function sec_designs(int $limit = 0): void
 {
     extract(page_vars());
     // the home page shows a mix across traditions and plans; /designs shows everything
-    $pick = ['seal', 'kasavu', 'sage', 'noor', 'sindoor', 'ink', 'kesar', 'classic'];
+    $pick = ['seal', 'kasavu', 'noor', 'sage'];
     $themes = $limit > 0 ? array_slice(array_intersect_key(THEMES, array_flip($pick)), 0, $limit, true) : THEMES;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
 ?>
@@ -23,7 +23,7 @@ function sec_designs(int $limit = 0): void
     <div class="wrap">
       <div class="sec-head">
         <h2 class="foil"><?= $nThemes ?> designs, finished in gold.</h2>
-        <p>Tap any design to start with it. Two are free, and the Premium ones are our most detailed. You can switch any time before you share.</p>
+        <p><?= $limit ? 'Two are free. Tap one to start.' : 'Tap any design to start with it. Two are free, and the Premium ones are our most detailed. You can switch any time before you share.' ?></p>
       </div>
       <?php if (!$limit): ?>
       <div class="filters" role="group" aria-label="Filter designs">

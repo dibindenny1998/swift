@@ -43,7 +43,7 @@ site_head($brand . ': wedding invitation websites you share on WhatsApp', "Make 
           <span class="names"><label class="sr" for="n1">First name</label><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"></span>
         </h1>
         <p class="hero-hint"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Tap the names and type yours. Your website changes as you type.</p>
-        <p class="hero-lead">Instead of a printed card, send your guests one link on WhatsApp. It opens your own wedding website with the invitation, every event with Google Maps directions, a countdown, RSVP, a gift list and your photos. <?= $nThemes ?> designs for Hindu, Christian, Muslim and Sikh weddings. Start free.</p>
+        <p class="hero-lead">Send one link on WhatsApp instead of a printed card. Your invitation, venues, countdown and RSVP in one beautiful page.</p>
         <div class="hero-cta">
           <a class="btn js-make" href="/create">Make our wedding website</a>
           <small>Free plan available. Paid from ₹<?= $ps ?>, one time.</small>
@@ -71,73 +71,55 @@ site_head($brand . ': wedding invitation websites you share on WhatsApp', "Make 
     </div>
   </section>
 
+<?php sec_designs(4); ?>
+
   <section class="sec">
     <div class="wrap">
-      <div class="sec-head">
-        <h2>Designs for every wedding.</h2>
-        <p>Each one comes with the right opening line and events, from Muhurtham to Nikah, Holy Matrimony and Anand Karaj. You can change every word.</p>
-      </div>
-      <div class="cats">
-        <?php foreach (CATEGORIES as $k => $label): ?>
-          <a class="cat" href="/designs?f=<?= $k ?>">
-            <?= slot_img('cat-' . $k, '', $label . ' wedding') ?>
-            <span class="cat-in"><b><?= e($label) ?></b><span><?= e($catNotes[$k]) ?>. <?= $counts[$k] ?> designs</span></span>
-          </a>
-        <?php endforeach; ?>
+      <div class="quick">
+        <div><b>Maps to every venue</b><span>One tap opens Google Maps</span></div>
+        <div><b>Live countdown</b><span>Right under your names</span></div>
+        <div><b>RSVP and gift list</b><span>Know who is coming and what they bring</span></div>
+        <div><b>Edit any time</b><span>The same link updates for everyone</span></div>
       </div>
     </div>
   </section>
-
-<?php sec_designs(8); ?>
 
   <section class="sec band">
     <div class="wrap">
-      <div class="sec-head">
-        <h2>One link does the work of the card, the map and the phone calls.</h2>
-        <p>Your guests open it straight from WhatsApp. Nothing to download, nothing to print.</p>
-      </div>
-      <div class="feat">
-        <div><h3>Directions to every venue</h3><p>Each event has a button that opens Google Maps, so nobody calls to ask the way.</p></div>
-        <div><h3>A live countdown</h3><p>Days, hours and minutes to the big moment, right under your names.</p></div>
-        <div><h3>Add to calendar</h3><p>One tap saves each event in your guests' phones.</p></div>
-        <div><h3>RSVPs in one place<span class="tag">Premium</span></h3><p>Guests reply with how many are coming. You see the full list and headcount.</p></div>
-        <div><h3>A gift list guests can pick from<span class="tag">Premium</span></h3><p>List the gifts you would love. Guests type their name and reserve one, so nobody brings the same thing twice.</p></div>
-        <div><h3>Your photos and your song<span class="tag">Premium</span></h3><p>A photo gallery, and music that starts when they open the invite.</p></div>
-        <div><h3>Write in your language</h3><p>Malayalam, Tamil, Kannada, Telugu, Hindi, Punjabi, Arabic or English. It all displays correctly.</p></div>
-        <div><h3>Fix it after sharing</h3><p>Change a time or a venue and the same link updates for everyone.</p></div>
-        <div><h3>Engagement to reception</h3><p>Add every function with its own date, time and venue.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="wrap">
       <div class="sec-head"><h2>How it works</h2></div>
       <ol class="steps">
-        <li><h3>Pick a design</h3><p>Choose from <?= $nThemes ?>. Switch any time before you share.</p></li>
-        <li><h3>Add your details</h3><p>Names, families, events, venues and photos. The preview updates as you type.</p></li>
-        <li><h3>Preview, publish and share</h3><p>See the finished website free. Publish on the free plan or pay once for more, then send the link on WhatsApp.</p></li>
+        <li><h3>Pick a design</h3><p>Switch any time before you share.</p></li>
+        <li><h3>Add your details</h3><p>The preview updates as you type.</p></li>
+        <li><h3>Publish and share</h3><p>Free, or pay once for more. Send the link on WhatsApp.</p></li>
       </ol>
     </div>
   </section>
 
-<?php sec_pricing(); ?>
-
   <section class="sec">
+    <div class="wrap">
+      <a class="price-strip" href="/pricing">
+        <span><b>Free</b>Basic</span>
+        <span><b>₹<?= $ps ?></b>Standard</span>
+        <span class="hi"><b>₹<?= $pp ?></b>Premium</span>
+        <span><b><?= $customFrom ? e($customFrom) : 'Custom' ?></b>Your own design</span>
+        <em>Compare plans →</em>
+      </a>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
     <div class="wrap">
       <div class="bio-band">
         <div>
-          <span class="tag" style="margin:0 0 12px">New · Free</span>
+          <span class="free-tag big" style="top:0;margin-bottom:12px">Free</span>
           <h2>Make your marriage biodata too.</h2>
-          <p>Fill in your details, family and horoscope, pick a design and download it as a PDF or image to share on WhatsApp. Free with a small “Created by <?= e($brand) ?>” strip at the bottom, or ₹<?= $pb ?> for a clean copy.</p>
+          <p>Pick your religion and a minimal design, fill in your details and download a PDF to share on WhatsApp.</p>
           <a class="btn" href="/biodata">Make my biodata</a>
         </div>
         <div class="bio-mini"><img src="/assets/img/biodata-sample.jpg" alt="Sample marriage biodata" width="600" height="849" loading="lazy"></div>
       </div>
     </div>
   </section>
-
-<?php sec_faq(); ?>
 
   <section class="final">
     <?= slot_img('cta') ?>
