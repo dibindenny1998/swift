@@ -223,7 +223,7 @@ site_head($brand . ': wedding invitation websites you share on WhatsApp', "Make 
         <div>
           <span class="tag" style="margin:0 0 12px">New · Free</span>
           <h2>Make your marriage biodata too.</h2>
-          <p>Fill in your details, family and horoscope, pick a design and download it as a PDF or image to share on WhatsApp. Free with a small <?= e($brand) ?> watermark, or ₹<?= $pb ?> to remove it.</p>
+          <p>Fill in your details, family and horoscope, pick a design and download it as a PDF or image to share on WhatsApp. Free with a small “Created by <?= e($brand) ?>” strip at the bottom, or ₹<?= $pb ?> for a clean copy.</p>
           <a class="btn" href="/biodata">Make my biodata</a>
         </div>
         <div class="bio-mini"><img src="/assets/img/biodata-sample.jpg" alt="Sample marriage biodata" width="600" height="849" loading="lazy"></div>

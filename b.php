@@ -17,7 +17,7 @@ $cfg = bio_js_config() + [
     'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url()), 'live' => payments_live(), 'price' => $pb,
     'purchase' => $paid && !$bio['is_demo'] && $bio['paid_at'] && strtotime($bio['paid_at']) > time() - 600 ? ['value' => $bio['amount'] / 100, 'id' => 'bio_' . $bio['id']] : null,
 ];
-$bioHead = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
 ?>
@@ -34,9 +34,9 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
     <div>
       <section class="card">
         <h1 style="font-size:clamp(1.9rem,4vw,2.6rem)"><?= $paid ? 'Your biodata is ready.' : 'Your biodata is ready to download.' ?></h1>
-        <p class="lead" style="margin:10px 0 20px;color:var(--plum-2)"><?= $paid ? 'The watermark is removed. Download it as often as you like, and edit it any time.' : 'Download it free with a small ' . e($brand) . ' watermark, or remove the watermark for a clean copy.' ?></p>
+        <p class="lead" style="margin:10px 0 20px;color:var(--plum-2)"><?= $paid ? 'The strip is removed. Download it as often as you like, and edit it any time.' : 'Download it free with a small red “Created by ' . e($brand) . '” strip at the bottom, or remove it for a clean copy.' ?></p>
         <div class="bio-actions">
-          <button type="button" class="btn<?= $paid ? '' : ' alt' ?>" data-dl="pdf">Download PDF<?= $paid ? '' : ' (with watermark)' ?></button>
+          <button type="button" class="btn<?= $paid ? '' : ' alt' ?>" data-dl="pdf">Download PDF</button>
           <button type="button" class="btn alt" data-dl="jpg">Download image (JPG)</button>
           <button type="button" class="btn alt" id="share" hidden>Share on WhatsApp</button>
         </div>
@@ -45,12 +45,12 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
 
       <?php if (!$paid): ?>
       <section class="card" style="margin-top:16px" id="clean">
-        <div class="price-line"><h2 style="font-size:1.5rem">Remove the watermark</h2><b>₹<?= $pb ?></b></div>
+        <div class="price-line"><h2 style="font-size:1.5rem">Remove the strip</h2><b>₹<?= $pb ?></b></div>
         <p class="lead" style="margin:8px 0 18px;color:var(--plum-2)">One-time payment. Clean PDF and image, edit and download again any time.</p>
-        <button type="button" class="btn" id="pay" style="width:100%">Pay ₹<?= $pb ?> and remove watermark</button>
+        <button type="button" class="btn" id="pay" style="width:100%">Pay ₹<?= $pb ?> for a clean copy</button>
         <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
         <p class="safe" style="margin-top:6px">UPI, cards and net banking via Razorpay</p>
-        <?php if (!payments_live()): ?><p class="demo"><b>Test mode.</b> Payments are not connected yet, so the button removes the watermark without charging.</p><?php endif; ?>
+        <?php if (!payments_live()): ?><p class="demo"><b>Test mode.</b> Payments are not connected yet, so the button removes the strip without charging.</p><?php endif; ?>
       </section>
       <?php elseif ($bio['is_demo']): ?>
         <p class="demo">Unlocked in test mode. No money was charged.</p>

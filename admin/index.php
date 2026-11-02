@@ -267,7 +267,7 @@ site_head('Admin | ' . setting('brand'));
     $rows = $pdo->query("SELECT * FROM biodata ORDER BY id DESC LIMIT 300")->fetchAll();
 ?>
   <h1 style="font-size:2.4rem">Biodata</h1>
-  <p class="lead" style="margin-top:8px;max-width:44em">Everyone who made a biodata. Free ones carry the watermark; paid ones removed it for ₹<?= price('biodata') ?>.</p>
+  <p class="lead" style="margin-top:8px;max-width:44em">Everyone who made a biodata. Free ones carry the red “Created by” strip; paid ones removed it for ₹<?= price('biodata') ?>.</p>
   <?php if (!$rows): ?><p class="lead" style="margin-top:12px">None yet.</p><?php else: ?>
   <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Made</th><th>Name</th><th>Status</th><th class="n">Downloads</th><th>Phone</th><th>Links</th></tr></thead><tbody>
   <?php foreach ($rows as $row): $bd = json_decode($row['data'], true) ?: []; ?>
@@ -364,7 +364,7 @@ site_head('Admin | ' . setting('brand'));
       <div class="grid2">
         <div class="field"><label for="pr1">Standard (₹)</label><input id="pr1" name="price_standard" type="number" min="1" value="<?= e(setting('price_standard')) ?>"></div>
         <div class="field"><label for="pr2">Premium (₹)</label><input id="pr2" name="price_premium" type="number" min="1" value="<?= e(setting('price_premium')) ?>"></div>
-        <div class="field"><label for="pr3">Biodata without watermark (₹)</label><input id="pr3" name="price_biodata" type="number" min="1" value="<?= e(setting('price_biodata')) ?>"></div>
+        <div class="field"><label for="pr3">Biodata clean copy, no strip (₹)</label><input id="pr3" name="price_biodata" type="number" min="1" value="<?= e(setting('price_biodata')) ?>"></div>
         <div class="field"><label for="pr4">Custom plan "from" price (optional)</label><input id="pr4" name="custom_from" maxlength="30" placeholder="₹2,999" value="<?= e(setting('custom_from')) ?>"><small>Leave empty to show "Made for you" instead of a price.</small></div>
       </div>
       <p class="note" style="margin-top:6px">The Basic plan is always free.</p>

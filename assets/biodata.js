@@ -67,13 +67,9 @@
       '<g fill="' + col + '" transform="translate(100,10)"><path d="M0,-7 L4,0 L0,7 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/></g></svg>';
   }
 
-  function watermark(brand, host) {
-    var marks = '';
-    for (var r = 0; r < 7; r++) for (var c = 0; c < 3; c++) {
-      marks += '<span style="top:' + (r * 170 + 40) + 'px;left:' + (c * 290 - 40 + (r % 2) * 140) + 'px">' + esc(brand) + '</span>';
-    }
-    return '<div class="bd-wm" aria-hidden="true">' + marks + '</div>' +
-      '<div class="bd-wm-foot">Made free with ' + esc(brand) + ' · ' + esc(host) + '/biodata</div>';
+  // Free version: one red strip along the bottom edge. Paid version: no strip.
+  function watermark(brand) {
+    return '<div class="bd-strip">Created by ' + esc(brand) + '</div>';
   }
 
   /** Renders the biodata page into el. opts: { watermark: bool, brand, host } */
@@ -102,7 +98,7 @@
     var personal = sections[0] && sections[0].rows;
     var name = (d.name || '').trim() || 'Your name';
 
-    var html = '<div class="bd bd-' + esc(tpl) + (photo ? ' has-photo' : '') + '"><div class="bd-in">' + corner(tpl) +
+    var html = '<div class="bd bd-' + esc(tpl) + (photo ? ' has-photo' : '') + (opts.watermark ? ' has-strip' : '') + '"><div class="bd-in">' + corner(tpl) +
       (d.top_line ? '<p class="bd-top">' + esc(d.top_line) + '</p>' : '') +
       '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1>' + ornament(tpl) +
       '<div class="bd-head">' +
@@ -113,7 +109,7 @@
       (d.about ? '<section class="bd-sec bd-para"><h3>About me</h3><p>' + nl2br(d.about) + '</p></section>' : '') +
       body +
       (d.expect ? '<section class="bd-sec bd-para"><h3>Partner expectations</h3><p>' + nl2br(d.expect) + '</p></section>' : '') +
-      '</div>' + (opts.watermark ? watermark(opts.brand || 'WedLink', opts.host || '') : '') + '</div>';
+      '</div>' + (opts.watermark ? watermark(opts.brand || 'WedLink') : '') + '</div>';
     el.innerHTML = html;
     fit(el.querySelector('.bd'));
   }
@@ -147,12 +143,13 @@
   function loadLibs() {
     if (libs) return libs;
     libs = Promise.all([
-      w.html2canvas ? 1 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+      w.htmlToImage ? 1 : loadScript('https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js'),
       w.jspdf ? 1 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
     ]).catch(function (e) { libs = null; throw e; });
     return libs;
   }
-  /** Draws an unscaled copy of the page off-screen and returns a canvas at 2x. */
+  /** Draws an unscaled copy of the page off-screen and returns a canvas at 2x.
+      html-to-image lets the browser itself draw the page, so text and ornaments land exactly where they are on screen. */
   function snapshot(d, tpl, photo, opts) {
     return loadLibs().then(function () {
       var host = doc.createElement('div');
@@ -163,7 +160,7 @@
       var imgs = Array.prototype.slice.call(host.querySelectorAll('img'));
       return Promise.all(imgs.map(function (im) { return im.complete ? 1 : new Promise(function (r) { im.onload = im.onerror = r; }); }))
         .then(function () { return doc.fonts && doc.fonts.ready; })
-        .then(function () { return w.html2canvas(page, { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: PAGE_W, height: PAGE_H, windowWidth: PAGE_W }); })
+        .then(function () { return w.htmlToImage.toCanvas(page, { pixelRatio: 2, width: PAGE_W, height: PAGE_H, cacheBust: false }); })
         .then(function (canvas) { host.remove(); return canvas; }, function (e) { host.remove(); throw e; });
     });
   }

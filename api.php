@@ -342,7 +342,7 @@ try {
         $j = body_json();
         $bio = find_bio('token', (string)($j['t'] ?? ''));
         if (!$bio) json_out(['ok' => false, 'error' => 'This biodata was not found.'], 404);
-        if ((int)$bio['paid'] === 1) json_out(['ok' => false, 'error' => 'The watermark is already removed.'], 409);
+        if ((int)$bio['paid'] === 1) json_out(['ok' => false, 'error' => 'This biodata is already clean.'], 409);
         $amount = price('biodata') * 100;
         db()->prepare('UPDATE biodata SET checkout_at = COALESCE(checkout_at, ?) WHERE id = ?')->execute([now(), $bio['id']]);
         if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount]);
@@ -355,7 +355,7 @@ try {
         db()->prepare('UPDATE biodata SET rzp_order_id = ? WHERE id = ?')->execute([$res['body']['id'], $bio['id']]);
         $name = (json_decode($bio['data'], true) ?: [])['name'] ?? '';
         json_out(['ok' => true, 'key' => setting('rzp_key_id'), 'order_id' => $res['body']['id'], 'amount' => $amount, 'currency' => 'INR',
-            'name' => setting('brand'), 'description' => 'Biodata without watermark' . ($name ? ': ' . $name : ''),
+            'name' => setting('brand'), 'description' => 'Biodata, clean copy' . ($name ? ': ' . $name : ''),
             'prefill' => ['contact' => '+91' . $bio['phone'], 'email' => $bio['email'] ?: '']]);
     }
 

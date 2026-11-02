@@ -11,7 +11,7 @@ $existing = $bio ? [
 ] : null;
 $cfg = bio_js_config() + ['existing' => $existing, 'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url())];
 
-$bioHead = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' . $brand,
     'Make a beautiful marriage biodata in minutes. Add your details, family and horoscope, pick a design and download a PDF or image. Free.', '/assets/og/site.jpg', $bioHead);
@@ -27,7 +27,7 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
 <main class="wrap">
   <div class="page-head">
     <h1><?= $bio ? 'Edit your biodata' : 'Marriage biodata maker' ?></h1>
-    <p>Fill in what you like and leave the rest empty. Empty lines don't print. Write in English or your own language. Free with a small <?= e($brand) ?> watermark, or ₹<?= $pb ?> to remove it.</p>
+    <p>Fill in what you like and leave the rest empty. Empty lines don't print. Write in English or your own language. Free with a small red “Created by <?= e($brand) ?>” strip at the bottom, or ₹<?= $pb ?> to remove it.</p>
   </div>
 
   <div class="bio-layout edit">
@@ -95,7 +95,7 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
 
     <aside class="bio-preview" aria-label="Preview">
       <div class="bd-frame" id="pv"></div>
-      <p>Live preview. The <?= e($brand) ?> watermark shows on the free download.</p>
+      <p>Live preview. The free download has a small red “Created by <?= e($brand) ?>” strip at the bottom.</p>
     </aside>
   </div>
 </main>

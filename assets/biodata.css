@@ -25,10 +25,11 @@
 .bd-para p { margin: 0; }
 .bd-c { position: absolute; z-index: 1; }
 
-/* watermark (free version) */
-.bd-wm { position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
-.bd-wm span { position: absolute; transform: rotate(-30deg); font: 700 46px/1 Arial, sans-serif; letter-spacing: 6px; color: rgba(120,120,120,.16); white-space: nowrap; }
-.bd-wm-foot { position: absolute; left: 0; right: 0; bottom: 16px; z-index: 6; text-align: center; font: 600 13px/1 Arial, sans-serif; color: rgba(90,90,90,.75); letter-spacing: .02em; }
+/* free version: a red strip along the bottom */
+.bd-strip { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 38px; display: flex; align-items: center; justify-content: center;
+  background: #C0152F; color: #fff; font: 700 15px/1 Arial, Helvetica, sans-serif; letter-spacing: .06em; }
+.bd.has-strip .bd-in { bottom: 38px; }
+.bd-royal.has-strip .bd-in { bottom: 60px; }
 
 /* ---------- Royal: maroon frame, gold lines, ivory page ---------- */
 .bd-royal { background: #6E0B1D; }

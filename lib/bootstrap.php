@@ -448,7 +448,7 @@ function site_head(string $title, string $desc = '', string $ogImage = '/assets/
         . '<meta name="theme-color" content="#FDF0F1">'
         . '<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">'
         . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-        . '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">'
+        . '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">'
         . '<link rel="stylesheet" href="' . asset('assets/site.css') . '">'
         . $extraHead
         . pixel_snippet()
