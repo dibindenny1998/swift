@@ -135,3 +135,16 @@
   .bio-mobile-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; gap: 10px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(255,248,244,.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
   .bio-mobile-bar .btn { flex: 1; min-height: 46px; }
 }
+
+/* guide + format links under the biodata form */
+.bio-guide { padding-top: 10px; }
+.guide-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: start; }
+.guide-grid h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: 14px; }
+.guide-list { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; color: var(--plum); }
+.guide-list li::marker { color: var(--kumkum); }
+.formats { background: #fff; border-radius: var(--r-lg); padding: 22px; box-shadow: 0 0 0 1px var(--line); display: grid; gap: 4px; }
+.formats h2 { font-size: 1.4rem; margin-bottom: 8px; }
+.formats a { color: var(--plum); text-decoration: none; padding: 8px 12px; border-radius: 10px; font-weight: 500; }
+.formats a:hover { background: var(--rose-2); }
+.formats a[aria-current=page] { background: var(--rose-2); color: var(--kumkum-d); font-weight: 600; }
+@media (max-width: 900px) { .guide-grid { grid-template-columns: 1fr; } }

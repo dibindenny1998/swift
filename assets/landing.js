@@ -41,7 +41,7 @@
 
   var meas = document.createElement('span');
   meas.className = 'name-measure';
-  document.querySelector('.hero h1').appendChild(meas);
+  document.querySelector('.hero .hero-title').appendChild(meas);
   function fit(inp) { meas.textContent = inp.value || 'M'; inp.style.width = (meas.getBoundingClientRect().width + 6) + 'px'; }
   function fitAll() { fit(n1); fit(n2); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);

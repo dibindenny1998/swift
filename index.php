@@ -26,7 +26,12 @@ $ogSlot = slot_url('og');
 $nThemes = count(THEMES);
 $pb = price('biodata');
 $customFrom = trim(setting('custom_from'));
-site_head($brand . ': wedding invitation websites you share on WhatsApp', "Make your own wedding website in 5 minutes: invitation, venues with maps, countdown, RSVP, gift list and photos in one link. Free plan, paid from ₹$ps.", $ogSlot ?: '/assets/og/site.jpg');
+site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
+    "Make a free wedding website in 5 minutes: your invitation, every event with Google Maps, countdown, RSVP and gift list in one WhatsApp link. Hindu, Christian, Muslim and Sikh designs. Free marriage biodata maker too.",
+    $ogSlot ?: '/assets/og/site.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(),
+        ld_app($brand . ' wedding website maker', 'Make a free wedding invitation website to share on WhatsApp, with events, maps, countdown, RSVP, gift list and photos.', '/',
+            ['Free wedding website', 'Wedding invitation for WhatsApp', 'Google Maps directions for every event', 'Countdown', 'RSVP and guest list', 'Gift list', 'Photo gallery and music', 'Hindu, Christian, Muslim, Sikh and Kerala designs'],
+            [['Basic (free)', 0], ['Standard', $ps], ['Premium', $pp]])]]);
 ?>
 <body>
 <div class="resume" id="resume" hidden><div class="wrap"><span>Your invite is saved.</span><a id="resume-link" href="#">Continue where you left off</a></div></div>
@@ -37,11 +42,11 @@ site_head($brand . ': wedding invitation websites you share on WhatsApp', "Make 
     <?= slot_img('hero', '', '', false) ?>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg>Wedding invitation website</p>
-        <h1>
+        <h1 class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg>Free wedding website &amp; invitation maker</h1>
+        <div class="hero-title">
           <span class="pre">A wedding website for</span>
           <span class="names"><label class="sr" for="n1">First name</label><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"></span>
-        </h1>
+        </div>
         <p class="hero-hint"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Tap the names and type yours. Your website changes as you type.</p>
         <p class="hero-lead">Send one link on WhatsApp instead of a printed card. Your invitation, venues, countdown and RSVP in one beautiful page.</p>
         <div class="hero-cta">

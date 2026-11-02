@@ -5,7 +5,7 @@ $wa = normalize_phone(setting('support_phone'));
 $from = trim(setting('custom_from'));
 $tick = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $wants = ['Custom design', 'Own domain name', 'Full photo gallery', 'Our story & timeline', 'Video', 'Gift list', 'RSVP', 'Live stream link', 'Printed QR card'];
-site_head('Custom wedding website | ' . $brand, 'A wedding website designed only for you, on your own domain, with a full gallery, your story, RSVP and gift list.');
+site_head('Custom Wedding Website with Your Own Domain | ' . $brand, 'A wedding website designed only for you, on your own domain, with a full gallery, your story, RSVP and gift list.', '/assets/og/site.jpg', '', ['path' => '/custom', 'jsonld' => [ld_breadcrumb([['Home', '/'], ['Custom website', '/custom']])]]);
 ?>
 <body>
 <?php site_header('custom'); ?>

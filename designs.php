@@ -2,7 +2,8 @@
 require __DIR__ . '/lib/bootstrap.php';
 $brand = setting('brand');
 $n = count(THEMES);
-site_head("Wedding invitation designs | $brand", "$n wedding website designs for Hindu, Christian, Muslim, Sikh and Kerala weddings. Two are free.");
+site_head("Wedding Invitation Website Designs: Hindu, Christian, Muslim, Sikh | $brand", "$n wedding invitation website designs for Hindu, Christian, Muslim, Sikh and Kerala weddings. Two are free. Pick one, add your names and share on WhatsApp.",
+    '/assets/og/site.jpg', '', ['path' => '/designs', 'jsonld' => [ld_breadcrumb([['Home', '/'], ['Designs', '/designs']])]]);
 ?>
 <body>
 <?php site_header('designs'); ?>

@@ -83,10 +83,10 @@
       (layout === 'frame' ? '<i class="bd-tick tl"></i><i class="bd-tick tr"></i><i class="bd-tick bl"></i><i class="bd-tick br"></i>' : '') +
       '<header class="bd-hd">' + (d.symbol ? symbol(rel) : '') +
         (top ? '<p class="bd-top">' + esc(top) + '</p>' : '') +
-        '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1><span class="bd-rule"></span></header>' +
+        '<p class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</p><span class="bd-rule"></span></header>' +
       '<div class="bd-head">' +
         (photo ? '<div class="bd-photo"><img src="' + esc(photo) + '" alt="" crossorigin="anonymous"></div>' : '') +
-        '<div class="bd-headtxt"><h2 class="bd-name">' + esc(name) + '</h2>' +
+        '<div class="bd-headtxt"><p class="bd-name">' + esc(name) + '</p>' +
         (personal ? '<table class="bd-personal">' + personal + '</table>' : '') + '</div>' +
       '</div>' +
       (d.about ? '<section class="bd-sec bd-para">' + head('About me') + '<p>' + nl2br(d.about) + '</p></section>' : '') +

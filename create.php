@@ -29,7 +29,7 @@ $cfg = ['brand' => $brand, 'init' => $init, 'existing' => $existing, 'start' => 
     'themes' => array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags'], 'tier' => $t['tier']], THEMES)];
 $nThemes = count(THEMES);
 
-site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand);
+site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . ' | ' . $brand, 'Build your wedding website step by step and preview it free.', '/assets/og/site.jpg', '', ['path' => '/create', 'noindex' => true]);
 ?>
 <body>
 <header class="top">

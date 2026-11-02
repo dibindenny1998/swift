@@ -1,0 +1,29 @@
+# WedLink
+
+> WedLink is an Indian website for making a free wedding website (a digital wedding invitation shared as one WhatsApp link) and a free marriage biodata. It is built for Hindu, Christian, Muslim, Sikh, Jain and Kerala weddings.
+
+## Free wedding website and invitation maker
+- Couples type their names, events, venues and photos, preview the whole website free, and share one link on WhatsApp.
+- Guests get the invitation, every event with Google Maps directions, a live countdown, add-to-calendar, RSVP, a gift list and a photo gallery. Nothing to install.
+- Plans: Basic is free (2 designs, up to 2 events); Standard is a one-time ₹199; Premium is a one-time ₹499 (all designs, RSVP, gift list, 15 photos, music); Custom websites with the couple's own domain on request.
+- 23 designs, including Kasavu (Kerala), Noor (Muslim), Chapel (Christian), Kesar (Sikh), Sindoor (Hindu), Wax Seal, Sage, Ink and Toile.
+- Any Indian language (Malayalam, Hindi, Tamil, Telugu, Kannada, Punjabi) and Arabic display correctly.
+
+## Free marriage biodata maker
+- Make a marriage biodata online free and download it as an A4 PDF or JPG image for WhatsApp.
+- Pick a religion and the form shows what families expect: gotra, nakshatra, rasi and manglik for Hindu; sect, maslak and community for Muslim; denomination, parish and diocese for Christian; got and Amritdhari or Keshdhari status for Sikh; sect and diet for Jain.
+- Minimal designs in six colours, four layouts, optional photo and religious symbol.
+- Free version carries a small "Created by WedLink" strip; a clean copy is a one-time ₹399.
+
+## Pages
+- [Home: free wedding website maker](/)
+- [Free marriage biodata maker](/biodata)
+- [Hindu marriage biodata](/biodata/hindu)
+- [Muslim marriage biodata](/biodata/muslim)
+- [Christian marriage biodata](/biodata/christian)
+- [Sikh marriage biodata](/biodata/sikh)
+- [Jain marriage biodata](/biodata/jain)
+- [Kerala marriage biodata](/biodata/kerala)
+- [Wedding website designs](/designs)
+- [Pricing](/pricing)
+- [Custom wedding website with own domain](/custom)

@@ -9,12 +9,24 @@ $existing = $bio ? [
     'token' => $bio['token'], 'template' => $bio['template'], 'data' => json_decode($bio['data'], true) ?: [],
     'photo' => $bio['photo'] ? '/m/b' . $bio['id'] . '/' . $bio['photo'] : '',
 ] : null;
-$cfg = bio_js_config() + ['existing' => $existing, 'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url())];
+$fmt = isset(BIO_SEO[$_GET['f'] ?? '']) && ($_GET['f'] ?? '') !== '' ? $_GET['f'] : '';
+$SEO = BIO_SEO[$fmt];
+$preset = $fmt && !$bio ? ['religion' => $SEO['religion'], 'template' => $SEO['template']] : null;
+$cfg = bio_js_config() + ['existing' => $existing, 'preset' => $preset, 'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url())];
+$path = $fmt ? '/biodata/' . $fmt : '/biodata';
+$crumbs = [['Home', '/'], ['Free biodata maker', '/biodata']];
+if ($fmt) $crumbs[] = [$SEO['h1'], $path];
+$ld = [
+    ld_app($SEO['h1'] . ' (free)', $SEO['desc'], $path, ['Religion-based biodata formats', 'Minimal designs in six colours', 'Photo', 'PDF and JPG download', 'Malayalam, Hindi, Tamil and other Indian languages'],
+        [['Free biodata with a small credit strip', 0], ['Clean biodata without the strip', $pb]]),
+    ld_faq(bio_faq()),
+    ld_breadcrumb($crumbs),
+];
 
 $bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
-site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' . $brand,
-    'Make a beautiful marriage biodata in minutes. Add your details, family and horoscope, pick a design and download a PDF or image. Free.', '/assets/og/site.jpg', $bioHead);
+site_head($bio ? 'Edit your biodata | ' . $brand : $SEO['title'], $SEO['desc'], '/assets/img/biodata-sample.jpg', $bioHead,
+    ['path' => $path, 'noindex' => (bool)$bio, 'jsonld' => $bio ? [] : $ld]);
 ?>
 <body>
 <?php site_header('biodata'); ?>
@@ -22,7 +34,8 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
 <main class="wrap">
   <div class="page-head">
     <?php if ($bio): ?><p style="margin-bottom:10px"><a href="/b/<?= e($bio['token']) ?>">← Back to my biodata</a></p><?php endif; ?>
-    <h1><?= $bio ? 'Edit your biodata' : 'Marriage biodata maker' ?> <span class="free-tag big">Free</span></h1>
+    <h1><?= $bio ? 'Edit your biodata' : e($SEO['h1']) ?> <span class="free-tag big">Free</span></h1>
+    <?php if (!$bio): ?><p><?= e($SEO['intro']) ?></p><?php endif; ?>
     <p>Fill in what you like and leave the rest empty. Empty lines don't print. Write in English or your own language. Free with a small red “Created by <?= e($brand) ?>” strip at the bottom, or ₹<?= $pb ?> to remove it.</p>
   </div>
 
@@ -108,7 +121,25 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
       <p>Live preview. The free download has a small red “Created by <?= e($brand) ?>” strip at the bottom.</p>
     </aside>
   </div>
+<?php if (!$bio): ?>
+  <section class="sec bio-guide">
+    <div class="guide-grid">
+      <div>
+        <h2><?= e($SEO['guide_title']) ?></h2>
+        <ul class="guide-list"><?php foreach ($SEO['guide'] as $g): ?><li><?= e($g) ?></li><?php endforeach; ?></ul>
+      </div>
+      <nav class="formats" aria-label="Biodata formats">
+        <h2>Biodata formats</h2>
+        <?php foreach (BIO_SEO as $k => $x): if ($k === '') continue; ?>
+          <a href="/biodata/<?= $k ?>"<?= $k === $fmt ? ' aria-current="page"' : '' ?>><?= e(str_replace(' maker', '', $x['h1'])) ?></a>
+        <?php endforeach; ?>
+        <a href="/biodata"<?= $fmt === '' ? ' aria-current="page"' : '' ?>>All formats</a>
+      </nav>
+    </div>
+  </section>
+<?php endif; ?>
 </main>
+<?php if (!$bio) echo faq_html(bio_faq(), 'Biodata questions'); ?>
 
 <div class="bio-mobile-bar"><button type="button" class="btn alt" id="m-prev">Preview</button><button type="button" class="btn" id="m-save"><?= $bio ? 'Save' : 'Save &amp; download' ?></button></div>
 <div class="sheet" id="sheet" hidden><div class="sheet-in"><div class="sheet-bar"><b>Preview</b><button type="button" class="btn small alt" id="close-sheet">Close</button></div><div style="overflow:auto;padding:16px;flex:1"><div class="bd-frame" id="pv-m"></div></div></div></div>
@@ -124,6 +155,8 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
   var store = { get: function (k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
   var data = EX ? EX.data : (store.get('wlb_draft') || {});
   var tpl = EX ? EX.template : (store.get('wlb_tpl') || 'royal');
+  // a format page (/biodata/muslim etc.) starts with that religion and colour
+  if (!EX && C.preset) { data.religion = C.preset.religion; tpl = C.preset.template; }
   var photo = EX && EX.photo ? { kind: 'old', url: EX.photo } : null;
   if (!Array.isArray(data.extra)) data.extra = [];
 
@@ -137,7 +170,7 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
   if (!C.layouts[data.layout]) data.layout = 'center';
   f.querySelector('input[name=layout][value="' + data.layout + '"]').checked = true;
   var SYM = { hindu: 'ॐ', jain: 'Jain symbol', sikh: 'ੴ', muslim: 'crescent', christian: 'cross', buddhist: 'dharma wheel' };
-  var tplChosen = !!EX || !!store.get('wlb_tpl_set');
+  var tplChosen = !!EX || !!C.preset || !!store.get('wlb_tpl_set');
   (f.querySelector('input[name=template][value="' + tpl + '"]') || f.querySelector('input[name=template]')).checked = true;
   // show only the fields that fit the religion, with matching examples
   function applyReligion() {

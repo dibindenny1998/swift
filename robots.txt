@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /i/
-Disallow: /p/
-Disallow: /admin/
-Disallow: /api.php

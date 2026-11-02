@@ -433,26 +433,85 @@ function pixel_snippet(): string
     return "<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','{$id}');fbq('track','PageView');</script>";
 }
 
-function site_head(string $title, string $desc = '', string $ogImage = '/assets/og/site.jpg', string $extraHead = ''): void
+/**
+ * Page <head>. $seo: ['path' => canonical path, 'noindex' => bool, 'jsonld' => [schema objects]]
+ */
+function site_head(string $title, string $desc = '', string $ogImage = '/assets/og/site.jpg', string $extraHead = '', array $seo = []): void
 {
     $brand = setting('brand');
     $og = str_starts_with($ogImage, 'http') ? $ogImage : base_url() . $ogImage;
-    echo '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+    $path = $seo['path'] ?? (string)parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    $canonical = base_url() . ($path === '' ? '/' : $path);
+    $ld = '';
+    foreach ($seo['jsonld'] ?? [] as $obj) {
+        $ld .= '<script type="application/ld+json">' . json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) . '</script>';
+    }
+    echo '<!doctype html><html lang="en-IN"><head><meta charset="utf-8">'
         . '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
         . '<title>' . e($title) . '</title>'
         . ($desc ? '<meta name="description" content="' . e($desc) . '">' : '')
+        . (!empty($seo['noindex']) ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow, max-image-preview:large">')
+        . '<link rel="canonical" href="' . e($canonical) . '">'
         . '<meta property="og:type" content="website"><meta property="og:site_name" content="' . e($brand) . '">'
+        . '<meta property="og:locale" content="en_IN"><meta property="og:url" content="' . e($canonical) . '">'
         . '<meta property="og:title" content="' . e($title) . '">'
-        . ($desc ? '<meta property="og:description" content="' . e($desc) . '">' : '')
-        . '<meta property="og:image" content="' . e($og) . '"><meta name="twitter:card" content="summary_large_image">'
+        . ($desc ? '<meta property="og:description" content="' . e($desc) . '"><meta name="twitter:description" content="' . e($desc) . '">' : '')
+        . '<meta property="og:image" content="' . e($og) . '"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' . e($title) . '">'
         . '<meta name="theme-color" content="#FFF8F6">'
         . '<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">'
         . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         . '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600;700&display=swap">'
         . '<link rel="stylesheet" href="' . asset('assets/site.css') . '">'
-        . $extraHead
+        . $extraHead . $ld
         . pixel_snippet()
         . '</head>';
+}
+
+/* ---------- structured data (schema.org) ---------- */
+
+function ld_org(): array
+{
+    $o = ['@context' => 'https://schema.org', '@type' => 'Organization', 'name' => setting('brand'), 'url' => base_url() . '/',
+        'logo' => base_url() . '/assets/img/favicon.svg', 'areaServed' => 'IN'];
+    if (setting('support_email')) $o['email'] = setting('support_email');
+    if ($ph = normalize_phone(setting('support_phone'))) $o['telephone'] = '+91' . $ph;
+    return $o;
+}
+
+function ld_website(): array
+{
+    return ['@context' => 'https://schema.org', '@type' => 'WebSite', 'name' => setting('brand'), 'url' => base_url() . '/', 'inLanguage' => 'en-IN'];
+}
+
+/** A free-to-use web app (wedding website maker or biodata maker). */
+function ld_app(string $name, string $desc, string $path, array $features, array $offers): array
+{
+    return ['@context' => 'https://schema.org', '@type' => 'WebApplication', 'name' => $name, 'description' => $desc,
+        'url' => base_url() . $path, 'applicationCategory' => 'LifestyleApplication', 'operatingSystem' => 'Any (web browser)',
+        'inLanguage' => 'en-IN', 'isAccessibleForFree' => true, 'featureList' => $features,
+        'offers' => array_map(fn($o) => ['@type' => 'Offer', 'name' => $o[0], 'price' => (string)$o[1], 'priceCurrency' => 'INR'], $offers),
+        'provider' => ['@type' => 'Organization', 'name' => setting('brand'), 'url' => base_url() . '/']];
+}
+
+function ld_faq(array $qa): array
+{
+    return ['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => array_map(fn($x) => ['@type' => 'Question', 'name' => $x[0],
+        'acceptedAnswer' => ['@type' => 'Answer', 'text' => $x[1]]], $qa)];
+}
+
+function ld_breadcrumb(array $items): array
+{
+    $list = [];
+    foreach (array_values($items) as $i => [$name, $path]) $list[] = ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $name, 'item' => base_url() . $path];
+    return ['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => $list];
+}
+
+/** Visible FAQ block; pair it with ld_faq() on the same page. */
+function faq_html(array $qa, string $title = 'Questions people ask'): string
+{
+    $h = '<section class="sec"><div class="wrap"><div class="sec-head"><h2>' . e($title) . '</h2></div><div class="faq">';
+    foreach ($qa as [$q, $a]) $h .= '<details><summary>' . e($q) . '</summary><p>' . e($a) . '</p></details>';
+    return $h . '</div></div></section>';
 }
 
 /** Main site header with the menu. $active: designs | pricing | biodata | custom | contact | '' */
@@ -492,7 +551,7 @@ function site_footer(): void
         . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Custom website</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
         . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
-        . '</nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'
+        . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'
         . '</div></footer>';
 }
 require __DIR__ . '/slots.php';

@@ -123,26 +123,25 @@ function sec_pricing(): void
 <?php
 }
 
+function site_faq(): array
+{
+    $ps = price('standard'); $pp = price('premium');
+    return [
+        ['Is WedLink really free?', "Yes. The Basic plan is free for a year: make a wedding website with the Classic or Blush design and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
+        ['What is a wedding website?', 'A wedding website is a single link that replaces the printed card. Guests open it from WhatsApp and see your invitation, every event with Google Maps directions, a countdown, RSVP, gift list and photos.'],
+        ['Do guests need to install anything?', 'No. The invite is a web page. It opens in WhatsApp, Instagram or any browser on any phone.'],
+        ['Can I change details after I share the link?', 'Yes. You get a private edit link. Change times, venues, photos or wording, and the shared link shows the update straight away.'],
+        ['When do I pay?', 'Only after you have built and previewed your full website. If you don\'t like it, close the page and pay nothing.'],
+        ['How does the gift list work?', 'On Premium, you list gifts you would love. Guests tap one, type their name and reserve it. Others then see it as reserved, and you see who picked what.'],
+        ['Is there a design for our tradition?', 'Yes. There are designs for Hindu, Christian, Muslim and Sikh weddings, Kerala weddings, and modern designs that suit everyone. Every line of text can be changed.'],
+        ['How long does the link work?', 'For a full year from the day you publish, so it covers the wedding, the reception and the thank-yous.'],
+        ['Can I write in Malayalam, Hindi, Tamil or Arabic?', 'Yes. Type in any Indian language or Arabic in any field and the invite shows it in a matching font.'],
+        ['Is the payment safe?', 'Payments go through Razorpay. Pay by UPI, card or net banking. We never see your card or UPI details.'],
+        ['Can I also make a marriage biodata?', 'Yes. The biodata maker is free: choose your religion, fill in your details and download a PDF or image to share on WhatsApp.'],
+    ];
+}
+
 function sec_faq(): void
 {
-    extract(page_vars());
-?>
-  <section class="sec">
-    <div class="wrap">
-      <div class="sec-head"><h2>Questions couples ask</h2></div>
-      <div class="faq">
-        <details><summary>Do guests need to install anything?</summary><p>No. The invite is a web page. It opens in WhatsApp, Instagram or any browser on any phone.</p></details>
-        <details><summary>Can I change details after I share the link?</summary><p>Yes. You get a private edit link. Change times, venues, photos or wording, and the shared link shows the update straight away.</p></details>
-        <details><summary>Is it really free?</summary><p>Yes. The Basic plan is free for a year with the Classic or Blush design and up to 2 events. Pay only if you want more designs, photos, RSVPs or a gift list.</p></details>
-        <details><summary>When do I pay?</summary><p>Only after you have built and previewed your full website. If you don't like it, close the page and pay nothing.</p></details>
-        <details><summary>How does the gift list work?</summary><p>On Premium, you list gifts you would love. Guests tap one, type their name and reserve it. Others then see it as reserved, and you see who picked what.</p></details>
-        <details><summary>Is there a design for our tradition?</summary><p>Yes. There are designs for Hindu, Christian, Muslim and Sikh weddings, Kerala weddings, and modern designs that suit everyone. Every line of text can be changed.</p></details>
-        <details><summary>How long does the link work?</summary><p>For a full year from the day you publish, so it covers the wedding, the reception and the thank-yous.</p></details>
-        <details><summary>Can I write in Malayalam, Hindi or Arabic?</summary><p>Yes. Type in any Indian language or Arabic in any field and the invite shows it in a matching font.</p></details>
-        <details><summary>Is the payment safe?</summary><p>Payments go through Razorpay. Pay by UPI, card or net banking. We never see your card or UPI details.</p></details>
-        <details><summary>Something went wrong with my payment. What now?</summary><p>If money left your account but your link didn't go live, write to us with your phone number and we'll fix it or refund you in full.</p></details>
-      </div>
-    </div>
-  </section>
-<?php
+    echo faq_html(site_faq(), 'Questions couples ask');
 }
