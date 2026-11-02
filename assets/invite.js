@@ -648,6 +648,10 @@
     var photos = v.photos;
     var showCover = opts.cover && mode !== 'editor';
 
+    // A photo-led design's sample couple photo is only for building and browsing designs;
+    // a couple's own preview and live invite never show someone else's photo.
+    var sampleOnly = PHOTO_LED[v.theme] && mode !== 'editor' && mode !== 'demo';
+    if (sampleOnly) v.bg = '';
     var bgStyle = v.bg ? ' style="--bgimg:url(&quot;' + esc(v.bg).replace(/[()]/g, '') + '&quot;)"' : '';
     var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '"' + (ANIM[v.theme] ? ' data-anim="' + ANIM[v.theme] + '"' : '') + bgStyle + '>' + DEFS;
 
@@ -678,7 +682,7 @@
       var dp = first && first.date ? parts(first.date) : null;
       html += '<header class="wl-hero wl-pl" data-sec="hero">' +
         '<div class="wl-pl-img' + (heroImg ? '' : ' none') + '" data-sec="photos">' + (heroImg ? slides(photos.length ? photos.slice(0, 5) : [heroImg], title) : '') + particles(ANIM[v.theme]) +
-          (!heroImg && mode === 'editor' ? '<span class="wl-pl-add">Add your photo in the Photos step</span>' : '') + '</div>' +
+          (mode === 'editor' && !photos.length ? '<span class="wl-pl-add">' + (heroImg ? 'Sample photo. Add yours in the Photos step' : 'Add your photo in the Photos step') + '</span>' : '') + '</div>' +
         '<div class="wl-pl-in">' +
           (v.theme === 'vogue' ? '<p class="wl-pl-kick">The wedding of</p>' : '<p class="wl-intro">' + esc(v.intro) + '</p>') +
           '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +

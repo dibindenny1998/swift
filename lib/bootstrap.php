@@ -61,13 +61,6 @@ function showcase_themes(): array
     return $out;
 }
 
-/** A real photo to show on a design card, once one is uploaded in Admin → Images. */
-function design_card_photo(string $id): string
-{
-    if (!in_array($id, PHOTO_LED_THEMES, true)) return '';
-    return slot_url('theme-' . $id) ?: slot_url('demo-1');
-}
-
 const CATEGORIES = ['hindu' => 'Hindu', 'christian' => 'Christian', 'muslim' => 'Muslim', 'sikh' => 'Sikh', 'kerala' => 'Kerala', 'modern' => 'Modern'];
 
 const PLAN_NAMES = ['free' => 'Basic', 'standard' => 'Standard', 'premium' => 'Premium'];

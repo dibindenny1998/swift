@@ -566,6 +566,7 @@
 .wl-pl-img { position: relative; overflow: hidden; }
 .wl-pl-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .wl-pl-img.none { display: grid; place-items: center; }
+.wl-pl-img:not(.none) .wl-pl-add { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 4; white-space: nowrap; font-size: .72rem; }
 .wl-pl-add { position: relative; z-index: 2; padding: 9px 16px; border-radius: 99px; background: rgba(255,255,255,.85); color: #444; font: 500 .8rem system-ui, sans-serif; letter-spacing: .02em; }
 .wl-pl .wl-names { line-height: 1.02; }
 .wl-pl-date { font-size: .82em; letter-spacing: .14em; text-transform: uppercase; margin: 16px 0 0; }
@@ -708,3 +709,5 @@
   .wl-fx { display: none; }
 }
 .wl.has-bg .wl-pl::before, .wl.has-bg .wl-pl::after { display: none; }
+/* previews shown inside a phone mockup: keep the header clear of the phone's notch */
+.wl[data-mode=demo] .wl-nav, .wl[data-mode=preview] .wl-nav, .wl[data-mode=editor] .wl-nav { padding-top: 34px; }

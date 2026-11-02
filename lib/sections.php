@@ -45,15 +45,11 @@ function sec_designs(int $limit = 0): void
       <?php endif; ?>
       <div class="grid-designs">
         <?php foreach ($themes as $id => $t):
-            $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? ''; $photo = design_card_photo($id);
+            $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? '';
             $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
           <a class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" href="/create?t=<?= $id ?>" data-tags="<?= e($tags) ?>">
             <span class="gd-img">
-              <?php if ($photo): ?>
-                <span class="gd-photo" style="background-image:url('<?= e($photo) ?>')"><span class="gd-photo-in"><small>Together with their families</small><em>Arjun &amp; Meera</em></span></span>
-              <?php else: ?>
-                <img src="/assets/img/designs/<?= $id ?>.jpg" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
-              <?php endif; ?>
+              <img src="/assets/img/designs/<?= $id ?>.jpg" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
               <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
             </span>
             <b><?= e($t['name']) ?></b>
