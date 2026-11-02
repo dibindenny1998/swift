@@ -65,7 +65,7 @@ site_head($brand . ': wedding invitation websites you share on WhatsApp', "Make 
           <div class="phone back r" aria-hidden="true"><img src="/assets/img/designs/chapel.jpg" alt="" width="232" height="480"></div>
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager"></iframe></div>
         </div>
-        <div class="url-pill-wrap"><span class="url-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span><?= e(preg_replace('#^https?://#', '', base_url())) ?>/i/<b id="url-names">arjun-meera</b></span></span></div>
+        <div class="url-pill-wrap"><span class="url-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><?php $host = preg_replace('#^https?://#', '', base_url()); ?><span><?= strlen($host) > 24 ? '…' : e($host) ?>/i/<b id="url-names">arjun-meera</b></span></span></div>
         <p class="design-now">Design: <b id="design-name">Champagne</b></p>
         <div class="swatch-strip" role="group" aria-label="Choose a design">
           <?php foreach (THEMES as $id => $t): ?>

@@ -361,7 +361,9 @@ p { margin: 0; }
 .theme-pick label.locked { cursor: not-allowed; }
 .theme-pick label.locked img { filter: grayscale(.6); opacity: .55; }
 .theme-pick .lock { font-size: .8rem; color: var(--plum-2); line-height: 1.3; }
-.gd .tier { margin: 0 0 0 6px; top: -3px; }
+.gd .tier { display: table; margin: 7px 0 0; top: 0; font-size: .64rem; padding: 4px 9px; }
+.gd .tier-premium { color: var(--wine-2); }
+.gd .tier-free { color: var(--leaf); }
 .panel h1 .tag { font-size: .8rem; position: relative; top: -6px; }
 
 @media (max-width: 900px) {
@@ -377,11 +379,11 @@ p { margin: 0; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 700 .8rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--kumkum); background: #fff; padding: 9px 14px; border-radius: 99px; box-shadow: 0 0 0 1px var(--line); margin-bottom: 18px; }
 .eyebrow svg { width: 16px; height: 16px; }
 .hero h1 .pre { display: block; font-size: .5em; color: var(--plum-2); font-weight: 500; letter-spacing: 0; margin-bottom: .1em; }
-.url-pill { display: inline-flex; align-items: center; gap: 8px; margin: 14px auto 0; padding: 8px 14px; border-radius: 99px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 10px 24px -14px rgba(46,14,26,.35); font: 500 .9rem var(--body); color: var(--plum); max-width: 100%; }
+.url-pill { display: inline-flex; align-items: center; gap: 8px; margin: 14px auto 0; padding: 8px 14px; max-width: min(100%, 360px); min-width: 0; border-radius: 99px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 10px 24px -14px rgba(46,14,26,.35); font: 500 .9rem var(--body); color: var(--plum); max-width: 100%; }
 .url-pill svg { width: 16px; height: 16px; flex: none; color: var(--leaf); }
-.url-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.url-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .url-pill b { color: var(--kumkum); font-weight: 700; }
-.stage .url-pill-wrap { text-align: center; }
+.stage .url-pill-wrap { text-align: center; max-width: 100%; padding: 0 4px; overflow: hidden; }
 @media (max-width: 900px) { .eyebrow { order: -1; justify-self: start; margin-bottom: 14px; font-size: .72rem; } .hero h1 .pre { font-size: .46em; } }
 
 /* plans: four cards */
