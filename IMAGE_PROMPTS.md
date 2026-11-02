@@ -1,381 +1,346 @@
 # WedLink image prompts
 
-Ready prompts for every picture on the site, matching the light blush, rose-gold and champagne look.
-Works with ChatGPT (image), Gemini, Midjourney, Ideogram or Leonardo.
+Every picture the site uses, with a ready prompt that matches the light blush, rose-gold and champagne look. Each prompt ends with its exact size.
 
-**How to use**
+1. Copy a prompt into ChatGPT, Gemini, Midjourney or Ideogram (in ChatGPT start with "Create an image:").
+2. Pick the shape shown (landscape, portrait or square). Make 3 or 4 versions and keep the most natural one.
+3. Upload it in `/admin/` → **Images** under the same name.
 
-1. Copy a prompt into your image tool. Each one already includes the style and the shape (aspect ratio).
-2. Download the picture as JPG or PNG, at the size shown or larger.
-3. Go to `/admin/` → **Images**, find the same name and press **Upload**. It shows on the site straight away.
-
-**Do these first:** the 3 Home page demo photos, then Hero backdrop and Share preview image.
-
-## Home page demo
+## Start here: home page
 
 ### Demo couple photo 1 (cover)
 
-- **Where:** Cover photo inside the live invite preview on the home page
 - **Size:** 1200 × 1500 px (4:5)
+- **Where:** Fills the live invite preview on the home page and the photo-led design cards
 - **Admin name:** `demo-1`
 
 ```text
-Candid portrait of a young Indian couple at their wedding, the bride in an ivory and gold silk saree with jasmine in her hair, the groom in an ivory kurta, smiling at each other under soft golden-hour light in a garden with marigold and jasmine garlands. Natural, joyful, editorial wedding photography. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
+Romantic portrait of a young Indian bride and groom standing close, foreheads almost touching and smiling softly, the bride in a blush-pink and gold silk lehenga with fresh jasmine in her hair and delicate gold jewellery, the groom in an ivory sherwani with a champagne stole, in a sunlit garden with softly blurred blush roses and white flowers behind them, warm late-afternoon light. Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark. Size: 1200 x 1500 px, portrait (aspect ratio 4:5).
 ```
 
 ### Demo couple photo 2
 
-- **Where:** Gallery inside the live invite preview on the home page
 - **Size:** 1200 × 1200 px (1:1)
+- **Where:** Second photo in the home page invite preview (it fades in after photo 1)
 - **Admin name:** `demo-2`
 
 ```text
-Close-up of an Indian bride and groom holding hands, her hands with intricate mehendi and gold bangles, his hand with a gold ring, resting on a blush pink silk dupatta with white flowers. Soft natural light, shallow depth of field. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 1:1.
+Close-up of an Indian bride's and groom's hands intertwined, her hands with intricate bridal mehendi and thin gold bangles, his hand with a gold ring, resting on blush pink silk with a few white jasmine buds and rose petals. Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark. Size: 1200 x 1200 px, square (aspect ratio 1:1).
 ```
 
 ### Demo couple photo 3
 
-- **Where:** Gallery inside the live invite preview on the home page
 - **Size:** 1200 × 1200 px (1:1)
+- **Where:** Third photo in the home page invite preview
 - **Admin name:** `demo-3`
 
 ```text
-An Indian couple laughing together in a sunlit garden full of white and pink flowers, the bride in a pastel pink and gold lehenga, the groom in an ivory sherwani, candid and happy, editorial wedding photography. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 1:1.
+Candid joyful moment of an Indian bride and groom laughing together as they walk through a garden aisle lined with white and blush flowers, the bride in an ivory and gold saree, the groom in a cream kurta, soft backlight and gentle movement. Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark. Size: 1200 x 1200 px, square (aspect ratio 1:1).
 ```
-
-## Landing page
 
 ### Hero backdrop
 
-- **Where:** Behind the phones at the top of the home page
 - **Size:** 2400 × 1600 px (3:2)
+- **Where:** Soft background behind the phones at the top of the home page
 - **Admin name:** `hero`
 
 ```text
-Bright, airy Indian wedding decor in daylight: blush pink and ivory roses, white jasmine garlands, champagne silk drapes and a few gold candle holders on an ivory table near a sunlit window, scattered rose petals. Light and happy, creamy soft-focus background. Keep the centre calm and softly blurred. No people. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 3:2.
-```
-
-### Hindu category card
-
-- **Where:** Design categories section
-- **Size:** 1200 × 1500 px (4:5)
-- **Admin name:** `cat-hindu`
-
-```text
-Close-up of an Indian Hindu bride's hands with intricate mehendi and gold temple bangles, holding a brass plate with jasmine flowers, kumkum and a small lit diya. Red and gold silk saree fabric softly blurred behind. Warm golden light. Hands only, no face. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
-```
-
-### Christian category card
-
-- **Where:** Design categories section
-- **Size:** 1200 × 1500 px (4:5)
-- **Admin name:** `cat-christian`
-
-```text
-Two gold wedding rings resting on an open vintage Bible beside a bouquet of white roses and lilies, ivory lace and silk ribbon, soft light from a church stained-glass window blurred in the background. Warm ivory, pearl and gold tones. No people. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
-```
-
-### Muslim category card
-
-- **Where:** Design categories section
-- **Size:** 1200 × 1500 px (4:5)
-- **Admin name:** `cat-muslim`
-
-```text
-Elegant Nikah details: a bride's hennaed hands holding an open blush velvet ring box with a gold ring, white and pale pink rose petals and a small brass lantern on ivory silk, soft daylight from an arched window. Ivory, blush and gold palette. Hands only, no face, no script or calligraphy. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
-```
-
-### Sikh category card
-
-- **Where:** Design categories section
-- **Size:** 1200 × 1500 px (4:5)
-- **Admin name:** `cat-sikh`
-
-```text
-Anand Karaj wedding details: a bride's hands wearing red and ivory chooda bangles with gold kalire hanging from the wrists, a saffron and pink silk dupatta, scattered marigold petals, warm soft light. Saffron, pink and gold palette. Hands only, no face. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
-```
-
-### Kerala category card
-
-- **Where:** Design categories section
-- **Size:** 1200 × 1500 px (4:5)
-- **Admin name:** `cat-kerala`
-
-```text
-Bright Kerala wedding still life: an ivory kasavu saree with a gold zari border folded on light wood, a brass nilavilakku oil lamp, strings of jasmine (mullappoo) and a gold temple necklace, soft morning daylight. Light and fresh. No people. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
-```
-
-### Modern category card
-
-- **Where:** Design categories section
-- **Size:** 1200 × 1500 px (4:5)
-- **Admin name:** `cat-modern`
-
-```text
-Modern minimalist wedding flat lay seen from above: two champagne glasses, white garden roses and eucalyptus, two gold rings on a blush velvet tray, ivory silk ribbon, soft shadows. Blush, ivory and champagne gold palette. No people. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
-```
-
-### Final banner
-
-- **Where:** Behind "Your guests are waiting" near the bottom of the home page
-- **Size:** 2400 × 1200 px (2:1)
-- **Admin name:** `cta`
-
-```text
-Wide view of a bright daytime Indian wedding mandap decorated with blush pink and white flowers, ivory drapes, jasmine strands and soft champagne-gold accents, sunlight streaming in, airy and joyful. No people. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 2:1.
+Elegant Indian wedding tablescape: blush pink and ivory garden roses, white jasmine garlands, a champagne silk runner, crystal glasses and slim gold candle holders on an ivory linen table beside a tall sunlit window. Keep the left half of the picture light, soft and almost empty, with the flowers and detail on the right third. Photorealistic luxury wedding still-life photography, soft natural daylight, bright and airy, blush pink, ivory and champagne-gold palette, shallow depth of field, high-end editorial quality. No people, no text, no letters, no logos, no watermark. Size: 2400 x 1600 px, landscape (aspect ratio 3:2).
 ```
 
 ### Share preview image
 
-- **Where:** Shown when your website link is shared on WhatsApp or Facebook
 - **Size:** 1200 × 630 px (1.91:1)
+- **Where:** The picture WhatsApp, Instagram and Facebook show when your site link is shared
 - **Admin name:** `og`
 
 ```text
-Bright flat lay seen from above: a blank ivory card with a thin gold edge, blush roses, jasmine, two gold rings and a pale pink silk ribbon on a soft blush background. Plenty of calm empty space. No readable text. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 1.91:1.
+Overhead flat lay on soft blush silk: a blank ivory invitation card with a thin gold-foil edge (no writing on it), a gold wax seal, two gold wedding rings, scattered blush rose petals, jasmine buds and a champagne satin ribbon. Calm empty space in the centre and left. Photorealistic luxury wedding still-life photography, soft natural daylight, bright and airy, blush pink, ivory and champagne-gold palette, shallow depth of field, high-end editorial quality. No people, no text, no letters, no logos, no watermark. Size: 1200 x 630 px, landscape (aspect ratio 1.91:1).
+```
+
+### Final banner
+
+- **Size:** 2400 × 1200 px (2:1)
+- **Where:** Behind "Your guests are waiting for the date" near the bottom of the home page
+- **Admin name:** `cta`
+
+```text
+Wide view of a dreamy daytime Indian wedding mandap with a canopy of blush pink and white flowers, hanging jasmine strands, ivory drapes and soft champagne-gold details, sunlight streaming in, rows of white chairs softly blurred in the foreground. Photorealistic luxury wedding still-life photography, soft natural daylight, bright and airy, blush pink, ivory and champagne-gold palette, shallow depth of field, high-end editorial quality. No people, no text, no letters, no logos, no watermark. Size: 2400 x 1200 px, landscape (aspect ratio 2:1).
+```
+
+## Photo-led designs
+
+### Lumière couple photo
+
+- **Size:** 1080 × 1920 px (9:16)
+- **Where:** The Lumière card on the home page and Designs page, and its first screen until a couple adds their own photo
+- **Admin name:** `theme-lumiere`
+
+```text
+Full-length romantic portrait of an Indian bride and groom walking hand in hand down a garden aisle of white and blush flowers, seen slightly from behind as she looks back over her shoulder, the bride in an ivory and gold lehenga with a long sheer veil, the groom in an ivory sherwani, golden-hour backlight. Keep the bottom third simple and slightly darker so white names can sit on top. Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
+```
+
+### Vogue couple photo
+
+- **Size:** 1080 × 1920 px (9:16)
+- **Where:** The Vogue card on the home page and Designs page, and its first screen until a couple adds their own photo
+- **Admin name:** `theme-vogue`
+
+```text
+High-fashion editorial portrait of an elegant Indian bride and groom standing side by side under a warm stone archway, full length, poised and confident, the bride in a champagne-gold lehenga with statement jewellery, the groom in a tailored ivory bandhgala, soft directional light, magazine-cover look. Keep the top and bottom of the frame simple so titles can sit there. Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
+```
+
+### Journal couple photo
+
+- **Size:** 1080 × 1920 px (9:16)
+- **Where:** The Journal card on the home page and Designs page, and its first screen until a couple adds their own photo
+- **Admin name:** `theme-journal`
+
+```text
+Candid, warm photo of a laughing Indian couple sitting close on the steps of a sunlit veranda with pots of white flowers, the bride in a soft pink saree with jasmine in her hair, the groom in a cream kurta, natural and intimate, like a favourite photo from a family album. Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ## Other pages
 
 ### Custom plan banner
 
-- **Where:** Top of the Custom website page (/custom)
 - **Size:** 2000 × 900 px (20:9)
+- **Where:** Top of the Custom website page (/custom)
 - **Admin name:** `custom`
 
 ```text
-Bright flat lay on an ivory linen table: an open laptop and a smartphone side by side with blank glowing screens, surrounded by blush roses, eucalyptus, a gold wax seal, silk ribbon and a fountain pen. Soft morning window light, blush, ivory and champagne palette. Screens blank, no text. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 20:9.
+Luxury flat lay on ivory linen: an open laptop and a smartphone side by side with blank glowing screens, surrounded by blush roses, eucalyptus sprigs, a gold wax seal, a silk ribbon and a fountain pen. Photorealistic luxury wedding still-life photography, soft natural daylight, bright and airy, blush pink, ivory and champagne-gold palette, shallow depth of field, high-end editorial quality. No people, no text, no letters, no logos, no watermark. Size: 2000 x 900 px, landscape (aspect ratio 20:9).
 ```
 
-## Design backdrops
+## Design backdrops (optional)
 
 ### Classic backdrop
 
-- **Where:** Faint background behind the names on the Classic design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Classic design
 - **Admin name:** `theme-classic`
 
 ```text
-Vertical background for a luxury wedding invitation. Plain warm ivory cotton paper texture with very subtle fibres, soft even light. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Warm ivory handmade cotton paper with a soft deckled edge and the faintest linen texture. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Blush backdrop
 
-- **Where:** Faint background behind the names on the Blush design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Blush design
 - **Admin name:** `theme-blush`
 
 ```text
-Vertical background for a luxury wedding invitation. Soft blush pink watercolour wash on textured paper with a single faint rose stem at the top. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Soft blush pink watercolour wash on cold-press paper, with one delicate pale pink rose softly out of focus at the top edge. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Champagne backdrop
 
-- **Where:** Faint background behind the names on the Champagne design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Champagne design
 - **Admin name:** `theme-champagne`
 
 ```text
-Vertical background for a luxury wedding invitation. Soft blush and champagne silk fabric with gentle folds and a few fine gold foil flecks, warm diffused light. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Champagne and blush silk satin with gentle flowing folds and a few fine gold-foil flecks. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Kasavu backdrop
 
-- **Where:** Faint background behind the names on the Kasavu design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Kasavu design
 - **Admin name:** `theme-kasavu`
 
 ```text
-Vertical background for a luxury wedding invitation. Ivory handloom cotton texture with a gold zari kasavu border running down both side edges, soft daylight. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Ivory Kerala handloom cotton with a rich gold zari kasavu border running down both side edges. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Noor backdrop
 
-- **Where:** Faint background behind the names on the Noor design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Noor design
 - **Admin name:** `theme-noor`
 
 ```text
-Vertical background for a luxury wedding invitation. Deep emerald velvet texture with a faint embossed gold geometric eight-point star pattern along the edges, soft light. No calligraphy. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Deep emerald velvet with a faint embossed gold eight-point star pattern along the edges. No calligraphy. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Sindoor backdrop
 
-- **Where:** Faint background behind the names on the Sindoor design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Sindoor design
 - **Admin name:** `theme-sindoor`
 
 ```text
-Vertical background for a luxury wedding invitation. Rich crimson silk with subtle gold brocade along the edges and soft folds, royal Indian wedding feel. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Rich crimson raw silk with subtle gold brocade along the edges and soft folds. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Kesar backdrop
 
-- **Where:** Faint background behind the names on the Kesar design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Kesar design
 - **Admin name:** `theme-kesar`
 
 ```text
-Vertical background for a luxury wedding invitation. Royal blue silk with saffron, pink and gold phulkari embroidery along the top and bottom edges. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Royal blue silk with saffron, pink and gold phulkari embroidery along the top and bottom edges. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Grace backdrop
 
-- **Where:** Faint background behind the names on the Grace design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Grace design
 - **Admin name:** `theme-grace`
 
 ```text
-Vertical background for a luxury wedding invitation. Dusty blue watercolour wash on textured cotton paper with a faint silver shimmer, airy. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Dusty blue watercolour wash on textured cotton paper with a faint silver shimmer. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Marigold backdrop
 
-- **Where:** Faint background behind the names on the Marigold design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Marigold design
 - **Admin name:** `theme-marigold`
 
 ```text
-Vertical background for a luxury wedding invitation. Warm pale yellow textured paper with blurred orange and yellow marigold petals scattered around the edges. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Pale butter-yellow textured paper with soft-focus orange and yellow marigold petals scattered around the edges. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Nilavu backdrop
 
-- **Where:** Faint background behind the names on the Nilavu design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Nilavu design
 - **Admin name:** `theme-nilavu`
 
 ```text
-Vertical background for a luxury wedding invitation. Deep navy night sky with a soft glowing moon near the top and fine gold stars, smooth gradient. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Deep navy night sky with a soft glowing moon near the top and tiny gold stars. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Mullappoo backdrop
 
-- **Where:** Faint background behind the names on the Mullappoo design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Mullappoo design
 - **Admin name:** `theme-mullappoo`
 
 ```text
-Vertical background for a luxury wedding invitation. Pure white textured cotton paper with a few soft-focus jasmine flowers and green leaves in the top corners. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Pure white textured paper with soft-focus jasmine flowers and green leaves in the top corners. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Thamara backdrop
 
-- **Where:** Faint background behind the names on the Thamara design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Thamara design
 - **Admin name:** `theme-thamara`
 
 ```text
-Vertical background for a luxury wedding invitation. Soft pink watercolour wash on textured paper with faint lotus petals along the bottom edge. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Soft pink watercolour wash with faint pink lotus petals along the bottom edge. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Gulmohar backdrop
 
-- **Where:** Faint background behind the names on the Gulmohar design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Gulmohar design
 - **Admin name:** `theme-gulmohar`
 
 ```text
-Vertical background for a luxury wedding invitation. Warm ivory textured paper with a softly blurred branch of red-orange gulmohar flowers coming in from the top corner. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Warm ivory paper with a softly blurred branch of red-orange gulmohar flowers coming in from the top corner. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Sage backdrop
 
-- **Where:** Faint background behind the names on the Sage design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Sage design
 - **Admin name:** `theme-sage`
 
 ```text
-Vertical background for a luxury wedding invitation. Soft sage green and olive watercolour washes bleeding into ivory paper at the top corners, with delicate eucalyptus sprigs. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Sage green and olive watercolour washes bleeding into ivory paper at the top corners, with delicate eucalyptus sprigs. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Wax Seal backdrop
 
-- **Where:** Faint background behind the names on the Wax Seal design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Wax Seal design
 - **Admin name:** `theme-seal`
 
 ```text
-Vertical background for a luxury wedding invitation. Champagne and cream fine art paper with soft shadows of dried flowers, baby's breath and cream roses at the top edge. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Champagne fine-art paper with soft shadows of dried flowers, baby's breath and cream roses along the top edge. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Ink backdrop
 
-- **Where:** Faint background behind the names on the Ink design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Ink design
 - **Admin name:** `theme-ink`
 
 ```text
-Vertical background for a luxury wedding invitation. Warm ivory handmade cotton paper with deckled edges and faint ink texture, very minimal. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Warm ivory handmade cotton paper with deckled edges and a faint ink-wash texture. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Toile backdrop
 
-- **Where:** Faint background behind the names on the Toile design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Toile design
 - **Admin name:** `theme-toile`
 
 ```text
-Vertical background for a luxury wedding invitation. Ivory paper with a faint navy blue toile de jouy pattern of trees and flowers along the bottom edge only. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Ivory paper with a faint navy toile de Jouy pattern of trees and flowers along the bottom edge only. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Velvet backdrop
 
-- **Where:** Faint background behind the names on the Velvet design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Velvet design
 - **Admin name:** `theme-velvet`
 
 ```text
-Vertical background for a luxury wedding invitation. Wine red crushed velvet with soft highlights and a faint gold art deco line pattern at the edges. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Wine-red crushed velvet with soft highlights and a faint gold art-deco line pattern at the edges. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Gopuram backdrop
 
-- **Where:** Faint background behind the names on the Gopuram design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Gopuram design
 - **Admin name:** `theme-gopuram`
 
 ```text
-Vertical background for a luxury wedding invitation. Deep maroon handmade paper texture with faint gold South Indian temple-pattern borders, warm light. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Deep maroon handmade paper with faint gold South Indian temple-pattern borders. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Mayil backdrop
 
-- **Where:** Faint background behind the names on the Mayil design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Mayil design
 - **Admin name:** `theme-mayil`
 
 ```text
-Vertical background for a luxury wedding invitation. Deep teal silk with soft-focus peacock feathers along the side edges and a gold shimmer. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Deep teal silk with soft-focus peacock feathers along the side edges and a gentle gold shimmer. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Qamar backdrop
 
-- **Where:** Faint background behind the names on the Qamar design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Qamar design
 - **Admin name:** `theme-qamar`
 
 ```text
-Vertical background for a luxury wedding invitation. Midnight navy to deep purple night sky gradient with soft gold bokeh and faint stars. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Midnight navy to deep purple night sky with soft gold bokeh and faint stars. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Chapel backdrop
 
-- **Where:** Faint background behind the names on the Chapel design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Chapel design
 - **Admin name:** `theme-chapel`
 
 ```text
-Vertical background for a luxury wedding invitation. Soft ivory and pearl textured paper with a faint blurred glow of stained-glass colours (sapphire, rose, amber) at the top, like light from a church window. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Soft ivory and pearl paper with a faint glow of stained-glass colours (sapphire, rose, amber) at the top, like light falling from a church window. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 
 ### Jaipur backdrop
 
-- **Where:** Faint background behind the names on the Jaipur design
 - **Size:** 1080 × 1920 px (9:16)
+- **Where:** Faint background behind the names on the Jaipur design
 - **Admin name:** `theme-jaipur`
 
 ```text
-Vertical background for a luxury wedding invitation. Pink sandstone wall texture with a faint carved jharokha arch outline at the top, warm Rajasthan sunlight. Keep the centre plain and calm so text can sit on top. Minimal, elegant. Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark. Aspect ratio 9:16.
+Vertical background for a luxury wedding invitation: Pink sandstone wall with a faint carved jharokha arch outline at the top, in warm Rajasthan sunlight. Keep the centre plain and calm so names and text can sit on top. Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark. Size: 1080 x 1920 px, portrait (aspect ratio 9:16).
 ```
 

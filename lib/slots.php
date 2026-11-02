@@ -2,80 +2,92 @@
 /* Image slots: places on the site that take a photo you generate and upload in Admin → Images.
    Until a slot has an image, the site shows a gradient placeholder there. */
 
-const SLOT_STYLE = 'Photorealistic, bright and airy luxury wedding photography, shot on a Canon R5 with an 85mm lens, soft natural daylight, light blush pink, ivory and champagne-gold palette, happy and joyful mood, natural skin and fabric texture, not an illustration, no text, no letters, no logos, no watermark.';
-
-const SLOTS = [
-    'hero' => ['group' => 'Landing page', 'label' => 'Hero backdrop', 'where' => 'Behind the phones at the top of the home page', 'w' => 2400, 'h' => 1600, 'ratio' => '3:2',
-        'prompt' => 'Bright, airy Indian wedding decor in daylight: blush pink and ivory roses, white jasmine garlands, champagne silk drapes and a few gold candle holders on an ivory table near a sunlit window, scattered rose petals. Light and happy, creamy soft-focus background. Keep the centre calm and softly blurred. No people.'],
-    'cat-hindu' => ['group' => 'Landing page', 'label' => 'Hindu category card', 'where' => 'Design categories section', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Close-up of an Indian Hindu bride\'s hands with intricate mehendi and gold temple bangles, holding a brass plate with jasmine flowers, kumkum and a small lit diya. Red and gold silk saree fabric softly blurred behind. Warm golden light. Hands only, no face.'],
-    'cat-christian' => ['group' => 'Landing page', 'label' => 'Christian category card', 'where' => 'Design categories section', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Two gold wedding rings resting on an open vintage Bible beside a bouquet of white roses and lilies, ivory lace and silk ribbon, soft light from a church stained-glass window blurred in the background. Warm ivory, pearl and gold tones. No people.'],
-    'cat-muslim' => ['group' => 'Landing page', 'label' => 'Muslim category card', 'where' => 'Design categories section', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Elegant Nikah details: a bride\'s hennaed hands holding an open blush velvet ring box with a gold ring, white and pale pink rose petals and a small brass lantern on ivory silk, soft daylight from an arched window. Ivory, blush and gold palette. Hands only, no face, no script or calligraphy.'],
-    'cat-sikh' => ['group' => 'Landing page', 'label' => 'Sikh category card', 'where' => 'Design categories section', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Anand Karaj wedding details: a bride\'s hands wearing red and ivory chooda bangles with gold kalire hanging from the wrists, a saffron and pink silk dupatta, scattered marigold petals, warm soft light. Saffron, pink and gold palette. Hands only, no face.'],
-    'cat-kerala' => ['group' => 'Landing page', 'label' => 'Kerala category card', 'where' => 'Design categories section', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Bright Kerala wedding still life: an ivory kasavu saree with a gold zari border folded on light wood, a brass nilavilakku oil lamp, strings of jasmine (mullappoo) and a gold temple necklace, soft morning daylight. Light and fresh. No people.'],
-    'cat-modern' => ['group' => 'Landing page', 'label' => 'Modern category card', 'where' => 'Design categories section', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Modern minimalist wedding flat lay seen from above: two champagne glasses, white garden roses and eucalyptus, two gold rings on a blush velvet tray, ivory silk ribbon, soft shadows. Blush, ivory and champagne gold palette. No people.'],
-    'cta' => ['group' => 'Landing page', 'label' => 'Final banner', 'where' => 'Behind "Your guests are waiting" near the bottom of the home page', 'w' => 2400, 'h' => 1200, 'ratio' => '2:1',
-        'prompt' => 'Wide view of a bright daytime Indian wedding mandap decorated with blush pink and white flowers, ivory drapes, jasmine strands and soft champagne-gold accents, sunlight streaming in, airy and joyful. No people.'],
-    'custom' => ['group' => 'Other pages', 'label' => 'Custom plan banner', 'where' => 'Top of the Custom website page (/custom)', 'w' => 2000, 'h' => 900, 'ratio' => '20:9',
-        'prompt' => 'Bright flat lay on an ivory linen table: an open laptop and a smartphone side by side with blank glowing screens, surrounded by blush roses, eucalyptus, a gold wax seal, silk ribbon and a fountain pen. Soft morning window light, blush, ivory and champagne palette. Screens blank, no text.'],
-    'demo-1' => ['group' => 'Home page demo', 'label' => 'Demo couple photo 1 (cover)', 'where' => 'Cover photo inside the live invite preview on the home page', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5',
-        'prompt' => 'Candid portrait of a young Indian couple at their wedding, the bride in an ivory and gold silk saree with jasmine in her hair, the groom in an ivory kurta, smiling at each other under soft golden-hour light in a garden with marigold and jasmine garlands. Natural, joyful, editorial wedding photography.'],
-    'demo-2' => ['group' => 'Home page demo', 'label' => 'Demo couple photo 2', 'where' => 'Gallery inside the live invite preview on the home page', 'w' => 1200, 'h' => 1200, 'ratio' => '1:1',
-        'prompt' => 'Close-up of an Indian bride and groom holding hands, her hands with intricate mehendi and gold bangles, his hand with a gold ring, resting on a blush pink silk dupatta with white flowers. Soft natural light, shallow depth of field.'],
-    'demo-3' => ['group' => 'Home page demo', 'label' => 'Demo couple photo 3', 'where' => 'Gallery inside the live invite preview on the home page', 'w' => 1200, 'h' => 1200, 'ratio' => '1:1',
-        'prompt' => 'An Indian couple laughing together in a sunlit garden full of white and pink flowers, the bride in a pastel pink and gold lehenga, the groom in an ivory sherwani, candid and happy, editorial wedding photography.'],
-    'og' => ['group' => 'Landing page', 'label' => 'Share preview image', 'where' => 'Shown when your website link is shared on WhatsApp or Facebook', 'w' => 1200, 'h' => 630, 'ratio' => '1.91:1',
-        'prompt' => 'Bright flat lay seen from above: a blank ivory card with a thin gold edge, blush roses, jasmine, two gold rings and a pale pink silk ribbon on a soft blush background. Plenty of calm empty space. No readable text.'],
+/* Style endings added to every prompt, so all pictures share one look: bright, airy, blush, ivory and champagne gold. */
+const SLOT_STYLE = [
+    'photo' => 'Photorealistic luxury editorial wedding photography, full-frame camera with an 85mm lens, soft natural light, bright and airy, soft blush pink, ivory and champagne-gold palette, refined and joyful mood, natural skin and fabric texture, high-end bridal magazine quality. No text, no letters, no logos, no watermark.',
+    'still' => 'Photorealistic luxury wedding still-life photography, soft natural daylight, bright and airy, blush pink, ivory and champagne-gold palette, shallow depth of field, high-end editorial quality. No people, no text, no letters, no logos, no watermark.',
+    'texture' => 'Photorealistic fine-art texture photograph, soft even light, subtle and elegant, very high resolution. No people, no text, no letters, no logos, no watermark.',
 ];
 
+const SLOTS = [
+    'demo-1' => ['group' => 'Start here: home page', 'label' => 'Demo couple photo 1 (cover)', 'where' => 'Fills the live invite preview on the home page and the photo-led design cards', 'w' => 1200, 'h' => 1500, 'ratio' => '4:5', 'kind' => 'photo',
+        'prompt' => 'Romantic portrait of a young Indian bride and groom standing close, foreheads almost touching and smiling softly, the bride in a blush-pink and gold silk lehenga with fresh jasmine in her hair and delicate gold jewellery, the groom in an ivory sherwani with a champagne stole, in a sunlit garden with softly blurred blush roses and white flowers behind them, warm late-afternoon light.'],
+    'demo-2' => ['group' => 'Start here: home page', 'label' => 'Demo couple photo 2', 'where' => 'Second photo in the home page invite preview (it fades in after photo 1)', 'w' => 1200, 'h' => 1200, 'ratio' => '1:1', 'kind' => 'photo',
+        'prompt' => 'Close-up of an Indian bride\'s and groom\'s hands intertwined, her hands with intricate bridal mehendi and thin gold bangles, his hand with a gold ring, resting on blush pink silk with a few white jasmine buds and rose petals.'],
+    'demo-3' => ['group' => 'Start here: home page', 'label' => 'Demo couple photo 3', 'where' => 'Third photo in the home page invite preview', 'w' => 1200, 'h' => 1200, 'ratio' => '1:1', 'kind' => 'photo',
+        'prompt' => 'Candid joyful moment of an Indian bride and groom laughing together as they walk through a garden aisle lined with white and blush flowers, the bride in an ivory and gold saree, the groom in a cream kurta, soft backlight and gentle movement.'],
+    'hero' => ['group' => 'Start here: home page', 'label' => 'Hero backdrop', 'where' => 'Soft background behind the phones at the top of the home page', 'w' => 2400, 'h' => 1600, 'ratio' => '3:2', 'kind' => 'still',
+        'prompt' => 'Elegant Indian wedding tablescape: blush pink and ivory garden roses, white jasmine garlands, a champagne silk runner, crystal glasses and slim gold candle holders on an ivory linen table beside a tall sunlit window. Keep the left half of the picture light, soft and almost empty, with the flowers and detail on the right third.'],
+    'og' => ['group' => 'Start here: home page', 'label' => 'Share preview image', 'where' => 'The picture WhatsApp, Instagram and Facebook show when your site link is shared', 'w' => 1200, 'h' => 630, 'ratio' => '1.91:1', 'kind' => 'still',
+        'prompt' => 'Overhead flat lay on soft blush silk: a blank ivory invitation card with a thin gold-foil edge (no writing on it), a gold wax seal, two gold wedding rings, scattered blush rose petals, jasmine buds and a champagne satin ribbon. Calm empty space in the centre and left.'],
+    'cta' => ['group' => 'Start here: home page', 'label' => 'Final banner', 'where' => 'Behind "Your guests are waiting for the date" near the bottom of the home page', 'w' => 2400, 'h' => 1200, 'ratio' => '2:1', 'kind' => 'still',
+        'prompt' => 'Wide view of a dreamy daytime Indian wedding mandap with a canopy of blush pink and white flowers, hanging jasmine strands, ivory drapes and soft champagne-gold details, sunlight streaming in, rows of white chairs softly blurred in the foreground.'],
+    'custom' => ['group' => 'Other pages', 'label' => 'Custom plan banner', 'where' => 'Top of the Custom website page (/custom)', 'w' => 2000, 'h' => 900, 'ratio' => '20:9', 'kind' => 'still',
+        'prompt' => 'Luxury flat lay on ivory linen: an open laptop and a smartphone side by side with blank glowing screens, surrounded by blush roses, eucalyptus sprigs, a gold wax seal, a silk ribbon and a fountain pen.'],
+];
+
+/* Photo-led designs: a real couple photo, shown on their design cards and as the first screen until a couple adds their own. */
+const PHOTO_LED_PROMPTS = [
+    'lumiere' => 'Full-length romantic portrait of an Indian bride and groom walking hand in hand down a garden aisle of white and blush flowers, seen slightly from behind as she looks back over her shoulder, the bride in an ivory and gold lehenga with a long sheer veil, the groom in an ivory sherwani, golden-hour backlight. Keep the bottom third simple and slightly darker so white names can sit on top.',
+    'vogue' => 'High-fashion editorial portrait of an elegant Indian bride and groom standing side by side under a warm stone archway, full length, poised and confident, the bride in a champagne-gold lehenga with statement jewellery, the groom in a tailored ivory bandhgala, soft directional light, magazine-cover look. Keep the top and bottom of the frame simple so titles can sit there.',
+    'journal' => 'Candid, warm photo of a laughing Indian couple sitting close on the steps of a sunlit veranda with pots of white flowers, the bride in a soft pink saree with jasmine in her hair, the groom in a cream kurta, natural and intimate, like a favourite photo from a family album.',
+];
+
+/* Soft backgrounds behind the names on the illustrated designs (optional). */
 const THEME_SLOT_PROMPTS = [
-    'lumiere' => 'Romantic full-length photo of an Indian couple walking hand in hand through a sunlit garden aisle of white flowers, shot from behind at golden hour, lots of soft light.',
-    'journal' => 'Candid photo of a laughing Indian couple sitting close on a cream sofa near a window, soft morning light, warm and natural.',
-    'vogue' => 'Editorial fashion portrait of an elegant Indian bride and groom standing side by side against a plain warm stone wall, full length, confident poses, high fashion magazine look.',
-    'classic' => 'Plain warm ivory cotton paper texture with very subtle fibres, soft even light.',
-    'blush' => 'Soft blush pink watercolour wash on textured paper with a single faint rose stem at the top.',
-    'sage' => 'Soft sage green and olive watercolour washes bleeding into ivory paper at the top corners, with delicate eucalyptus sprigs.',
-    'seal' => 'Champagne and cream fine art paper with soft shadows of dried flowers, baby\'s breath and cream roses at the top edge.',
-    'ink' => 'Warm ivory handmade cotton paper with deckled edges and faint ink texture, very minimal.',
-    'toile' => 'Ivory paper with a faint navy blue toile de jouy pattern of trees and flowers along the bottom edge only.',
-    'champagne' => 'Soft blush and champagne silk fabric with gentle folds and a few fine gold foil flecks, warm diffused light.',
-    'kasavu' => 'Ivory handloom cotton texture with a gold zari kasavu border running down both side edges, soft daylight.',
-    'noor' => 'Deep emerald velvet texture with a faint embossed gold geometric eight-point star pattern along the edges, soft light. No calligraphy.',
-    'chapel' => 'Soft ivory and pearl textured paper with a faint blurred glow of stained-glass colours (sapphire, rose, amber) at the top, like light from a church window.',
-    'sindoor' => 'Rich crimson silk with subtle gold brocade along the edges and soft folds, royal Indian wedding feel.',
+    'classic' => 'Warm ivory handmade cotton paper with a soft deckled edge and the faintest linen texture.',
+    'blush' => 'Soft blush pink watercolour wash on cold-press paper, with one delicate pale pink rose softly out of focus at the top edge.',
+    'champagne' => 'Champagne and blush silk satin with gentle flowing folds and a few fine gold-foil flecks.',
+    'kasavu' => 'Ivory Kerala handloom cotton with a rich gold zari kasavu border running down both side edges.',
+    'noor' => 'Deep emerald velvet with a faint embossed gold eight-point star pattern along the edges. No calligraphy.',
+    'sindoor' => 'Rich crimson raw silk with subtle gold brocade along the edges and soft folds.',
     'kesar' => 'Royal blue silk with saffron, pink and gold phulkari embroidery along the top and bottom edges.',
-    'gopuram' => 'Deep maroon handmade paper texture with faint gold South Indian temple-pattern borders, warm light.',
-    'velvet' => 'Wine red crushed velvet with soft highlights and a faint gold art deco line pattern at the edges.',
-    'qamar' => 'Midnight navy to deep purple night sky gradient with soft gold bokeh and faint stars.',
-    'grace' => 'Dusty blue watercolour wash on textured cotton paper with a faint silver shimmer, airy.',
-    'marigold' => 'Warm pale yellow textured paper with blurred orange and yellow marigold petals scattered around the edges.',
-    'nilavu' => 'Deep navy night sky with a soft glowing moon near the top and fine gold stars, smooth gradient.',
-    'mullappoo' => 'Pure white textured cotton paper with a few soft-focus jasmine flowers and green leaves in the top corners.',
-    'thamara' => 'Soft pink watercolour wash on textured paper with faint lotus petals along the bottom edge.',
-    'mayil' => 'Deep teal silk with soft-focus peacock feathers along the side edges and a gold shimmer.',
-    'jaipur' => 'Pink sandstone wall texture with a faint carved jharokha arch outline at the top, warm Rajasthan sunlight.',
-    'gulmohar' => 'Warm ivory textured paper with a softly blurred branch of red-orange gulmohar flowers coming in from the top corner.',
+    'grace' => 'Dusty blue watercolour wash on textured cotton paper with a faint silver shimmer.',
+    'marigold' => 'Pale butter-yellow textured paper with soft-focus orange and yellow marigold petals scattered around the edges.',
+    'nilavu' => 'Deep navy night sky with a soft glowing moon near the top and tiny gold stars.',
+    'mullappoo' => 'Pure white textured paper with soft-focus jasmine flowers and green leaves in the top corners.',
+    'thamara' => 'Soft pink watercolour wash with faint pink lotus petals along the bottom edge.',
+    'gulmohar' => 'Warm ivory paper with a softly blurred branch of red-orange gulmohar flowers coming in from the top corner.',
+    'sage' => 'Sage green and olive watercolour washes bleeding into ivory paper at the top corners, with delicate eucalyptus sprigs.',
+    'seal' => 'Champagne fine-art paper with soft shadows of dried flowers, baby\'s breath and cream roses along the top edge.',
+    'ink' => 'Warm ivory handmade cotton paper with deckled edges and a faint ink-wash texture.',
+    'toile' => 'Ivory paper with a faint navy toile de Jouy pattern of trees and flowers along the bottom edge only.',
+    'velvet' => 'Wine-red crushed velvet with soft highlights and a faint gold art-deco line pattern at the edges.',
+    'gopuram' => 'Deep maroon handmade paper with faint gold South Indian temple-pattern borders.',
+    'mayil' => 'Deep teal silk with soft-focus peacock feathers along the side edges and a gentle gold shimmer.',
+    'qamar' => 'Midnight navy to deep purple night sky with soft gold bokeh and faint stars.',
+    'chapel' => 'Soft ivory and pearl paper with a faint glow of stained-glass colours (sapphire, rose, amber) at the top, like light falling from a church window.',
+    'jaipur' => 'Pink sandstone wall with a faint carved jharokha arch outline at the top, in warm Rajasthan sunlight.',
 ];
 
 function all_slots(): array
 {
     $s = SLOTS;
-    foreach (THEMES as $id => $t) {
-        $s['theme-' . $id] = ['group' => 'Design backdrops', 'label' => $t['name'] . ' backdrop', 'where' => 'Faint background behind the names on the ' . $t['name'] . ' design',
-            'w' => 1080, 'h' => 1920, 'ratio' => '9:16',
-            'prompt' => 'Vertical background for a luxury wedding invitation. ' . (THEME_SLOT_PROMPTS[$id] ?? '') . ' Keep the centre plain and calm so text can sit on top. Minimal, elegant.'];
+    // photo-led designs come right after the home page pictures: they make the design cards look real
+    $photo = [];
+    foreach (PHOTO_LED_PROMPTS as $id => $prompt) {
+        if (!isset(THEMES[$id])) continue;
+        $photo['theme-' . $id] = ['group' => 'Photo-led designs', 'label' => THEMES[$id]['name'] . ' couple photo', 'where' => 'The ' . THEMES[$id]['name'] . ' card on the home page and Designs page, and its first screen until a couple adds their own photo',
+            'w' => 1080, 'h' => 1920, 'ratio' => '9:16', 'kind' => 'photo', 'prompt' => $prompt];
     }
-    return $s;
+    $out = [];
+    foreach ($s as $k => $v) { if ($v['group'] === 'Other pages' && $photo) { $out += $photo; $photo = []; } $out[$k] = $v; }
+    $out += $photo;
+    foreach (THEMES as $id => $t) {
+        if (isset(PHOTO_LED_PROMPTS[$id])) continue;
+        $out['theme-' . $id] = ['group' => 'Design backdrops (optional)', 'label' => $t['name'] . ' backdrop', 'where' => 'Faint background behind the names on the ' . $t['name'] . ' design',
+            'w' => 1080, 'h' => 1920, 'ratio' => '9:16', 'kind' => 'texture',
+            'prompt' => 'Vertical background for a luxury wedding invitation: ' . (THEME_SLOT_PROMPTS[$id] ?? 'soft elegant paper texture.') . ' Keep the centre plain and calm so names and text can sit on top.'];
+    }
+    return $out;
 }
 
+/** The full prompt, ready to paste: description, shared style and the exact size. */
 function slot_prompt(array $slot): string
 {
-    return $slot['prompt'] . ' ' . SLOT_STYLE . ' Aspect ratio ' . $slot['ratio'] . '.';
+    $orient = $slot['w'] > $slot['h'] ? 'landscape' : ($slot['w'] < $slot['h'] ? 'portrait' : 'square');
+    return $slot['prompt'] . ' ' . (SLOT_STYLE[$slot['kind'] ?? 'photo'] ?? SLOT_STYLE['photo'])
+        . ' Size: ' . $slot['w'] . ' x ' . $slot['h'] . ' px, ' . $orient . ' (aspect ratio ' . $slot['ratio'] . ').';
 }
 
 function slot_file(string $key): string { return data_dir() . '/site/' . $key . '.jpg'; }
