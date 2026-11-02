@@ -11,7 +11,7 @@ $existing = $bio ? [
 ] : null;
 $cfg = bio_js_config() + ['existing' => $existing, 'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url())];
 
-$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' . $brand,
     'Make a beautiful marriage biodata in minutes. Add your details, family and horoscope, pick a design and download a PDF or image. Free.', '/assets/og/site.jpg', $bioHead);
@@ -53,7 +53,7 @@ site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' .
         <h2>Heading and photo</h2>
         <div class="row2">
           <div class="field"><label for="f-title">Heading</label><input id="f-title" name="title" maxlength="40" placeholder="Marriage Biodata"></div>
-          <div class="field"><label for="f-top_line">Blessing line at the top</label><input id="f-top_line" name="top_line" maxlength="60" placeholder=""><small><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" name="no_top" id="f-no_top"> Don't show a blessing or symbol</label></small></div>
+          <div class="field"><label for="f-top_line">Blessing line at the top</label><input id="f-top_line" name="top_line" maxlength="60" placeholder=""><small><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" name="no_top" id="f-no_top"> Don't show a blessing line</label></small></div>
         </div>
         <div class="field"><span>Photo (optional)</span>
           <div class="photo-row"><img id="photo-th" alt="" hidden><label class="btn alt small" for="photo-in">Add a photo</label><button type="button" class="linkbtn" id="photo-x" hidden>Remove</button></div>

@@ -5,22 +5,22 @@
    Sikh families for got and Amritdhari / Keshdhari status. The form shows only what fits the chosen religion. */
 
 const BIO_RELIGIONS = [
-    'hindu'     => ['name' => 'Hindu',     'top' => '॥ श्री गणेशाय नमः ॥',            'emblem' => 'om',       'template' => 'royal',   'section' => 'Religion and horoscope'],
-    'muslim'    => ['name' => 'Muslim',    'top' => 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ', 'emblem' => 'crescent', 'template' => 'emerald', 'section' => 'Religion and community'],
-    'christian' => ['name' => 'Christian', 'top' => 'With the blessings of God Almighty', 'emblem' => 'cross',  'template' => 'ivory',   'section' => 'Church and community'],
-    'sikh'      => ['name' => 'Sikh',      'top' => 'ੴ ਸਤਿ ਨਾਮੁ',                      'emblem' => 'onkar',    'template' => 'khalsa',  'section' => 'Religion and community'],
-    'jain'      => ['name' => 'Jain',      'top' => 'Jai Jinendra',                      'emblem' => 'jain',     'template' => 'ivory',   'section' => 'Religion and horoscope'],
-    'buddhist'  => ['name' => 'Buddhist',  'top' => 'Namo Buddhaya',                     'emblem' => 'wheel',    'template' => 'ivory',   'section' => 'Religion and community'],
-    'other'     => ['name' => 'Other',     'top' => '',                                  'emblem' => '',         'template' => 'noir',    'section' => 'Community'],
+    'hindu'     => ['name' => 'Hindu',     'top' => '॥ श्री गणेशाय नमः ॥',       'template' => 'royal',   'section' => 'Religion and horoscope'],
+    'muslim'    => ['name' => 'Muslim',    'top' => 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ', 'template' => 'emerald', 'section' => 'Religion and community'],
+    'christian' => ['name' => 'Christian', 'top' => 'With the blessings of God Almighty',  'template' => 'ivory',   'section' => 'Church and community'],
+    'sikh'      => ['name' => 'Sikh',      'top' => 'ੴ ਸਤਿ ਨਾਮੁ',    'template' => 'khalsa',  'section' => 'Religion and community'],
+    'jain'      => ['name' => 'Jain',      'top' => 'Jai Jinendra',     'template' => 'ivory',   'section' => 'Religion and horoscope'],
+    'buddhist'  => ['name' => 'Buddhist',  'top' => 'Namo Buddhaya',    'template' => 'ivory',   'section' => 'Religion and community'],
+    'other'     => ['name' => 'Other',     'top' => '',         'template' => 'noir',    'section' => 'Community'],
 ];
 
 const BIO_TEMPLATES = [
-    'royal'   => ['name' => 'Maroon & Gold'],
-    'emerald' => ['name' => 'Emerald & Gold'],
-    'ivory'   => ['name' => 'Ivory & Gold'],
-    'khalsa'  => ['name' => 'Royal Blue'],
-    'kasavu'  => ['name' => 'Kerala Kasavu'],
-    'noir'    => ['name' => 'Black & Gold'],
+    'royal'   => ['name' => 'Maroon'],
+    'emerald' => ['name' => 'Emerald'],
+    'ivory'   => ['name' => 'Gold'],
+    'khalsa'  => ['name' => 'Navy'],
+    'kasavu'  => ['name' => 'Kerala'],
+    'noir'    => ['name' => 'Black'],
 ];
 
 /* Fields: k, label, max, placeholder (string, or per-religion map), type, religions it applies to (null = all) */

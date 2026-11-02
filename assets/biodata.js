@@ -31,54 +31,6 @@
   }
   function applies(f, rel) { return !f.rel || f.rel.indexOf(rel) > -1; }
 
-  /* ---------- ornaments (all drawn as SVG, gold via gradient) ---------- */
-  var PAL = {
-    royal: ['#8A6416', '#F6E3A1', '#B88A2A', '#FFF2C4', '#7A560F'],
-    emerald: ['#8A6416', '#F6E3A1', '#B88A2A', '#FFF2C4', '#7A560F'],
-    ivory: ['#8E6A22', '#E9CF86', '#A7802F', '#F7E4AE', '#7E5C17'],
-    khalsa: ['#B5701A', '#FFD98A', '#D9952C', '#FFEBB8', '#A1600F'],
-    kasavu: ['#8E6A16', '#EBCB6E', '#B08A2A', '#F7E3A0', '#7E5C10'],
-    noir: ['#8A6416', '#F6E3A1', '#B88A2A', '#FFF2C4', '#7A560F']
-  };
-  function gold(id, tpl) {
-    var p = PAL[tpl] || PAL.royal;
-    return '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
-      p.map(function (c, i) { return '<stop offset="' + (i / (p.length - 1)) + '" stop-color="' + c + '"/>'; }).join('') + '</linearGradient></defs>';
-  }
-  function filigree(pos, tpl) {
-    // an ornate corner: double rule, a scroll and a leaf, drawn for the top-left and mirrored by coordinates
-    var fx = pos === 'tr' || pos === 'br', fy = pos === 'bl' || pos === 'br', S = 120;
-    function P(x, y) { return (fx ? S - x : x) + ',' + (fy ? S - y : y); }
-    var id = 'g' + pos + tpl;
-    var d1 = 'M' + P(4, 110) + ' L' + P(4, 4) + ' L' + P(110, 4);
-    var d2 = 'M' + P(14, 96) + ' L' + P(14, 14) + ' L' + P(96, 14);
-    var scroll = 'M' + P(14, 54) + ' C' + P(30, 52) + ' ' + P(40, 40) + ' ' + P(38, 28) + ' C' + P(36, 18) + ' ' + P(24, 18) + ' ' + P(24, 28) + ' C' + P(24, 34) + ' ' + P(30, 36) + ' ' + P(33, 31) +
-      ' M' + P(54, 14) + ' C' + P(52, 30) + ' ' + P(40, 40) + ' ' + P(28, 38);
-    var leaf = 'M' + P(38, 38) + ' C' + P(50, 44) + ' ' + P(58, 56) + ' ' + P(60, 66) + ' C' + P(50, 62) + ' ' + P(40, 52) + ' ' + P(38, 38) + 'Z';
-    return '<svg class="bd-c ' + pos + '" width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">' + gold(id, tpl) +
-      '<g fill="none" stroke="url(#' + id + ')" stroke-linecap="round"><path d="' + d1 + '" stroke-width="2.6"/><path d="' + d2 + '" stroke-width="1"/><path d="' + scroll + '" stroke-width="1.6"/></g>' +
-      '<path d="' + leaf + '" fill="url(#' + id + ')"/><circle cx="' + P(14, 14).split(',')[0] + '" cy="' + P(14, 14).split(',')[1] + '" r="3.5" fill="url(#' + id + ')"/></svg>';
-  }
-  function flourish(tpl, id) {
-    return '<svg class="bd-fl" width="300" height="24" viewBox="0 0 300 24" xmlns="http://www.w3.org/2000/svg">' + gold(id, tpl) +
-      '<g fill="none" stroke="url(#' + id + ')" stroke-linecap="round" stroke-width="1.3">' +
-      '<path d="M10,12 L110,12 M190,12 L290,12"/><path d="M110,12 C122,12 126,4 136,6 C142,7 142,14 136,14 C132,14 132,10 135,10"/>' +
-      '<path d="M190,12 C178,12 174,4 164,6 C158,7 158,14 164,14 C168,14 168,10 165,10"/></g>' +
-      '<path d="M150,4 L157,12 L150,20 L143,12Z" fill="url(#' + id + ')"/><circle cx="10" cy="12" r="2" fill="url(#' + id + ')"/><circle cx="290" cy="12" r="2" fill="url(#' + id + ')"/></svg>';
-  }
-  function emblem(kind, tpl) {
-    if (!kind) return '';
-    var id = 'em' + tpl, inner = '';
-    if (kind === 'om') inner = '<text x="40" y="54" text-anchor="middle" font-family="Noto Serif Devanagari, serif" font-size="40" font-weight="600" fill="url(#' + id + ')">ॐ</text>';
-    else if (kind === 'onkar') inner = '<text x="40" y="53" text-anchor="middle" font-family="Noto Serif Gurmukhi, serif" font-size="36" font-weight="600" fill="url(#' + id + ')">ੴ</text>';
-    else if (kind === 'crescent') inner = '<path d="M46,20 A21,21 0 1,0 58,52 A17,17 0 1,1 46,20Z" fill="url(#' + id + ')"/><path d="M55,27 l2.4,5 5.4,.6 -4,3.7 1.1,5.3 -4.9,-2.7 -4.9,2.7 1.1,-5.3 -4,-3.7 5.4,-.6Z" fill="url(#' + id + ')"/>';
-    else if (kind === 'cross') inner = '<path d="M36,16 h8 v12 h12 v8 h-12 v28 h-8 v-28 h-12 v-8 h12Z" fill="url(#' + id + ')"/>';
-    else if (kind === 'wheel') { inner = '<circle cx="40" cy="40" r="20" fill="none" stroke="url(#' + id + ')" stroke-width="2.4"/><circle cx="40" cy="40" r="5" fill="url(#' + id + ')"/>'; for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4; inner += '<path d="M' + (40 + 5 * Math.cos(a)).toFixed(1) + ',' + (40 + 5 * Math.sin(a)).toFixed(1) + ' L' + (40 + 20 * Math.cos(a)).toFixed(1) + ',' + (40 + 20 * Math.sin(a)).toFixed(1) + '" stroke="url(#' + id + ')" stroke-width="2"/>'; } }
-    else if (kind === 'jain') inner = '<path d="M40,18 C30,30 26,40 30,50 C33,57 47,57 50,50 C54,40 50,30 40,18Z" fill="none" stroke="url(#' + id + ')" stroke-width="2.4"/><circle cx="40" cy="44" r="4" fill="url(#' + id + ')"/>';
-    return '<svg class="bd-emblem" width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">' + gold(id, tpl) +
-      '<circle cx="40" cy="40" r="37" fill="none" stroke="url(#' + id + ')" stroke-width="1.6"/><circle cx="40" cy="40" r="33" fill="none" stroke="url(#' + id + ')" stroke-width=".7"/>' + inner + '</svg>';
-  }
-
   function strip(brand) { return '<div class="bd-strip">Created by ' + esc(brand) + '</div>'; }
 
   /** Renders the biodata page into el. opts: { watermark: bool, brand } */
@@ -110,13 +62,12 @@
     blocks.forEach(function (b) { if (b.rows) body += '<section class="bd-sec">' + head(b.title) + '<table>' + b.rows + '</table></section>'; });
     var name = (d.name || '').trim() || 'Your name';
     var top = d.no_top ? '' : ((d.top_line || '').trim() || R.top || '');
-    var corners = ['tl', 'tr', 'bl', 'br'].map(function (p) { return filigree(p, tpl); }).join('');
 
     var html = '<div class="bd bd-' + esc(tpl) + (photo ? ' has-photo' : '') + (opts.watermark ? ' has-strip' : '') + '" lang="' + (rel === 'muslim' ? 'ar' : 'en') + '">' +
-      '<div class="bd-frame-o"></div><div class="bd-in">' + corners +
-      '<header class="bd-hd">' + (d.no_top ? '' : emblem(R.emblem, tpl)) +
+      '<div class="bd-in">' +
+      '<header class="bd-hd">' +
         (top ? '<p class="bd-top">' + esc(top) + '</p>' : '') +
-        '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1>' + flourish(tpl, 'fl' + tpl) + '</header>' +
+        '<h1 class="bd-title">' + esc(d.title || 'Marriage Biodata') + '</h1><span class="bd-rule"></span></header>' +
       '<div class="bd-head">' +
         (photo ? '<div class="bd-photo"><img src="' + esc(photo) + '" alt="" crossorigin="anonymous"></div>' : '') +
         '<div class="bd-headtxt"><h2 class="bd-name">' + esc(name) + '</h2>' +
@@ -133,7 +84,7 @@
   // shrink the type until everything fits on one A4 page
   function fit(page) {
     if (!page) return;
-    var size = 17.5;
+    var size = 16.5;
     page.style.fontSize = size + 'px';
     var inner = page.querySelector('.bd-in');
     var guard = 0;

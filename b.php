@@ -17,7 +17,7 @@ $cfg = bio_js_config() + [
     'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url()), 'live' => payments_live(), 'price' => $pb,
     'purchase' => $paid && !$bio['is_demo'] && $bio['paid_at'] && strtotime($bio['paid_at']) > time() - 600 ? ['value' => $bio['amount'] / 100, 'id' => 'bio_' . $bio['id']] : null,
 ];
-$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
 ?>

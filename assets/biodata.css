@@ -4,84 +4,48 @@
 .bd-snap { position: fixed; left: -10000px; top: 0; width: 794px; height: 1123px; }
 
 .bd {
-  --bg: #5E0A1C; --bg2: #3A0511; --paper: #FFF9EE; --paper2: #F7ECD6; --ink: #2E1A14; --label: #7A4A1E; --head: #6E0B1D;
-  --gold: linear-gradient(100deg, #8A6416 0%, #E9CB7A 22%, #FFF2C4 38%, #B88A2A 55%, #F6E3A1 74%, #7A560F 100%);
-  --goldline: #C9A24A; --rule: rgba(176,138,62,.45);
-  --goldtext: linear-gradient(100deg, #6E4C0C 0%, #B88A2A 28%, #5E420B 50%, #C99A35 74%, #6E4C0C 100%);
-  --fd: 'Cinzel Decorative', 'Cinzel', Georgia, serif; --fh: 'Cinzel', Georgia, serif; --fn: 'Great Vibes', 'Pinyon Script', cursive;
-  --ft: 'Cormorant Garamond', 'Noto Serif Malayalam', 'Noto Serif Devanagari', 'Noto Serif Tamil', 'Noto Serif Kannada', 'Noto Serif Telugu', 'Noto Serif Gurmukhi', 'Amiri', Georgia, serif;
+  --acc: #7A1F2B; --ink: #2B2522; --label: #7C716B; --paper: #FFFFFF; --line: rgba(122,31,43,.35);
+  --fh: 'Cormorant Garamond', 'Noto Serif Malayalam', 'Noto Serif Devanagari', 'Noto Serif Gurmukhi', 'Amiri', Georgia, serif;
+  --ft: 'DM Sans', 'Noto Sans Malayalam', 'Noto Serif Malayalam', 'Noto Serif Devanagari', 'Noto Serif Tamil', 'Noto Serif Kannada', 'Noto Serif Telugu', 'Noto Serif Gurmukhi', 'Amiri', Arial, sans-serif;
   width: 794px; height: 1123px; position: relative; overflow: hidden; color: var(--ink); font-family: var(--ft);
-  font-size: 17.5px; line-height: 1.42; -webkit-font-smoothing: antialiased; box-sizing: border-box;
-  background: radial-gradient(120% 80% at 50% 0%, var(--bg) 0%, var(--bg2) 100%);
+  font-size: 16.5px; line-height: 1.5; -webkit-font-smoothing: antialiased; box-sizing: border-box; background: var(--paper);
 }
 .bd *, .bd *::before, .bd *::after { box-sizing: border-box; }
-/* rich background pattern on the outer band */
-.bd::before { content: ''; position: absolute; inset: 0; opacity: .16;
-  background-image: radial-gradient(circle at 50% 50%, transparent 9px, rgba(233,203,122,.9) 10px, transparent 11px), radial-gradient(circle at 0 0, rgba(233,203,122,.9) 2px, transparent 3px);
-  background-size: 34px 34px, 34px 34px; background-position: 0 0, 17px 17px; }
-/* gold foil frame around the paper */
-.bd-frame-o { position: absolute; top: 24px; right: 24px; bottom: 24px; left: 24px; background: var(--gold); border-radius: 2px; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
-.bd-in { position: absolute; top: 30px; right: 30px; bottom: 30px; left: 30px; padding: 44px 64px 46px; display: flex; flex-direction: column; overflow: hidden;
-  background: radial-gradient(90% 60% at 50% 30%, var(--paper) 0%, var(--paper) 55%, var(--paper2) 100%); }
-.bd-in::before { content: ''; position: absolute; top: 10px; right: 10px; bottom: 10px; left: 10px; border: 1px solid var(--goldline); pointer-events: none; }
-.bd.has-strip .bd-frame-o { bottom: 58px; }
-.bd.has-strip .bd-in { bottom: 64px; }
-.bd-c { position: absolute; z-index: 1; width: 120px; height: 120px; }
-.bd-c.tl { top: 4px; left: 4px; } .bd-c.tr { top: 4px; right: 4px; } .bd-c.bl { bottom: 4px; left: 4px; } .bd-c.br { bottom: 4px; right: 4px; }
+/* one thin border, nothing else */
+.bd-in { position: absolute; top: 34px; right: 34px; bottom: 34px; left: 34px; padding: 46px 58px 40px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); }
+.bd.has-strip .bd-in { bottom: 62px; }
 
-.bd-hd { text-align: center; position: relative; z-index: 2; }
-.bd-emblem { display: block; width: 62px; height: 62px; margin: 0 auto 4px; }
-.bd-top { margin: 0 0 2px; font-size: .92em; letter-spacing: .06em; color: var(--label); font-weight: 600; }
-.bd[lang=ar] .bd-top { font-family: 'Amiri', serif; font-size: 1.25em; letter-spacing: 0; }
-.bd-title { margin: 2px 0 0; font-family: var(--fd); font-weight: 700; font-size: 2.15em; line-height: 1.1; letter-spacing: .04em;
-  background: var(--goldtext); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
-.bd-fl { display: block; width: 260px; height: 21px; margin: 8px auto 14px; }
+.bd-hd { text-align: center; }
+.bd-top { margin: 0 0 10px; font-size: .82em; letter-spacing: .08em; color: var(--label); }
+.bd[lang=ar] .bd-top { font-family: 'Amiri', serif; font-size: 1.1em; letter-spacing: 0; }
+.bd-title { margin: 0; font-family: var(--ft); font-weight: 500; font-size: .86em; letter-spacing: .32em; text-transform: uppercase; color: var(--acc); }
+.bd-rule { display: block; width: 44px; height: 1px; background: var(--acc); margin: 14px auto 22px; }
 
-.bd-head { display: flex; gap: 28px; align-items: center; margin-bottom: 4px; position: relative; z-index: 2; }
-.bd-photo { flex: none; width: 176px; height: 222px; border-radius: 50%; padding: 5px; background: var(--gold); box-shadow: 0 10px 24px -10px rgba(0,0,0,.45); }
-.bd-photo img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; border: 3px solid var(--paper); }
+.bd-head { display: flex; gap: 28px; align-items: center; margin-bottom: 6px; }
+.bd-photo { flex: none; width: 150px; height: 190px; border-radius: 3px; overflow: hidden; }
+.bd-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .bd-headtxt { flex: 1; min-width: 0; }
-.bd-name { margin: 0 0 8px; font-family: var(--fn); font-weight: 400; font-size: 3.1em; line-height: 1.05; color: var(--head); }
+.bd-name { margin: 0 0 10px; font-family: var(--fh); font-weight: 600; font-size: 2.5em; line-height: 1.05; color: var(--ink); letter-spacing: .01em; }
 .bd:not(.has-photo) .bd-name { text-align: center; }
-.bd:not(.has-photo) .bd-personal { max-width: 520px; margin: 0 auto; }
 .bd table { width: 100%; border-collapse: collapse; }
-.bd th { text-align: left; font-weight: 600; width: 40%; padding: 2px 14px 2px 0; vertical-align: top; color: var(--label); font-size: .9em; letter-spacing: .02em; }
-.bd td { padding: 2px 0; vertical-align: top; overflow-wrap: anywhere; font-weight: 500; }
-.bd-sec { margin-top: 12px; position: relative; z-index: 2; }
-.bd-sec h3 { margin: 0 0 6px; display: flex; align-items: center; gap: 12px; font-family: var(--fh); font-weight: 700; font-size: .98em; letter-spacing: .14em; text-transform: uppercase; color: var(--head); }
-.bd-sec h3::before, .bd-sec h3::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--goldline)); }
-.bd-sec h3::after { background: linear-gradient(90deg, var(--goldline), transparent); }
-.bd-sec h3 span { white-space: nowrap; }
-.bd-para p { margin: 0; text-align: center; font-style: italic; }
+.bd th { text-align: left; font-weight: 400; width: 38%; padding: 2.5px 14px 2.5px 0; vertical-align: top; color: var(--label); font-size: .92em; }
+.bd td { padding: 2.5px 0; vertical-align: top; overflow-wrap: anywhere; }
+.bd-sec { margin-top: 16px; }
+.bd-sec h3 { margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-family: var(--ft); font-weight: 600; font-size: .74em; letter-spacing: .22em; text-transform: uppercase; color: var(--acc); }
+.bd-para p { margin: 0; }
 
 /* free version: a red strip along the bottom */
-.bd-strip { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 36px; display: flex; align-items: center; justify-content: center;
-  background: #C0152F; color: #fff; font: 700 15px/1 Arial, Helvetica, sans-serif; letter-spacing: .08em; }
+.bd-strip { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 34px; display: flex; align-items: center; justify-content: center;
+  background: #C0152F; color: #fff; font: 700 14px/1 Arial, Helvetica, sans-serif; letter-spacing: .08em; }
 
-/* ---------- Maroon & Gold (Hindu) ---------- */
-.bd-royal { --bg: #6E0B1D; --bg2: #3A0511; --paper: #FFF9EE; --paper2: #F5E6CA; --head: #6E0B1D; --label: #7A4A1E; }
-/* ---------- Emerald & Gold (Muslim) ---------- */
-.bd-emerald { --bg: #0F5A43; --bg2: #062A1F; --paper: #FFFBF1; --paper2: #F1E9D2; --head: #0C4A37; --label: #6B5420; --ink: #1F2A24; }
-.bd-emerald::before { background-image: linear-gradient(45deg, rgba(233,203,122,.9) 1px, transparent 1px), linear-gradient(-45deg, rgba(233,203,122,.9) 1px, transparent 1px); background-size: 30px 30px; opacity: .12; }
-.bd-emerald .bd-in { border-radius: 180px 180px 0 0 / 70px 70px 0 0; }
-.bd-emerald .bd-frame-o { border-radius: 186px 186px 2px 2px / 74px 74px 2px 2px; }
-.bd-emerald .bd-in::before { border-radius: 172px 172px 0 0 / 64px 64px 0 0; }
-.bd-emerald .bd-c.tl, .bd-emerald .bd-c.tr { display: none; }
-/* ---------- Ivory & Gold (Christian, Jain, Buddhist) ---------- */
-.bd-ivory { --bg: #EFE4CF; --bg2: #D9C6A2; --paper: #FFFEFA; --paper2: #F8F1E2; --head: #6B4F1D; --label: #8A6A33; --ink: #2F2A22; }
-.bd-ivory::before { background-image: radial-gradient(circle at 50% 50%, transparent 9px, rgba(160,124,50,.9) 10px, transparent 11px), radial-gradient(circle at 0 0, rgba(160,124,50,.9) 2px, transparent 3px); opacity: .14; }
-/* ---------- Royal Blue (Sikh) ---------- */
-.bd-khalsa { --goldtext: linear-gradient(100deg, #8A4A08 0%, #D9952C 30%, #7A4006 52%, #E0A443 76%, #8A4A08 100%); --bg: #1B3279; --bg2: #0C1A45; --paper: #FFFAF0; --paper2: #F6EAD2; --head: #1B3279; --label: #A35E10; --ink: #1E2433;
-  --gold: linear-gradient(100deg, #B5701A 0%, #FFD98A 25%, #FFF0CC 40%, #D9952C 58%, #FFE3A0 76%, #A1600F 100%); --goldline: #E0A443; }
-/* ---------- Kerala Kasavu ---------- */
-.bd-kasavu { --bg: #FBF6E8; --bg2: #F1E6C8; --paper: #FFFDF6; --paper2: #FAF2DD; --head: #7A5A10; --label: #8E1B1B; --ink: #2E2614; }
-.bd-kasavu::before { opacity: 1; background: linear-gradient(90deg, #C9A227 0 16px, transparent 16px 19px, #8E1B1B 19px 22px, transparent 22px calc(100% - 22px), #8E1B1B calc(100% - 22px) calc(100% - 19px), transparent calc(100% - 19px) calc(100% - 16px), #C9A227 calc(100% - 16px)); }
-.bd-kasavu .bd-frame-o { left: 34px; right: 34px; }
-.bd-kasavu .bd-in { left: 40px; right: 40px; }
-/* ---------- Black & Gold ---------- */
-.bd-noir { --goldtext: var(--gold); --bg: #1A1714; --bg2: #050403; --paper: #14110E; --paper2: #0E0C0A; --head: #E9CB7A; --label: #C9A24A; --ink: #F3E9D2; --goldline: #8A6A2A; }
-.bd-noir .bd-name { background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; padding: 0 .1em; }
-.bd-noir .bd-photo img { border-color: #14110E; }
+/* colour accents only */
+.bd-royal   { --acc: #7A1F2B; --line: rgba(122,31,43,.32); }
+.bd-emerald { --acc: #1F5C47; --line: rgba(31,92,71,.32); }
+.bd-ivory   { --acc: #9A7A3E; --line: rgba(154,122,62,.4); --paper: #FFFDF8; }
+.bd-khalsa  { --acc: #23397A; --line: rgba(35,57,122,.32); }
+.bd-kasavu  { --acc: #9A7A2A; --line: rgba(154,122,42,.45); --paper: #FFFDF6; }
+.bd-kasavu .bd-in { border-left: 3px double var(--acc); border-right: 3px double var(--acc); }
+.bd-noir    { --acc: #111111; --line: rgba(17,17,17,.3); --label: #6B6B6B; }
 
 /* ---------- biodata pages ---------- */
 .bio-layout { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 40px; align-items: start; padding: 10px 0 80px; }
@@ -96,12 +60,9 @@
 .tpl-pick i { display: block; aspect-ratio: 210 / 297; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); }
 .tpl-pick input:checked + i { box-shadow: 0 0 0 3px var(--kumkum); }
 .tpl-pick input:focus-visible + i { outline: 3px solid var(--turmeric); outline-offset: 3px; }
-.tpl-royal { background: linear-gradient(#FFF9EE, #FFF9EE) padding-box, linear-gradient(135deg, #E9CB7A, #8A6416) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #6E0B1D !important; }
-.tpl-emerald { background: linear-gradient(#FFFBF1, #FFFBF1) padding-box, linear-gradient(135deg, #E9CB7A, #8A6416) border-box; border: 3px solid transparent; border-radius: 40px 40px 6px 6px !important; box-shadow: 0 0 0 5px #0F5A43 !important; }
-.tpl-ivory { background: linear-gradient(#FFFEFA, #FFFEFA) padding-box, linear-gradient(135deg, #E9CF86, #8E6A22) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #E3D4B6 !important; }
-.tpl-khalsa { background: linear-gradient(#FFFAF0, #FFFAF0) padding-box, linear-gradient(135deg, #FFD98A, #B5701A) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #1B3279 !important; }
-.tpl-kasavu { background: linear-gradient(90deg, #C9A227 0 10%, #8E1B1B 10% 12%, #FFFDF6 12% 88%, #8E1B1B 88% 90%, #C9A227 90%); }
-.tpl-noir { background: linear-gradient(#14110E, #14110E) padding-box, linear-gradient(135deg, #F6E3A1, #8A6416) border-box; border: 3px solid transparent; box-shadow: 0 0 0 5px #050403 !important; }
+.tpl-royal, .tpl-emerald, .tpl-ivory, .tpl-khalsa, .tpl-kasavu, .tpl-noir { background: #fff; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 6px var(--sw), 0 0 0 1px var(--line); position: relative; }
+.tpl-royal::after, .tpl-emerald::after, .tpl-ivory::after, .tpl-khalsa::after, .tpl-kasavu::after, .tpl-noir::after { content: ''; position: absolute; left: 30%; right: 30%; top: 22%; height: 2px; background: var(--sw); }
+.tpl-royal { --sw: #7A1F2B; } .tpl-emerald { --sw: #1F5C47; } .tpl-ivory { --sw: #9A7A3E; } .tpl-khalsa { --sw: #23397A; } .tpl-kasavu { --sw: #9A7A2A; } .tpl-noir { --sw: #111; }
 .tpl-pick { grid-template-columns: repeat(3, 1fr) !important; gap: 18px 14px; }
 .tpl-pick input:checked + i { outline: 3px solid var(--kumkum); outline-offset: 7px; }
 .rel-pick { display: flex; flex-wrap: wrap; gap: 8px; }
