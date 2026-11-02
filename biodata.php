@@ -11,7 +11,7 @@ $existing = $bio ? [
 ] : null;
 $cfg = bio_js_config() + ['existing' => $existing, 'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url())];
 
-$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head(($bio ? 'Edit your biodata' : 'Free marriage biodata maker') . ' | ' . $brand,
     'Make a beautiful marriage biodata in minutes. Add your details, family and horoscope, pick a design and download a PDF or image. Free.', '/assets/og/site.jpg', $bioHead);

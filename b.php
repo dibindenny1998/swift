@@ -17,14 +17,14 @@ $cfg = bio_js_config() + [
     'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url()), 'live' => payments_live(), 'price' => $pb,
     'purchase' => $paid && !$bio['is_demo'] && $bio['paid_at'] && strtotime($bio['paid_at']) > time() - 600 ? ['value' => $bio['amount'] / 100, 'id' => 'bio_' . $bio['id']] : null,
 ];
-$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
+$bioHead = '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&display=swap">'
     . '<link rel="stylesheet" href="' . asset('assets/biodata.css') . '">';
 site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
 ?>
 <body>
 <header class="top">
   <div class="wrap top-in">
-    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#7E1239" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B08A3E" stroke-width="2.6"/></svg><?= e($brand) ?></a>
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#5F6E4A" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B89A5E" stroke-width="2.6"/></svg><?= e($brand) ?></a>
     <a class="btn small alt" href="/biodata?t=<?= e($bio['token']) ?>">Edit details</a>
   </div>
 </header>
@@ -125,7 +125,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
       if (o.demo) return post('/api.php?a=bio_demo_pay', { t: C.t }).then(function (r) { if (r.ok) location.reload(); else reset(r.error); });
       return loadRzp().then(function () {
         var rzp = new Razorpay({ key: o.key, amount: o.amount, currency: o.currency, name: o.name, description: o.description, order_id: o.order_id, prefill: o.prefill,
-          theme: { color: '#7E1239' }, retry: { enabled: true },
+          theme: { color: '#5F6E4A' }, retry: { enabled: true },
           handler: function (resp) {
             pay.textContent = 'Confirming payment…';
             post('/api.php?a=bio_verify', Object.assign({ t: C.t }, resp)).then(function (v) { if (v.ok) location.reload(); else reset(v.error + ' If money was taken, refresh this page in a minute.'); })

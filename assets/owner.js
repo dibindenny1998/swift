@@ -96,7 +96,7 @@
       return loadRzp().then(function () {
         var rzp = new Razorpay({
           key: o.key, amount: o.amount, currency: o.currency, name: o.name, description: o.description, order_id: o.order_id,
-          prefill: o.prefill, theme: { color: '#C2183F' }, retry: { enabled: true },
+          prefill: o.prefill, theme: { color: '#5F6E4A' }, retry: { enabled: true },
           handler: function (resp) {
             btn.textContent = 'Confirming payment…';
             post('/api.php?a=verify', Object.assign({ t: C.t }, resp)).then(function (v) {

@@ -22,7 +22,7 @@ function sec_designs(int $limit = 0): void
   <section class="sec gallery-band" id="designs" data-start-filter="<?= e($f) ?>">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="foil"><?= $nThemes ?> designs, finished in gold.</h2>
+        <h2 class="foil"><?= $nThemes ?> designs for every wedding</h2>
         <p><?= $limit ? 'Two are free. Tap one to start.' : 'Tap any design to start with it. Two are free, and the Premium ones are our most detailed. You can switch any time before you share.' ?></p>
       </div>
       <?php if (!$limit): ?>

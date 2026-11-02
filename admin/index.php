@@ -156,7 +156,7 @@ site_head('Admin | ' . setting('brand'));
   .kpi.good b { color: var(--leaf); } .kpi.bad b { color: var(--kumkum); }
   .tbl { width: 100%; border-collapse: collapse; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); font-size: .95rem; }
   .tbl th, .tbl td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-  .tbl th { font-size: .82rem; color: var(--plum-2); background: #FFF8F9; }
+  .tbl th { font-size: .82rem; color: var(--plum-2); background: #F6F5EE; }
   .tbl td.n, .tbl th.n { text-align: right; font-variant-numeric: tabular-nums; }
   .scroll { overflow-x: auto; }
   .chips2 { display: flex; gap: 6px; flex-wrap: wrap; }
