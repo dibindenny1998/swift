@@ -445,7 +445,7 @@ function site_head(string $title, string $desc = '', string $ogImage = '/assets/
         . '<meta property="og:title" content="' . e($title) . '">'
         . ($desc ? '<meta property="og:description" content="' . e($desc) . '">' : '')
         . '<meta property="og:image" content="' . e($og) . '"><meta name="twitter:card" content="summary_large_image">'
-        . '<meta name="theme-color" content="#FAF7F0">'
+        . '<meta name="theme-color" content="#FBFAF7">'
         . '<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">'
         . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         . '<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600;700&display=swap">'
@@ -472,7 +472,7 @@ function site_header(string $active = ''): void
         $links .= '<a href="' . $href . '"' . ($k === $active ? ' aria-current="page"' : '') . '>' . $label . ($k === 'biodata' ? $free : '') . '</a>';
     }
     echo '<header class="top" id="top"><div class="wrap top-in">'
-        . '<a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#5F6E4A" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B89A5E" stroke-width="2.6"/></svg>' . $brand . '</a>'
+        . '<a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#141414" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B08D57" stroke-width="2.6"/></svg>' . $brand . '</a>'
         . '<nav class="menu" id="menu" aria-label="Main">' . $links
         . '<a class="btn small js-make menu-cta" href="/create">Make our website</a></nav>'
         . '<a class="bio-quick" href="/biodata">Biodata' . $free . '</a>'
