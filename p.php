@@ -68,7 +68,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
   <section class="card design-card" id="design">
     <div class="design-head"><h2>Change design</h2><small id="design-msg" role="status"></small></div>
     <div class="design-strip">
-      <?php foreach (THEMES as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
+      <?php foreach (showcase_themes() as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
         <button type="button" class="ds<?= $id === $theme ? ' on' : '' ?><?= $lock ? ' locked' : '' ?>" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" aria-pressed="<?= $id === $theme ? 'true' : 'false' ?>">
           <img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><span><?= e($t['name']) ?></span>
           <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
@@ -109,7 +109,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
   <section class="card design-card" id="design">
     <div class="design-head"><h2>Change design</h2><small id="design-msg" role="status"></small></div>
     <div class="design-strip">
-      <?php foreach (THEMES as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
+      <?php foreach (showcase_themes() as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
         <button type="button" class="ds<?= $id === $theme ? ' on' : '' ?><?= $lock ? ' locked' : '' ?>" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" aria-pressed="<?= $id === $theme ? 'true' : 'false' ?>">
           <img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><span><?= e($t['name']) ?></span>
           <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>

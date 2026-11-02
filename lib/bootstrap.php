@@ -40,6 +40,34 @@ const THEMES = [
     'jaipur'    => ['name' => 'Jaipur',    'note' => 'Pink sandstone palace arches', 'tags' => ['hindu', 'sikh'], 'tier' => 'premium'],
 ];
 
+/* Showcase order and what makes each Premium design special. Must match ANIM / PHOTO_LED in assets/invite.js. */
+const PHOTO_LED_THEMES = ['lumiere', 'vogue', 'journal'];
+const THEME_FX = ['lumiere' => 'petals', 'journal' => 'petals', 'seal' => 'petals', 'jaipur' => 'petals', 'sage' => 'petals', 'ink' => 'petals',
+    'vogue' => 'sparkle', 'velvet' => 'sparkle', 'mayil' => 'sparkle', 'gopuram' => 'sparkle', 'chapel' => 'sparkle', 'toile' => 'sparkle', 'qamar' => 'lanterns'];
+
+/** All designs in showcase order: photo-led, animated Premium, other Premium, Standard, Free. */
+function showcase_themes(): array
+{
+    $rank = function ($id, $t) {
+        if (in_array($id, PHOTO_LED_THEMES, true)) return 0;
+        if ($t['tier'] === 'premium') return isset(THEME_FX[$id]) ? 1 : 2;
+        return $t['tier'] === 'standard' ? 3 : 4;
+    };
+    $ids = array_keys(THEMES);
+    $pos = array_flip($ids);
+    usort($ids, fn($a, $b) => [$rank($a, THEMES[$a]), array_search($a, PHOTO_LED_THEMES) ?: 0, $pos[$a]] <=> [$rank($b, THEMES[$b]), array_search($b, PHOTO_LED_THEMES) ?: 0, $pos[$b]]);
+    $out = [];
+    foreach ($ids as $id) $out[$id] = THEMES[$id];
+    return $out;
+}
+
+/** A real photo to show on a design card, once one is uploaded in Admin → Images. */
+function design_card_photo(string $id): string
+{
+    if (!in_array($id, PHOTO_LED_THEMES, true)) return '';
+    return slot_url('theme-' . $id) ?: slot_url('demo-1');
+}
+
 const CATEGORIES = ['hindu' => 'Hindu', 'christian' => 'Christian', 'muslim' => 'Muslim', 'sikh' => 'Sikh', 'kerala' => 'Kerala', 'modern' => 'Modern'];
 
 const PLAN_NAMES = ['free' => 'Basic', 'standard' => 'Standard', 'premium' => 'Premium'];

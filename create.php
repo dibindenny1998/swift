@@ -60,7 +60,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
         <?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-f="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?>
       </div>
       <div class="theme-pick">
-        <?php foreach (THEMES as $id => $t): ?>
+        <?php foreach (showcase_themes() as $id => $t): ?>
           <label data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>" data-tier="<?= $t['tier'] ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?> <span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b><small class="lock" hidden></small></label>
         <?php endforeach; ?>
       </div>

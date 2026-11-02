@@ -79,7 +79,7 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
     </div>
   </section>
 
-<?php sec_designs(4); ?>
+<?php sec_designs(6); ?>
 
   <section class="sec">
     <div class="wrap">

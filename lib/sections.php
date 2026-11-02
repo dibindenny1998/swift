@@ -14,30 +14,54 @@ function page_vars(): array
 function sec_designs(int $limit = 0): void
 {
     extract(page_vars());
-    // the home page shows a mix across traditions and plans; /designs shows everything
-    $pick = ['seal', 'kasavu', 'noor', 'sage'];
-    $themes = $limit > 0 ? array_slice(array_intersect_key(THEMES, array_flip($pick)), 0, $limit, true) : THEMES;
+    // the home page leads with the photo-led and animated Premium designs; /designs shows everything in the same order
+    $pick = ['lumiere', 'vogue', 'journal', 'velvet', 'seal', 'qamar'];
+    $all = showcase_themes();
+    $themes = $limit > 0 ? array_slice(array_intersect_key($all, array_flip($pick)), 0, $limit, true) : $all;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
+    $fxNames = ['petals' => 'Falling petals', 'sparkle' => 'Gold sparkles', 'lanterns' => 'Floating lanterns'];
 ?>
   <section class="sec gallery-band" id="designs" data-start-filter="<?= e($f) ?>">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="foil"><?= $nThemes ?> designs for every wedding</h2>
-        <p><?= $limit ? 'Two are free. Tap one to start.' : 'Tap any design to start with it. Two are free, and the Premium ones are our most detailed. You can switch any time before you share.' ?></p>
+        <?php if ($limit): ?>
+          <span class="tag" style="margin:0 0 12px">Premium</span>
+          <h2 class="foil">Photo-led &amp; animated designs</h2>
+          <p>Your photo fills the first screen, with petals, sparkles or lanterns moving over it. Tap one to try it with your names.</p>
+        <?php else: ?>
+          <h2 class="foil"><?= $nThemes ?> designs for every wedding</h2>
+          <p>Photo-led and animated Premium designs first, then classic designs for every tradition. Two are free. You can switch any time before you share.</p>
+        <?php endif; ?>
       </div>
       <?php if (!$limit): ?>
       <div class="filters" role="group" aria-label="Filter designs">
         <button type="button" data-f="all" aria-pressed="true">All</button>
-        <button type="button" data-f="tier-free" aria-pressed="false">Free</button>
+        <button type="button" data-f="photo-led" aria-pressed="false">Photo-led</button>
+        <button type="button" data-f="animated" aria-pressed="false">Animated</button>
         <button type="button" data-f="tier-premium" aria-pressed="false">Premium</button>
+        <button type="button" data-f="tier-free" aria-pressed="false">Free</button>
         <?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-f="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?>
       </div>
       <?php endif; ?>
       <div class="grid-designs">
-        <?php foreach ($themes as $id => $t): ?>
-          <a class="gd" href="/create?t=<?= $id ?>" data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>">
-            <img src="/assets/img/designs/<?= $id ?>.jpg" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
-            <b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?><span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b>
+        <?php foreach ($themes as $id => $t):
+            $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? ''; $photo = design_card_photo($id);
+            $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
+          <a class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" href="/create?t=<?= $id ?>" data-tags="<?= e($tags) ?>">
+            <span class="gd-img">
+              <?php if ($photo): ?>
+                <span class="gd-photo" style="background-image:url('<?= e($photo) ?>')"><span class="gd-photo-in"><small>Together with their families</small><em>Arjun &amp; Meera</em></span></span>
+              <?php else: ?>
+                <img src="/assets/img/designs/<?= $id ?>.jpg" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
+              <?php endif; ?>
+              <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
+            </span>
+            <b><?= e($t['name']) ?></b>
+            <span class="gd-tags">
+              <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
+              <?php if ($photoLed): ?><em class="feat-tag">Photo-led</em><?php endif; ?>
+              <?php if ($fx): ?><em class="feat-tag" title="<?= e($fxNames[$fx]) ?>">Animated</em><?php endif; ?>
+            </span>
             <span><?= e($t['note']) ?></span>
             <small><?= e(implode(', ', array_map(fn($x) => CATEGORIES[$x], $t['tags']))) ?></small>
           </a>
