@@ -67,12 +67,14 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager"></iframe></div>
         </div>
         <div class="url-pill-wrap"><span class="url-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><?php $host = preg_replace('#^https?://#', '', base_url()); ?><span><?= strlen($host) > 24 ? '…' : e($host) ?>/i/<b id="url-names">arjun-meera</b></span></span></div>
-        <p class="design-now">Design: <b id="design-name">Champagne</b></p>
-        <div class="swatch-strip" role="group" aria-label="Choose a design">
-          <?php foreach (THEMES as $id => $t): ?>
-            <button type="button" class="sw2" data-theme="<?= $id ?>" data-name="<?= e($t['name']) ?>" aria-label="<?= e($t['name']) ?>" aria-pressed="<?= $id === 'champagne' ? 'true' : 'false' ?>" style="background:<?= $swatch[$id] ?>"></button>
+        <?php $heroPick = ['champagne', 'kasavu', 'noor', 'sage', 'seal', 'lumiere']; ?>
+        <div class="style-pills" role="group" aria-label="Try a design">
+          <?php foreach ($heroPick as $id): ?>
+            <button type="button" class="sw2" data-theme="<?= $id ?>" data-name="<?= e(THEMES[$id]['name']) ?>" aria-pressed="<?= $id === 'champagne' ? 'true' : 'false' ?>"><i style="background:<?= $swatch[$id] ?>"></i><?= e(THEMES[$id]['name']) ?></button>
           <?php endforeach; ?>
+          <a class="more-chip" href="/designs">+<?= count(THEMES) - count($heroPick) ?> more</a>
         </div>
+        <p class="design-now sr" aria-live="polite">Design: <b id="design-name">Champagne</b></p>
       </div>
     </div>
   </section>
@@ -103,13 +105,31 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
 
   <section class="sec">
     <div class="wrap">
-      <a class="price-strip" href="/pricing">
-        <span><b>Free</b>Basic</span>
-        <span><b>₹<?= $ps ?></b>Standard</span>
-        <span class="hi"><b>₹<?= $pp ?></b>Premium</span>
-        <span><b><?= $customFrom ? e($customFrom) : 'Custom' ?></b>Your own design</span>
-        <em>Compare plans →</em>
-      </a>
+      <div class="sec-head"><h2>Simple plans, paid once</h2><p>Build and preview free. Pay only when you want more.</p></div>
+      <div class="mini-plans" id="mini-plans">
+        <a class="mp" href="/create?t=classic">
+          <span class="mp-name">Basic</span><b class="mp-price">Free</b>
+          <ul><li>2 simple designs</li><li>Up to 2 events with maps</li><li>Countdown</li><li class="no">Small WedLink credit</li></ul>
+          <span class="mp-go">Start free</span>
+        </a>
+        <a class="mp" href="/create">
+          <span class="mp-name">Standard</span><b class="mp-price">₹<?= $ps ?></b>
+          <ul><li><?= count(themes_by_tier('free')) + count(themes_by_tier('standard')) ?> designs</li><li>Up to 3 events</li><li>Cover photo</li><li class="no">No RSVP or gift list</li></ul>
+          <span class="mp-go">Choose Standard</span>
+        </a>
+        <a class="mp pop" href="/create">
+          <span class="mp-badge">Most Popular</span>
+          <span class="mp-name">Premium</span><b class="mp-price">₹<?= $pp ?></b>
+          <ul><li>All <?= count(THEMES) ?> designs, animated</li><li>RSVP and gift list</li><li>15-photo gallery and music</li><li>No WedLink credit</li></ul>
+          <span class="mp-go">Choose Premium</span>
+        </a>
+        <a class="mp" href="/custom">
+          <span class="mp-name">Custom</span><b class="mp-price"><?= $customFrom ? e($customFrom) : 'On request' ?></b>
+          <ul><li>Designed only for you</li><li>Your own domain</li><li>Unlimited gallery</li><li>We build it for you</li></ul>
+          <span class="mp-go">Ask for a quote</span>
+        </a>
+      </div>
+      <p class="mini-note">One-time prices. No subscription. <a href="/pricing">Compare every feature →</a></p>
     </div>
   </section>
 
