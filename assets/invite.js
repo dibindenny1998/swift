@@ -564,7 +564,7 @@
     if (!v.events.length) return '';
     var cards = v.events.map(function (ev) {
       var map = mapLink(ev);
-      return '<article class="wl-ev">' + (TIMELINE[v.theme] ? evIcon(ev.name) + (ev.time ? '<p class="wl-ev-t">' + esc(time12(ev.time)) + '</p>' : '') : '') +
+      return '<article class="wl-ev">' + evIcon(ev.name) + (TIMELINE[v.theme] && ev.time ? '<p class="wl-ev-t">' + esc(time12(ev.time)) + '</p>' : '') +
         '<h3>' + esc(ev.name || 'Wedding') + '</h3>' +
         (ev.date ? '<p class="wl-ev-when">' + esc(longDate(ev.date)) + (ev.time && !TIMELINE[v.theme] ? '<br>' + esc(time12(ev.time)) : '') + '</p>' : '') +
         (ev.venue ? '<p class="wl-ev-venue">' + esc(ev.venue) + '</p>' : '') +
@@ -645,10 +645,19 @@
     }
 
     html += '<main class="wl-body">';
+    // website-style header: monogram + links to the sections this invite has
+    var links = [['events', 'Events']];
+    if (photos.length) links.push(['photos', 'Photos']);
+    if (v.lim.rsvp) links.push(['rsvp', 'RSVP']);
+    if (v.gifts.length) links.push(['gifts', 'Gifts']);
+    html += '<nav class="wl-nav" aria-label="Invitation"><button type="button" class="wl-nav-mono" data-go="hero">' + esc(initial(v.p1)) + '<i>&amp;</i>' + esc(initial(v.p2)) + '</button><div class="wl-nav-l">' +
+      links.map(function (l) { return '<button type="button" data-go="' + l[0] + '">' + l[1] + '</button>'; }).join('') + '</div></nav>';
     html += '<header class="wl-hero" data-sec="hero"><div class="wl-hd">' + heroDecor(v.theme) + '</div><div class="wl-hero-in">' +
       '<p class="wl-intro">' + esc(v.intro) + '</p>' +
       '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
       '<p class="wl-line">' + esc(v.line) + '</p>' + (v.theme === 'ink' ? heartLine() : '');
+    if (photos[0]) html += '<figure class="wl-hero-photo" data-sec="photos"><img src="' + esc(photos[0]) + '" alt="' + esc(title) + '"></figure>';
+    else if (mode === 'editor') html += '<figure class="wl-hero-photo wl-ph-empty" data-sec="photos" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="45" cy="44" r="15"/><circle cx="76" cy="40" r="14"/><path d="M18 108c2-26 13-40 27-40s25 14 27 40M50 108c2-28 12-42 26-42s25 14 27 42"/></svg><figcaption>Your photo here</figcaption></figure>';
     if (first && first.date) {
       var p = parts(first.date);
       html += '<div class="wl-date"><span class="wl-date-a">' + DAYS[p.wd] + '</span><span class="wl-date-d">' + p.d + '</span><span class="wl-date-a">' + MONTHS[p.mo] + ' ' + p.y + '</span></div>';
@@ -665,7 +674,6 @@
 
     html += calendarHtml(v);
 
-    if (photos[0]) html += '<figure class="wl-cover-photo" data-sec="photos"><img src="' + esc(photos[0]) + '" alt="' + esc(title) + '" loading="lazy"></figure>';
 
     if (v.p1f || v.p2f) {
       html += '<section class="wl-sec wl-fam" data-sec="family"><div class="wl-fam-grid">' +
@@ -679,7 +687,7 @@
     html += eventsHtml(v, title);
 
     if (photos.length > 1) {
-      html += '<section class="wl-sec wl-gal" data-sec="gallery"><h2>Moments</h2>' + divider(v.theme) + '<div class="wl-grid">' +
+      html += '<section class="wl-sec wl-gal" data-sec="gallery"><h2>Our moments</h2>' + divider(v.theme) + '<div class="wl-grid">' +
         photos.slice(1).map(function (src, i) { return '<button type="button" class="wl-ph" data-i="' + (i + 1) + '"><img src="' + esc(src) + '" alt="Photo ' + (i + 2) + '" loading="lazy"></button>'; }).join('') +
         '</div></section>';
     }
@@ -734,6 +742,14 @@
       cover.querySelector('.wl-open').addEventListener('click', open);
       if (opts.autoOpen) setTimeout(open, opts.autoOpen);
     }
+
+    // header links scroll to their section
+    var nav = root.querySelector('.wl-nav');
+    if (nav) nav.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-go]'); if (!b) return;
+      var sec = root.querySelector('[data-sec="' + b.dataset.go + '"]') || (b.dataset.go === 'photos' && root.querySelector('[data-sec="gallery"]'));
+      if (sec) { var y = sec.getBoundingClientRect().top + (root.ownerDocument.scrollingElement || doc.documentElement).scrollTop - 56; (root.ownerDocument.defaultView || w).scrollTo({ top: y, behavior: 'smooth' }); }
+    });
 
     // countdown
     var cd = root.querySelector('.wl-cd');
