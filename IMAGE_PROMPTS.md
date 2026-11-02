@@ -4,13 +4,11 @@ Every picture the site can use, with a ready prompt for an AI image tool (Midjou
 
 **How to use them**
 
-1. Copy a prompt into your image tool. Each prompt already ends with the style and the aspect ratio.
+1. Copy a prompt into your image tool. Each prompt already ends with the style and the aspect ratio. For a real-photo look, add: *photorealistic, shot on a Canon R5, natural skin and fabric texture, not an illustration*.
 2. Download the result as JPG or PNG at the size shown, or larger.
-3. Log in to `/admin/`, open **Images**, find the same name and press **Upload**. The site resizes it and shows it straight away. Remove it there to go back to the plain gradient.
+3. Log in to `/admin/`, open **Images**, find the same name and press **Upload**. The site resizes it and shows it straight away.
 
-Until a spot has a picture, the site shows a soft gradient there, so nothing looks broken. Add `?slots=1` to any page address to see where each spot is.
-
-The invite designs, design previews, share images and the sample biodata are already drawn by the site and do **not** need pictures.
+Start with **Home page demo** (real couple photos inside the phone on the home page) and **Hero backdrop**.
 
 ## Landing page
 
@@ -114,6 +112,38 @@ Luxury wedding invitation flat lay seen from above: an ivory card with gold foil
 
 ```text
 Elegant flat lay on an ivory linen table: an open laptop and a smartphone side by side with blank glowing screens, surrounded by cream roses, eucalyptus, a gold wax seal, silk ribbon and a fountain pen. Soft morning window light, champagne and sage palette. Screens blank, no text. Luxury editorial wedding photography, soft natural light, shallow depth of field, rich but soft colours, high detail, no text, no letters, no logos, no watermark. Aspect ratio 20:9.
+```
+
+## Home page demo
+
+### Demo couple photo 1 (cover)
+
+- **Where:** Cover photo inside the live invite preview on the home page
+- **Size:** 1200 × 1500 px (4:5)
+- **Admin name:** `demo-1`
+
+```text
+Candid portrait of a young Indian couple at their wedding, the bride in an ivory and gold silk saree with jasmine in her hair, the groom in an ivory kurta, smiling at each other under soft golden-hour light in a garden with marigold and jasmine garlands. Natural, joyful, editorial wedding photography. Luxury editorial wedding photography, soft natural light, shallow depth of field, rich but soft colours, high detail, no text, no letters, no logos, no watermark. Aspect ratio 4:5.
+```
+
+### Demo couple photo 2
+
+- **Where:** Gallery inside the live invite preview on the home page
+- **Size:** 1200 × 1200 px (1:1)
+- **Admin name:** `demo-2`
+
+```text
+Close-up of an Indian bride and groom holding hands, her hands with intricate mehendi and gold bangles, his hand with a gold ring, resting on a sage green silk dupatta with white flowers. Soft natural light, shallow depth of field. Luxury editorial wedding photography, soft natural light, shallow depth of field, rich but soft colours, high detail, no text, no letters, no logos, no watermark. Aspect ratio 1:1.
+```
+
+### Demo couple photo 3
+
+- **Where:** Gallery inside the live invite preview on the home page
+- **Size:** 1200 × 1200 px (1:1)
+- **Admin name:** `demo-3`
+
+```text
+An Indian couple laughing together on temple steps at sunset, the bride in a red and gold saree, the groom in a cream sherwani, warm golden light, candid and happy, editorial wedding photography. Luxury editorial wedding photography, soft natural light, shallow depth of field, rich but soft colours, high detail, no text, no letters, no logos, no watermark. Aspect ratio 1:1.
 ```
 
 ## Design backdrops

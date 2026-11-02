@@ -84,7 +84,12 @@
 .wl-cover-photo { margin: 0 32px; padding: 8px; border: 1px solid var(--line); border-radius: var(--photo-r); }
 .wl-cover-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--photo-r); }
 
-.wl-fam-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: start; }
+.wl-fam-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 420px) {
+  .wl-fam-grid { grid-template-columns: 1fr; gap: 6px; }
+  .wl-fam-amp { padding-top: 0; }
+  .wl-fam h3 { font-size: 1.9rem; }
+}
 .wl-fam h3 { font-family: var(--fs); font-weight: 400; font-size: 2.1rem; line-height: 1.15; color: var(--acc2); overflow-wrap: break-word; }
 .wl-fam p { font-size: .9em; color: var(--muted); margin-top: 6px; }
 .wl-fam-amp { font-family: var(--fs); font-size: 1.6rem; color: var(--acc); padding-top: 6px; }
