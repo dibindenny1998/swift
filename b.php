@@ -43,6 +43,23 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
         <p class="err" id="dl-err" role="alert" style="margin-top:10px"></p>
       </section>
 
+      <section class="card look-card" style="margin-top:16px" id="look">
+        <h2 style="font-size:1.5rem">Change the look</h2>
+        <p class="lead" style="margin:6px 0 16px;color:var(--plum-2);font-size:.95rem">Tap a style or colour. The preview and your downloads change straight away.</p>
+        <div class="lay-pick" role="radiogroup" aria-label="Style">
+          <?php foreach (BIO_LAYOUTS as $k => $name): ?>
+            <label><input type="radio" name="layout" value="<?= $k ?>"<?= ($d['layout'] ?? 'center') === $k ? ' checked' : '' ?>><i class="lay-<?= $k ?>"></i><?= e($name) ?></label>
+          <?php endforeach; ?>
+        </div>
+        <div class="tpl-pick" role="radiogroup" aria-label="Colour" style="margin-top:18px">
+          <?php foreach (BIO_TEMPLATES as $k => $t): ?>
+            <label><input type="radio" name="template" value="<?= $k ?>"<?= $bio['template'] === $k ? ' checked' : '' ?>><i class="tpl-<?= $k ?>"></i><?= e($t['name']) ?></label>
+          <?php endforeach; ?>
+        </div>
+        <label class="sym-toggle"><input type="checkbox" id="sym"<?= !empty($d['symbol']) ? ' checked' : '' ?><?= in_array($d['religion'] ?? 'hindu', ['other'], true) ? ' disabled' : '' ?>> Show the religious symbol</label>
+        <p class="note-saved" id="look-msg" role="status"></p>
+      </section>
+
       <?php if (!$paid): ?>
       <section class="card" style="margin-top:16px" id="clean">
         <div class="price-line"><h2 style="font-size:1.5rem">Remove the strip</h2><b>₹<?= $pb ?></b></div>
@@ -76,6 +93,24 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   var C = window.WLB_CFG, pv = document.getElementById('pv');
   var opts = { watermark: !C.paid, brand: C.brand, host: C.host };
   function paint() { WLB.render(pv, C.data, C.template, C.photo, opts); WLB.scaleTo(pv); }
+
+  // change the look from this page: repaint now, save quietly in the background
+  var look = document.getElementById('look'), lookMsg = document.getElementById('look-msg'), saveT;
+  look.addEventListener('change', function (e) {
+    if (e.target.name === 'template') C.template = e.target.value;
+    if (e.target.name === 'layout') C.data.layout = e.target.value;
+    if (e.target.id === 'sym') C.data.symbol = e.target.checked;
+    paint();
+    lookMsg.textContent = 'Saving…';
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      fetch('/api.php?a=bio_style', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ t: C.t, template: C.template, layout: C.data.layout || 'center', symbol: !!C.data.symbol }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { lookMsg.textContent = j.ok ? 'Saved' : (j.error || 'Could not save. Try again.'); setTimeout(function () { if (lookMsg.textContent === 'Saved') lookMsg.textContent = ''; }, 1500); })
+        .catch(function () { lookMsg.textContent = 'No connection. Your downloads still use the new look.'; });
+    }, 300);
+  });
   paint();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
   addEventListener('resize', function () { WLB.scaleTo(pv); });

@@ -210,6 +210,18 @@ try {
             'prefill' => ['contact' => '+91' . $inv['phone'], 'email' => $inv['email'] ?: '']]);
     }
 
+    case 'theme': {
+        // switch design from the preview page
+        $j = body_json();
+        $inv = find_invite('token', (string)($j['t'] ?? ''));
+        if (!$inv) json_out(['ok' => false, 'error' => 'This invite was not found.'], 404);
+        $theme = (string)($j['theme'] ?? '');
+        if (!isset(THEMES[$theme])) json_out(['ok' => false, 'error' => 'Unknown design.'], 422);
+        if ($inv['status'] === 'paid' && !theme_allowed($theme, $inv['plan'])) json_out(['ok' => false, 'upgrade' => min_plan_for($theme), 'error' => design_error($theme)], 422);
+        db()->prepare('UPDATE invites SET theme = ?, updated_at = ? WHERE id = ?')->execute([$theme, now(), $inv['id']]);
+        json_out(['ok' => true]);
+    }
+
     case 'publish_free': {
         $j = body_json();
         $inv = find_invite('token', (string)($j['t'] ?? ''));
@@ -336,6 +348,20 @@ try {
         $pdo->prepare('UPDATE biodata SET data = ?, template = ?, photo = ?, updated_at = ? WHERE id = ?')
             ->execute([json_encode($d, JSON_UNESCAPED_UNICODE), $tpl, $photo, now(), $bio['id']]);
         json_out(['ok' => true, 'token' => $bio['token']]);
+    }
+
+    case 'bio_style': {
+        // change style, colour and symbol from the download page
+        $j = body_json();
+        $bio = find_bio('token', (string)($j['t'] ?? ''));
+        if (!$bio) json_out(['ok' => false, 'error' => 'This biodata was not found.'], 404);
+        $tpl = isset(BIO_TEMPLATES[$j['template'] ?? '']) ? $j['template'] : $bio['template'];
+        $d = json_decode($bio['data'], true) ?: [];
+        if (isset(BIO_LAYOUTS[$j['layout'] ?? ''])) $d['layout'] = $j['layout'];
+        if (array_key_exists('symbol', $j)) $d['symbol'] = !empty($j['symbol']);
+        db()->prepare('UPDATE biodata SET template = ?, data = ?, updated_at = ? WHERE id = ?')
+            ->execute([$tpl, json_encode($d, JSON_UNESCAPED_UNICODE), now(), $bio['id']]);
+        json_out(['ok' => true]);
     }
 
     case 'bio_order': {

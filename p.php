@@ -46,7 +46,7 @@ if ($paid) foreach (['standard', 'premium'] as $up) {
 $cfg = [
     't' => $inv['token'], 'paid' => $paid, 'plan' => $inv['plan'], 'data' => $d,
     'prices' => ['free' => 0, 'standard' => $ps, 'premium' => $pp], 'upgrade' => $upgradeDiff, 'upgrades' => $upgrades, 'defaultPlan' => $defaultPlan,
-    'live' => payments_live(), 'purchase' => $trackPurchase ? ['value' => $inv['amount'] / 100, 'id' => 'inv_' . $inv['id']] : null,
+    'rank' => PLAN_RANK, 'tierNames' => TIER_NAMES, 'live' => payments_live(), 'purchase' => $trackPurchase ? ['value' => $inv['amount'] / 100, 'id' => 'inv_' . $inv['id']] : null,
 ];
 site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $brand);
 ?>
@@ -65,13 +65,25 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <p class="lead">Scroll through it and tap around. When you're happy, pick a plan to publish it and get the link to share.</p>
   </section>
 
+  <section class="card design-card" id="design">
+    <div class="design-head"><h2>Change design</h2><small id="design-msg" role="status"></small></div>
+    <div class="design-strip">
+      <?php foreach (THEMES as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
+        <button type="button" class="ds<?= $id === $theme ? ' on' : '' ?><?= $lock ? ' locked' : '' ?>" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" aria-pressed="<?= $id === $theme ? 'true' : 'false' ?>">
+          <img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><span><?= e($t['name']) ?></span>
+          <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
+        </button>
+      <?php endforeach; ?>
+    </div>
+  </section>
+
   <section class="card plans-card" id="plans">
     <h2>Publish your invite</h2>
     <div class="plan-opts" role="radiogroup" aria-label="Plan">
       <?php foreach ($planOpts as $k => [$desc, $amt]): $ok = theme_allowed($theme, $k); ?>
       <label class="plan-opt<?= $ok ? '' : ' off' ?>"><input type="radio" name="plan" value="<?= $k ?>"<?= $k === $defaultPlan ? ' checked' : '' ?><?= $ok ? '' : ' disabled' ?>>
         <div><b><?= PLAN_NAMES[$k] ?></b><span><?= e($desc) ?></span>
-          <?php if (!$ok): ?><small class="why"><?= e($themeName) ?> is a <?= TIER_NAMES[theme_tier($theme)] ?> design. <a href="/create?t=<?= e($inv['token']) ?>">Switch design</a> to use this plan.</small><?php endif; ?></div>
+<small class="why"<?= $ok ? ' hidden' : '' ?>>Your design is a <span class="why-tier"><?= TIER_NAMES[theme_tier($theme)] ?></span> design. <a href="#design">Pick another design</a> to use this plan.</small></div>
         <em><?= $amt ? '₹' . $amt : 'Free' ?></em></label>
       <?php endforeach; ?>
     </div>
@@ -92,6 +104,18 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <p class="note" style="margin-top:18px">This page is your private edit link. Keep it safe and don't forward it.
       <?php if ($inv['phone']): ?><a href="https://wa.me/91<?= e($inv['phone']) ?>?text=<?= rawurlencode("My $brand edit link (private): $ownerUrl\nShare this one with guests: $live") ?>" target="_blank" rel="noopener">Send it to my WhatsApp</a><?php endif; ?></p>
     <?php if ($inv['is_demo']): ?><p class="demo">Published in test mode. No money was charged.</p><?php endif; ?>
+  </section>
+
+  <section class="card design-card" id="design">
+    <div class="design-head"><h2>Change design</h2><small id="design-msg" role="status"></small></div>
+    <div class="design-strip">
+      <?php foreach (THEMES as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
+        <button type="button" class="ds<?= $id === $theme ? ' on' : '' ?><?= $lock ? ' locked' : '' ?>" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" aria-pressed="<?= $id === $theme ? 'true' : 'false' ?>">
+          <img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><span><?= e($t['name']) ?></span>
+          <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
+        </button>
+      <?php endforeach; ?>
+    </div>
   </section>
 
   <section class="card plans-card">

@@ -225,7 +225,7 @@ p { margin: 0; }
 }
 
 /* ---------- owner page ---------- */
-.owner { display: grid; grid-template-columns: 400px minmax(0, 1fr); grid-template-areas: "intro stage" "plans stage"; grid-template-rows: auto 1fr; gap: 18px 48px; padding: 28px 0 120px; }
+.owner { display: grid; grid-template-columns: 400px minmax(0, 1fr); grid-template-areas: "intro stage" "design stage" "plans stage"; grid-template-rows: auto auto 1fr; gap: 18px 48px; padding: 28px 0 120px; }
 .owner > * { min-width: 0; }
 .owner .intro { grid-area: intro; }
 .owner .plans-card { grid-area: plans; align-self: start; }
@@ -259,7 +259,7 @@ p { margin: 0; }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--plum); color: #fff; padding: 12px 20px; border-radius: 99px; z-index: 90; font-weight: 600; }
 .mobile-pay { display: none; }
 @media (max-width: 900px) {
-  .owner { grid-template-columns: 1fr; grid-template-areas: "intro" "stage" "plans"; grid-template-rows: auto; gap: 22px; padding-top: 14px; padding-bottom: 110px; }
+  .owner { grid-template-columns: 1fr; grid-template-areas: "intro" "stage" "design" "plans"; grid-template-rows: auto; gap: 22px; padding-top: 14px; padding-bottom: 110px; }
   .owner .stage { position: static; }
   .card { padding: 22px 20px; }
   .mobile-pay { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(255,255,255,.96); border-top: 1px solid var(--line); gap: 12px; align-items: center; }
@@ -531,3 +531,14 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
 
 .foot-sub { width: 100%; font-size: .9rem; color: var(--plum-2); }
 .foot-sub span { font-weight: 600; }
+
+/* change design on the preview page */
+.owner .design-card { grid-area: design; min-width: 0; }
+.design-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.design-head small { color: var(--leaf); font-size: .88rem; }
+.design-strip { display: flex; gap: 12px; overflow-x: auto; padding: 14px 2px 6px; scroll-snap-type: x proximity; scrollbar-width: thin; }
+.ds { flex: none; width: 92px; display: grid; gap: 6px; justify-items: center; border: 0; background: none; padding: 0; cursor: pointer; scroll-snap-align: start; position: relative; font: 500 .82rem var(--body); color: var(--plum); }
+.ds img { width: 92px; height: auto; aspect-ratio: 232 / 480; object-fit: cover; object-position: top; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); }
+.ds.on img { box-shadow: 0 0 0 3px var(--kumkum); }
+.ds .tier { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font-size: .55rem; padding: 3px 6px; margin: 0; }
+.ds.locked img { filter: grayscale(.5); opacity: .55; }

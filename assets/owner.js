@@ -14,6 +14,31 @@
   }
   pv.addEventListener('load', paint);
 
+  // change design right here: repaint now, save in the background, update which plans fit
+  var dmsg = document.getElementById('design-msg');
+  function fitPlans(tier) {
+    document.querySelectorAll('.plan-opt').forEach(function (o) {
+      var inp = o.querySelector('input'), ok = C.rank[inp.value] >= C.rank[tier];
+      inp.disabled = !ok; o.classList.toggle('off', !ok);
+      var why = o.querySelector('.why'); if (why) { why.hidden = ok; why.querySelector('.why-tier').textContent = C.tierNames[tier]; }
+      if (!ok && inp.checked) { var p = document.querySelector('input[name=plan][value=premium]'); p.checked = true; p.dispatchEvent(new Event('change')); }
+    });
+  }
+  document.querySelectorAll('.ds').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('locked')) { dmsg.textContent = 'Upgrade to use this design.'; var up = document.querySelector('.js-up'); if (up) up.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+      var prev = C.data.theme;
+      document.querySelectorAll('.ds').forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+      C.data.theme = b.dataset.theme; first = true; paint();
+      if (!C.paid) fitPlans(b.dataset.tier);
+      dmsg.textContent = 'Saving…';
+      post('/api.php?a=theme', { t: C.t, theme: b.dataset.theme }).then(function (r) {
+        if (r.ok) { dmsg.textContent = 'Saved'; setTimeout(function () { if (dmsg.textContent === 'Saved') dmsg.textContent = ''; }, 1500); }
+        else { dmsg.textContent = r.error || 'Could not save.'; C.data.theme = prev; first = true; paint(); }
+      }).catch(function () { dmsg.textContent = 'No connection. Try again.'; });
+    });
+  });
+
   var toast = document.getElementById('toast');
   if (toast) setTimeout(function () { toast.remove(); }, 2600);
 

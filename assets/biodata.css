@@ -148,3 +148,12 @@
 .formats a:hover { background: var(--rose-2); }
 .formats a[aria-current=page] { background: var(--rose-2); color: var(--kumkum-d); font-weight: 600; }
 @media (max-width: 900px) { .guide-grid { grid-template-columns: 1fr; } }
+
+/* change the look on the download page */
+.look-card .lay-pick { grid-template-columns: repeat(4, 1fr); }
+.look-card .tpl-pick { grid-template-columns: repeat(6, 1fr) !important; gap: 10px; }
+.look-card .tpl-pick label { font-size: .78rem; }
+.sym-toggle { display: inline-flex; gap: 8px; align-items: center; margin-top: 16px; font-weight: 500; font-size: .95rem; cursor: pointer; }
+.sym-toggle input { width: 18px; height: 18px; accent-color: var(--kumkum); }
+.note-saved { min-height: 1.3em; margin-top: 8px; font-size: .88rem; color: var(--leaf); }
+@media (max-width: 600px) { .look-card .tpl-pick { grid-template-columns: repeat(3, 1fr) !important; } .look-card .lay-pick { gap: 8px; } }
