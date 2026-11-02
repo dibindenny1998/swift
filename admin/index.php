@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($act === 'settings') {
         foreach (['brand', 'business_name', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
-        foreach (['price_standard', 'price_premium'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
+        foreach (['price_standard', 'price_premium', 'price_biodata'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
+        set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
         $kid = trim((string)($_POST['rzp_key_id'] ?? ''));
         if ($kid !== '') set_setting('rzp_key_id', $kid);
         foreach (['rzp_key_secret', 'rzp_webhook_secret', 'capi_token'] as $k) { $v = trim((string)($_POST[$k] ?? '')); if ($v !== '') set_setting($k, $v); }
@@ -95,6 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         imagedestroy($img); imagedestroy($dst);
         header('Location: /admin/?v=images&ok=uploaded#' . $key); exit;
     }
+    if ($act === 'enq_done') {
+        $pdo->prepare("UPDATE enquiries SET status = CASE WHEN status = 'done' THEN 'new' ELSE 'done' END WHERE id = ?")->execute([(int)($_POST['id'] ?? 0)]);
+        header('Location: /admin/?v=custom'); exit;
+    }
     if ($act === 'rzp_clear') {
         set_setting('rzp_key_id', ''); set_setting('rzp_key_secret', '');
         header('Location: /admin/?v=settings&saved=1'); exit;
@@ -113,14 +118,18 @@ function metrics(string $from): array
 {
     $pdo = db();
     $q = fn(string $sql, array $p = []) => (function () use ($pdo, $sql, $p) { $s = $pdo->prepare($sql); $s->execute($p); return $s->fetchColumn(); })();
-    $rev = (int)$q("SELECT COALESCE(SUM(amount),0) FROM invites WHERE status='paid' AND is_demo=0 AND paid_at >= ?", [$from . ' 00:00:00']);
-    $orders = (int)$q("SELECT COUNT(*) FROM invites WHERE status='paid' AND is_demo=0 AND paid_at >= ?", [$from . ' 00:00:00']);
+    $rev = (int)$q("SELECT COALESCE(SUM(amount),0) FROM invites WHERE status='paid' AND is_demo=0 AND paid_at >= ?", [$from . ' 00:00:00'])
+        + (int)$q("SELECT COALESCE(SUM(amount),0) FROM biodata WHERE paid=1 AND is_demo=0 AND paid_at >= ?", [$from . ' 00:00:00']);
+    $orders = (int)$q("SELECT COUNT(*) FROM invites WHERE status='paid' AND is_demo=0 AND amount > 0 AND paid_at >= ?", [$from . ' 00:00:00'])
+        + (int)$q("SELECT COUNT(*) FROM biodata WHERE paid=1 AND is_demo=0 AND paid_at >= ?", [$from . ' 00:00:00']);
+    $free = (int)$q("SELECT COUNT(*) FROM invites WHERE status='paid' AND plan='free' AND paid_at >= ?", [$from . ' 00:00:00']);
+    $bios = (int)$q("SELECT COUNT(*) FROM biodata WHERE created_at >= ?", [$from . ' 00:00:00']);
     $drafts = (int)$q("SELECT COUNT(*) FROM invites WHERE created_at >= ?", [$from . ' 00:00:00']);
     $checkouts = (int)$q("SELECT COUNT(*) FROM invites WHERE checkout_at >= ?", [$from . ' 00:00:00']);
     $visits = (int)$q("SELECT COALESCE(SUM(landing),0) FROM visits WHERE day >= ?", [$from]);
     $spend = (int)$q("SELECT COALESCE(SUM(amount),0) FROM adspend WHERE day >= ?", [$from]);
     $fees = (int)round($rev * 0.0236);
-    return ['rev' => $rev, 'orders' => $orders, 'drafts' => $drafts, 'checkouts' => $checkouts, 'visits' => $visits,
+    return ['free' => $free, 'bios' => $bios, 'rev' => $rev, 'orders' => $orders, 'drafts' => $drafts, 'checkouts' => $checkouts, 'visits' => $visits,
         'spend' => $spend * 100, 'fees' => $fees, 'profit' => $rev - $fees - $spend * 100];
 }
 function pct(int $a, int $b): string { return $b > 0 ? round($a * 100 / $b, 1) . '%' : '–'; }
@@ -174,6 +183,8 @@ site_head('Admin | ' . setting('brand'));
     <a href="/admin/" class="<?= $view === 'dash' ? 'on' : '' ?>">Money</a>
     <a href="/admin/?v=orders" class="<?= $view === 'orders' ? 'on' : '' ?>">Orders</a>
     <a href="/admin/?v=leads" class="<?= $view === 'leads' ? 'on' : '' ?>">Unpaid</a>
+    <a href="/admin/?v=bio" class="<?= $view === 'bio' ? 'on' : '' ?>">Biodata</a>
+    <a href="/admin/?v=custom" class="<?= $view === 'custom' ? 'on' : '' ?>">Custom</a>
     <a href="/admin/?v=images" class="<?= $view === 'images' ? 'on' : '' ?>">Images</a>
     <a href="/admin/?v=settings" class="<?= $view === 'settings' ? 'on' : '' ?>">Settings</a>
     <a href="/admin/?logout=1">Log out</a>
@@ -198,6 +209,8 @@ site_head('Admin | ' . setting('brand'));
     <div class="kpi"><span>Invites started</span><b><?= $m['drafts'] ?></b><small><?= pct($m['drafts'], $m['visits']) ?> of visitors</small></div>
     <div class="kpi"><span>Opened payment</span><b><?= $m['checkouts'] ?></b><small><?= pct($m['checkouts'], $m['drafts']) ?> of invites started</small></div>
     <div class="kpi"><span>Paid</span><b><?= $m['orders'] ?></b><small><?= pct($m['orders'], $m['visits']) ?> of visitors</small></div>
+    <div class="kpi"><span>Published free</span><b><?= $m['free'] ?></b><small>Free plan invites</small></div>
+    <div class="kpi"><span>Biodata started</span><b><?= $m['bios'] ?></b><small>Paid ones count in Revenue</small></div>
   </div>
 
   <div class="card">
@@ -236,17 +249,47 @@ site_head('Admin | ' . setting('brand'));
 
 <?php elseif ($view === 'orders'):
     $rows = $pdo->query("SELECT * FROM invites WHERE status='paid' ORDER BY paid_at DESC LIMIT 300")->fetchAll();
+    $bioPaid = $pdo->query("SELECT * FROM biodata WHERE paid=1 ORDER BY paid_at DESC LIMIT 100")->fetchAll();
 ?>
   <h1 style="font-size:2.4rem">Orders</h1>
   <?php if (!$rows): ?><p class="lead" style="margin-top:12px">No orders yet. They appear here the moment someone pays.</p><?php else: ?>
   <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Paid</th><th>Couple</th><th>Plan</th><th class="n">Amount</th><th>Phone</th><th>Campaign</th><th class="n">Opens</th><th>Links</th></tr></thead><tbody>
   <?php foreach ($rows as $row): $dd = invite_data($row); ?>
     <tr><td><?= date('j M, g:i a', strtotime($row['paid_at'])) ?></td><td><b><?= e(invite_title($dd)) ?></b></td>
-    <td><?= e(PLAN_NAMES[$row['plan']] ?? $row['plan']) ?> <?= $row['is_demo'] ? '<span class="pill">Test</span>' : '<span class="pill ok">Paid</span>' ?></td>
+    <td><?= e(PLAN_NAMES[$row['plan']] ?? $row['plan']) ?> <?= $row['plan'] === 'free' ? '<span class="pill">Free</span>' : ($row['is_demo'] ? '<span class="pill">Test</span>' : '<span class="pill ok">Paid</span>') ?></td>
     <td class="n"><?= $row['is_demo'] ? '–' : rupees((int)$row['amount']) ?></td>
     <td><a href="https://wa.me/91<?= e($row['phone']) ?>" target="_blank" rel="noopener"><?= e($row['phone']) ?></a></td>
     <td><?= e($row['utm_campaign'] ?: $row['utm_source']) ?></td><td class="n"><?= (int)$row['views'] ?></td>
     <td><a href="/i/<?= e($row['slug']) ?>" target="_blank" rel="noopener">Invite</a> · <a href="/p/<?= e($row['token']) ?>" target="_blank" rel="noopener">Owner page</a></td></tr>
+  <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
+<?php elseif ($view === 'bio'):
+    $rows = $pdo->query("SELECT * FROM biodata ORDER BY id DESC LIMIT 300")->fetchAll();
+?>
+  <h1 style="font-size:2.4rem">Biodata</h1>
+  <p class="lead" style="margin-top:8px;max-width:44em">Everyone who made a biodata. Free ones carry the watermark; paid ones removed it for ₹<?= price('biodata') ?>.</p>
+  <?php if (!$rows): ?><p class="lead" style="margin-top:12px">None yet.</p><?php else: ?>
+  <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Made</th><th>Name</th><th>Status</th><th class="n">Downloads</th><th>Phone</th><th>Links</th></tr></thead><tbody>
+  <?php foreach ($rows as $row): $bd = json_decode($row['data'], true) ?: []; ?>
+    <tr><td><?= date('j M, g:i a', strtotime($row['created_at'])) ?></td><td><b><?= e($bd['name'] ?? '') ?></b></td>
+    <td><?= $row['paid'] ? ($row['is_demo'] ? '<span class="pill">Test</span>' : '<span class="pill ok">Paid ' . rupees((int)$row['amount']) . '</span>') : 'Free' ?></td>
+    <td class="n"><?= (int)$row['downloads'] ?></td>
+    <td><a href="https://wa.me/91<?= e($row['phone']) ?>" target="_blank" rel="noopener"><?= e($row['phone']) ?></a></td>
+    <td><a href="/b/<?= e($row['token']) ?>" target="_blank" rel="noopener">Open</a></td></tr>
+  <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
+<?php elseif ($view === 'custom'):
+    $rows = $pdo->query("SELECT * FROM enquiries ORDER BY status = 'done', id DESC LIMIT 300")->fetchAll();
+?>
+  <h1 style="font-size:2.4rem">Custom website requests</h1>
+  <p class="lead" style="margin-top:8px;max-width:44em">People who asked for a custom design or their own domain. Reply on WhatsApp, then mark them done.</p>
+  <?php if (!$rows): ?><p class="lead" style="margin-top:12px">None yet.</p><?php else: ?>
+  <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Asked</th><th>Name</th><th>Wedding</th><th>Wants</th><th>Message</th><th>Contact</th><th></th></tr></thead><tbody>
+  <?php foreach ($rows as $row): $msg = "Hi " . $row['name'] . "! Thanks for asking about a custom wedding website from " . setting('brand') . ". "; ?>
+    <tr style="<?= $row['status'] === 'done' ? 'opacity:.55' : '' ?>"><td><?= date('j M, g:i a', strtotime($row['created_at'])) ?></td><td><b><?= e($row['name']) ?></b></td>
+    <td><?= $row['wedding_date'] ? e(date('j M Y', strtotime($row['wedding_date']))) : '–' ?></td><td><?= e($row['wants']) ?></td><td style="max-width:280px"><?= nl2br(e($row['message'])) ?></td>
+    <td><a href="https://wa.me/91<?= e($row['phone']) ?>?text=<?= rawurlencode($msg) ?>" target="_blank" rel="noopener"><?= e($row['phone']) ?></a><?= $row['email'] ? '<br><a href="mailto:' . e($row['email']) . '">' . e($row['email']) . '</a>' : '' ?></td>
+    <td><form method="post"><?= csrf_field() ?><input type="hidden" name="act" value="enq_done"><input type="hidden" name="id" value="<?= (int)$row['id'] ?>"><button class="linkbtn"><?= $row['status'] === 'done' ? 'Reopen' : 'Mark done' ?></button></form></td></tr>
   <?php endforeach; ?></tbody></table></div><?php endif; ?>
 
 <?php elseif ($view === 'leads'):
@@ -321,7 +364,10 @@ site_head('Admin | ' . setting('brand'));
       <div class="grid2">
         <div class="field"><label for="pr1">Standard (₹)</label><input id="pr1" name="price_standard" type="number" min="1" value="<?= e(setting('price_standard')) ?>"></div>
         <div class="field"><label for="pr2">Premium (₹)</label><input id="pr2" name="price_premium" type="number" min="1" value="<?= e(setting('price_premium')) ?>"></div>
+        <div class="field"><label for="pr3">Biodata without watermark (₹)</label><input id="pr3" name="price_biodata" type="number" min="1" value="<?= e(setting('price_biodata')) ?>"></div>
+        <div class="field"><label for="pr4">Custom plan "from" price (optional)</label><input id="pr4" name="custom_from" maxlength="30" placeholder="₹2,999" value="<?= e(setting('custom_from')) ?>"><small>Leave empty to show "Made for you" instead of a price.</small></div>
       </div>
+      <p class="note" style="margin-top:6px">The Basic plan is always free.</p>
     </div>
     <div class="card" style="margin-top:18px">
       <h2>Meta ads tracking</h2>

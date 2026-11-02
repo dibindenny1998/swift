@@ -27,10 +27,25 @@ $coming = array_sum(array_map(fn($r) => $r['attending'] ? (int)$r['guests'] : 0,
 $declined = count(array_filter($rsvps, fn($r) => !$r['attending']));
 $trackPurchase = $paid && !$inv['purchase_tracked'] && !$inv['is_demo'];
 $upgradeDiff = max(0, $pp - $ps);
+$theme = $inv['theme'];
+$themeName = THEMES[$theme]['name'] ?? $theme;
+$planOpts = [
+    'premium' => ['RSVPs, gift list, up to 15 photos, your song, 6 events, all designs, no ' . $brand . ' credit', $pp],
+    'standard' => ['Up to 3 events, a cover photo, countdown, maps and calendar', $ps],
+    'free' => ['Classic or Blush design, up to 2 events, countdown and maps. Small ' . $brand . ' credit', 0],
+];
+$defaultPlan = 'premium';
+$gifts = $d['gifts'] ?? [];
+$claims = [];
+foreach (gift_claims((int)$inv['id']) as $c) $claims[$c['gift_id']] = $c;
+$upgrades = [];
+if ($paid) foreach (['standard', 'premium'] as $up) {
+    if (PLAN_RANK[$up] > PLAN_RANK[$inv['plan']]) $upgrades[$up] = upgrade_price($inv, $up);
+}
 
 $cfg = [
     't' => $inv['token'], 'paid' => $paid, 'plan' => $inv['plan'], 'data' => $d,
-    'prices' => ['standard' => $ps, 'premium' => $pp], 'upgrade' => $upgradeDiff,
+    'prices' => ['free' => 0, 'standard' => $ps, 'premium' => $pp], 'upgrade' => $upgradeDiff, 'upgrades' => $upgrades, 'defaultPlan' => $defaultPlan,
     'live' => payments_live(), 'purchase' => $trackPurchase ? ['value' => $inv['amount'] / 100, 'id' => 'inv_' . $inv['id']] : null,
 ];
 site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $brand);
@@ -53,10 +68,12 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
   <section class="card plans-card" id="plans">
     <h2>Publish your invite</h2>
     <div class="plan-opts" role="radiogroup" aria-label="Plan">
-      <label class="plan-opt"><input type="radio" name="plan" value="premium" checked>
-        <div><b>Premium</b><span>RSVPs with headcount, up to 15 photos, your song, 6 events, no <?= e($brand) ?> credit</span></div><em>₹<?= $pp ?></em></label>
-      <label class="plan-opt"><input type="radio" name="plan" value="standard">
-        <div><b>Basic</b><span>Up to 3 events, 4 photos, countdown, maps and calendar</span></div><em>₹<?= $ps ?></em></label>
+      <?php foreach ($planOpts as $k => [$desc, $amt]): $ok = theme_allowed($theme, $k); ?>
+      <label class="plan-opt<?= $ok ? '' : ' off' ?>"><input type="radio" name="plan" value="<?= $k ?>"<?= $k === $defaultPlan ? ' checked' : '' ?><?= $ok ? '' : ' disabled' ?>>
+        <div><b><?= PLAN_NAMES[$k] ?></b><span><?= e($desc) ?></span>
+          <?php if (!$ok): ?><small class="why"><?= e($themeName) ?> is a <?= TIER_NAMES[theme_tier($theme)] ?> design. <a href="/create?t=<?= e($inv['token']) ?>">Switch design</a> to use this plan.</small><?php endif; ?></div>
+        <em><?= $amt ? '₹' . $amt : 'Free' ?></em></label>
+      <?php endforeach; ?>
     </div>
     <button type="button" class="btn pay-btn" id="pay">Pay ₹<?= $pp ?> and publish</button>
     <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
@@ -78,12 +95,17 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
   </section>
 
   <section class="card plans-card">
-    <?php if ($inv['plan'] === 'standard'): ?>
-      <h2>Add RSVPs, a gallery and your song</h2>
-      <p class="lead">Upgrade to Premium for ₹<?= $upgradeDiff ?>. Your link stays the same.</p>
-      <button type="button" class="btn pay-btn" id="upgrade" style="margin-top:18px">Upgrade for ₹<?= $upgradeDiff ?></button>
+    <?php if ($upgrades): ?>
+      <h2>Get more from your website</h2>
+      <p class="lead">You are on <?= PLAN_NAMES[$inv['plan']] ?>. Upgrade any time. Your link stays the same.</p>
+      <div class="nav-btns" style="margin-top:18px">
+        <?php if (isset($upgrades['premium'])): ?><button type="button" class="btn pay-btn js-up" data-plan="premium">Premium for ₹<?= $upgrades['premium'] ?></button><?php endif; ?>
+        <?php if (isset($upgrades['standard'])): ?><button type="button" class="btn alt js-up" data-plan="standard">Standard for ₹<?= $upgrades['standard'] ?></button><?php endif; ?>
+      </div>
+      <p class="note" style="margin-top:14px">Premium adds RSVPs, a gift list, a 15-photo gallery, music, 6 events and all designs.</p>
       <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
-    <?php else: ?>
+    <?php endif; ?>
+    <?php if ($inv['plan'] === 'premium'): ?>
       <h2>RSVPs</h2>
       <?php if (!$rsvps): ?>
         <p class="lead">Replies from guests will appear here.</p>
@@ -92,6 +114,20 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
         <?php foreach ($rsvps as $r): ?>
           <tr><td><b><?= e($r['name']) ?></b><?= $r['phone'] ? '<br><a href="tel:' . e($r['phone']) . '">' . e($r['phone']) . '</a>' : '' ?></td>
           <td><?= $r['attending'] ? 'Coming, ' . (int)$r['guests'] : 'Can\'t come' ?></td><td><?= e($r['message']) ?></td></tr>
+        <?php endforeach; ?></tbody></table>
+      <?php endif; ?>
+
+      <h2 style="margin-top:30px">Gift list</h2>
+      <?php if (!$gifts): ?>
+        <p class="lead">Add gifts you would love, and guests can reserve them. <a href="/create?t=<?= e($inv['token']) ?>">Add a gift list</a></p>
+      <?php else: ?>
+        <p class="lead"><?= count($claims) ?> of <?= count($gifts) ?> gifts reserved.</p>
+        <table class="gift-table"><tbody>
+        <?php foreach ($gifts as $g): $c = $claims[$g['id']] ?? null; ?>
+          <tr><td><b><?= e($g['name']) ?></b><?= $g['note'] ? '<br><small>' . e($g['note']) . '</small>' : '' ?></td>
+          <td><?php if ($c): ?><b><?= e($c['name']) ?></b><?= $c['phone'] ? '<br><a href="tel:' . e($c['phone']) . '">' . e($c['phone']) . '</a>' : '' ?><?= $c['message'] ? '<br><small>' . e($c['message']) . '</small>' : '' ?>
+            <br><button type="button" class="linkbtn js-release" data-claim="<?= (int)$c['id'] ?>">Make available again</button>
+          <?php else: ?><span class="free">Not picked yet</span><?php endif; ?></td></tr>
         <?php endforeach; ?></tbody></table>
       <?php endif; ?>
     <?php endif; ?>

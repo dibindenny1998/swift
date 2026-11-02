@@ -5,7 +5,7 @@
   var form = document.getElementById('f');
   var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
   var navBtns = Array.prototype.slice.call(document.querySelectorAll('.steps-nav button'));
-  var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone'];
+  var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone', 'gift_note'];
   var EVENT_SETS = {
     hindu: ['Muhurtham', 'Wedding', 'Engagement', 'Haldi', 'Mehendi', 'Sangeet', 'Reception'],
     christian: ['Holy Matrimony', 'Betrothal', 'Manasammatham', 'Madhuramvaypu', 'Bridal Shower', 'Reception'],
@@ -33,6 +33,7 @@
     data = Object.assign({}, saved, CFG.init.p1 ? { p1: CFG.init.p1 } : {}, CFG.init.p2 ? { p2: CFG.init.p2 } : {});
     if (!saved.theme || new URLSearchParams(location.search).get('t')) data.theme = CFG.init.theme;
   }
+  if (!Array.isArray(data.gifts)) data.gifts = [];
   if (!data.events || !data.events.length) data.events = [{ name: ({ noor: 'Nikah', qamar: 'Nikah', chapel: 'Holy Matrimony', grace: 'Holy Matrimony', kesar: 'Anand Karaj' })[data.theme] || 'Wedding', date: '', time: '', venue: '', address: '', map: '' }];
 
   // ---------- fill form ----------
@@ -101,6 +102,57 @@
       catBtns.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
       document.querySelectorAll('.theme-pick label').forEach(function (l) { l.hidden = b.dataset.f !== 'all' && l.dataset.tags.split(' ').indexOf(b.dataset.f) < 0; });
     });
+  });
+
+  // a published invite can only switch to designs its plan includes
+  var lockedPlan = EX && EX.plan ? EX.plan : null;
+  if (lockedPlan) {
+    document.querySelectorAll('.theme-pick label').forEach(function (l) {
+      var tier = l.dataset.tier;
+      if (CFG.rank[tier] > CFG.rank[lockedPlan]) {
+        l.classList.add('locked');
+        l.querySelector('input').disabled = true;
+        var lk = l.querySelector('.lock'); lk.hidden = false; lk.textContent = 'Needs ' + CFG.planNames[tier] + '. Upgrade from your invite page.';
+      }
+    });
+  }
+
+  // ---------- gifts ----------
+  var giftWrap = document.getElementById('gifts');
+  function gid() { var c = 'abcdefghijklmnopqrstuvwxyz0123456789', o = ''; for (var i = 0; i < 8; i++) o += c[Math.floor(Math.random() * c.length)]; return o; }
+  function drawGifts() {
+    giftWrap.innerHTML = data.gifts.map(function (g, i) {
+      return '<div class="ev-card gift-card" data-i="' + i + '">' +
+        '<button type="button" class="x" data-gdel="' + i + '" aria-label="Remove this gift">&times;</button>' +
+        '<div class="field"><label for="g-name-' + i + '">Gift ' + (i + 1) + '</label><input id="g-name-' + i + '" data-g="name" maxlength="60" value="' + esc(g.name) + '" placeholder="Dinner set"></div>' +
+        '<div class="row2"><div class="field"><label for="g-note-' + i + '">Note (optional)</label><input id="g-note-' + i + '" data-g="note" maxlength="120" value="' + esc(g.note) + '" placeholder="Any brand, white or cream"></div>' +
+        '<div class="field"><label for="g-link-' + i + '">Example link (optional)</label><input id="g-link-' + i + '" data-g="link" maxlength="300" inputmode="url" value="' + esc(g.link) + '" placeholder="https://www.amazon.in/…"></div></div>' +
+        '</div>';
+    }).join('');
+    document.getElementById('add-gift').hidden = data.gifts.length >= 40;
+    document.getElementById('add-gift').textContent = data.gifts.length ? 'Add another gift' : 'Add a gift';
+  }
+  drawGifts();
+  function addGift(name) {
+    data.gifts.push({ id: gid(), name: name || '', note: '', link: '' });
+    drawGifts(); changed('gifts');
+    if (!name) { var c = giftWrap.querySelectorAll('.gift-card'); c[c.length - 1].querySelector('input').focus(); }
+  }
+  document.getElementById('add-gift').addEventListener('click', function () { addGift(''); });
+  document.getElementById('gift-chips').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-gift]'); if (!b || data.gifts.length >= 40) return;
+    if (data.gifts.some(function (g) { return g.name === b.dataset.gift; })) return;
+    addGift(b.dataset.gift);
+  });
+  giftWrap.addEventListener('input', function (e) {
+    var card = e.target.closest('.gift-card'); var k = e.target.dataset.g;
+    if (!card || !k) return;
+    data.gifts[+card.dataset.i][k] = e.target.value;
+    changed('gifts');
+  });
+  giftWrap.addEventListener('click', function (e) {
+    var del = e.target.closest('[data-gdel]');
+    if (del) { data.gifts.splice(+del.dataset.gdel, 1); drawGifts(); changed('gifts'); }
   });
 
   // the opening lines each design uses when left empty
@@ -204,7 +256,7 @@
   pv.addEventListener('load', function () { paint(pv); placeholders(); });
   document.getElementById('open-sheet').addEventListener('click', function () {
     sheet.hidden = false;
-    var secs = ['hero', 'hero', 'events', 'photos', 'hero'];
+    var secs = ['hero', 'hero', 'events', 'photos', 'gifts', 'hero'];
     if (!pvm.src) { pvm.onload = function () { paint(pvm, secs[cur]); }; pvm.src = '/frame.php'; }
     else paint(pvm, secs[cur]);
   });
@@ -219,6 +271,15 @@
       if (!(data.p1 || '').trim()) { msg = 'Add the first name.'; form.elements.p1.focus(); }
       else if (!(data.p2 || '').trim()) { msg = 'Add the second name.'; form.elements.p2.focus(); }
     }
+    if (step === 0 && lockedPlan) {
+      var t0 = THEMES_OK();
+      if (!t0) msg = 'Pick a design your plan includes.';
+    }
+    if (step === 4) {
+      var bad = data.gifts.filter(function (g) { return !(g.name || '').trim() && ((g.note || '').trim() || (g.link || '').trim()); });
+      if (bad.length) msg = 'Each gift needs a name. Add one or remove the gift.';
+      else if (data.gifts.some(function (g) { return g.link && !/^https:\/\/[^\s]+\.[a-z]{2,}/i.test(g.link.trim()); })) msg = 'Example links must start with https://';
+    }
     if (step === 2) {
       var withDate = data.events.filter(function (e) { return e.date; });
       if (!withDate.length) { msg = 'Add a date for at least one event.'; var d = evWrap.querySelector('[data-k=date]'); if (d) d.focus(); }
@@ -227,6 +288,7 @@
     if (err) err.textContent = msg;
     return !msg;
   }
+  function THEMES_OK() { var i = form.querySelector('input[name=theme]:checked'); return i && !i.disabled; }
   function go(n) {
     if (n > cur) { for (var s = cur; s < n; s++) { if (!validate(s)) { show(s); return; } } }
     show(n);
@@ -239,12 +301,18 @@
       b.classList.toggle('done', i < n);
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    var sec = ['hero', 'hero', 'events', 'photos', null][n];
+    var sec = ['hero', 'hero', 'events', 'photos', 'gifts', null][n];
     if (sec) { pendingSec = sec; changed(); }
     var first = panels[n].querySelector('input:not([type=radio]):not([type=file]), textarea');
     if (first && n > 0 && matchMedia('(min-width: 901px)').matches) setTimeout(function () { first.focus({ preventScroll: true }); }, 250);
   }
   navBtns.forEach(function (b) { b.addEventListener('click', function () { go(+b.dataset.go); }); });
+  // keep the active tab in view on small screens
+  var navEl = document.querySelector('.steps-nav');
+  var _show = show;
+  show = function (n) { _show(n); var b = navBtns[n]; if (b && navEl.scrollWidth > navEl.clientWidth) navEl.scrollTo({ left: b.offsetLeft - 16, behavior: 'smooth' }); };
+  // a design picked on the home page (or an invite being edited) starts on the names step
+  if (CFG.start) { cur = 0; show(CFG.start); window.scrollTo(0, 0); }
   form.addEventListener('click', function (e) {
     if (e.target.closest('.js-next')) go(cur + 1);
     if (e.target.closest('.js-back')) show(Math.max(0, cur - 1));
@@ -254,8 +322,8 @@
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    for (var s = 0; s < 4; s++) if (!validate(s)) { show(s); return; }
-    var err = panels[4].querySelector('.err');
+    for (var s = 0; s < 5; s++) if (!validate(s)) { show(s); return; }
+    var err = panels[5].querySelector('.err');
     var phoneEl = form.elements.phone;
     if (phoneEl) {
       var digits = phoneEl.value.replace(/\D/g, '').replace(/^(91|0)(?=\d{10}$)/, '');
@@ -269,6 +337,7 @@
     var clean = {};
     TEXT.concat(['theme']).forEach(function (k) { clean[k] = (data[k] || '').trim ? (data[k] || '').trim() : data[k]; });
     clean.events = data.events.filter(function (ev) { return ev.date; });
+    clean.gifts = data.gifts.filter(function (g) { return (g.name || '').trim(); }).map(function (g) { return { id: g.id, name: g.name.trim(), note: (g.note || '').trim(), link: (g.link || '').trim() }; });
     fd.append('data', JSON.stringify(clean));
     var order = [];
     var n = 0;

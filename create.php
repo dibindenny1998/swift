@@ -23,7 +23,11 @@ if ($editing) {
         'music' => !empty($d['music']) ? ['kind' => 'old', 'name' => $d['music'], 'url' => '/m/' . $editing['id'] . '/' . $d['music'], 'label' => $d['music_label'] ?? 'Your song'] : null,
     ];
 }
-$cfg = ['brand' => $brand, 'init' => $init, 'existing' => $existing, 'themes' => array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags']], THEMES)];
+if ($existing) $existing['plan'] = $editing['status'] === 'paid' ? $editing['plan'] : null;
+$startStep = ($editing || isset(THEMES[$_GET['t'] ?? ''])) ? 1 : 0;
+$cfg = ['brand' => $brand, 'init' => $init, 'existing' => $existing, 'start' => $startStep, 'rank' => PLAN_RANK, 'planNames' => PLAN_NAMES,
+    'themes' => array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags'], 'tier' => $t['tier']], THEMES)];
+$nThemes = count(THEMES);
 
 site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand);
 ?>
@@ -42,21 +46,25 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
       <button type="button" data-go="1">Names</button>
       <button type="button" data-go="2">Events</button>
       <button type="button" data-go="3">Photos</button>
-      <button type="button" data-go="4"><?= $editing ? 'Save' : 'Finish' ?></button>
+      <button type="button" data-go="4">Gifts</button>
+      <button type="button" data-go="5"><?= $editing ? 'Save' : 'Finish' ?></button>
     </nav>
 
     <section class="panel" data-step="0">
       <h1>Pick a design</h1>
-      <p class="lead">Seventeen designs. You can switch any time before you share.</p>
+      <p class="lead"><?= $nThemes ?> designs. Two are free, and Premium unlocks the most detailed ones. You can switch any time before you share.</p>
       <div class="chips cat-chips" role="group" aria-label="Filter designs">
         <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="tier-free" aria-pressed="false">Free</button>
+        <button type="button" data-f="tier-premium" aria-pressed="false">Premium</button>
         <?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-f="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?>
       </div>
       <div class="theme-pick">
         <?php foreach (THEMES as $id => $t): ?>
-          <label data-tags="<?= e(implode(' ', $t['tags'])) ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="180" height="320" loading="lazy"><b><?= e($t['name']) ?></b></label>
+          <label data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>" data-tier="<?= $t['tier'] ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="/assets/img/designs/<?= $id ?>.jpg" alt="" width="232" height="480" loading="lazy"><b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?> <span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b><small class="lock" hidden></small></label>
         <?php endforeach; ?>
       </div>
+      <p class="err" role="alert"></p>
       <div class="nav-btns" style="margin-top:26px"><button type="button" class="btn js-next">Next: your names</button></div>
     </section>
 
@@ -91,7 +99,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
       <p class="lead">All optional. The first photo is shown large under the countdown.</p>
       <div class="field">
         <span>Photos</span>
-        <label class="drop" for="photo-in"><b>Add photos</b><small>Up to 15. Basic shows the first 4.</small></label>
+        <label class="drop" for="photo-in"><b>Add photos</b><small>Up to 15. Standard shows the first one as a cover photo. Premium adds a full gallery.</small></label>
         <input type="file" id="photo-in" accept="image/*" multiple hidden>
         <div class="thumbs" id="thumbs"></div>
       </div>
@@ -108,10 +116,25 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
         <div class="field"><label for="contact_phone">Their phone</label><input id="contact_phone" name="contact_phone" inputmode="tel" maxlength="15" placeholder="98765 43210"></div>
       </div>
       <p class="err" role="alert"></p>
-      <div class="nav-btns"><button type="button" class="btn js-next">Next</button><button type="button" class="btn alt js-back">Back</button></div>
+      <div class="nav-btns"><button type="button" class="btn js-next">Next: gift list</button><button type="button" class="btn alt js-back">Back</button></div>
     </section>
 
     <section class="panel" data-step="4" hidden>
+      <h1>Gift list <span class="tag">Premium</span></h1>
+      <p class="lead">List the gifts you would love. Guests pick one and type their name, so nobody brings the same thing. You see who picked what. Optional, and you can skip this.</p>
+      <div class="field"><label for="gift_note">A line above the list</label><textarea id="gift_note" name="gift_note" maxlength="200" rows="2" placeholder="Your blessings are the best gift. If you would like to give something, here are a few things we would love."></textarea></div>
+      <div class="field"><span>Quick add</span>
+        <div class="chips" id="gift-chips">
+          <?php foreach (['Dinner set', 'Mixer grinder', 'Pressure cooker set', 'Air fryer', 'Bedsheet set', 'Microwave oven', 'Coffee maker', 'Wall clock', 'Silver pooja set', 'Honeymoon fund'] as $g): ?><button type="button" data-gift="<?= e($g) ?>"><?= e($g) ?></button><?php endforeach; ?>
+        </div>
+      </div>
+      <div id="gifts"></div>
+      <button type="button" class="btn alt small" id="add-gift">Add a gift</button>
+      <p class="err" role="alert"></p>
+      <div class="nav-btns" style="margin-top:22px"><button type="button" class="btn js-next">Next</button><button type="button" class="btn alt js-back">Back</button></div>
+    </section>
+
+    <section class="panel" data-step="5" hidden>
       <?php if ($editing): ?>
         <h1>Save your changes</h1>
         <p class="lead"><?= $editing['status'] === 'paid' ? 'Your shared link updates as soon as you save.' : 'Your preview updates as soon as you save.' ?></p>
@@ -123,7 +146,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your invite') . ' | ' . $brand)
       <?php endif; ?>
       <p class="err" role="alert"></p>
       <div class="nav-btns"><button type="submit" class="btn" id="save"><?= $editing ? 'Save changes' : 'See my invite' ?></button><button type="button" class="btn alt js-back">Back</button></div>
-      <?php if (!$editing): ?><p class="note" style="margin-top:20px">Free to preview. You only pay if you want to publish and share it.</p><?php endif; ?>
+      <?php if (!$editing): ?><p class="note" style="margin-top:20px">Free to preview. Publish free with the Classic or Blush design, or pick a paid plan for more designs and features.</p><?php endif; ?>
     </section>
   </form>
 

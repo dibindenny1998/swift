@@ -1,0 +1,113 @@
+/* WedLink marriage biodata: four templates on a fixed A4 page (794 x 1123 px), scaled to fit the screen. */
+.bd-frame { position: relative; width: 100%; overflow: hidden; border-radius: 6px; box-shadow: 0 0 0 1px rgba(46,14,26,.12), 0 30px 60px -30px rgba(46,14,26,.45); background: #fff; }
+.bd-frame .bd { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+.bd-snap { position: fixed; left: -10000px; top: 0; width: 794px; height: 1123px; }
+
+.bd { width: 794px; height: 1123px; position: relative; overflow: hidden; background: #fff; color: #2a2024;
+  font-family: 'Lora', 'Noto Serif Malayalam', 'Noto Serif Devanagari', 'Noto Serif Tamil', 'Noto Serif Kannada', 'Noto Serif Telugu', 'Noto Serif Gurmukhi', Georgia, serif;
+  font-size: 15.5px; line-height: 1.45; -webkit-font-smoothing: antialiased; box-sizing: border-box; }
+.bd *, .bd *::before, .bd *::after { box-sizing: border-box; }
+.bd-in { position: absolute; inset: 0; padding: 70px 76px 64px; display: flex; flex-direction: column; overflow: hidden; }
+.bd-top { text-align: center; margin: 0 0 6px; font-size: .9em; letter-spacing: .08em; }
+.bd-title { text-align: center; margin: 0; font-size: 2.3em; line-height: 1.1; font-weight: 600; }
+.bd-orn { display: block; width: 210px; height: 20px; margin: 10px auto 18px; }
+.bd-head { display: flex; gap: 26px; align-items: flex-start; margin-bottom: 8px; }
+.bd-photo { flex: none; width: 168px; height: 210px; border-radius: 6px; overflow: hidden; }
+.bd-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bd-headtxt { flex: 1; min-width: 0; }
+.bd-name { margin: 0 0 8px; font-size: 1.9em; line-height: 1.15; font-weight: 600; }
+.bd:not(.has-photo) .bd-name { text-align: center; }
+.bd table { width: 100%; border-collapse: collapse; }
+.bd th { text-align: left; font-weight: 600; width: 38%; padding: 3px 12px 3px 0; vertical-align: top; }
+.bd td { padding: 3px 0; vertical-align: top; overflow-wrap: anywhere; }
+.bd-sec { margin-top: 14px; }
+.bd-sec h3 { margin: 0 0 6px; font-size: 1.12em; font-weight: 700; letter-spacing: .04em; padding-bottom: 4px; }
+.bd-para p { margin: 0; }
+.bd-c { position: absolute; z-index: 1; }
+
+/* watermark (free version) */
+.bd-wm { position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+.bd-wm span { position: absolute; transform: rotate(-30deg); font: 700 46px/1 Arial, sans-serif; letter-spacing: 6px; color: rgba(120,120,120,.16); white-space: nowrap; }
+.bd-wm-foot { position: absolute; left: 0; right: 0; bottom: 16px; z-index: 6; text-align: center; font: 600 13px/1 Arial, sans-serif; color: rgba(90,90,90,.75); letter-spacing: .02em; }
+
+/* ---------- Royal: maroon frame, gold lines, ivory page ---------- */
+.bd-royal { background: #6E0B1D; }
+.bd-royal .bd-in { top: 22px; right: 22px; bottom: 22px; left: 22px; background: #FFF9EF; border: 2px solid #C9A24A; padding: 56px 60px 54px; }
+.bd-royal .bd-in::before { content: ''; position: absolute; top: 8px; right: 8px; bottom: 8px; left: 8px; border: 1px solid #C9A24A; pointer-events: none; }
+.bd-royal .bd-title, .bd-royal .bd-name { font-family: 'Cinzel', 'Noto Serif Malayalam', 'Noto Serif Devanagari', Georgia, serif; color: #6E0B1D; }
+.bd-royal .bd-title { letter-spacing: .06em; }
+.bd-royal .bd-top { color: #8E6C1E; }
+.bd-royal .bd-sec h3 { color: #6E0B1D; border-bottom: 1px solid rgba(176,138,62,.6); font-family: 'Cinzel', Georgia, serif; }
+.bd-royal th { color: #5A2A1E; }
+.bd-royal .bd-photo { border: 3px solid #C9A24A; }
+.bd-royal .bd-c { width: 54px; height: 54px; }
+.bd-royal .bd-c.tl { top: 14px; left: 14px; } .bd-royal .bd-c.tr { top: 14px; right: 14px; }
+.bd-royal .bd-c.bl { bottom: 14px; left: 14px; } .bd-royal .bd-c.br { bottom: 14px; right: 14px; }
+
+/* ---------- Kasavu: ivory, gold side borders ---------- */
+.bd-kasavu { background: #FBF7EC; }
+.bd-kasavu::before, .bd-kasavu::after { content: ''; position: absolute; top: 0; bottom: 0; width: 34px; z-index: 1;
+  background: linear-gradient(90deg, #C9A227 0 22px, #FBF7EC 22px 25px, #8E1B1B 25px 28px, #FBF7EC 28px); }
+.bd-kasavu::before { left: 0; }
+.bd-kasavu::after { right: 0; transform: scaleX(-1); }
+.bd-kasavu .bd-in { padding: 64px 80px 60px; }
+.bd-kasavu .bd-title, .bd-kasavu .bd-name { font-family: 'Marcellus', 'Noto Serif Malayalam', Georgia, serif; color: #6B4E0E; }
+.bd-kasavu .bd-sec h3 { color: #8E1B1B; border-bottom: 2px solid #D9BC5C; font-family: 'Marcellus', Georgia, serif; }
+.bd-kasavu .bd-photo { border: 3px solid #C9A227; }
+
+/* ---------- Floral: blush with rose corners ---------- */
+.bd-floral { background: linear-gradient(#FDF1F2, #FFF9F9 40%, #FDF1F2); }
+.bd-floral .bd-title, .bd-floral .bd-name { font-family: 'Playfair Display', 'Noto Serif Malayalam', Georgia, serif; font-style: italic; color: #8E3E4C; }
+.bd-floral .bd-sec h3 { color: #9C4C5A; border-bottom: 1px solid #E7B5BD; font-family: 'Playfair Display', Georgia, serif; }
+.bd-floral .bd-photo { border-radius: 999px 999px 10px 10px; border: 3px solid #E7B5BD; }
+.bd-floral .bd-c { width: 220px; height: 143px; }
+.bd-floral .bd-c.tl { top: -6px; left: -6px; }
+.bd-floral .bd-c.br { bottom: -6px; right: -6px; }
+.bd-floral .bd-in { padding-top: 84px; }
+
+/* ---------- Simple: clean black and white ---------- */
+.bd-simple { background: #fff; font-family: 'DM Sans', 'Noto Sans Malayalam', 'Noto Serif Malayalam', Arial, sans-serif; }
+.bd-simple .bd-in { padding: 64px 70px; }
+.bd-simple .bd-title { font-family: 'DM Sans', Arial, sans-serif; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: 1.7em; }
+.bd-simple .bd-name { font-family: 'DM Sans', Arial, sans-serif; font-weight: 700; }
+.bd-simple .bd-sec h3 { text-transform: uppercase; font-size: .95em; letter-spacing: .12em; border-bottom: 2px solid #222; }
+.bd-simple th { color: #555; font-weight: 500; }
+.bd-simple .bd-photo { border-radius: 4px; }
+
+/* ---------- biodata pages ---------- */
+.bio-layout { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 40px; align-items: start; padding: 10px 0 80px; }
+.bio-layout > * { min-width: 0; }
+.bio-preview { position: sticky; top: 84px; }
+.bio-preview p { font-size: .9rem; color: var(--plum-2); margin-top: 10px; text-align: center; }
+.bio-form .card { margin-bottom: 16px; }
+.bio-form .card h2 { font-size: 1.35rem; margin-bottom: 14px; }
+.tpl-pick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.tpl-pick label { cursor: pointer; display: grid; gap: 6px; text-align: center; font-weight: 600; font-size: .9rem; }
+.tpl-pick input { position: absolute; opacity: 0; pointer-events: none; }
+.tpl-pick i { display: block; aspect-ratio: 210 / 297; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); }
+.tpl-pick input:checked + i { box-shadow: 0 0 0 3px var(--kumkum); }
+.tpl-pick input:focus-visible + i { outline: 3px solid var(--turmeric); outline-offset: 3px; }
+.tpl-royal { background: linear-gradient(#FFF9EF, #FFF9EF) padding-box, #6E0B1D; border: 7px solid transparent; }
+.tpl-kasavu { background: linear-gradient(90deg, #C9A227 0 9%, #FBF7EC 9% 91%, #C9A227 91%); }
+.tpl-floral { background: radial-gradient(circle at 15% 12%, #E7A5AF 0 12%, transparent 13%), radial-gradient(circle at 85% 88%, #E7A5AF 0 12%, transparent 13%), #FDF1F2; }
+.tpl-simple { background: linear-gradient(#222, #222) 50% 18% / 50% 3px no-repeat, #fff; }
+.photo-row { display: flex; gap: 14px; align-items: center; }
+.photo-row img { width: 72px; height: 90px; object-fit: cover; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
+.extra-row { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
+.extra-row .field { margin: 0; }
+.extra-row .x { width: 44px; height: 50px; border-radius: 12px; border: 0; background: var(--rose-2); color: var(--plum); font-size: 1.3rem; cursor: pointer; }
+.bio-actions { display: grid; gap: 12px; }
+.bio-actions .btn { width: 100%; }
+.price-line { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.price-line b { font-family: var(--display); font-size: 1.8rem; }
+.bio-mobile-bar { display: none; }
+@media (max-width: 900px) {
+  .bio-layout { grid-template-columns: 1fr; }
+  .bio-form .bio-preview-inline { display: block; }
+  .bio-preview { position: static; order: -1; }
+  .bio-layout.edit .bio-preview { display: none; }
+  .tpl-pick { grid-template-columns: repeat(4, 1fr); }
+  .extra-row { grid-template-columns: 1fr 1fr auto; }
+  .bio-mobile-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; gap: 10px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(255,248,244,.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
+  .bio-mobile-bar .btn { flex: 1; min-height: 46px; }
+}

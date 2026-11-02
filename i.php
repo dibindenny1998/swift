@@ -25,6 +25,7 @@ $d = public_payload($inv);
 $lim = PLAN_LIMITS[$inv['plan']] ?? PLAN_LIMITS['premium'];
 $d['photos'] = array_slice($d['photos'], 0, $lim['photos']);
 if (!$lim['music']) $d['music'] = '';
+if (!$lim['gifts']) { $d['gifts'] = []; $d['gifts_taken'] = []; }
 $d['brand'] = setting('brand');
 
 $title = invite_title($d) . ' are getting married';
@@ -32,8 +33,8 @@ $main = null;
 foreach (sorted_events($d) as $ev) { if (preg_match('/wedding|marriage|muhurt|kalyan|vivah|nikah|thali|minnu|matrimony|shaadi/i', $ev['name'])) { $main = $ev; break; } }
 $main = $main ?? (sorted_events($d)[0] ?? null);
 $desc = $main ? date('l, j F Y', strtotime($main['date'])) . ($main['venue'] ? ', ' . $main['venue'] : '') . '. Tap to open the invitation.' : 'Tap to open the invitation.';
-$og = $d['photos'] ? base_url() . $d['photos'][0] : base_url() . '/assets/og/' . $inv['theme'] . '.jpg';
-$colors = ['kasavu' => '#FBF7EC', 'sindoor' => '#6E0B1D', 'marigold' => '#FFF1C9', 'nilavu' => '#0B1533', 'mullappoo' => '#F2F8F3', 'thamara' => '#FADDE3',
+$og = $d['photos'] ? base_url() . $d['photos'][0] : base_url() . '/assets/og/' . $d['theme'] . '.jpg';
+$colors = ['classic' => '#FBF8F2', 'blush' => '#FBE4E7', 'kasavu' => '#FBF7EC', 'sindoor' => '#6E0B1D', 'marigold' => '#FFF1C9', 'nilavu' => '#0B1533', 'mullappoo' => '#F2F8F3', 'thamara' => '#FADDE3',
     'champagne' => '#FFF8F3', 'noor' => '#0E3B2E', 'chapel' => '#FDFBF6', 'kesar' => '#172C6E', 'gopuram' => '#5E1020', 'velvet' => '#4A0A22',
     'qamar' => '#120E2E', 'grace' => '#DCE6EE', 'mayil' => '#0D4651', 'jaipur' => '#EFB9A8', 'gulmohar' => '#FFF4E6'];
 ?>

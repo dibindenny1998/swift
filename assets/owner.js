@@ -2,7 +2,7 @@
   'use strict';
   var C = window.WL_OWNER;
   var pv = document.getElementById('pv');
-  var plan = C.paid ? C.plan : 'premium';
+  var plan = C.paid ? C.plan : (C.defaultPlan || 'premium');
   var first = true;
 
   function paint() {
@@ -42,7 +42,7 @@
   document.querySelectorAll('input[name=plan]').forEach(function (r) {
     r.addEventListener('change', function () {
       plan = r.value;
-      var label = 'Pay ₹' + C.prices[plan] + ' and publish';
+      var label = plan === 'free' ? 'Publish free' : 'Pay ₹' + C.prices[plan] + ' and publish';
       payBtn.textContent = label; if (mPay) mPay.textContent = label;
       paint();
     });
@@ -73,9 +73,17 @@
     var original = btn.textContent;
     err.textContent = '';
     btn.disabled = true; btn.textContent = 'Opening payment…';
-    var value = C.paid ? C.upgrade : C.prices[chosen];
+    var value = C.paid ? (C.upgrades[chosen] || 0) : C.prices[chosen];
     try { fbq('track', 'InitiateCheckout', { value: value, currency: 'INR' }); } catch (e) {}
     function reset(msg) { btn.disabled = false; btn.textContent = original; if (msg) err.textContent = msg; }
+
+    if (chosen === 'free') {
+      btn.textContent = 'Publishing…';
+      return post('/api.php?a=publish_free', { t: C.t }).then(function (r) {
+        if (r.ok) { try { fbq('track', 'CompleteRegistration', { content_name: 'Free invite' }); } catch (e) {} location.reload(); }
+        else reset(r.error);
+      }).catch(function () { reset('No connection. Try again.'); });
+    }
 
     post('/api.php?a=order', { t: C.t, plan: chosen }).then(function (o) {
       if (!o.ok) return reset(o.error);
@@ -105,6 +113,17 @@
   }
 
   if (payBtn) payBtn.addEventListener('click', function () { startPay(payBtn, plan); });
-  var up = document.getElementById('upgrade');
-  if (up) up.addEventListener('click', function () { startPay(up, 'premium'); });
+  document.querySelectorAll('.js-up').forEach(function (b) {
+    b.addEventListener('click', function () { startPay(b, b.dataset.plan); });
+  });
+  if (C.live && C.paid && Object.keys(C.upgrades || {}).length) loadRzp().catch(function () {});
+
+  // gift list: let the couple free up a reserved gift
+  document.querySelectorAll('.js-release').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!confirm('Make this gift available to other guests again?')) return;
+      b.disabled = true;
+      post('/api.php?a=gift_release', { t: C.t, claim: +b.dataset.claim }).then(function (r) { if (r.ok) location.reload(); else { b.disabled = false; alert(r.error || 'Could not update.'); } });
+    });
+  });
 })();

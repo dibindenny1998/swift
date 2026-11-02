@@ -4,6 +4,8 @@
   'use strict';
 
   var FONTS = {
+    classic: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400',
+    blush: 'family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
     champagne: 'family=Bodoni+Moda:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500',
     kasavu: 'family=Great+Vibes&family=Marcellus',
     noor: 'family=Cormorant+Upright:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Amiri:wght@400;700',
@@ -37,8 +39,9 @@
   var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
 
   var LIMITS = {
-    standard: { events: 3, photos: 1, rsvp: false, music: false, badge: true },
-    premium: { events: 6, photos: 15, rsvp: true, music: true, badge: false }
+    free: { events: 2, photos: 0, rsvp: false, music: false, gifts: false, badge: true },
+    standard: { events: 3, photos: 1, rsvp: false, music: false, gifts: false, badge: true },
+    premium: { events: 6, photos: 15, rsvp: true, music: true, gifts: true, badge: false }
   };
 
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -228,7 +231,7 @@
   }
 
   function divider(theme) {
-    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : foil(theme);
+    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" transform="translate(100,10)"><path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/></g></svg>';
   }
@@ -242,7 +245,7 @@
     '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
     '</defs></svg>';
 
-  var LIGHT = { kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  var LIGHT = { classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
   function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
 
   function bokeh(seed, n, w, h) {
@@ -413,8 +416,17 @@
     return '<svg class="wl-gulmohar' + (flip ? ' r' : '') + '" viewBox="-6 -6 280 150" aria-hidden="true">' + s + '</svg>';
   }
 
+  function roseLine() {
+    // a single fine rose stem with two leaves, drawn as one line
+    return '<svg class="wl-rose" viewBox="0 0 220 90" aria-hidden="true"><g fill="none" stroke="#C27A86" stroke-width="1.3" stroke-linecap="round">' +
+      '<path d="M10,70 C60,60 90,50 110,40 C130,30 150,28 210,30"/>' +
+      '<path d="M110,40 C104,28 112,16 122,18 C132,20 132,32 124,36 C118,39 112,35 114,29 C116,24 122,24 123,28"/>' +
+      '<path d="M70,56 C66,44 74,38 84,40 C80,48 76,54 70,56Z"/><path d="M150,29 C156,18 166,18 172,22 C164,28 158,30 150,29Z"/></g></svg>';
+  }
   function heroDecor(theme) {
     switch (theme) {
+      case 'classic': return '<div class="wl-frame wl-frame-2"></div>';
+      case 'blush': return roseLine();
       case 'kasavu': return '<div class="wl-hd-top">' + kasavuBand() + '</div>' + lamp();
       case 'sindoor': return mandala('url(#wlFoil)');
       case 'marigold': return toran();
@@ -458,6 +470,8 @@
       photos: (d.photos || []).slice(0, lim.photos),
       music: lim.music ? (d.music || '') : '',
       contactName: (d.contact_name || '').trim(), contactPhone: (d.contact_phone || '').replace(/[^\d+]/g, ''),
+      gifts: lim.gifts ? (d.gifts || []).filter(function (g) { return g && (g.name || '').trim(); }) : [],
+      giftsTaken: d.gifts_taken || [], giftNote: (d.gift_note || '').trim(),
       slug: d.slug || '', brand: d.brand || 'WedLink'
     };
   }
@@ -491,6 +505,30 @@
       '<label class="wl-guests">Number of guests<select name="guests">' + opts + '</select></label>' +
       '<label>A note for the couple (optional)<textarea name="message" rows="3" maxlength="400"></textarea></label>' +
       '<button class="wl-btn solid" type="submit">Send RSVP</button><p class="wl-form-msg" role="status"></p></form></section>';
+  }
+
+  function giftsHtml(v) {
+    if (!v.gifts.length) return '';
+    var taken = {};
+    v.giftsTaken.forEach(function (id) { taken[id] = 1; });
+    var left = v.gifts.filter(function (g) { return !taken[g.id]; }).length;
+    var items = v.gifts.map(function (g) {
+      var isTaken = !!taken[g.id];
+      return '<li class="wl-gift' + (isTaken ? ' taken' : '') + '" data-gift="' + esc(g.id) + '">' +
+        '<div class="wl-gift-t"><b>' + esc(g.name) + '</b>' + (g.note ? '<span>' + esc(g.note) + '</span>' : '') +
+        (g.link && !isTaken ? '<a href="' + esc(g.link) + '" target="_blank" rel="noopener nofollow">See an example</a>' : '') + '</div>' +
+        (isTaken ? '<em class="wl-gift-tag">Reserved</em>' : '<button type="button" class="wl-btn ghost wl-gift-pick">I\'ll gift this</button>') + '</li>';
+    }).join('');
+    return '<section class="wl-sec wl-gifts" data-sec="gifts"><h2>Gift list</h2>' + divider(v.theme) +
+      '<p class="wl-gift-note">' + esc(v.giftNote || 'Your blessings are the best gift. If you would like to give something, here are a few things we would love. Pick one so nobody brings the same gift.') + '</p>' +
+      '<p class="wl-gift-left">' + (left ? left + ' of ' + v.gifts.length + ' gifts still available' : 'Every gift has been picked. Thank you!') + '</p>' +
+      '<ul class="wl-gift-list">' + items + '</ul>' +
+      '<form class="wl-form wl-gift-form" hidden novalidate><p class="wl-gift-chosen"></p>' +
+      '<label>Your name<input name="name" required maxlength="80" autocomplete="name"></label>' +
+      '<label>Phone (optional)<input name="phone" inputmode="tel" maxlength="15" autocomplete="tel"></label>' +
+      '<label>A note for the couple (optional)<textarea name="message" rows="2" maxlength="300"></textarea></label>' +
+      '<button class="wl-btn solid" type="submit">Reserve this gift</button><button class="wl-btn ghost wl-gift-cancel" type="button">Choose another</button>' +
+      '<p class="wl-form-msg" role="status"></p></form></section>';
   }
 
   function render(root, data, opts) {
@@ -557,6 +595,7 @@
     }
 
     html += rsvpHtml(v, mode);
+    html += giftsHtml(v);
 
     if (v.contactName || v.contactPhone) {
       var tel = v.contactPhone.replace(/^\+?91/, '');
@@ -637,8 +676,55 @@
     });
     lb.addEventListener('click', function () { lb.hidden = true; });
 
+    // gift list
+    var gsec = root.querySelector('.wl-gifts');
+    if (gsec) {
+      var gform = gsec.querySelector('.wl-gift-form'), gmsg = gform.querySelector('.wl-form-msg'), chosen = null;
+      gsec.addEventListener('click', function (e) {
+        var pickBtn = e.target.closest('.wl-gift-pick');
+        if (pickBtn) {
+          var li = pickBtn.closest('.wl-gift');
+          chosen = li.dataset.gift;
+          gsec.querySelectorAll('.wl-gift').forEach(function (x) { x.classList.toggle('chosen', x === li); });
+          gform.querySelector('.wl-gift-chosen').textContent = 'You picked: ' + li.querySelector('b').textContent;
+          gform.hidden = false; gmsg.textContent = '';
+          li.after(gform);
+          gform.name.focus({ preventScroll: true });
+          gform.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        if (e.target.closest('.wl-gift-cancel')) {
+          gform.hidden = true; chosen = null;
+          gsec.querySelectorAll('.wl-gift').forEach(function (x) { x.classList.remove('chosen'); });
+        }
+      });
+      gform.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        if (mode !== 'live') { gmsg.textContent = 'Guests can reserve gifts once your invite is published.'; return; }
+        var name = gform.name.value.trim();
+        if (!name) { gmsg.textContent = 'Add your name so the couple knows who it is from.'; gform.name.focus(); return; }
+        var btn = gform.querySelector('button[type=submit]');
+        btn.disabled = true; gmsg.textContent = 'Reserving…';
+        fetch('/api.php?a=gift', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: v.slug, gift: chosen, name: name, phone: gform.phone.value, message: gform.message.value })
+        }).then(function (r) { return r.json(); }).then(function (j) {
+          btn.disabled = false;
+          var li = gsec.querySelector('.wl-gift[data-gift="' + chosen + '"]');
+          if (j.ok || j.taken) {
+            li.classList.add('taken'); li.classList.remove('chosen');
+            var b2 = li.querySelector('.wl-gift-pick'); if (b2) b2.outerHTML = '<em class="wl-gift-tag">Reserved</em>';
+            var a2 = li.querySelector('a'); if (a2) a2.remove();
+          }
+          var all = gsec.querySelectorAll('.wl-gift').length, left = all - gsec.querySelectorAll('.wl-gift.taken').length;
+          gsec.querySelector('.wl-gift-left').textContent = left ? left + ' of ' + all + ' gifts still available' : 'Every gift has been picked. Thank you!';
+          if (j.ok) { gform.hidden = true; li.insertAdjacentHTML('afterend', '<li class="wl-thanks">Thank you, ' + esc(name) + '. This gift is now reserved for you.</li>'); gform.reset(); }
+          else gmsg.textContent = j.error || 'Could not reserve. Try again.';
+        }).catch(function () { btn.disabled = false; gmsg.textContent = 'No connection. Check your internet and try again.'; });
+      });
+    }
+
     // RSVP
-    var form = root.querySelector('.wl-form');
+    var form = root.querySelector('.wl-rsvp .wl-form');
     if (form) {
       var msg = form.querySelector('.wl-form-msg');
       var guests = form.querySelector('.wl-guests');

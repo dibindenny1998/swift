@@ -1,10 +1,11 @@
 <?php
 require __DIR__ . '/lib/bootstrap.php';
 
-$id = (int)($_GET['i'] ?? 0);
+$i = (string)($_GET['i'] ?? '');
 $f = (string)($_GET['f'] ?? '');
-if ($id < 1 || !preg_match('/^[a-f0-9]{16}\.(jpg|mp3|m4a)$/', $f)) { http_response_code(404); exit; }
-$path = data_dir() . '/uploads/' . $id . '/' . $f;
+// Invite uploads live in uploads/<id>/, biodata photos in uploads/b<id>/.
+if (!preg_match('/^b?[1-9][0-9]{0,9}$/', $i) || !preg_match('/^[a-f0-9]{16}\.(jpg|mp3|m4a)$/', $f)) { http_response_code(404); exit; }
+$path = data_dir() . '/uploads/' . $i . '/' . $f;
 if (!is_file($path)) { http_response_code(404); exit; }
 
 $types = ['jpg' => 'image/jpeg', 'mp3' => 'audio/mpeg', 'm4a' => 'audio/mp4'];

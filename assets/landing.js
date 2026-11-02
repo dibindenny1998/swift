@@ -72,9 +72,18 @@
     nameOut.textContent = (THEMES[theme] || {}).name || theme;
     syncNames(); paint(); links();
   }
+  showUrl();
   document.querySelectorAll('.sw2').forEach(function (b) { b.addEventListener('click', function () { pick(b.dataset.theme); }); });
 
+  var urlNames = document.getElementById('url-names');
+  function slugify(x) { return String(x || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  function showUrl() {
+    if (!urlNames) return;
+    var s = sample();
+    urlNames.textContent = (slugify(state.p1 || s.p1) || 'you') + '-' + (slugify(state.p2 || s.p2) || 'yours');
+  }
   function links() {
+    showUrl();
     var qs = '?t=' + state.theme;
     if (state.touched && state.p1) qs += '&n1=' + encodeURIComponent(state.p1);
     if (state.touched && state.p2) qs += '&n2=' + encodeURIComponent(state.p2);

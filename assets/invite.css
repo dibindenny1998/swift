@@ -395,6 +395,54 @@
 .wl[data-theme=gulmohar] .wl-hero { padding-top: 200px; }
 .wl[data-theme=gulmohar] h2, .wl[data-theme=gulmohar] .wl-ev h3 { font-style: italic; }
 
+/* ---------- Gift list ---------- */
+.wl-gift-note { max-width: 30em; margin: 0 auto 6px; color: var(--muted); }
+.wl-gift-left { font-size: .82em; letter-spacing: .06em; text-transform: uppercase; color: var(--acc); margin: 0 0 18px; }
+.wl-gift-list { list-style: none; padding: 0; margin: 0 auto; max-width: 440px; display: grid; gap: 10px; text-align: left; }
+.wl-gift { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+.wl-gift.chosen { box-shadow: 0 0 0 2px var(--acc); }
+.wl-gift-t { display: grid; gap: 2px; min-width: 0; }
+.wl-gift-t b { font-weight: 600; }
+.wl-gift-t span { font-size: .85em; color: var(--muted); }
+.wl-gift-t a { font-size: .8em; color: var(--acc); }
+.wl-gift .wl-btn { flex: none; min-height: 38px; padding: 6px 14px; font-size: .82em; }
+.wl-gift.taken { opacity: .55; }
+.wl-gift.taken b { text-decoration: line-through; text-decoration-thickness: 1px; }
+.wl-gift-tag { flex: none; font-style: normal; font-size: .78em; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.wl-gift-form { margin: 4px 0 8px; padding: 16px; border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+.wl-gift-form[hidden] { display: none; }
+.wl-gift-chosen { margin: 0; font-weight: 600; text-align: center; }
+.wl-gift-list .wl-thanks { padding: 6px 4px 10px; }
+
+/* ---------- Classic (free) ---------- */
+.wl[data-theme=classic] {
+  --page: #FBF8F2; --outer: #E7E1D6; --ink: #1E1E1E; --muted: #5E5A53; --acc: #2B2B2B; --acc2: #1E1E1E;
+  --card: #FFFFFF; --line: rgba(30,30,30,.16);
+  --fs: 'Playfair Display'; --ft: 'Lora'; --fh: 'Playfair Display'; --names: clamp(2.4rem, 13vw, 4rem); --tsize: 1rem;
+  --btn: #1E1E1E; --foil: linear-gradient(#1E1E1E, #1E1E1E); --veil: rgba(251,248,242,.6); --photo-r: 4px; --grain: .05;
+}
+.wl[data-theme=classic] .wl-door { background: #FBF8F2; }
+.wl[data-theme=classic] .wl-names, .wl[data-theme=classic] .wl-sign, .wl[data-theme=classic] .wl-fam h3 { font-style: italic; }
+.wl[data-theme=classic] .wl-frame-2 { inset: 18px; border: 1px solid rgba(30,30,30,.55); }
+.wl[data-theme=classic] .wl-frame-2::after { content: ''; position: absolute; inset: 5px; border: 1px solid rgba(30,30,30,.2); }
+.wl[data-theme=classic] .wl-hero { padding: 120px 44px 84px; }
+.wl[data-theme=classic] .wl-intro, .wl[data-theme=classic] .wl-date-a { letter-spacing: .16em; font-size: .76em; text-transform: uppercase; }
+.wl[data-theme=classic] .wl-names > span:not(.wl-amp) { animation: none !important; }
+
+/* ---------- Blush (free) ---------- */
+.wl[data-theme=blush] {
+  --page: #FDF1F2; --outer: #F1D9DC; --ink: #4A2C31; --muted: #8A646A; --acc: #B4606E; --acc2: #9C4C5A;
+  --card: rgba(255,255,255,.78); --line: rgba(180,96,110,.24);
+  --fs: 'Corinthia'; --ft: 'Cormorant Garamond'; --fh: 'Cormorant Garamond'; --names: clamp(3rem, 20vw, 6rem); --tsize: 1.1rem;
+  --btn: #B4606E; --foil: linear-gradient(100deg, #8E3E4C, #D98C99 40%, #A44E5D 62%, #E7A5AF 85%, #8E3E4C); --veil: rgba(253,241,242,.55); --photo-r: 999px 999px 18px 18px;
+}
+.wl[data-theme=blush] .wl-body { background: radial-gradient(70% 30% at 50% 10%, #FFFFFF 0, transparent 70%), linear-gradient(#FBE4E7, #FDF1F2 40%, #FFF8F8); }
+.wl[data-theme=blush] .wl-door { background: linear-gradient(#FBE4E7, #FDF1F2); }
+.wl[data-theme=blush] .wl-names, .wl[data-theme=blush] .wl-sign, .wl[data-theme=blush] .wl-fam h3, .wl[data-theme=blush] .wl-mono { font-weight: 700; }
+.wl[data-theme=blush] .wl-rose { position: absolute; top: 60px; left: 50%; width: 200px; transform: translateX(-50%); }
+.wl[data-theme=blush] .wl-hero { padding-top: 170px; }
+.wl[data-theme=blush] h2, .wl[data-theme=blush] .wl-ev h3 { font-style: italic; font-weight: 600; }
+
 @media (prefers-reduced-motion: reduce) {
   .wl *, .wl *::before, .wl *::after { animation: none !important; transition-duration: .01ms !important; }
 }
