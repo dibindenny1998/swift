@@ -414,6 +414,118 @@
 .wl-gift-chosen { margin: 0; font-weight: 600; text-align: center; }
 .wl-gift-list .wl-thanks { padding: 6px 4px 10px; }
 
+/* ---------- shared premium pieces: timeline events and calendar ---------- */
+.wl-tl .wl-ev { position: relative; background: none; border: 0; border-radius: 0; text-align: left; padding: 0 0 30px 64px; margin: 0 auto; max-width: 400px; }
+.wl-tl .wl-ev::before { content: ''; position: absolute; left: 21px; top: 44px; bottom: 0; width: 1px; background: var(--line); }
+.wl-tl .wl-ev:last-child::before { display: none; }
+.wl-tl .wl-ev-ic { position: absolute; left: 0; top: 0; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--acc); }
+.wl-tl .wl-ev-ic svg { width: 24px; height: 24px; }
+.wl-tl .wl-ev-t { font-size: .82em; letter-spacing: .1em; text-transform: uppercase; color: var(--acc); margin: 0; }
+.wl-tl .wl-ev h3 { margin-bottom: 4px; }
+.wl-tl .wl-ev-acts { justify-content: flex-start; margin-top: 12px; }
+.wl-cal-g { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; max-width: 330px; margin: 18px auto 0; font-size: .95em; }
+.wl-cal-g span { display: grid; place-items: center; height: 36px; position: relative; }
+.wl-cal-g .wl-cal-h { font-size: .7em; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); height: 22px; }
+.wl-cal-g .on { color: #fff; font-weight: 600; z-index: 0; }
+.wl-cal-g .on::before { content: ''; position: absolute; inset: 1px 3px; z-index: -1; border-radius: 50%; background: var(--acc); }
+
+/* ---------- Sage (premium): olive and ivory watercolour ---------- */
+.wl[data-theme=sage] {
+  --page: #F6F3EA; --outer: #DDD9C8; --ink: #3D4233; --muted: #6E7462; --acc: #5F6E4A; --acc2: #4D5A3B;
+  --card: rgba(255,255,255,.7); --line: rgba(95,110,74,.28);
+  --fs: 'Italianno'; --ft: 'Cormorant Garamond'; --fh: 'Cormorant Garamond'; --names: clamp(3rem, 19vw, 5.6rem); --tsize: 1.12rem;
+  --btn: #5F6E4A; --foil: linear-gradient(100deg, #4D5A3B, #8E9B74 40%, #5F6E4A 62%, #A3AE8B 85%, #4D5A3B); --veil: rgba(246,243,234,.6); --photo-r: 999px 999px 14px 14px;
+}
+.wl[data-theme=sage] .wl-body { background: linear-gradient(#F6F3EA, #F1EDE0 60%, #F6F3EA); }
+.wl[data-theme=sage] .wl-door { background: radial-gradient(60% 40% at 0 0, rgba(125,139,102,.35), transparent 70%), radial-gradient(60% 40% at 100% 100%, rgba(125,139,102,.3), transparent 70%), #F6F3EA; }
+.wl[data-theme=sage] .wl-wash { position: absolute; border-radius: 50%; filter: blur(26px); opacity: .55; }
+.wl[data-theme=sage] .wl-wash.a { width: 260px; height: 200px; top: -70px; left: -80px; background: #8E9B74; }
+.wl[data-theme=sage] .wl-wash.b { width: 220px; height: 180px; top: -40px; right: -90px; background: #B9C2A4; }
+.wl[data-theme=sage] .wl-wash.c { width: 300px; height: 160px; bottom: -60px; left: 20%; background: #CBD1BC; opacity: .45; }
+.wl[data-theme=sage] .wl-sprig { position: absolute; top: 30px; width: 120px; }
+.wl[data-theme=sage] .wl-sprig.l { left: 6px; transform: scaleY(-1) rotate(180deg); }
+.wl[data-theme=sage] .wl-sprig.r { right: 6px; transform: scaleY(-1); }
+.wl[data-theme=sage] .wl-hero { padding-top: 170px; }
+.wl[data-theme=sage] .wl-intro, .wl[data-theme=sage] .wl-date-a { letter-spacing: .18em; text-transform: uppercase; font-size: .74em; font-family: 'Jost', sans-serif; }
+.wl[data-theme=sage] h2 { letter-spacing: .14em; text-transform: uppercase; font-size: 1.25rem; }
+.wl[data-theme=sage] .wl-events { background: #5F6E4A; color: #F3F1E6; --ink: #F3F1E6; --card: rgba(255,255,255,.12); --line: rgba(243,241,230,.35); --acc: #F3F1E6; --muted: #D9DCCB; }
+.wl[data-theme=sage] .wl-events .wl-btn { --btn: #F3F1E6; --btnInk: #4D5A3B; }
+.wl[data-theme=sage] .wl-events .wl-btn.ghost { color: #F3F1E6 !important; border-color: #F3F1E6; }
+
+/* ---------- Wax Seal (premium): champagne envelope ---------- */
+.wl[data-theme=seal] {
+  --page: #FAF6EF; --outer: #E9DFCF; --ink: #4A3E30; --muted: #8A7A64; --acc: #9C7E52; --acc2: #7E6440;
+  --card: rgba(255,255,255,.75); --line: rgba(156,126,82,.28);
+  --fs: 'Pinyon Script'; --ft: 'Cormorant Garamond'; --fh: 'Cormorant Garamond'; --names: clamp(2.8rem, 16vw, 5rem); --tsize: 1.1rem;
+  --btn: #9C7E52; --foil: linear-gradient(100deg, #7E6440, #CFB284 35%, #9C7E52 58%, #E2CBA3 80%, #7E6440); --veil: rgba(250,246,239,.6); --photo-r: 6px;
+}
+.wl[data-theme=seal] .wl-body { background: radial-gradient(70% 30% at 50% 0%, #FFFFFF 0, transparent 70%), linear-gradient(#F4EDE1, #FAF6EF 40%, #F6EFE3); }
+.wl[data-theme=seal] .wl-blooms { position: absolute; top: 0; left: 0; width: 100%; }
+.wl[data-theme=seal] .wl-frame-2 { inset: 18px; border: 1px solid rgba(156,126,82,.4); }
+.wl[data-theme=seal] .wl-hero { padding-top: 150px; }
+.wl[data-theme=seal] .wl-intro, .wl[data-theme=seal] .wl-date-a, .wl[data-theme=seal] h2 { letter-spacing: .16em; text-transform: uppercase; font-size: .78em; font-family: 'Jost', sans-serif; }
+.wl[data-theme=seal] h2 { font-size: 1rem; }
+.wl-cover-env .wl-door { background: #EFE6D7; }
+.wl-cover-env .wl-door::after { display: none; }
+.wl-cover-env .wl-cover-k { font-family: 'Pinyon Script', cursive; font-size: 2.4rem; letter-spacing: 0; color: #9C7E52; }
+.wl-env { position: relative; width: 280px; height: 190px; margin: 26px auto 18px; perspective: 900px; }
+.wl-env-back { position: absolute; inset: 0; background: #BFA47E; border-radius: 6px; }
+.wl-env-card { position: absolute; left: 14px; right: 14px; top: 12px; height: 160px; background: #FFFDF8; border-radius: 4px; display: grid; place-items: center; transition: transform .9s .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 2px 8px rgba(0,0,0,.08); z-index: 1; }
+.wl-env-card span { font-family: 'Pinyon Script', cursive; font-size: 1.7rem; color: #7E6440; padding: 0 10px; }
+.wl-env-front { position: absolute; inset: 0; z-index: 2; border-radius: 6px; background: linear-gradient(160deg, #DCC7A6, #CDB592); clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%); }
+.wl-env-flap { position: absolute; left: 0; right: 0; top: 0; height: 100%; z-index: 3; transform-origin: top; transition: transform .6s cubic-bezier(.4,0,.2,1), z-index 0s .3s;
+  background: linear-gradient(180deg, #E3D0B1, #D2BB97); clip-path: polygon(0 0, 100% 0, 50% 60%); }
+.wl-seal.wl-open { position: absolute; left: calc(50% - 33px); top: 82px; z-index: 4; width: 66px; height: 66px; min-height: 0; margin: 0; padding: 0; border-radius: 50%; animation: wlBreath 2.4s ease-in-out infinite; border: 0;
+  background: radial-gradient(circle at 35% 30%, #F3DFA9, #C9A24A 45%, #8C6A1C 100%); box-shadow: inset 0 0 0 4px rgba(140,106,28,.55), 0 4px 10px rgba(0,0,0,.25); color: #6B4E0E; display: grid; place-items: center; transition: opacity .3s; }
+.wl-seal span { font-family: 'Pinyon Script', cursive; font-size: 1.5rem; line-height: 1; }
+.wl-seal i { font-style: normal; font-size: .6em; margin: 0 1px; }
+.wl-env-tap { font-size: .8em; letter-spacing: .14em; text-transform: uppercase; color: #8A7A64; margin-top: 10px; font-family: 'Jost', sans-serif; }
+.wl-cover-env.open .wl-env-flap { transform: rotateX(180deg); z-index: 0; }
+.wl-cover-env.open .wl-env-card { z-index: 2; }
+.wl-cover-env.open .wl-seal { opacity: 0; }
+.wl-cover-env.open .wl-env-card { transform: translateY(-90px); }
+.wl-cover-env.open .wl-cover-in { opacity: 0; transition: opacity .4s .8s; }
+.wl-cover-env .wl-door { transition-delay: .9s; }
+
+/* ---------- Ink (premium): handwritten ivory letter ---------- */
+.wl[data-theme=ink] {
+  --page: #F7F2EA; --outer: #E6DED1; --ink: #3A2A26; --muted: #7A6A62; --acc: #5A2E2A; --acc2: #3A1E1B;
+  --card: rgba(255,255,255,.55); --line: rgba(90,46,42,.22);
+  --fs: 'Mrs Saint Delafield'; --ft: 'Cormorant Garamond'; --fh: 'Cormorant SC'; --names: clamp(3.2rem, 19vw, 5.8rem); --tsize: 1.12rem;
+  --btn: #3A1E1B; --foil: linear-gradient(#3A1E1B, #3A1E1B); --veil: rgba(247,242,234,.6); --photo-r: 2px; --grain: .1;
+}
+.wl[data-theme=ink] .wl-door { background: #F7F2EA; }
+.wl[data-theme=ink] .wl-hero { padding-top: 120px; }
+.wl[data-theme=ink] .wl-names > span:not(.wl-amp) { animation: none !important; }
+.wl[data-theme=ink] .wl-heartline { display: block; width: 100%; max-width: 380px; margin: 22px auto 0; }
+.wl[data-theme=ink] h2, .wl[data-theme=ink] .wl-ev h3 { letter-spacing: .08em; }
+.wl[data-theme=ink] .wl-cal-g .on { color: #fff; }
+.wl[data-theme=ink] .wl-cal-g .on::before { border-radius: 0; inset: 3px 5px; background: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M12 21C5 15 1 11 1 6.5 1 3 3.7 1 6.5 1 9 1 11 2.6 12 4.6 13 2.6 15 1 17.5 1 20.3 1 23 3 23 6.5 23 11 19 15 12 21Z' fill='%235A2E2A'/%3E%3C/svg%3E"); background-size: contain; background-repeat: no-repeat; background-position: center; }
+.wl[data-theme=ink] .wl-tl .wl-ev::before { border-left: 1px dashed var(--acc); background: none; }
+.wl[data-theme=ink] .wl-btn { border-radius: 2px; }
+
+/* ---------- Toile (premium): navy line drawings ---------- */
+.wl[data-theme=toile] {
+  --page: #F8F6F0; --outer: #DDE2EA; --ink: #24365A; --muted: #5A6A88; --acc: #2F4A7A; --acc2: #1F3560;
+  --card: rgba(255,255,255,.7); --line: rgba(47,74,122,.25);
+  --fs: 'Parisienne'; --ft: 'Jost'; --fh: 'Cormorant Garamond'; --names: clamp(2.6rem, 15vw, 4.6rem); --tsize: .98rem;
+  --btn: #2F4A7A; --foil: linear-gradient(#2F4A7A, #2F4A7A); --veil: rgba(248,246,240,.6); --photo-r: 2px;
+}
+.wl[data-theme=toile] .wl-door { background: #F8F6F0; }
+.wl[data-theme=toile] .wl-gazebo { position: absolute; top: 40px; left: 50%; width: 190px; transform: translateX(-50%); }
+.wl[data-theme=toile] .wl-tf { position: absolute; bottom: 0; width: 120px; }
+.wl[data-theme=toile] .wl-tf.l { left: 0; }
+.wl[data-theme=toile] .wl-tf.r { right: 0; transform: scaleX(-1); }
+.wl[data-theme=toile] .wl-hero { padding-top: 260px; }
+.wl[data-theme=toile] .wl-names > span:not(.wl-amp) { animation: none !important; }
+.wl[data-theme=toile] .wl-intro, .wl[data-theme=toile] h2 { letter-spacing: .14em; text-transform: uppercase; font-family: 'Jost', sans-serif; font-weight: 400; font-size: .82em; }
+.wl[data-theme=toile] h2 { font-size: 1.1rem; }
+.wl[data-theme=toile] .wl-cal-g { border: 1px solid var(--line); padding: 12px; }
+.wl[data-theme=toile] .wl-cal-g .on::before { background: none; border: 1.5px solid var(--acc); }
+.wl[data-theme=toile] .wl-cal-g .on { color: var(--acc); }
+.wl[data-theme=toile] .wl-btn { border-radius: 8px; }
+
 /* ---------- Classic (free) ---------- */
 .wl[data-theme=classic] {
   --page: #FBF8F2; --outer: #E7E1D6; --ink: #1E1E1E; --muted: #5E5A53; --acc: #2B2B2B; --acc2: #1E1E1E;
@@ -439,7 +551,7 @@
 .wl[data-theme=blush] .wl-body { background: radial-gradient(70% 30% at 50% 10%, #FFFFFF 0, transparent 70%), linear-gradient(#FBE4E7, #FDF1F2 40%, #FFF8F8); }
 .wl[data-theme=blush] .wl-door { background: linear-gradient(#FBE4E7, #FDF1F2); }
 .wl[data-theme=blush] .wl-names, .wl[data-theme=blush] .wl-sign, .wl[data-theme=blush] .wl-fam h3, .wl[data-theme=blush] .wl-mono { font-weight: 700; }
-.wl[data-theme=blush] .wl-rose { position: absolute; top: 60px; left: 50%; width: 200px; transform: translateX(-50%); }
+.wl[data-theme=blush] .wl-rose { position: absolute; top: 56px; left: 50%; width: 220px; transform: translateX(-50%); }
 .wl[data-theme=blush] .wl-hero { padding-top: 170px; }
 .wl[data-theme=blush] h2, .wl[data-theme=blush] .wl-ev h3 { font-style: italic; font-weight: 600; }
 

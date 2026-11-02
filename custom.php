@@ -21,6 +21,7 @@ site_head('Custom wedding website | ' . $brand, 'A wedding website designed only
     <p>Tell us what you have in mind. We design it, set it up on your own web address, and you approve every detail before it goes live.<?= $from ? ' Custom websites start from ' . e($from) . '.' : '' ?></p>
   </div>
 
+  <?php if (slot_url('custom')): ?><div style="margin-top:22px;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:20/9"><?= slot_img('custom', '', 'Custom wedding website', false) ?></div><?php endif; ?>
   <div class="plans" style="grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:start;margin-top:24px">
     <div class="plan custom">
       <h3>What you get</h3>

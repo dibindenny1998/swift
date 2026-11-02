@@ -25,6 +25,10 @@ const THEMES = [
     'thamara'   => ['name' => 'Thamara',   'note' => 'Soft pink with lotus line art', 'tags' => ['hindu', 'modern'], 'tier' => 'standard'],
     'gulmohar'  => ['name' => 'Gulmohar',  'note' => 'A flowering branch on warm ivory', 'tags' => ['modern', 'christian', 'muslim'], 'tier' => 'standard'],
     // Premium designs (₹499 plan).
+    'sage'      => ['name' => 'Sage',      'note' => 'Olive watercolour and a timeline of your day', 'tags' => ['modern', 'christian', 'kerala'], 'tier' => 'premium'],
+    'seal'      => ['name' => 'Wax Seal',  'note' => 'Opens from a sealed champagne envelope', 'tags' => ['modern', 'christian', 'hindu', 'muslim'], 'tier' => 'premium'],
+    'ink'       => ['name' => 'Ink',       'note' => 'A handwritten letter with a heart on the date', 'tags' => ['modern', 'christian'], 'tier' => 'premium'],
+    'toile'     => ['name' => 'Toile',     'note' => 'Navy line drawings, a gazebo and a calendar', 'tags' => ['modern', 'christian'], 'tier' => 'premium'],
     'velvet'    => ['name' => 'Velvet',    'note' => 'Wine velvet with art deco gold', 'tags' => ['modern'], 'tier' => 'premium'],
     'gopuram'   => ['name' => 'Gopuram',   'note' => 'Temple tower in gold on maroon', 'tags' => ['hindu', 'kerala'], 'tier' => 'premium'],
     'mayil'     => ['name' => 'Mayil',     'note' => 'Peacock feathers in teal and gold', 'tags' => ['hindu', 'kerala', 'modern'], 'tier' => 'premium'],

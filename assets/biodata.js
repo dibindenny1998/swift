@@ -83,6 +83,7 @@
     tpl = tpl || 'royal';
     var sections = (CFG.sections || []).map(function (sec) {
       var rows = sec.fields.map(function (f) {
+        if (f.k === 'name') return ''; // shown as the large heading
         var v = value(f.k, d);
         return v ? '<tr><th>' + esc(f.label) + '</th><td>' + nl2br(v) + '</td></tr>' : '';
       }).join('');

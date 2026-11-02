@@ -6,6 +6,10 @@
   var FONTS = {
     classic: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400',
     blush: 'family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    sage: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Italianno&family=Jost:wght@300;400;500',
+    seal: 'family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400',
+    ink: 'family=Mrs+Saint+Delafield&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@400;500',
+    toile: 'family=Parisienne&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,500;1,500',
     champagne: 'family=Bodoni+Moda:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500',
     kasavu: 'family=Great+Vibes&family=Marcellus',
     noor: 'family=Cormorant+Upright:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Amiri:wght@400;700',
@@ -231,7 +235,7 @@
   }
 
   function divider(theme) {
-    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : foil(theme);
+    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" transform="translate(100,10)"><path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/></g></svg>';
   }
@@ -245,7 +249,7 @@
     '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
     '</defs></svg>';
 
-  var LIGHT = { classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  var LIGHT = { sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
   function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
 
   function bokeh(seed, n, w, h) {
@@ -416,15 +420,95 @@
     return '<svg class="wl-gulmohar' + (flip ? ' r' : '') + '" viewBox="-6 -6 280 150" aria-hidden="true">' + s + '</svg>';
   }
 
-  function roseLine() {
-    // a single fine rose stem with two leaves, drawn as one line
-    return '<svg class="wl-rose" viewBox="0 0 220 90" aria-hidden="true"><g fill="none" stroke="#C27A86" stroke-width="1.3" stroke-linecap="round">' +
-      '<path d="M10,70 C60,60 90,50 110,40 C130,30 150,28 210,30"/>' +
-      '<path d="M110,40 C104,28 112,16 122,18 C132,20 132,32 124,36 C118,39 112,35 114,29 C116,24 122,24 123,28"/>' +
-      '<path d="M70,56 C66,44 74,38 84,40 C80,48 76,54 70,56Z"/><path d="M150,29 C156,18 166,18 172,22 C164,28 158,30 150,29Z"/></g></svg>';
+  function rose(x, y, r, petal, edge) {
+    // a simple open rose seen from above: five outer petals, a cupped centre
+    var o = '<g transform="translate(' + x + ' ' + y + ')">';
+    for (var i = 0; i < 5; i++) {
+      var a = i * 72;
+      o += '<ellipse cx="0" cy="' + f1(-r * .55) + '" rx="' + f1(r * .5) + '" ry="' + f1(r * .55) + '" transform="rotate(' + a + ')" fill="' + petal + '" stroke="' + edge + '" stroke-width=".8"/>';
+    }
+    o += '<circle r="' + f1(r * .42) + '" fill="' + petal + '" stroke="' + edge + '" stroke-width=".8"/>';
+    o += '<path d="M' + f1(-r * .22) + ',0 A' + f1(r * .22) + ',' + f1(r * .22) + ' 0 1 1 ' + f1(r * .12) + ',' + f1(r * .18) + '" fill="none" stroke="' + edge + '" stroke-width=".9"/>';
+    return o + '</g>';
   }
+  function leaf(x, y, rot, len, fill, edge) {
+    return '<path d="M0,0 C' + f1(len * .3) + ',' + f1(-len * .28) + ' ' + f1(len * .7) + ',' + f1(-len * .28) + ' ' + len + ',0 C' + f1(len * .7) + ',' + f1(len * .28) + ' ' + f1(len * .3) + ',' + f1(len * .28) + ' 0,0Z" transform="translate(' + x + ' ' + y + ') rotate(' + rot + ')" fill="' + fill + '" stroke="' + edge + '" stroke-width=".7"/>';
+  }
+  function roseLine() {
+    return '<svg class="wl-rose" viewBox="0 0 220 90" aria-hidden="true"><path d="M20,70 C70,62 150,62 200,70" fill="none" stroke="#C27A86" stroke-width="1.2" stroke-linecap="round"/>' +
+      leaf(84, 62, -160, 30, '#EBC3C9', '#C27A86') + leaf(136, 62, -20, 30, '#EBC3C9', '#C27A86') +
+      rose(110, 50, 20, '#F7D7DC', '#C27A86') + rose(74, 60, 9, '#FBE6E9', '#D59AA4') + rose(146, 60, 9, '#FBE6E9', '#D59AA4') + '</svg>';
+  }
+
+  /* ---------- premium art: sage, seal, ink, toile ---------- */
+  var TIMELINE = { sage: 1, ink: 1, toile: 1 };
+  var CALENDAR = { ink: 1, toile: 1, seal: 1 };
+  function sprig(cls) {
+    var leaves = '';
+    [[30, 120, -40], [52, 98, 30], [70, 80, -35], [92, 62, 28], [110, 46, -30], [130, 32, 25], [150, 20, -20]].forEach(function (l) {
+      leaves += '<ellipse cx="' + l[0] + '" cy="' + l[1] + '" rx="13" ry="5" transform="rotate(' + l[2] + ' ' + l[0] + ' ' + l[1] + ')"/>';
+    });
+    return '<svg class="' + cls + '" viewBox="0 0 180 150" aria-hidden="true"><path d="M8,145 C50,110 110,50 172,8" fill="none" stroke="#7D8B66" stroke-width="1.4"/>' +
+      '<g fill="#A7B293" fill-opacity=".75" stroke="#7D8B66" stroke-width=".7">' + leaves + '</g></svg>';
+  }
+  function washes() { return '<div class="wl-wash a"></div><div class="wl-wash b"></div><div class="wl-wash c"></div>'; }
+  function heartLine() {
+    return '<svg class="wl-heartline" viewBox="0 0 400 40" aria-hidden="true"><path d="M0,26 C60,26 120,34 170,24 C186,21 192,8 200,14 C206,8 214,10 212,18 C210,26 200,30 200,30 C200,30 188,24 188,17 C188,11 196,9 200,14 M212,22 C260,34 330,20 400,24" fill="none" stroke="#5A2E2A" stroke-width="1.3" stroke-linecap="round"/></svg>';
+  }
+  function gazebo() {
+    var s = '<svg class="wl-gazebo" viewBox="0 0 220 180" aria-hidden="true"><g fill="none" stroke="#2F4A7A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">';
+    s += '<path d="M110,8 L110,22"/><circle cx="110" cy="6" r="3"/><path d="M110,22 C80,40 50,52 30,62 L190,62 C170,52 140,40 110,22Z"/>';
+    s += '<path d="M30,62 C40,70 50,70 58,62 C66,70 78,70 86,62 C94,70 104,70 110,62 C116,70 126,70 134,62 C142,70 154,70 162,62 C170,70 182,70 190,62"/>';
+    [40, 75, 110, 145, 180].forEach(function (x) { s += '<path d="M' + x + ',66 L' + x + ',150"/>'; });
+    s += '<path d="M40,112 L180,112 M40,118 L180,118"/>';
+    for (var x = 47; x < 180; x += 7) s += '<path d="M' + x + ',118 L' + x + ',150"/>';
+    s += '<path d="M20,150 L200,150 L206,160 L14,160Z M10,170 L210,170"/>';
+    s += '<path d="M14,160 C4,140 10,120 22,118 C18,130 24,142 30,150 M206,160 C216,140 210,120 198,118 C202,130 196,142 190,150" stroke-width="1"/>';
+    s += '<g stroke-width=".9"><circle cx="12" cy="128" r="5"/><circle cx="20" cy="138" r="4"/><circle cx="208" cy="128" r="5"/><circle cx="200" cy="138" r="4"/></g>';
+    return s + '</g></svg>';
+  }
+  function toileFlorals(cls) {
+    var s = '<svg class="' + cls + '" viewBox="0 0 160 160" aria-hidden="true"><g fill="none" stroke="#2F4A7A" stroke-width="1.1" stroke-linecap="round">';
+    s += '<path d="M4,156 C30,120 50,100 90,80 C110,70 130,50 150,20"/><path d="M60,104 C50,90 54,76 68,74 C70,88 66,98 60,104Z M98,76 C96,60 106,52 118,54 C114,66 106,74 98,76Z M126,46 C132,34 144,32 150,36 C142,44 134,46 126,46Z"/>';
+    s += '<circle cx="40" cy="128" r="10"/><path d="M40,118 C46,122 48,130 40,138 C32,130 34,122 40,118 M30,128 L50,128"/>';
+    s += '<circle cx="90" cy="82" r="6"/><circle cx="140" cy="30" r="5"/><path d="M20,140 C14,134 16,126 24,126 M58,110 C62,118 70,118 74,112"/>';
+    return s + '</g></svg>';
+  }
+  function sealDecor() {
+    var s = '<svg class="wl-blooms" viewBox="0 0 400 140" aria-hidden="true">';
+    [[0, 1], [400, -1]].forEach(function (side) {
+      var X = function (x) { return side[0] + side[1] * x; };
+      s += leaf(X(70), 30, side[1] > 0 ? 10 : 170, 34, '#E4D8C2', '#C8B08A') + leaf(X(40), 74, side[1] > 0 ? 60 : 120, 30, '#E4D8C2', '#C8B08A');
+      s += rose(X(34), 34, 26, '#F4ECDD', '#C8B08A') + rose(X(78), 58, 16, '#FBF6EC', '#D5C09C') + rose(X(14), 86, 13, '#EFE3CF', '#C8B08A');
+      for (var i = 0; i < 12; i++) s += '<circle cx="' + X(96 + (i * 17) % 50) + '" cy="' + (8 + (i * 29) % 70) + '" r="2.2" fill="#EDE2CF" stroke="#D5C09C" stroke-width=".5"/>';
+    });
+    return s + '</svg>';
+  }
+  function evIcon(name) {
+    var n = (name || '').toLowerCase(), d;
+    if (/recep|party|cocktail|sangeet|jaago|dance/.test(n)) d = '<path d="M8,4 L16,4 L14,12 C13,14 11,14 10,12Z M12,13 L12,19 M9,19 L15,19"/>';
+    else if (/dinner|lunch|walima|feast|food|sadya/.test(n)) d = '<path d="M7,4 L7,20 M5,4 L5,9 C5,11 9,11 9,9 L9,4 M16,4 C14,6 14,10 16,12 L16,20"/>';
+    else if (/mehendi|haldi|engage|roka|betrothal|bridal/.test(n)) d = '<path d="M12,20 C6,16 4,11 7,8 C9,6 11,7 12,9 C13,7 15,6 17,8 C20,11 18,16 12,20Z"/>';
+    else d = '<circle cx="10" cy="14" r="5"/><circle cx="15" cy="12" r="5"/><path d="M10,6 L12,3 L14,6"/>';
+    return '<span class="wl-ev-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + d + '</g></svg></span>';
+  }
+  function calendarHtml(v) {
+    if (!CALENDAR[v.theme] || !v.main || !v.main.date) return '';
+    var p = parts(v.main.date); if (!p) return '';
+    var first = new Date(p.y, p.mo, 1).getDay(), days = new Date(p.y, p.mo + 1, 0).getDate();
+    var lead = (first + 6) % 7, cells = '';
+    ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].forEach(function (d) { cells += '<span class="wl-cal-h">' + d + '</span>'; });
+    for (var i = 0; i < lead; i++) cells += '<span></span>';
+    for (var dd = 1; dd <= days; dd++) cells += '<span' + (dd === p.d ? ' class="on"' : '') + '>' + dd + '</span>';
+    return '<section class="wl-sec wl-cal" data-sec="calendar"><h2>' + MONTHS[p.mo] + ' ' + p.y + '</h2><div class="wl-cal-g">' + cells + '</div></section>';
+  }
+
   function heroDecor(theme) {
     switch (theme) {
+      case 'sage': return washes() + sprig('wl-sprig l') + sprig('wl-sprig r');
+      case 'seal': return sealDecor() + '<div class="wl-frame wl-frame-2"></div>';
+      case 'ink': return '';
+      case 'toile': return gazebo() + toileFlorals('wl-tf l') + toileFlorals('wl-tf r');
       case 'classic': return '<div class="wl-frame wl-frame-2"></div>';
       case 'blush': return roseLine();
       case 'kasavu': return '<div class="wl-hd-top">' + kasavuBand() + '</div>' + lamp();
@@ -480,16 +564,16 @@
     if (!v.events.length) return '';
     var cards = v.events.map(function (ev) {
       var map = mapLink(ev);
-      return '<article class="wl-ev">' +
+      return '<article class="wl-ev">' + (TIMELINE[v.theme] ? evIcon(ev.name) + (ev.time ? '<p class="wl-ev-t">' + esc(time12(ev.time)) + '</p>' : '') : '') +
         '<h3>' + esc(ev.name || 'Wedding') + '</h3>' +
-        (ev.date ? '<p class="wl-ev-when">' + esc(longDate(ev.date)) + (ev.time ? '<br>' + esc(time12(ev.time)) : '') + '</p>' : '') +
+        (ev.date ? '<p class="wl-ev-when">' + esc(longDate(ev.date)) + (ev.time && !TIMELINE[v.theme] ? '<br>' + esc(time12(ev.time)) : '') + '</p>' : '') +
         (ev.venue ? '<p class="wl-ev-venue">' + esc(ev.venue) + '</p>' : '') +
         (ev.address ? '<p class="wl-ev-addr">' + nl2br(ev.address) + '</p>' : '') +
         '<div class="wl-ev-acts">' + (map ? '<a class="wl-btn" href="' + esc(map) + '" target="_blank" rel="noopener">Directions</a>' : '') +
         (ev.date ? '<a class="wl-btn ghost" href="' + esc(calLink(ev, title)) + '" target="_blank" rel="noopener">Add to calendar</a>' : '') + '</div>' +
         '</article>';
     }).join('');
-    return '<section class="wl-sec wl-events" data-sec="events"><h2>' + (v.events.length > 1 ? 'Celebrations' : 'The celebration') + '</h2>' + divider(v.theme) + cards + '</section>';
+    return '<section class="wl-sec wl-events' + (TIMELINE[v.theme] ? ' wl-tl' : '') + '" data-sec="events"><h2>' + (v.events.length > 1 ? 'Celebrations' : 'The celebration') + '</h2>' + divider(v.theme) + cards + '</section>';
   }
 
   function rsvpHtml(v, mode) {
@@ -548,7 +632,11 @@
     var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '"' + bgStyle + '>' + DEFS;
 
     if (showCover) {
-      html += '<div class="wl-cover" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
+      if (v.theme === 'seal') html += '<div class="wl-cover wl-cover-env" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
+        '<div class="wl-cover-in"><p class="wl-cover-k">You are invited</p><div class="wl-env"><div class="wl-env-back"></div><div class="wl-env-card"><span>' + esc(title) + '</span></div><div class="wl-env-front"></div><div class="wl-env-flap"></div>' +
+        '<button type="button" class="wl-open wl-seal" aria-label="Open invitation"><span>' + esc(initial(v.p1)) + '<i>&amp;</i>' + esc(initial(v.p2)) + '</span></button></div>' +
+        '<p class="wl-cover-d">' + (first && first.date ? esc(longDate(first.date)) : '') + '</p><p class="wl-env-tap">Tap the seal to open</p></div></div>';
+      else html += '<div class="wl-cover" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
         '<div class="wl-cover-in"><p class="wl-cover-k">Wedding invitation</p>' +
         '<div class="wl-mono"><span>' + esc(initial(v.p1)) + '</span><i>&amp;</i><span>' + esc(initial(v.p2)) + '</span></div>' +
         '<p class="wl-cover-n">' + esc(title) + '</p>' +
@@ -560,7 +648,7 @@
     html += '<header class="wl-hero" data-sec="hero"><div class="wl-hd">' + heroDecor(v.theme) + '</div><div class="wl-hero-in">' +
       '<p class="wl-intro">' + esc(v.intro) + '</p>' +
       '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
-      '<p class="wl-line">' + esc(v.line) + '</p>';
+      '<p class="wl-line">' + esc(v.line) + '</p>' + (v.theme === 'ink' ? heartLine() : '');
     if (first && first.date) {
       var p = parts(first.date);
       html += '<div class="wl-date"><span class="wl-date-a">' + DAYS[p.wd] + '</span><span class="wl-date-d">' + p.d + '</span><span class="wl-date-a">' + MONTHS[p.mo] + ' ' + p.y + '</span></div>';
@@ -574,6 +662,8 @@
         ['Days', 'Hours', 'Minutes', 'Seconds'].map(function (l) { return '<div><b>0</b><span>' + l + '</span></div>'; }).join('') +
         '</div><p class="wl-cd-done" hidden>Just married. Thank you for the blessings.</p></section>';
     }
+
+    html += calendarHtml(v);
 
     if (photos[0]) html += '<figure class="wl-cover-photo" data-sec="photos"><img src="' + esc(photos[0]) + '" alt="' + esc(title) + '" loading="lazy"></figure>';
 

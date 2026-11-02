@@ -21,11 +21,19 @@ const SLOTS = [
         'prompt' => 'Modern minimalist wedding flat lay seen from above: two champagne glasses, white garden roses and eucalyptus, two gold rings on a blush velvet tray, ivory silk ribbon, soft shadows. Blush, ivory and champagne gold palette. No people.'],
     'cta' => ['group' => 'Landing page', 'label' => 'Final banner', 'where' => 'Behind "Your guests are waiting" near the bottom of the home page', 'w' => 2400, 'h' => 1200, 'ratio' => '2:1',
         'prompt' => 'Wide view of a luxurious Indian wedding mandap at dusk, decorated with thousands of warm fairy lights, hanging strands of white flowers and marigolds, gold drapes and candles. Dreamy bokeh, deep wine and gold tones, cinematic. No people.'],
+    'custom' => ['group' => 'Other pages', 'label' => 'Custom plan banner', 'where' => 'Top of the Custom website page (/custom)', 'w' => 2000, 'h' => 900, 'ratio' => '20:9',
+        'prompt' => 'Elegant flat lay on an ivory linen table: an open laptop and a smartphone side by side with blank glowing screens, surrounded by cream roses, eucalyptus, a gold wax seal, silk ribbon and a fountain pen. Soft morning window light, champagne and sage palette. Screens blank, no text.'],
     'og' => ['group' => 'Landing page', 'label' => 'Share preview image', 'where' => 'Shown when your website link is shared on WhatsApp or Facebook', 'w' => 1200, 'h' => 630, 'ratio' => '1.91:1',
         'prompt' => 'Luxury wedding invitation flat lay seen from above: an ivory card with gold foil edges (blank, no writing), blush roses, jasmine, two gold rings and a silk ribbon on a soft blush background. Plenty of calm empty space. No readable text.'],
 ];
 
 const THEME_SLOT_PROMPTS = [
+    'classic' => 'Plain warm ivory cotton paper texture with very subtle fibres, soft even light.',
+    'blush' => 'Soft blush pink watercolour wash on textured paper with a single faint rose stem at the top.',
+    'sage' => 'Soft sage green and olive watercolour washes bleeding into ivory paper at the top corners, with delicate eucalyptus sprigs.',
+    'seal' => 'Champagne and cream fine art paper with soft shadows of dried flowers, baby\'s breath and cream roses at the top edge.',
+    'ink' => 'Warm ivory handmade cotton paper with deckled edges and faint ink texture, very minimal.',
+    'toile' => 'Ivory paper with a faint navy blue toile de jouy pattern of trees and flowers along the bottom edge only.',
     'champagne' => 'Soft blush and champagne silk fabric with gentle folds and a few fine gold foil flecks, warm diffused light.',
     'kasavu' => 'Ivory handloom cotton texture with a gold zari kasavu border running down both side edges, soft daylight.',
     'noor' => 'Deep emerald velvet texture with a faint embossed gold geometric eight-point star pattern along the edges, soft light. No calligraphy.',
