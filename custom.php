@@ -17,7 +17,7 @@ site_head('Custom Wedding Website with Your Own Domain | ' . $brand, 'A wedding 
   </div>
 
   <?php if (slot_url('custom')): ?><div style="margin-top:22px;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:20/9"><?= slot_img('custom', '', 'Custom wedding website', false) ?></div><?php endif; ?>
-  <div class="plans" style="grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:start;margin-top:24px">
+  <div class="custom-grid">
     <div class="plan custom">
       <h3>What you get</h3>
       <ul>

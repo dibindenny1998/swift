@@ -542,3 +542,8 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
 .ds.on img { box-shadow: 0 0 0 3px var(--kumkum); }
 .ds .tier { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font-size: .55rem; padding: 3px 6px; margin: 0; }
 .ds.locked img { filter: grayscale(.5); opacity: .55; }
+
+/* custom page: two columns on desktop, stacked on phones */
+.custom-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px; align-items: start; margin-top: 24px; }
+.custom-grid > * { min-width: 0; }
+@media (max-width: 900px) { .custom-grid { grid-template-columns: 1fr; gap: 18px; } .custom-grid .row2 { grid-template-columns: 1fr; } }
