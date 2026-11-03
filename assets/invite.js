@@ -735,9 +735,10 @@
     } else {
     if (photos[0]) {
       var cp = first && first.date ? parts(first.date) : null;
-      html += '<header class="wl-hero wl-cv" data-sec="hero">' + slides(ANIM[v.theme] ? photos.slice(0, 5) : [photos[0]], title) + particles(ANIM[v.theme]) +
+      html += '<header class="wl-hero wl-cv" data-sec="hero"><span class="wl-cv-frame" aria-hidden="true"></span>' + slides(ANIM[v.theme] ? photos.slice(0, 5) : [photos[0]], title) + particles(ANIM[v.theme]) +
         '<div class="wl-cv-in"><p class="wl-intro">' + esc(v.intro) + '</p>' +
         '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
+        divider(v.theme) +
         (cp ? '<p class="wl-pl-date">' + esc(longDate(first.date)) + (first.venue ? ' · ' + esc(first.venue) : '') + '</p>' : '') +
         '<span class="wl-cv-down" aria-hidden="true"></span></div></header>';
     }
