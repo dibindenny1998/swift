@@ -931,3 +931,17 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
   .hero { --ph: clamp(280px, calc(100vh - 412px), 500px); --ph: clamp(280px, calc(100svh - 412px), 500px); }
   .hero .hero-card { opacity: .42; }
 }
+/* phones: smaller headline and name boxes, so the phone keeps its size */
+@media (max-width: 900px) {
+  .hero { --ph: clamp(300px, calc(100vh - 360px), 540px); --ph: clamp(300px, calc(100svh - 360px), 540px); }
+  .hero .hero-title { font-size: clamp(1.9rem, 8.6vw, 2.5rem) !important; line-height: 1.05; }
+  .hero .hero-title .pre { font-size: .58em !important; margin-bottom: .1em !important; }
+  .hero .name-box { border-radius: 12px; }
+  .hero .eyebrow { margin-bottom: 12px !important; padding: 7px 14px !important; }
+  .hero-hint { margin-top: 6px !important; font-size: 1rem !important; }
+  .hero .fan { margin-top: 12px !important; }
+}
+@media (max-width: 900px) {
+  .hero { --ph: clamp(290px, calc(100vh - 380px), 530px); --ph: clamp(290px, calc(100svh - 380px), 530px); }
+  .hero .hero-title { font-size: clamp(2.3rem, 10.5vw, 2.9rem) !important; }
+}
