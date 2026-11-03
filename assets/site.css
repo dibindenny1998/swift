@@ -791,3 +791,27 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
   .hero .fan .phone.front { width: min(260px, 66vw); height: calc(min(260px, 66vw) * 2.02); }
   .hero .hero-card { top: 60px; width: min(210px, 52vw); height: calc(min(210px, 52vw) * 1.9); }
 }
+/* ================= hero v3: phone resting in silk and blossoms ================= */
+.hero-silk { display: none; }
+@media (max-width: 900px) {
+  .lux-hero { background: linear-gradient(180deg, #FBF3EE 0%, #F8EBE2 55%, #F6E7DC 100%) !important; }
+  .lux-hero > .slot { display: none !important; }
+  .lux-hero::after { display: none !important; }
+  .hero .hero-card { display: none; }
+  .hero .fan { height: calc(min(250px, 64vw) * 2.02 + 10px); }
+  .hero .fan .phone.front { width: min(250px, 64vw); height: calc(min(250px, 64vw) * 2.02); position: relative; z-index: 1;
+    box-shadow: 0 50px 70px -40px rgba(120,60,60,.55), 0 0 0 1px rgba(255,255,255,.4) inset; }
+  /* the same silk and blossoms, laid over the phone's lower edge */
+  .hero-silk { display: block; position: relative; z-index: 2; pointer-events: none; height: 330px; width: 100vw; max-width: none; flex: none; align-self: center; margin: -96px 0 0;
+    background: url('/assets/img/slots/hero-m.jpg') center bottom / 100% auto no-repeat;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 84%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 84%, transparent 100%); }
+  .hero-silk i { position: absolute; bottom: 20%; width: 4px; height: 4px; border-radius: 50%; background: #E9CF8E; box-shadow: 0 0 8px 2px rgba(233,207,142,.8); animation: silkGlint 6s ease-in-out infinite; }
+  .hero-silk i:nth-child(1) { left: 14%; animation-delay: 0s; } .hero-silk i:nth-child(2) { left: 30%; animation-delay: -1.5s; }
+  .hero-silk i:nth-child(3) { left: 48%; animation-delay: -3s; } .hero-silk i:nth-child(4) { left: 64%; animation-delay: -4.2s; }
+  .hero-silk i:nth-child(5) { left: 80%; animation-delay: -2.2s; } .hero-silk i:nth-child(6) { left: 90%; animation-delay: -5s; }
+  @keyframes silkGlint { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-180px); opacity: 0; } }
+  .hero-cta-m { margin-top: -168px !important; z-index: 3; position: relative; }
+  .hero-cta-m small { color: var(--plum); }
+  .hero .url-pill-wrap { margin-top: 26px; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-silk i { display: none; } }
