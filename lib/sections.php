@@ -23,31 +23,41 @@ function sec_designs(int $limit = 0): void
 ?>
   <section class="sec gallery-band" id="designs" data-start-filter="<?= e($f) ?>">
     <div class="wrap">
-      <div class="sec-head">
-        <?php if ($limit): ?>
+      <?php if ($limit): ?><div class="sec-head">
           <span class="tag" style="margin:0 0 12px">Premium</span>
           <h2 class="foil">Photo-led &amp; animated designs</h2>
           <p>Your photo fills the first screen, with petals, sparkles or lanterns moving over it. Tap any design to preview it.</p>
-        <?php else: ?>
-          <h2 class="foil"><?= $nThemes ?> designs for every wedding</h2>
-          <p>Photo-led and animated Premium designs first, then classic designs for every tradition. Two are free. Tap any design to preview it.</p>
-        <?php endif; ?>
-      </div>
+      </div><?php endif; ?>
       <?php if (!$limit): ?>
-      <div class="filters" role="group" aria-label="Filter designs">
-        <button type="button" data-f="all" aria-pressed="true">All</button>
-        <button type="button" data-f="photo-led" aria-pressed="false">Photo-led</button>
-        <button type="button" data-f="animated" aria-pressed="false">Animated</button>
-        <button type="button" data-f="tier-premium" aria-pressed="false">Premium</button>
-        <button type="button" data-f="tier-free" aria-pressed="false">Free</button>
-        <?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-f="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?>
+      <div class="dz-bar" id="dz-bar">
+        <label class="dz-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="sr">Search designs</span><input type="search" id="dz-q" placeholder="Search: Kerala, peacock, gold…" autocomplete="off"><button type="button" class="dz-clear" id="dz-clear" aria-label="Clear search" hidden>&times;</button></label>
+        <button type="button" class="dz-fbtn" id="dz-fbtn" aria-haspopup="dialog" aria-controls="dz-sheet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Filters<i id="dz-n" hidden></i></button>
       </div>
+      <div class="dz-chips" role="group" aria-label="Plan">
+        <button type="button" data-plan="" aria-pressed="true">All <?= $nThemes ?></button>
+        <button type="button" data-plan="tier-free" aria-pressed="false">Free</button>
+        <button type="button" data-plan="tier-standard" aria-pressed="false">₹<?= $ps ?></button>
+        <button type="button" data-plan="tier-premium" aria-pressed="false">₹<?= $pp ?> Premium</button>
+        <button type="button" data-plan="animated" aria-pressed="false">✨ Animated</button>
+        <button type="button" data-plan="photo-led" aria-pressed="false">Photo-led</button>
+      </div>
+      <p class="dz-count" id="dz-count" aria-live="polite"></p>
+      <div class="dz-sheet" id="dz-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="dz-sheet-t"><div class="dz-sheet-box">
+        <div class="dz-sheet-hd"><h3 id="dz-sheet-t">Filters</h3><button type="button" class="pv-x" id="dz-x" aria-label="Close filters">&times;</button></div>
+        <p class="dz-lbl">Tradition</p>
+        <div class="dz-opts" data-group="trad"><?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-v="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?></div>
+        <p class="dz-lbl">Style</p>
+        <div class="dz-opts" data-group="style"><button type="button" data-v="photo-led" aria-pressed="false">Photo-led</button><button type="button" data-v="animated" aria-pressed="false">Animated</button></div>
+        <p class="dz-lbl">Plan</p>
+        <div class="dz-opts" data-group="plan"><button type="button" data-v="tier-free" aria-pressed="false">Free</button><button type="button" data-v="tier-standard" aria-pressed="false">₹<?= $ps ?></button><button type="button" data-v="tier-premium" aria-pressed="false">₹<?= $pp ?></button></div>
+        <div class="dz-sheet-ft"><button type="button" class="btn alt" id="dz-reset">Clear all</button><button type="button" class="btn" id="dz-apply">Show designs</button></div>
+      </div></div>
       <?php endif; ?>
-      <div class="grid-designs<?= $limit ? ' grid-six' : '' ?>">
+      <div class="grid-designs<?= $limit ? ' grid-six' : ' dz-grid' ?>">
         <?php foreach ($themes as $id => $t):
             $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? '';
             $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
-          <div class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" data-tags="<?= e($tags) ?>">
+          <div class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" data-tags="<?= e($tags) ?>" data-q="<?= e(strtolower($t['name'] . ' ' . $t['note'] . ' ' . implode(' ', array_map(fn($x) => CATEGORIES[$x], $t['tags'])) . ($photoLed ? ' photo' : '') . ($fx ? ' animated ' . $fxNames[$fx] : ''))) ?>">
             <button type="button" class="gd-img js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>" aria-label="Preview <?= e($t['name']) ?>">
               <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
               <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
@@ -59,11 +69,12 @@ function sec_designs(int $limit = 0): void
               <?php if ($photoLed): ?><em class="feat-tag">Photo-led</em><?php endif; ?>
               <?php if ($fx): ?><em class="feat-tag" title="<?= e($fxNames[$fx]) ?>">Animated</em><?php endif; ?>
             </span>
-            <span><?= e($t['note']) ?></span>
-            <small><?= e(implode(', ', array_map(fn($x) => CATEGORIES[$x], $t['tags']))) ?></small>
+            <?php if ($limit): ?><span><?= e($t['note']) ?></span>
+            <small><?= e(implode(', ', array_map(fn($x) => CATEGORIES[$x], $t['tags']))) ?></small><?php else: ?><small class="gd-price"><?= $t['tier'] === 'free' ? 'Free' : '₹' . ($t['tier'] === 'premium' ? $pp : $ps) ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small><?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>
+      <?php if (!$limit): ?><div class="dz-empty" id="dz-empty" hidden><p>No design matches that.</p><button type="button" class="btn alt" id="dz-empty-reset">Show all designs</button></div><?php endif; ?>
       <?php preview_modal(); ?>
       <?php if ($limit): ?><p style="text-align:center;margin-top:34px"><a class="btn" href="/designs" style="background:var(--foil);color:var(--wine-2)">See all <?= $nThemes ?> designs</a></p><?php endif; ?>
     </div>

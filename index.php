@@ -29,8 +29,8 @@ $ogSlot = slot_url('og');
 $nThemes = count(THEMES);
 $pb = price('biodata');
 $customFrom = trim(setting('custom_from'));
-site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
-    "Make a free wedding website in 5 minutes: your invitation, every event with Google Maps, countdown, RSVP and gift list in one WhatsApp link. Hindu, Christian, Muslim and Sikh designs. Free marriage biodata maker too.",
+site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
+    "Elegant wedding website designs for Hindu, Christian, Muslim, Sikh and Kerala weddings. Your invitation, every event with maps, countdown, RSVP, photos and gift list in one beautiful link. Marriage biodata maker too.",
     $ogSlot ?: '/assets/og/site.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(),
         ld_app($brand . ' wedding website maker', 'Make a free wedding invitation website to share on WhatsApp, with events, maps, countdown, RSVP, gift list and photos.', '/',
             ['Free wedding website', 'Wedding invitation for WhatsApp', 'Google Maps directions for every event', 'Countdown', 'RSVP and guest list', 'Gift list', 'Photo gallery and music', 'Hindu, Christian, Muslim, Sikh and Kerala designs'],
