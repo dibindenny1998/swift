@@ -826,3 +826,5 @@
 .wl-cv .wl-slides img.on { animation: wlKenSoft 9s ease-out both; }
 @keyframes wlKenSoft { from { transform: scale(1.025); } to { transform: scale(1); } }
 .wl-cv-in { margin-top: -80px; }
+/* Bloom: the arch shows the couple, not the soft misty bottom of the photo */
+.wl[data-theme=bloom] .wl-pl-img .wl-slides { bottom: -34%; }

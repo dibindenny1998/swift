@@ -69,8 +69,7 @@ function sec_designs(int $limit = 0): void
               <?php if ($photoLed): ?><em class="feat-tag">Photo-led</em><?php endif; ?>
               <?php if ($fx): ?><em class="feat-tag" title="<?= e($fxNames[$fx]) ?>">Animated</em><?php endif; ?>
             </span>
-            <?php if ($limit): ?><span><?= e($t['note']) ?></span>
-            <small><?= e(implode(', ', array_map(fn($x) => CATEGORIES[$x], $t['tags']))) ?></small><?php else: ?><small class="gd-price"><?= $t['tier'] === 'free' ? 'Free' : '₹' . ($t['tier'] === 'premium' ? $pp : $ps) ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small><?php endif; ?>
+            <small class="gd-price"><?= $t['tier'] === 'free' ? 'Free' : '₹' . ($t['tier'] === 'premium' ? $pp : $ps) ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small>
           </div>
         <?php endforeach; ?>
       </div>
