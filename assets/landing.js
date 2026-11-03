@@ -120,3 +120,18 @@
   if (!c || !('IntersectionObserver' in window)) return;
   new IntersectionObserver(function (es) { document.body.classList.toggle('hero-cta-visible', es[0].isIntersecting); }).observe(c);
 })();
+// the demo inside the hero phone is drawn at a real phone width, then scaled down, so it looks like a phone screen and not a zoomed-in one
+(function () {
+  var f = document.getElementById('demo'); if (!f) return;
+  var ph = f.parentNode, V = 390;
+  function fit() {
+    f.removeAttribute('style');
+    var cs = getComputedStyle(ph), pl = parseFloat(cs.paddingLeft) || 0, pt = parseFloat(cs.paddingTop) || 0;
+    var W = ph.clientWidth - pl * 2, H = ph.clientHeight - pt * 2;
+    if (!W || W >= V - 30) return;
+    var s = W / V, bw = parseFloat(getComputedStyle(f).borderTopWidth) || 0, br = parseFloat(getComputedStyle(f).borderTopLeftRadius) || 0;
+    f.style.cssText = 'position:absolute;left:' + pl + 'px;top:' + pt + 'px;width:' + V + 'px;height:' + (H / s) + 'px;transform:scale(' + s + ');transform-origin:0 0;border-width:' + (bw / s) + 'px;border-radius:' + (br / s) + 'px';
+  }
+  fit();
+  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 120); });
+})();

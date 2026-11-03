@@ -793,7 +793,7 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
 }
 /* ================= phone: whole hero fits in one screen ================= */
 @media (max-width: 900px) {
-  .hero { --ph: clamp(296px, calc(100vh - 372px), 520px); --ph: clamp(296px, calc(100svh - 372px), 520px); --pw: min(calc(var(--ph) / 2.02), 66vw); }
+  .hero { --ph: clamp(296px, calc(100vh - 386px), 520px); --ph: clamp(296px, calc(100svh - 386px), 520px); --pw: min(calc(var(--ph) / 2.02), 66vw); }
   .hero-hint { margin-top: 8px; }
   .hero .fan { margin-top: 0; height: calc(var(--ph) + 14px); }
   .hero .fan .phone.front { width: var(--pw); height: var(--ph); }
@@ -801,4 +801,9 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
   .hero .hero-card.l { left: calc(50% - var(--pw) * .5 - var(--pw) * .58); } .hero .hero-card.r { right: calc(50% - var(--pw) * .5 - var(--pw) * .58); }
   .hero-cta-m { margin-top: -30px !important; gap: 6px; }
   .hero-cta-m .btn { min-height: 54px; }
+}
+/* phone fixes: label pill stays on screen, no stray blurred photo behind the hero */
+@media (max-width: 900px) {
+  .hero .eyebrow { max-width: calc(100vw - 32px); white-space: normal; text-align: center; justify-content: center; line-height: 1.35; letter-spacing: .08em; }
+  .lux-hero > .slot, .lux-hero::after { display: none !important; }
 }
