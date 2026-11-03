@@ -108,9 +108,9 @@
   document.querySelectorAll('.js-cat').forEach(function (a) { a.addEventListener('click', function () { filter(a.dataset.cat); }); });
 })();
 
-// plan cards on phones: start with Premium (Most Popular) in the middle
+// plan cards on phones: start with the ₹199 Standard plan in the middle
 (function () {
-  var row = document.getElementById('mini-plans'), pop = row && row.querySelector('.pop');
+  var row = document.getElementById('mini-plans'), pop = row && row.querySelector('[data-start]');
   if (!row || !pop || row.scrollWidth <= row.clientWidth) return;
   row.scrollLeft = pop.offsetLeft - (row.clientWidth - pop.offsetWidth) / 2;
 })();

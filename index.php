@@ -118,7 +118,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
           <ul><li>2 free designs</li><li>Up to 2 events with maps</li><li>Live for 3 months</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
-        <a class="mp" href="/create">
+        <a class="mp" href="/create" data-start>
           <span class="mp-name">Standard</span><b class="mp-price">₹<?= $ps ?></b>
           <ul><li><?= count(themes_by_tier('standard')) ?> Standard designs</li><li>Cover photo, 3 events</li><li>Live for 6 months</li><li class="no">No gallery, RSVP or gift list</li></ul>
           <span class="mp-go">Choose Standard</span>
