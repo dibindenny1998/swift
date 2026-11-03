@@ -1224,3 +1224,45 @@
 /* Bloom: the arch window is never taller than the photo */
 .wl[data-theme=bloom] .wl-pl-img { height: auto !important; min-height: 0 !important; aspect-ratio: 9 / 15; }
 .wl[data-theme=bloom] .wl-pl-img .wl-slides { bottom: 0 !important; }
+/* the couple, our story, good to know */
+.wl-cp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px; }
+.wl-cp { text-align: center; }
+.wl-cp-ph { width: 112px; height: 112px; margin: 0 auto 12px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 0 0 6px var(--page), 0 0 0 7px var(--acc); }
+.wl-cp-ph img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; }
+.wl-cp-ph span { font-family: var(--fs); font-size: 3rem; color: var(--acc); line-height: 1; }
+.wl-cp h3 { font-family: var(--fh); font-size: 1.35rem; margin: 0 0 6px; color: var(--acc2); }
+.wl-cp p { font-size: .9em; color: var(--muted); margin: 0; }
+.wl-story p, .wl-notes p { max-width: 30em; margin: 0 auto; }
+.wl-story p::first-letter { font-family: var(--fs); font-size: 3.2em; float: left; line-height: .8; margin: .08em .1em 0 0; color: var(--acc); }
+.wl-notes p { padding: 16px 18px; border-radius: 12px; background: var(--card); box-shadow: 0 0 0 1px var(--line); text-align: left; }
+@media (max-width: 340px) { .wl-cp-grid { grid-template-columns: 1fr; } }
+.wl[data-theme=mono] .wl-cp-ph img { filter: grayscale(1) contrast(1.1); }
+
+/* ===================== Reel: the couple's film plays behind their names ===================== */
+.wl[data-theme=reel] {
+  --page: #0F0D0C; --outer: #000; --ink: #F3EADB; --muted: rgba(243,234,219,.68); --acc: #D9B76A; --acc2: #E8CF94;
+  --card: rgba(255,255,255,.05); --line: rgba(217,183,106,.28);
+  --fs: 'Bodoni Moda'; --ft: 'Jost'; --fh: 'Bodoni Moda'; --names: clamp(2.8rem, 14vw, 4.8rem); --tsize: .98rem;
+  --btn: #D9B76A; --btnInk: #15110C; --foil: linear-gradient(100deg, #B8902F, #FFF0C2 30%, #D9B35A 50%, #FBE7A8 72%, #A07A22); --grain: .12; --grain-mode: screen; --photo-r: 0;
+}
+.wl[data-theme=reel] .wl-body { background: radial-gradient(90% 40% at 50% 0, #2A211A 0, transparent 70%), #0F0D0C; }
+.wl[data-theme=reel] .wl-names { font-style: italic; }
+.wl[data-theme=reel] .wl-intro { letter-spacing: .4em; text-transform: uppercase; font-size: .66em; }
+.wl[data-theme=reel] .wl-cv-full::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 18px; z-index: 3; background: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 22px), #000; -webkit-mask: linear-gradient(#000, #000); opacity: .85; }
+.wl[data-theme=reel] .wl-cv-full .wl-cv-frame { border-color: rgba(217,183,106,.55) !important; }
+.wl[data-theme=reel] .wl-btn { border-radius: 2px; letter-spacing: .12em; text-transform: uppercase; font-size: .76em; }
+.wl[data-theme=reel] .wl-door, .wl[data-theme=reel] .wl-op-bg { background: #0F0D0C; }
+.wl[data-theme=reel] .wl-cover-in { color: #F3EADB; }
+
+/* tv: a play button, then the screen switches on like an old television (Reel) */
+.wl-op-tv .wl-op-bg { background: radial-gradient(70% 50% at 50% 45%, #2A211A, #0B0908) !important; transform-origin: 50% 50%; }
+.wl-op-tv .wl-cover-k { letter-spacing: .4em; text-transform: uppercase; font-size: .7rem; color: #D9B76A !important; }
+.wl-op-play { display: block; width: 92px; height: 92px; margin: 0 auto; border-radius: 50%; box-shadow: inset 0 0 0 2px #D9B76A; position: relative; animation: wlPlayPulse 2.4s ease-in-out infinite; }
+@keyframes wlPlayPulse { 50% { transform: scale(1.06); box-shadow: inset 0 0 0 2px #D9B76A, 0 0 0 10px rgba(217,183,106,.12); } }
+.wl-op-play::after { content: ''; position: absolute; left: 38px; top: 30px; border-left: 24px solid #D9B76A; border-top: 16px solid transparent; border-bottom: 16px solid transparent; }
+.wl-op-tv.act .wl-op-play { animation: none; transform: scale(1.2); opacity: 0; transition: all .5s; }
+.wl-op-tv.open .wl-op-bg { animation: wlTvOn .9s cubic-bezier(.7,0,.3,1) both; }
+@keyframes wlTvOn { 0% { transform: scale(1); filter: brightness(1); } 45% { transform: scale(1, .006); filter: brightness(4); } 100% { transform: scale(0, .006); filter: brightness(6); } }
+.wl[data-theme=reel] .wl-fx { display: none; }
+.wl-film-ph { display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding-bottom: 38%; background: radial-gradient(60% 40% at 50% 38%, #3A2C20, #0F0D0C 75%) !important; }
+.wl-film-ph p { margin: 0; padding: 0 30px; color: rgba(243,234,219,.6); font-size: .78rem; letter-spacing: .26em; text-transform: uppercase; text-align: center; }

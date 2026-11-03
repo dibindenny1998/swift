@@ -5,7 +5,7 @@
   var form = document.getElementById('f');
   var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
   var navBtns = Array.prototype.slice.call(document.querySelectorAll('.steps-nav button'));
-  var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone', 'gift_note', 'video'];
+  var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'about_p1', 'about_p2', 'story', 'notes', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone', 'gift_note', 'video'];
   var EVENT_SETS = {
     hindu: ['Muhurtham', 'Wedding', 'Engagement', 'Haldi', 'Mehendi', 'Sangeet', 'Reception'],
     christian: ['Holy Matrimony', 'Betrothal', 'Manasammatham', 'Madhuramvaypu', 'Bridal Shower', 'Reception'],
@@ -13,7 +13,7 @@
     sikh: ['Anand Karaj', 'Roka', 'Mehendi', 'Jaago', 'Milni', 'Reception'],
     modern: ['Wedding', 'Engagement', 'Sangeet', 'Mehendi', 'Cocktail', 'Reception']
   };
-  var PRIMARY = { mono: 'christian', lavender: 'modern', mehndi: 'hindu', mughal: 'muslim', bloom: 'modern', lumiere: 'modern', journal: 'modern', vogue: 'modern', sage: 'modern', seal: 'modern', ink: 'modern', toile: 'modern', classic: 'modern', blush: 'modern', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
+  var PRIMARY = { reel: 'modern', mono: 'christian', lavender: 'modern', mehndi: 'hindu', mughal: 'muslim', bloom: 'modern', lumiere: 'modern', journal: 'modern', vogue: 'modern', sage: 'modern', seal: 'modern', ink: 'modern', toile: 'modern', classic: 'modern', blush: 'modern', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
   function eventNames() { return EVENT_SETS[PRIMARY[data.theme] || 'hindu']; }
   var MAX_PHOTOS = 15;
 
@@ -375,4 +375,11 @@
         err.textContent = x.message === 'Failed to fetch' ? 'No connection. Check your internet and try again.' : x.message;
       });
   });
+})();
+// "About Arjun" / "About Meera" labels follow the names as they are typed
+(function () {
+  var a = document.getElementById('p1'), b = document.getElementById('p2'), la = document.getElementById('about_p1_l'), lb = document.getElementById('about_p2_l');
+  if (!a || !la) return;
+  function sync() { la.textContent = 'About ' + (a.value.trim() || 'the first person'); lb.textContent = 'About ' + (b.value.trim() || 'the second person'); }
+  a.addEventListener('input', sync); b.addEventListener('input', sync); setTimeout(sync, 300);
 })();

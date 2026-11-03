@@ -25,7 +25,7 @@ function clip($v, int $max): string
 function sanitize_data(array $r): array
 {
     $d = [];
-    foreach (['p1' => 40, 'p2' => 40, 'p1_family' => 160, 'p2_family' => 160, 'intro' => 80, 'line' => 100, 'message' => 500, 'closing' => 120, 'contact_name' => 40] as $k => $max) {
+    foreach (['p1' => 40, 'p2' => 40, 'p1_family' => 160, 'p2_family' => 160, 'intro' => 80, 'line' => 100, 'message' => 500, 'closing' => 120, 'contact_name' => 40, 'about_p1' => 400, 'about_p2' => 400, 'story' => 1200, 'notes' => 500] as $k => $max) {
         $d[$k] = clip($r[$k] ?? '', $max);
     }
     $d['contact_phone'] = substr(preg_replace('/[^\d+]/', '', (string)($r['contact_phone'] ?? '')) ?? '', 0, 15);
@@ -139,7 +139,9 @@ try {
 
             $base = slugify($d['p1'] . '-' . $d['p2']) ?: 'invite';
             $base = substr($base, 0, 40);
-            do { $slug = $base . '-' . substr(base_convert(rand_hex(4), 16, 36), 0, 4); } while (find_invite('slug', $slug));
+            // the cleanest link first (arjun-meera); a short code is added only if that name is taken
+            $slug = $base;
+            while (find_invite('slug', $slug)) $slug = $base . '-' . substr(base_convert(rand_hex(4), 16, 36), 0, 4);
             $token = rand_hex(16);
             $pdo->prepare("INSERT INTO invites (slug, token, theme, data, phone, email, utm_source, utm_campaign, fbclid, fbp, user_agent, ip, created_at, updated_at)
                            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)")

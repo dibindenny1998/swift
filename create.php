@@ -79,6 +79,10 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
         <div class="field"><label for="p1_family">Family line for the first name</label><textarea id="p1_family" name="p1_family" maxlength="160" rows="2" placeholder="Son of Rajan &amp; Latha Menon, Thrissur"></textarea></div>
         <div class="field"><label for="p2_family">Family line for the second name</label><textarea id="p2_family" name="p2_family" maxlength="160" rows="2" placeholder="Daughter of Suresh &amp; Anitha Nair, Kochi"></textarea></div>
       </div>
+      <div class="row2">
+        <div class="field"><label for="about_p1" id="about_p1_l">About the first person</label><textarea id="about_p1" name="about_p1" maxlength="400" rows="3" placeholder="A software engineer in Bengaluru who loves cricket, filter coffee and long drives."></textarea></div>
+        <div class="field"><label for="about_p2" id="about_p2_l">About the second person</label><textarea id="about_p2" name="about_p2" maxlength="400" rows="3" placeholder="A doctor in Kochi who paints on weekends and can't say no to a good biryani."></textarea></div>
+      </div>
       <div class="field"><label for="intro">Line above the names</label><input id="intro" name="intro" maxlength="80" placeholder="Together with their families"><small>Leave empty to use the text shown.</small></div>
       <div class="field"><label for="line">Line below the names</label><input id="line" name="line" maxlength="100" placeholder="invite you to celebrate their wedding"></div>
       <p class="err" role="alert"></p>
@@ -119,6 +123,8 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
         </div>
         <small>Paste a YouTube (Unlisted is fine), Vimeo or Google Drive link (set to "Anyone with the link"). YouTube and Vimeo videos start playing by themselves, muted; guests tap to hear them. Leave empty for no video.</small>
       </div>
+      <div class="field"><label for="story">Our story</label><textarea id="story" name="story" maxlength="1200" rows="5" placeholder="How you met, the proposal, a funny moment... A few lines are enough."></textarea><small>Shown as its own section. Leave empty to skip it.</small></div>
+      <div class="field"><label for="notes">Good to know</label><textarea id="notes" name="notes" maxlength="500" rows="3" placeholder="Dress code: traditional. Parking at the temple. Rooms booked at Hotel Raviz for outstation guests."></textarea><small>Dress code, parking, stay or anything guests should know.</small></div>
       <div class="field"><label for="message">A message for your guests</label><textarea id="message" name="message" maxlength="500" rows="3" placeholder="With the blessings of our elders, we warmly invite you and your family to share our joy."></textarea></div>
       <div class="field"><label for="closing">Closing line</label><input id="closing" name="closing" maxlength="120" placeholder="Your presence is the blessing we look forward to."></div>
       <div class="row2">

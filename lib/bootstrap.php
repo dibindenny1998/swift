@@ -41,6 +41,7 @@ const THEMES = [
     'mayil'     => ['name' => 'Mayil',     'note' => 'Peacock feathers in teal and gold', 'tags' => ['hindu', 'kerala', 'modern'], 'tier' => 'premium'],
     'qamar'     => ['name' => 'Qamar',     'note' => 'Midnight lanterns and a crescent moon', 'tags' => ['muslim'], 'tier' => 'premium'],
     'chapel'    => ['name' => 'Chapel',    'note' => 'Stained-glass arch and a gold cross', 'tags' => ['christian', 'kerala'], 'tier' => 'premium'],
+    'reel'      => ['name' => 'Reel', 'note' => 'Your own film plays behind your names', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh', 'kerala'], 'tier' => 'premium'],
     'mono'      => ['name' => 'Monochrome', 'note' => 'Black and white, like a fashion editorial', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh', 'kerala'], 'tier' => 'premium'],
     'jaipur'    => ['name' => 'Jaipur',    'note' => 'Pink sandstone palace arches', 'tags' => ['hindu', 'sikh'], 'tier' => 'premium'],
 ];
@@ -56,7 +57,7 @@ const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts 
     'gulmohar' => 'Falls like a petal', 'bloom' => 'Step through a flower arch', 'mughal' => 'Palace gates swing open', 'lumiere' => 'A 3-2-1 film countdown', 'journal' => 'An album cover opens',
     'vogue' => 'A magazine cover splits', 'sage' => 'Watercolour pulls away', 'seal' => 'Break the wax seal', 'ink' => 'A folded letter opens', 'toile' => 'Sketched in ink',
     'velvet' => 'Velvet curtains rise', 'gopuram' => 'Guests ring the temple bell', 'mayil' => 'Peacock feathers fan out', 'qamar' => 'Lanterns float into the night',
-    'chapel' => 'Light through stained glass', 'jaipur' => 'Palace windows open', 'mono' => 'A camera shutter clicks'];
+    'chapel' => 'Light through stained glass', 'jaipur' => 'Palace windows open', 'mono' => 'A camera shutter clicks', 'reel' => 'Your film plays in the header'];
 
 /** All designs in showcase order: photo-led, animated Premium, other Premium, Standard, Free. */
 function showcase_themes(): array

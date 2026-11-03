@@ -38,7 +38,7 @@ $desc = $main ? date('l, j F Y', strtotime($main['date'])) . ($main['venue'] ? '
 $og = $d['photos'] ? base_url() . $d['photos'][0] : base_url() . asset('assets/og/' . $d['theme'] . '.jpg');
 $colors = ['lavender' => '#F1EBF9', 'mehndi' => '#1E4A35', 'mughal' => '#F6EDD8', 'bloom' => '#FBE4E7', 'lumiere' => '#FBF8F3', 'journal' => '#FBF6EE', 'vogue' => '#F7F5F1', 'sage' => '#F6F3EA', 'seal' => '#EFE6D7', 'ink' => '#F7F2EA', 'toile' => '#F8F6F0', 'classic' => '#FBF8F2', 'blush' => '#FBE4E7', 'kasavu' => '#FBF7EC', 'sindoor' => '#6E0B1D', 'marigold' => '#FFF1C9', 'nilavu' => '#0B1533', 'mullappoo' => '#F2F8F3', 'thamara' => '#FADDE3',
     'champagne' => '#FFF8F3', 'noor' => '#0E3B2E', 'chapel' => '#FDFBF6', 'kesar' => '#172C6E', 'gopuram' => '#5E1020', 'velvet' => '#4A0A22',
-    'qamar' => '#120E2E', 'grace' => '#DCE6EE', 'mayil' => '#0D4651', 'jaipur' => '#EFB9A8', 'gulmohar' => '#FFF4E6', 'mono' => '#FAFAF7'];
+    'qamar' => '#120E2E', 'grace' => '#DCE6EE', 'mayil' => '#0D4651', 'jaipur' => '#EFB9A8', 'gulmohar' => '#FFF4E6', 'mono' => '#FAFAF7', 'reel' => '#0F0D0C'];
 ?>
 <!doctype html>
 <html lang="en">

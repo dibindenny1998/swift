@@ -16,7 +16,7 @@ $swatch = [
     'noor' => 'radial-gradient(circle at 50% 35%,#E3C26E 0 14%,#145A44 15%)', 'chapel' => 'linear-gradient(160deg,#3B5BA9,#C9506E 55%,#E7A93C)',
     'sindoor' => 'radial-gradient(circle at 50% 40%,#E9C46A 0 16%,#C9727F 17%)', 'kesar' => 'linear-gradient(135deg,#F4A21C 0 30%,#172C6E 30%)',
     'gopuram' => 'linear-gradient(180deg,#E8C26A 0 35%,#5E1020 35%)', 'velvet' => 'radial-gradient(circle at 50% 100%,#E5C37A 0 30%,#4A5739 31%)',
-    'qamar' => 'radial-gradient(circle at 65% 35%,#F5DFA8 0 15%,#1B1440 16%)', 'grace' => 'linear-gradient(135deg,#DCE6EE,#8EA3B6)', 'mono' => 'linear-gradient(135deg,#FAFAF7 0 50%,#151515 50%)',
+    'qamar' => 'radial-gradient(circle at 65% 35%,#F5DFA8 0 15%,#1B1440 16%)', 'grace' => 'linear-gradient(135deg,#DCE6EE,#8EA3B6)', 'mono' => 'linear-gradient(135deg,#FAFAF7 0 50%,#151515 50%)', 'reel' => 'radial-gradient(circle,#D9B76A 0 22%,#0F0D0C 24%)',
     'marigold' => 'radial-gradient(circle at 30% 30%,#F7B500 0 22%,transparent 23%),radial-gradient(circle at 70% 30%,#F07B0A 0 22%,transparent 23%),#FFF1C9',
     'nilavu' => 'radial-gradient(circle at 68% 32%,#F6E7B8 0 14%,#13214A 15%)', 'mullappoo' => 'radial-gradient(circle,#fff 0 22%,#CFE3D4 23% 30%,#F2F8F3 31%)',
     'thamara' => 'radial-gradient(ellipse at 50% 70%,#F3B3C1 0 30%,#F1F2EA 31%)', 'mayil' => 'radial-gradient(circle at 50% 45%,#173E8C 0 12%,#0F9AA0 13% 22%,#E2C46F 23% 28%,#0D4651 29%)',
@@ -30,8 +30,8 @@ $nThemes = count(THEMES);
 $pb = price('biodata');
 $customFrom = trim(setting('custom_from'));
 site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
-    "Elegant wedding website designs for Hindu, Christian, Muslim, Sikh and Kerala weddings. Your invitation, every event with maps, countdown, RSVP, photos and gift list in one beautiful link. Marriage biodata maker too.",
-    $ogSlot ?: '/assets/og/site.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(),
+    "Your wedding invitation as one beautiful link. Make yours in 5 minutes.",
+    '/assets/og/home.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(),
         ld_app($brand . ' wedding website maker', 'Make a free wedding invitation website to share on WhatsApp, with events, maps, countdown, RSVP, gift list and photos.', '/',
             ['Free wedding website', 'Wedding invitation for WhatsApp', 'Google Maps directions for every event', 'Countdown', 'RSVP and guest list', 'Gift list', 'Photo gallery and music', 'Hindu, Christian, Muslim, Sikh and Kerala designs'],
             [['Basic (free)', 0], ['Standard', $ps], ['Premium', $pp]])]]);

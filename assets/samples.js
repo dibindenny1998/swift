@@ -16,7 +16,7 @@ window.WL_SAMPLES = (function () {
     modern: { c: 'Vikram Rao', p1: 'Rahul', p2: 'Ananya', p1_family: 'Son of Vikram & Priya Rao, Bengaluru', p2_family: 'Daughter of Anil & Kavita Shetty, Mangaluru',
       events: [['Sangeet', 71, '19:00', 'The Tamarind Tree', 'Kanakapura Road, Bengaluru'], ['Wedding', 72, '11:00', 'The Leela Palace', 'Old Airport Road, Bengaluru'], ['Reception', 72, '19:30', 'The Leela Palace', 'Bengaluru']] }
   };
-  var PRIMARY = { mono: 'christian', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
+  var PRIMARY = { reel: 'modern', mono: 'christian', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
   return {
     faith: function (theme) { return PRIMARY[theme] || 'hindu'; },
     get: function (faith) {
@@ -24,6 +24,10 @@ window.WL_SAMPLES = (function () {
       return {
         p1: s.p1, p2: s.p2, p1_family: s.p1_family, p2_family: s.p2_family,
         message: 'With the blessings of our elders, we warmly invite you and your family to share our joy.',
+        about_p1: 'Loves cricket, filter coffee and long drives. Makes everyone laugh.',
+        about_p2: 'Paints on weekends, sings in the car and never says no to dessert.',
+        story: 'We met at a friend\'s wedding and argued about the music all evening. Two years, many coffees and one very nervous proposal later, we are getting married.',
+        notes: 'Dress code: traditional. Parking is available at the venue.',
         events: s.events.map(function (e) { return { name: e[0], date: isoIn(e[1]), time: e[2], venue: e[3], address: e[4] }; }),
         contact_name: s.c, contact_phone: '9876543210', plan: 'premium'
       };

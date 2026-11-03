@@ -34,6 +34,7 @@
     mayil: 'family=Rouge+Script&family=EB+Garamond:ital,wght@0,400;0,500;1,400',
     jaipur: 'family=Gloock&family=Lora:ital,wght@0,400;0,500;1,400',
     gulmohar: 'family=Tangerine:wght@700&family=Lora:ital,wght@0,400;0,500;1,400',
+    reel: 'family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500',
     mono: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600'
   };
   // Opening lines that suit each design when the couple leaves them empty.
@@ -46,7 +47,8 @@
     gopuram: { intro: '|| Shree Ganeshaya Namah ||', line: 'invite you to grace their auspicious wedding' },
     sindoor: { intro: '|| Shubh Vivah ||', line: 'invite you to celebrate their wedding' },
     jaipur: { intro: '|| Shubh Vivah ||', line: 'request the pleasure of your company at their wedding' },
-    mono: { intro: 'Save the date', line: 'are getting married' }
+    mono: { intro: 'Save the date', line: 'are getting married' },
+    reel: { intro: 'A love story', line: 'invite you to the premiere of forever' }
   };
   // Indian scripts: Google serves these with unicode-range, so they only download when the text uses them.
   var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
@@ -289,10 +291,11 @@
     qamar: '<rect x="-3.5" y="-5" width="7" height="9" rx="2"/><path d="M0,-5 V-9 M-4.5,-5 H4.5 M-3,4 L0,8 L3,4" stroke-width="1"/>',
     chapel: '<rect x="-1.2" y="-8" width="2.4" height="16"/><rect x="-5" y="-4" width="10" height="2.4"/>',
     jaipur: '<path d="M-6,7 V-1 C-6,-4 -4,-5 -3,-6 C-1,-6 0,-8 0,-9 C0,-8 1,-6 3,-6 C4,-5 6,-4 6,-1 V7Z" fill="none" stroke-width="1.3"/>',
-    mono: '<circle r="2.2"/>'
+    mono: '<circle r="2.2"/>',
+    reel: '<rect x="-7" y="-5" width="14" height="10" rx="1.5" fill="none" stroke-width="1.2"/><path d="M-2,-2.6 L3,0 L-2,2.6Z"/>'
   };
   function divider(theme) {
-    var c = theme === 'mono' ? '#1A1A1A' : theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
+    var c = theme === 'reel' ? '#D9B76A' : theme === 'mono' ? '#1A1A1A' : theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" stroke="' + c + '" stroke-width="0" transform="translate(100,10)">' + (MOTIF[theme] ? '<g stroke-linecap="round">' + MOTIF[theme] + '</g><circle cx="-14" r="1.4"/><circle cx="14" r="1.4"/>' : '<path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/>') + '</g></svg>';
   }
@@ -503,11 +506,11 @@
   // Each design opens differently: the shape of the cover photo and how the names sit with it
   var COVER = { noor: 'arch', qamar: 'arch', mughal: 'arch', jaipur: 'arch', chapel: 'arch',
     kasavu: 'circle', mullappoo: 'circle', thamara: 'circle', nilavu: 'circle', gopuram: 'circle',
-    velvet: 'full', sindoor: 'full', kesar: 'full', marigold: 'full', mehndi: 'full', mono: 'full',
+    reel: 'full', velvet: 'full', sindoor: 'full', kesar: 'full', marigold: 'full', mehndi: 'full', mono: 'full',
     seal: 'polaroid', ink: 'polaroid', sage: 'polaroid',
     grace: 'split', toile: 'split', mayil: 'split', gulmohar: 'split' };
   // ...and lists the celebrations in its own way
-  var EVSTYLE = { champagne: 'ticket', velvet: 'ticket', mono: 'ticket', vogue: 'ticket', lumiere: 'ticket', gulmohar: 'ticket', grace: 'ticket', lavender: 'ticket',
+  var EVSTYLE = { reel: 'ticket', champagne: 'ticket', velvet: 'ticket', mono: 'ticket', vogue: 'ticket', lumiere: 'ticket', gulmohar: 'ticket', grace: 'ticket', lavender: 'ticket',
     sindoor: 'band', kesar: 'band', marigold: 'band', mehndi: 'band', gopuram: 'band', jaipur: 'band', mayil: 'band', noor: 'band', qamar: 'band' };
   // Premium designs get an animated header: photos fading in, plus moving decor
   var ANIM = { bloom: 'petals', lumiere: 'bokeh', journal: 'confetti', vogue: 'flash', mughal: 'stars', sage: 'leaves', seal: 'blossom', ink: 'hearts',
@@ -670,10 +673,11 @@
     qamar: ['lanterns', 'Under the crescent moon', 'Release the lanterns'],
     chapel: ['window', 'With the blessings of God', 'Enter'],
     jaipur: ['jharokha', 'Padharo mhare des', 'Open the windows'],
-    mono: ['shutter', 'Save the date', 'Take a look']
+    mono: ['shutter', 'Save the date', 'Take a look'],
+    reel: ['tv', 'Now playing', 'Play our film']
   };
   // how long the first moment plays (lighting the lamp, the countdown...) before the cover opens, in ms
-  var ACT_MS = { lamp: 1300, diyas: 1700, projector: 2700, bell: 1300, shutter: 700, scratch: 500, lotus: 900, toran: 300, mandala: 200 };
+  var ACT_MS = { tv: 600, lamp: 1300, diyas: 1700, projector: 2700, bell: 1300, shutter: 700, scratch: 500, lotus: 900, toran: 300, mandala: 200 };
   // how long the opening itself takes before the cover is removed
   var OPEN_MS = { gate: 2000, curtain: 2000, album: 1900, magazine: 1700, jharokha: 2000, mihrab: 1800, letter: 1700, lanterns: 2000, window: 1900 };
 
@@ -706,6 +710,7 @@
       case 'mihrab': return '<div class="wl-hd-top">' + starBand('url(#wlFoil)') + '</div>';
       case 'jasmine': return '';
       case 'rise': return roseLine();
+      case 'tv': return '<span class="wl-op-play" aria-hidden="true"></span>';
       case 'fizz': return bokeh(5, 18, 400, 700);
     }
     return '';
@@ -779,6 +784,7 @@
       intro: (d.intro || '').trim() || (DEFAULTS[theme] || {}).intro || 'Together with their families',
       line: (d.line || '').trim() || (DEFAULTS[theme] || {}).line || 'invite you to celebrate their wedding',
       message: (d.message || '').trim(),
+      aboutP1: (d.about_p1 || '').trim(), aboutP2: (d.about_p2 || '').trim(), story: (d.story || '').trim(), notes: (d.notes || '').trim(),
       closing: (d.closing || '').trim() || 'Your presence is the blessing we look forward to.',
       events: evs,
       main: evs.filter(function (e) { return e.date && /wedding|marriage|muhurt|kalyan|vivah|nikah|thali|minnu|matrimony|shaadi|anand karaj/i.test(e.name || ''); })[0] || evs.filter(function (e) { return e.date; })[0],
@@ -869,7 +875,10 @@
     var first = v.main;
     var photos = v.photos;
     var showCover = opts.cover && mode !== 'editor';
-    var film = opts.filmCover && /youtube|vimeo/.test(v.video) ? filmCover(v.video, title, photos[0] || v.bg) : '';
+    // Reel always plays the couple's film behind the names; elsewhere only the home page demo does
+    var film = (opts.filmCover || v.theme === 'reel') && /youtube|vimeo/.test(v.video) ? filmCover(v.video, title, photos[0] || v.bg) : '';
+    // Reel with no film or photo yet: an empty cinema screen waiting for their film
+    if (v.theme === 'reel' && !film && !photos[0]) film = '<div class="wl-slides wl-film wl-film-ph"><span class="wl-op-play" aria-hidden="true"></span><p>' + (mode === 'editor' ? 'Add a YouTube or Vimeo link in the Photos step and it plays here' : 'Your film plays here') + '</p></div>';
 
     // A photo-led design's sample couple photo is only for building and browsing designs;
     // a couple's own preview and live invite never show someone else's photo.
@@ -888,7 +897,10 @@
 
     html += '<main class="wl-body">';
     // website-style header: monogram + links to the sections this invite has
-    var links = [['events', 'Events']];
+    var links = [];
+    if (v.aboutP1 || v.aboutP2) links.push(['couple', 'Us']);
+    if (v.story) links.push(['story', 'Story']);
+    links.push(['events', 'Events']);
     if (photos.length > 1) links.push(['gallery', 'Photos']);
     if (v.video) links.push(['video', 'Film']);
     if (v.lim.rsvp) links.push(['rsvp', 'RSVP']);
@@ -909,7 +921,7 @@
           (dp ? '<p class="wl-pl-date">' + esc(longDate(first.date)) + (first.venue ? ' · ' + esc(first.venue) : '') + '</p>' : '') +
         '</div></header>';
     } else {
-    if (photos[0]) {
+    if (photos[0] || film) {
       var cp = first && first.date ? parts(first.date) : null;
       html += '<header class="wl-hero wl-cv wl-cv-' + (COVER[v.theme] || 'classic') + '" data-sec="hero"><span class="wl-cv-frame" aria-hidden="true"></span>' + (film || slides(ANIM[v.theme] ? photos.slice(0, 5) : [photos[0]], title)) + particles(ANIM[v.theme]) +
         '<div class="wl-cv-in"><p class="wl-intro">' + esc(v.intro) + '</p>' +
@@ -918,7 +930,7 @@
         (cp ? '<p class="wl-pl-date">' + esc(longDate(first.date)) + (first.venue ? ' · ' + esc(first.venue) : '') + '</p>' : '') +
         '<span class="wl-cv-down" aria-hidden="true"></span></div></header>';
     }
-    html += '<' + (photos[0] ? 'section' : 'header') + ' class="wl-hero' + (photos[0] ? ' wl-card-hero' : '') + '" data-sec="' + (photos[0] ? 'card' : 'hero') + '"><div class="wl-hd">' + heroDecor(v.theme) + (!photos[0] ? particles(ANIM[v.theme]) : '') + '</div><div class="wl-hero-in">' +
+    html += '<' + (photos[0] || film ? 'section' : 'header') + ' class="wl-hero' + (photos[0] || film ? ' wl-card-hero' : '') + '" data-sec="' + (photos[0] || film ? 'card' : 'hero') + '"><div class="wl-hd">' + heroDecor(v.theme) + (!photos[0] && !film ? particles(ANIM[v.theme]) : '') + '</div><div class="wl-hero-in">' +
       '<p class="wl-intro">' + esc(v.intro) + '</p>' +
       '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
       '<p class="wl-line">' + esc(v.line) + '</p>' + (v.theme === 'ink' ? heartLine() : '');
@@ -929,7 +941,7 @@
       if (first.time) html += '<p class="wl-time">' + esc(time12(first.time)) + '</p>';
       if (first.venue) html += '<p class="wl-venue">' + esc(first.venue) + '</p>';
     }
-    html += '</div></' + (photos[0] ? 'section' : 'header') + '>';
+    html += '</div></' + (photos[0] || film ? 'section' : 'header') + '>';
     }
 
     if (first && startOf(first)) {
@@ -948,9 +960,20 @@
         '<div><h3>' + esc(v.p2) + '</h3>' + (v.p2f ? '<p>' + nl2br(v.p2f) + '</p>' : '') + '</div></div></section>';
     }
 
+    if (v.aboutP1 || v.aboutP2) {
+      var cp = function (name, about, ph) {
+        return '<article class="wl-cp"><div class="wl-cp-ph">' + (ph ? '<img src="' + esc(ph) + '" alt="' + esc(name) + '" loading="lazy">' : '<span>' + esc(initial(name)) + '</span>') + '</div>' +
+          '<h3>' + esc(name) + '</h3>' + (about ? '<p>' + nl2br(about) + '</p>' : '') + '</article>';
+      };
+      html += '<section class="wl-sec wl-couple" data-sec="couple"><h2>The couple</h2>' + divider(v.theme) + '<div class="wl-cp-grid">' +
+        cp(v.p1, v.aboutP1, photos[1]) + cp(v.p2, v.aboutP2, photos[2]) + '</div></section>';
+    }
+    if (v.story) html += '<section class="wl-sec wl-story" data-sec="story"><h2>Our story</h2>' + divider(v.theme) + '<p>' + nl2br(v.story) + '</p></section>';
+
     if (v.message) html += '<section class="wl-sec wl-msg" data-sec="message">' + divider(v.theme) + '<p>' + nl2br(v.message) + '</p></section>';
 
     html += eventsHtml(v, title);
+    if (v.notes) html += '<section class="wl-sec wl-notes" data-sec="notes"><h2>Good to know</h2>' + divider(v.theme) + '<p>' + nl2br(v.notes) + '</p></section>';
 
     if (v.video) {
       html += '<section class="wl-sec wl-video" data-sec="video"><h2>' + esc(VIDEO_TITLE[v.videoKind] || VIDEO_TITLE.prewedding) + '</h2>' + divider(v.theme) +
