@@ -929,7 +929,6 @@
       if (first.time) html += '<p class="wl-time">' + esc(time12(first.time)) + '</p>';
       if (first.venue) html += '<p class="wl-venue">' + esc(first.venue) + '</p>';
     }
-    if (v.plan === 'free') html += craftedMark(v, 'top');
     html += '</div></' + (photos[0] ? 'section' : 'header') + '>';
     }
 
