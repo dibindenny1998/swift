@@ -68,7 +68,6 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
           <div class="hero-card r" aria-hidden="true"><svg viewBox="0 0 120 260" aria-hidden="true"><g fill="none" stroke="#C9A25A" stroke-width="1.6" stroke-linecap="round"><path d="M30,250 C40,190 55,120 92,20"/><path d="M36,210 C6,186 20,176 28,172 C12,190 40,202 36,210Z"/><path d="M44,170 C62,146 76,136 84,132 C68,150 48,162 44,170Z"/><path d="M52,140 C24,116 38,106 46,102 C30,120 56,132 52,140Z"/><path d="M62,110 C78,86 92,76 100,72 C84,90 66,102 62,110Z"/><path d="M70,82 C46,58 60,48 68,44 C52,62 74,74 70,82Z"/><path d="M80,56 C92,32 106,22 114,18 C98,36 84,48 80,56Z"/></g></svg></div>
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager"></iframe></div>
         </div>
-        <div class="hero-silk" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="hero-cta-m">
           <a class="btn js-make" href="/create">Make our website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <small>Free plan · No card needed</small>
