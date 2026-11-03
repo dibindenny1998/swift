@@ -1215,3 +1215,12 @@
 @keyframes wlFizz { from { transform: translateY(0); } to { transform: translateY(-40%); } }
 .wl-op-fizz .wl-op-bg { box-shadow: inset 0 0 0 14px rgba(255,255,255,.5), inset 0 0 0 15px rgba(201,162,74,.5); }
 .wl-op-fizz.open .wl-op-bg, .wl-op-fizz.open .wl-op-art { transform: translateY(-104%); transition: transform 1.3s cubic-bezier(.7,0,.25,1); }
+/* faces live in the top part of every couple photo: covers only ever trim the bottom, never the top */
+.wl-cv .wl-slides img, .wl-pl-img .wl-slides img, .wl-pl-img img, .wl-film img { object-position: 50% 0% !important; }
+.wl-cv-polaroid .wl-cv-frame { top: 24px !important; }
+.wl-cv-polaroid .wl-slides { margin-top: 10px; }
+/* Lumiere and Vogue: the first screen keeps the photo's own shape, so no one is trimmed at the sides */
+.wl[data-theme=lumiere] .wl-pl, .wl[data-theme=vogue] .wl-pl { height: auto !important; min-height: 0 !important; aspect-ratio: 9 / 16; }
+/* Bloom: the arch window is never taller than the photo */
+.wl[data-theme=bloom] .wl-pl-img { height: auto !important; min-height: 0 !important; aspect-ratio: 9 / 15; }
+.wl[data-theme=bloom] .wl-pl-img .wl-slides { bottom: 0 !important; }
