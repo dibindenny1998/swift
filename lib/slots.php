@@ -28,6 +28,7 @@ const SLOTS = [
 
 /* Photo-led designs: a real couple photo, shown on their design cards and as the first screen until a couple adds their own. */
 const PHOTO_LED_PROMPTS = [
+    'bloom' => 'Romantic portrait of an Indian bride and groom framed by a tall arch of blush roses and white flowers, the bride in a blush-pink lehenga, the groom in an ivory sherwani, smiling at each other, soft daylight, centred composition.',
     'lumiere' => 'Full-length romantic portrait of an Indian bride and groom walking hand in hand down a garden aisle of white and blush flowers, seen slightly from behind as she looks back over her shoulder, the bride in an ivory and gold lehenga with a long sheer veil, the groom in an ivory sherwani, golden-hour backlight. Keep the bottom third simple and slightly darker so white names can sit on top.',
     'vogue' => 'High-fashion editorial portrait of an elegant Indian bride and groom standing side by side under a warm stone archway, full length, poised and confident, the bride in a champagne-gold lehenga with statement jewellery, the groom in a tailored ivory bandhgala, soft directional light, magazine-cover look. Keep the top and bottom of the frame simple so titles can sit there.',
     'journal' => 'Candid, warm photo of a laughing Indian couple sitting close on the steps of a sunlit veranda with pots of white flowers, the bride in a soft pink saree with jasmine in her hair, the groom in a cream kurta, natural and intimate, like a favourite photo from a family album.',
@@ -35,6 +36,9 @@ const PHOTO_LED_PROMPTS = [
 
 /* Soft backgrounds behind the names on the illustrated designs (optional). */
 const THEME_SLOT_PROMPTS = [
+    'lavender' => 'Soft lilac and lavender watercolour wash on white cold-press paper with delicate lavender sprigs at the top corners.',
+    'mehndi' => 'Deep bottle-green raw silk with a fine gold henna paisley border along the top and bottom edges.',
+    'mughal' => 'Ivory marble with faint gold Mughal jaali lattice pattern along the edges and a soft warm glow at the top.',
     'classic' => 'Warm ivory handmade cotton paper with a soft deckled edge and the faintest linen texture.',
     'blush' => 'Soft blush pink watercolour wash on cold-press paper, with one delicate pale pink rose softly out of focus at the top edge.',
     'champagne' => 'Champagne and blush silk satin with gentle flowing folds and a few fine gold-foil flecks.',

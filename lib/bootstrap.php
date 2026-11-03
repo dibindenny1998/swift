@@ -23,8 +23,12 @@ const THEMES = [
     'nilavu'    => ['name' => 'Nilavu',    'note' => 'Moonlit navy with hanging diyas', 'tags' => ['hindu', 'muslim', 'modern'], 'tier' => 'standard'],
     'mullappoo' => ['name' => 'Mullappoo', 'note' => 'Jasmine strings on clean white', 'tags' => ['kerala', 'hindu', 'christian', 'modern'], 'tier' => 'standard'],
     'thamara'   => ['name' => 'Thamara',   'note' => 'Soft pink with lotus line art', 'tags' => ['hindu', 'modern'], 'tier' => 'standard'],
+    'lavender'  => ['name' => 'Lavender',  'note' => 'Lilac watercolour flowers on soft white', 'tags' => ['modern', 'christian', 'hindu'], 'tier' => 'standard'],
+    'mehndi'    => ['name' => 'Mehndi',    'note' => 'Deep green with gold henna paisleys', 'tags' => ['hindu', 'muslim', 'sikh'], 'tier' => 'standard'],
     'gulmohar'  => ['name' => 'Gulmohar',  'note' => 'A flowering branch on warm ivory', 'tags' => ['modern', 'christian', 'muslim'], 'tier' => 'standard'],
     // Premium designs (₹499 plan).
+    'bloom'     => ['name' => 'Bloom',     'note' => 'Your photo in a blush floral arch window', 'tags' => ['modern', 'hindu', 'christian', 'muslim', 'sikh', 'kerala'], 'tier' => 'premium'],
+    'mughal'    => ['name' => 'Mughal',    'note' => 'Ivory and gold arches with a dome', 'tags' => ['muslim', 'hindu', 'sikh'], 'tier' => 'premium'],
     'lumiere'   => ['name' => 'Lumière',   'note' => 'Your photo full screen, names in white', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh', 'kerala'], 'tier' => 'premium'],
     'journal'   => ['name' => 'Journal',   'note' => 'A taped photo and handwritten names', 'tags' => ['modern', 'christian', 'hindu', 'kerala'], 'tier' => 'premium'],
     'vogue'     => ['name' => 'Vogue',     'note' => 'A magazine cover of the two of you', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh'], 'tier' => 'premium'],
@@ -41,8 +45,8 @@ const THEMES = [
 ];
 
 /* Showcase order and what makes each Premium design special. Must match ANIM / PHOTO_LED in assets/invite.js. */
-const PHOTO_LED_THEMES = ['lumiere', 'vogue', 'journal'];
-const THEME_FX = ['lumiere' => 'petals', 'journal' => 'petals', 'seal' => 'petals', 'jaipur' => 'petals', 'sage' => 'petals', 'ink' => 'petals',
+const PHOTO_LED_THEMES = ['lumiere', 'vogue', 'journal', 'bloom'];
+const THEME_FX = ['bloom' => 'petals', 'mughal' => 'sparkle', 'lumiere' => 'petals', 'journal' => 'petals', 'seal' => 'petals', 'jaipur' => 'petals', 'sage' => 'petals', 'ink' => 'petals',
     'vogue' => 'sparkle', 'velvet' => 'sparkle', 'mayil' => 'sparkle', 'gopuram' => 'sparkle', 'chapel' => 'sparkle', 'toile' => 'sparkle', 'qamar' => 'lanterns'];
 
 /** All designs in showcase order: photo-led, animated Premium, other Premium, Standard, Free. */
@@ -207,6 +211,11 @@ function db(): PDO
     // v3: each published invite has its own end date (Free 3 months, Standard 6, Premium 12)
     $cols = array_column($pdo->query('PRAGMA table_info(invites)')->fetchAll(), 'name');
     if (!in_array('expires_at', $cols, true)) $pdo->exec('ALTER TABLE invites ADD COLUMN expires_at TEXT');
+    // v4: brand renamed to TheWedLink (only if the old default was saved in admin)
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_brand_v4'")->fetchColumn()) {
+        $pdo->exec("UPDATE settings SET v = 'TheWedLink' WHERE k IN ('brand', 'business_name') AND v = 'WedLink'");
+        $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('mig_brand_v4', '1')");
+    }
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_prices_v2'")->fetchColumn()) {
         $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_standard', '199'), ('price_premium', '499'), ('mig_prices_v2', '1')");
     }
@@ -218,8 +227,9 @@ function now(): string { return date('Y-m-d H:i:s'); }
 /* ---------- settings ---------- */
 
 const SETTING_DEFAULTS = [
-    'brand'           => 'WedLink',
-    'business_name'   => 'WedLink',
+    'brand'           => 'TheWedLink',
+    'business_name'   => 'TheWedLink',
+    'site_domain'     => 'thewedlink.in',
     'support_phone'   => '',
     'support_email'   => '',
     'address'         => 'Bangalore, Karnataka, India',

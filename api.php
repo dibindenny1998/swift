@@ -471,7 +471,7 @@ try {
     }
     }
 } catch (Throwable $t) {
-    error_log('WedLink API error: ' . $t->getMessage() . ' @' . $t->getFile() . ':' . $t->getLine());
+    error_log('TheWedLink API error: ' . $t->getMessage() . ' @' . $t->getFile() . ':' . $t->getLine());
     json_out(['ok' => false, 'error' => 'Something went wrong on our side. Try again.'], 500);
 }
 json_out(['ok' => false, 'error' => 'Unknown action.'], 404);

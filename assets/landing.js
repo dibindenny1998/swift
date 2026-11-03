@@ -32,7 +32,7 @@
   function sample() { return WL_SAMPLES.get(WL_SAMPLES.faith(state.theme)); }
   // real photos uploaded in Admin → Images (Home page demo) make the preview feel real
   var DEMO_PHOTOS = window.WL_DEMO_PHOTOS || [];
-  function data() { var s = sample(); return Object.assign({}, s, { theme: state.theme, p1: state.p1 || s.p1, p2: state.p2 || s.p2, brand: 'WedLink' }, DEMO_PHOTOS.length ? { photos: DEMO_PHOTOS, plan: 'premium' } : {}); }
+  function data() { var s = sample(); return Object.assign({}, s, { theme: state.theme, p1: state.p1 || s.p1, p2: state.p2 || s.p2, brand: 'TheWedLink' }, DEMO_PHOTOS.length ? { photos: DEMO_PHOTOS, plan: 'premium' } : {}); }
   function paint() {
     if (!ready) return;
     try {

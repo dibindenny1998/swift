@@ -7,6 +7,8 @@ $pp = price('premium');
 $tick = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $swatch = [
  'lumiere' => 'linear-gradient(180deg,#B89A72 0 60%,#FBF8F3 60%)', 'journal' => 'linear-gradient(180deg,#E2C3BF 0 55%,#FBF6EE 55%)', 'vogue' => 'linear-gradient(180deg,#6E6152 0 70%,#F7F5F1 70%)',
+ 'lavender' => 'radial-gradient(circle at 40% 40%,#B39DDB 0 22%,#FAF7FD 23%)', 'mehndi' => 'radial-gradient(circle at 50% 50%,#DDBB66 0 18%,#1E4A35 19%)',
+    'mughal' => 'linear-gradient(180deg,#C9A24A 0 18%,#FBF6EA 18%)', 'bloom' => 'radial-gradient(ellipse at 50% 60%,#E7A5AF 0 34%,#FDF3F4 35%)',
     'sage' => 'radial-gradient(circle at 30% 30%,#A7B293 0 24%,#F6F3EA 25%)', 'seal' => 'radial-gradient(circle at 50% 55%,#C9A24A 0 20%,#D6C09E 21%)',
     'ink' => 'radial-gradient(circle at 50% 50%,#5A2E2A 0 14%,#F7F2EA 15%)', 'toile' => 'linear-gradient(135deg,#F8F6F0 0 55%,#2F4A7A 55%)',
     'classic' => 'linear-gradient(135deg,#FBF8F2 0 60%,#1E1E1E 60%)', 'blush' => 'radial-gradient(circle at 50% 40%,#E7A5AF 0 22%,#FDF1F2 23%)',
@@ -109,18 +111,18 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
       <div class="mini-plans" id="mini-plans">
         <a class="mp" href="/create?t=classic">
           <span class="mp-name">Basic</span><b class="mp-price">Free</b>
-          <ul><li>2 simple designs</li><li>Up to 2 events with maps</li><li>Live for 3 months</li><li class="no">Small WedLink credit</li></ul>
+          <ul><li>2 free designs</li><li>Up to 2 events with maps</li><li>Live for 3 months</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
         <a class="mp" href="/create">
           <span class="mp-name">Standard</span><b class="mp-price">₹<?= $ps ?></b>
-          <ul><li><?= count(themes_by_tier('free')) + count(themes_by_tier('standard')) ?> designs</li><li>Cover photo, 3 events</li><li>Live for 6 months</li><li class="no">No gallery, RSVP or gift list</li></ul>
+          <ul><li><?= count(themes_by_tier('standard')) ?> Standard designs</li><li>Cover photo, 3 events</li><li>Live for 6 months</li><li class="no">No gallery, RSVP or gift list</li></ul>
           <span class="mp-go">Choose Standard</span>
         </a>
         <a class="mp pop" href="/create">
           <span class="mp-badge">Most Popular</span>
           <span class="mp-name">Premium</span><b class="mp-price">₹<?= $pp ?></b>
-          <ul><li>All <?= count(THEMES) ?> designs, animated</li><li>15-photo gallery and a video</li><li>RSVP and gift list</li><li>Live for 1 year</li></ul>
+          <ul><li><?= count(themes_by_tier('premium')) ?> Premium designs, animated</li><li>15-photo gallery and a video</li><li>RSVP and gift list</li><li>Live for 1 year</li></ul>
           <span class="mp-go">Choose Premium</span>
         </a>
         <a class="mp" href="/custom">

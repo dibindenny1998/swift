@@ -15,7 +15,7 @@ function sec_designs(int $limit = 0): void
 {
     extract(page_vars());
     // the home page leads with the photo-led and animated Premium designs; /designs shows everything in the same order
-    $pick = ['lumiere', 'vogue', 'journal', 'velvet', 'seal', 'qamar'];
+    $pick = ['lumiere', 'vogue', 'bloom', 'journal', 'mughal', 'seal'];
     $all = showcase_themes();
     $themes = $limit > 0 ? array_slice(array_intersect_key($all, array_flip($pick)), 0, $limit, true) : $all;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
@@ -89,7 +89,7 @@ function sec_pricing(): void
             <li><?= $tick ?>Up to 2 events with maps and calendar</li>
             <li><?= $tick ?>Countdown and family details</li>
             <li><?= $tick ?>Live for 3 months</li>
-            <li class="no"><?= $tick ?>Small <?= e($brand) ?> credit at the bottom</li>
+            <li class="no"><?= $tick ?>"Crafted by <?= e($brand) ?>" mark on the design</li>
           </ul>
           <a class="btn alt js-make" href="/create?t=classic">Start free</a>
         </div>
@@ -98,7 +98,7 @@ function sec_pricing(): void
           <p class="price">₹<?= $ps ?> <small>one time</small></p>
           <p class="who">All the classic designs</p>
           <ul>
-            <li><?= $tick ?><?= count(themes_by_tier('free')) + count(themes_by_tier('standard')) ?> designs for every tradition</li>
+            <li><?= $tick ?><?= count(themes_by_tier('standard')) ?> Standard designs, plus the 2 free ones</li>
             <li><?= $tick ?>Up to 3 events with maps and calendar</li>
             <li><?= $tick ?>One cover photo</li>
             <li><?= $tick ?>Countdown and family details</li>
@@ -113,7 +113,7 @@ function sec_pricing(): void
           <p class="price"><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
           <p class="who">Everything, with our best designs</p>
           <ul>
-            <li><?= $tick ?>All <?= $nThemes ?> designs, including Premium ones</li>
+            <li><?= $tick ?><?= count(themes_by_tier('premium')) ?> Premium designs, plus all the others</li>
             <li><?= $tick ?>Gift list: guests reserve what you need</li>
             <li><?= $tick ?>RSVPs with guest list and headcount</li>
             <li><?= $tick ?>Gallery of up to 15 photos guests can download</li>
@@ -148,7 +148,7 @@ function site_faq(): array
 {
     $ps = price('standard'); $pp = price('premium');
     return [
-        ['Is WedLink really free?', "Yes. The Basic plan is free for 3 months: make a wedding website with the Classic or Blush design and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
+        ['Is TheWedLink really free?', "Yes. The Basic plan is free for 3 months: make a wedding website with the Classic or Blush design and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
         ['What is a wedding website?', 'A wedding website is a single link that replaces the printed card. Guests open it from WhatsApp and see your invitation, every event with Google Maps directions, a countdown, RSVP, gift list and photos.'],
         ['Do guests need to install anything?', 'No. The invite is a web page. It opens in WhatsApp, Instagram or any browser on any phone.'],
         ['Can I change details after I share the link?', 'Yes. You get a private edit link. Change times, venues, photos or wording, and the shared link shows the update straight away.'],

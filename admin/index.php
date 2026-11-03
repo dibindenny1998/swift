@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /admin/'); exit;
     }
     if ($act === 'settings') {
-        foreach (['brand', 'business_name', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
+        foreach (['brand', 'business_name', 'site_domain', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
         foreach (['price_standard', 'price_premium', 'price_biodata'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
         set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
         $kid = trim((string)($_POST['rzp_key_id'] ?? ''));
@@ -381,6 +381,7 @@ site_head('Admin | ' . setting('brand'));
       <p class="lead">Shown on the Contact, Terms, Privacy and Refund pages. Razorpay checks these pages during KYC.</p>
       <div class="grid2" style="margin-top:12px">
         <div class="field"><label for="b1">Brand name</label><input id="b1" name="brand" value="<?= e(setting('brand')) ?>"></div>
+        <div class="field"><label for="b6">Site domain</label><input id="b6" name="site_domain" value="<?= e(setting('site_domain')) ?>" placeholder="thewedlink.in"><small>Shown in the "Crafted by" mark on free invites.</small></div>
         <div class="field"><label for="b2">Legal business name</label><input id="b2" name="business_name" value="<?= e(setting('business_name')) ?>"></div>
         <div class="field"><label for="b3">Support WhatsApp number</label><input id="b3" name="support_phone" inputmode="tel" value="<?= e(setting('support_phone')) ?>"></div>
         <div class="field"><label for="b4">Support email</label><input id="b4" name="support_email" type="email" value="<?= e(setting('support_email')) ?>"></div>

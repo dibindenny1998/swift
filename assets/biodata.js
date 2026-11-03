@@ -1,4 +1,4 @@
-/* WedLink marriage biodata: renderer, form logic and PDF / image download. */
+/* TheWedLink marriage biodata: renderer, form logic and PDF / image download. */
 (function (w, doc) {
   'use strict';
   var CFG = w.WLB_CFG || {};
@@ -92,7 +92,7 @@
       (d.about ? '<section class="bd-sec bd-para">' + head('About me') + '<p>' + nl2br(d.about) + '</p></section>' : '') +
       body +
       (d.expect ? '<section class="bd-sec bd-para">' + head('Partner expectations') + '<p>' + nl2br(d.expect) + '</p></section>' : '') +
-      '</div>' + (opts.watermark ? strip(opts.brand || 'WedLink') : '') + '</div>';
+      '</div>' + (opts.watermark ? strip(opts.brand || 'TheWedLink') : '') + '</div>';
     el.innerHTML = html;
     fit(el.querySelector('.bd'));
   }

@@ -1,6 +1,6 @@
-# WedLink
+# TheWedLink
 
-> WedLink is an Indian website for making a free wedding website (a digital wedding invitation shared as one WhatsApp link) and a free marriage biodata. It is built for Hindu, Christian, Muslim, Sikh, Jain and Kerala weddings.
+> TheWedLink is an Indian website for making a free wedding website (a digital wedding invitation shared as one WhatsApp link) and a free marriage biodata. It is built for Hindu, Christian, Muslim, Sikh, Jain and Kerala weddings.
 
 ## Free wedding website and invitation maker
 - Couples type their names, events, venues and photos, preview the whole website free, and share one link on WhatsApp.
@@ -13,7 +13,7 @@
 - Make a marriage biodata online free and download it as an A4 PDF or JPG image for WhatsApp.
 - Pick a religion and the form shows what families expect: gotra, nakshatra, rasi and manglik for Hindu; sect, maslak and community for Muslim; denomination, parish and diocese for Christian; got and Amritdhari or Keshdhari status for Sikh; sect and diet for Jain.
 - Minimal designs in six colours, four layouts, optional photo and religious symbol.
-- Free version carries a small "Created by WedLink" strip; a clean copy is a one-time ₹399.
+- Free version carries a small "Created by TheWedLink" strip; a clean copy is a one-time ₹399.
 
 ## Pages
 - [Home: free wedding website maker](/)

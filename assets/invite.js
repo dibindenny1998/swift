@@ -1,4 +1,4 @@
-/* WedLink invite renderer. One renderer powers the live invite, the owner preview,
+/* TheWedLink invite renderer. One renderer powers the live invite, the owner preview,
    the live editor preview and the landing-page demo. */
 (function (w, doc) {
   'use strict';
@@ -6,6 +6,10 @@
   var FONTS = {
     classic: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400',
     blush: 'family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    lavender: 'family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    mehndi: 'family=Rozha+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    mughal: 'family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Pinyon+Script',
+    bloom: 'family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500',
     lumiere: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500',
     journal: 'family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500',
     vogue: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500',
@@ -247,7 +251,7 @@
   }
 
   function divider(theme) {
-    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
+    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" transform="translate(100,10)"><path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/></g></svg>';
   }
@@ -261,7 +265,7 @@
     '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
     '</defs></svg>';
 
-  var LIGHT = { lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  var LIGHT = { lavender: 1, mughal: 1, bloom: 1, lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
   function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
 
   function bokeh(seed, n, w, h) {
@@ -454,9 +458,9 @@
 
   /* ---------- premium art: sage, seal, ink, toile ---------- */
   var TIMELINE = { sage: 1, ink: 1, toile: 1, journal: 1 };
-  var PHOTO_LED = { lumiere: 1, journal: 1, vogue: 1 };
+  var PHOTO_LED = { lumiere: 1, journal: 1, vogue: 1, bloom: 1 };
   // Premium designs get an animated header: photos fading in, plus moving decor
-  var ANIM = { lumiere: 'petals', journal: 'petals', seal: 'petals', jaipur: 'petals', sage: 'petals', ink: 'petals',
+  var ANIM = { bloom: 'petals', mughal: 'sparkle', lumiere: 'petals', journal: 'petals', seal: 'petals', jaipur: 'petals', sage: 'petals', ink: 'petals',
     vogue: 'sparkle', velvet: 'sparkle', mayil: 'sparkle', gopuram: 'sparkle', chapel: 'sparkle', toile: 'sparkle', qamar: 'lanterns' };
   function particles(kind) {
     if (!kind) return '';
@@ -532,8 +536,27 @@
     return '<section class="wl-sec wl-cal" data-sec="calendar"><h2>' + MONTHS[p.mo] + ' ' + p.y + '</h2><div class="wl-cal-g">' + cells + '</div></section>';
   }
 
+  function lilacSpray(cls) {
+    var r = rng(cls.length * 13), s = '<svg class="' + cls + '" viewBox="0 0 140 200" aria-hidden="true"><path d="M20,195 C40,140 60,90 110,20" fill="none" stroke="#8FA383" stroke-width="1.4"/>';
+    for (var i = 0; i < 26; i++) { var t = i / 26, x = 20 + t * 90 + (r() - .5) * 26, y = 195 - t * 175 + (r() - .5) * 18;
+      s += '<circle cx="' + f1(x) + '" cy="' + f1(y) + '" r="' + f1(4 + r() * 5) + '" fill="' + ['#C9B6E4', '#B39DDB', '#DCCFF0', '#A68CCF'][i % 4] + '" opacity=".85"/>'; }
+    [[46, 150, -40], [70, 110, 30], [96, 60, -35]].forEach(function (l) { s += '<ellipse cx="' + l[0] + '" cy="' + l[1] + '" rx="14" ry="5" transform="rotate(' + l[2] + ' ' + l[0] + ' ' + l[1] + ')" fill="#A9BC9A"/>'; });
+    return s + '</svg>';
+  }
+  function paisleyBand(cls) {
+    var s = '<svg class="' + cls + '" viewBox="0 0 400 60" aria-hidden="true"><g fill="none" stroke="#C9A24A" stroke-width="1.2">';
+    for (var x = 20; x < 400; x += 60) {
+      s += '<path d="M' + x + ',44 C' + (x - 14) + ',30 ' + (x - 6) + ',10 ' + (x + 12) + ',12 C' + (x + 26) + ',14 ' + (x + 26) + ',32 ' + (x + 12) + ',36 C' + (x + 4) + ',38 ' + (x + 2) + ',30 ' + (x + 9) + ',27"/>';
+      s += '<circle cx="' + (x + 30) + '" cy="30" r="2.2" fill="#C9A24A"/><path d="M' + (x + 30) + ',20 l0,-6 M' + (x + 30) + ',40 l0,6"/>';
+    }
+    return s + '<path d="M0,54 L400,54 M0,58 L400,58" stroke-width=".7"/></g></svg>';
+  }
+
   function heroDecor(theme) {
     switch (theme) {
+      case 'lavender': return lilacSpray('wl-lil l') + lilacSpray('wl-lil r');
+      case 'mehndi': return paisleyBand('wl-pai t') + paisleyBand('wl-pai b');
+      case 'mughal': return '<div class="wl-hd-top">' + starBand('url(#wlFoilD)') + '</div>' + mihrab('url(#wlFoilD)') + '<svg class="wl-mg-dome" viewBox="0 0 120 70" aria-hidden="true"><path d="M10,70 C10,40 35,18 60,6 C85,18 110,40 110,70" fill="none" stroke="url(#wlFoilD)" stroke-width="1.6"/><path d="M60,6 L60,-2 M56,1 L64,1" stroke="url(#wlFoilD)" stroke-width="1.4"/><circle cx="60" cy="-4" r="2.5" fill="url(#wlFoilD)"/></svg>';
       case 'sage': return washes() + sprig('wl-sprig l') + sprig('wl-sprig r');
       case 'seal': return sealDecor() + '<div class="wl-frame wl-frame-2"></div>';
       case 'ink': return '';
@@ -586,7 +609,7 @@
       video: lim.video ? videoEmbed(d.video) : '', videoKind: d.video_kind || 'prewedding',
       gifts: lim.gifts ? (d.gifts || []).filter(function (g) { return g && (g.name || '').trim(); }) : [],
       giftsTaken: d.gifts_taken || [], giftNote: (d.gift_note || '').trim(),
-      slug: d.slug || '', brand: d.brand || 'WedLink'
+      slug: d.slug || '', brand: d.brand || 'TheWedLink', domain: d.domain || w.WL_DOMAIN || 'thewedlink.in'
     };
   }
 
@@ -619,6 +642,15 @@
       '<label class="wl-guests">Number of guests<select name="guests">' + opts + '</select></label>' +
       '<label>A note for the couple (optional)<textarea name="message" rows="3" maxlength="400"></textarea></label>' +
       '<button class="wl-btn solid" type="submit">Send RSVP</button><p class="wl-form-msg" role="status"></p></form></section>';
+  }
+
+  // Free plan: an elegant 'Crafted by' seal that is part of the design
+  function craftedMark(v, where) {
+    var rings = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4" opacity=".6"/></svg>';
+    return '<a class="wl-crafted wl-crafted-' + where + '" href="/?ref=crafted" target="_blank" rel="noopener">' +
+      '<span class="wl-crafted-seal">' + rings + '</span>' +
+      '<span class="wl-crafted-t"><small>Crafted by</small><b>' + esc(v.brand) + '</b><em>' + esc(v.domain) + '</em></span>' +
+      (where === 'end' ? '<span class="wl-crafted-cta">Make your own free wedding website</span>' : '') + '</a>';
   }
 
   function giftsHtml(v) {
@@ -720,6 +752,7 @@
       if (first.time) html += '<p class="wl-time">' + esc(time12(first.time)) + '</p>';
       if (first.venue) html += '<p class="wl-venue">' + esc(first.venue) + '</p>';
     }
+    if (v.plan === 'free') html += craftedMark(v, 'top');
     html += '</div></' + (photos[0] ? 'section' : 'header') + '>';
     }
 
@@ -766,7 +799,7 @@
     }
 
     html += '<footer class="wl-end"><p class="wl-closing">' + esc(v.closing) + '</p><p class="wl-sign">' + esc(title) + '</p>' + divider(v.theme) +
-      (v.lim.badge ? '<a class="wl-badge" href="/?ref=badge" target="_blank" rel="noopener">Made with ' + esc(v.brand) + '. Make yours</a>' : '') + '</footer>';
+      (v.plan === 'free' ? craftedMark(v, 'end') : v.lim.badge ? '<a class="wl-badge" href="/?ref=badge" target="_blank" rel="noopener">Made with ' + esc(v.brand) + '. Make yours</a>' : '') + '</footer>';
     html += '</main>';
 
     if (v.music) html += '<button type="button" class="wl-music" aria-label="Play music" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="18" cy="16" r="3" fill="currentColor"/></svg></button><audio class="wl-audio" src="' + esc(v.music) + '" loop preload="none"></audio>';

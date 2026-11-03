@@ -148,7 +148,7 @@ function bio_js_config(): array
 
 const BIO_SEO = [
     '' => [
-        'title' => 'Free Marriage Biodata Maker Online: Download PDF | WedLink',
+        'title' => 'Free Marriage Biodata Maker Online: Download PDF | TheWedLink',
         'desc' => 'Make a marriage biodata online for free. Hindu, Muslim, Christian, Sikh, Jain and Kerala formats with minimal designs. Add a photo and download a PDF or image for WhatsApp.',
         'h1' => 'Free marriage biodata maker',
         'intro' => 'Choose your religion, fill in your details and download a beautiful biodata as a PDF or image. No sign-up, no design skills needed.',
@@ -164,7 +164,7 @@ const BIO_SEO = [
         ],
     ],
     'hindu' => [
-        'title' => 'Hindu Marriage Biodata Format: Free Maker with PDF | WedLink',
+        'title' => 'Hindu Marriage Biodata Format: Free Maker with PDF | TheWedLink',
         'desc' => 'Free Hindu marriage biodata maker with gotra, nakshatra, rasi, manglik and kuladevata fields. Pick a minimal design, add a photo and download a PDF.',
         'h1' => 'Hindu marriage biodata maker',
         'intro' => 'A Hindu biodata format with everything families check for horoscope matching: gotra, star, rasi, manglik dosham and birth time.',
@@ -180,7 +180,7 @@ const BIO_SEO = [
         ],
     ],
     'muslim' => [
-        'title' => 'Muslim Marriage Biodata Format: Free Nikah Biodata Maker | WedLink',
+        'title' => 'Muslim Marriage Biodata Format: Free Nikah Biodata Maker | TheWedLink',
         'desc' => 'Free Muslim marriage biodata maker for Nikah proposals. Add sect, maslak, community and religious practice, choose a minimal design and download a PDF.',
         'h1' => 'Muslim marriage biodata maker',
         'intro' => 'A Muslim biodata format for Nikah proposals, starting with Bismillah, with sect, maslak and community details. No horoscope fields.',
@@ -196,7 +196,7 @@ const BIO_SEO = [
         ],
     ],
     'christian' => [
-        'title' => 'Christian Marriage Biodata Format: Free Maker with PDF | WedLink',
+        'title' => 'Christian Marriage Biodata Format: Free Maker with PDF | TheWedLink',
         'desc' => 'Free Christian marriage biodata maker with denomination, parish and diocese. Catholic, Syro-Malabar, Orthodox, CSI, Marthoma and Pentecostal. Download a PDF.',
         'h1' => 'Christian marriage biodata maker',
         'intro' => 'A Christian biodata format with denomination, parish church and diocese, as asked by families and parish matrimony services.',
@@ -212,7 +212,7 @@ const BIO_SEO = [
         ],
     ],
     'sikh' => [
-        'title' => 'Sikh Marriage Biodata Format: Free Maker with PDF | WedLink',
+        'title' => 'Sikh Marriage Biodata Format: Free Maker with PDF | TheWedLink',
         'desc' => 'Free Sikh marriage biodata maker with got, caste, Amritdhari or Keshdhari status and Gurdwara. Starts with Ik Onkar. Pick a design and download a PDF.',
         'h1' => 'Sikh marriage biodata maker',
         'intro' => 'A Sikh biodata format for Anand Karaj proposals, starting with ੴ ਸਤਿ ਨਾਮੁ, with got, caste and Sikhi details.',
@@ -228,7 +228,7 @@ const BIO_SEO = [
         ],
     ],
     'jain' => [
-        'title' => 'Jain Marriage Biodata Format: Free Maker with PDF | WedLink',
+        'title' => 'Jain Marriage Biodata Format: Free Maker with PDF | TheWedLink',
         'desc' => 'Free Jain marriage biodata maker with sect (Digambar or Shwetambar), gotra, star and Jain diet. Choose a minimal design and download a PDF.',
         'h1' => 'Jain marriage biodata maker',
         'intro' => 'A Jain biodata format beginning with Jai Jinendra, with sect, gotra and diet details.',
@@ -244,7 +244,7 @@ const BIO_SEO = [
         ],
     ],
     'kerala' => [
-        'title' => 'Kerala Marriage Biodata Format: Free Maker in Malayalam or English | WedLink',
+        'title' => 'Kerala Marriage Biodata Format: Free Maker in Malayalam or English | TheWedLink',
         'desc' => 'Free Kerala marriage biodata maker with a kasavu gold design. Write in Malayalam or English, add star and rasi, a photo, and download a PDF.',
         'h1' => 'Kerala marriage biodata maker',
         'intro' => 'A Kerala biodata with a kasavu gold border. Write in Malayalam or English, with star (nakshatram) and rasi for jathakam matching.',

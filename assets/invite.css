@@ -1,4 +1,4 @@
-/* WedLink invite themes */
+/* TheWedLink invite themes */
 .wl {
   --bg: #fff; --page: #fff; --outer: #eee; --ink: #222; --muted: #666; --acc: #a8821a; --acc2: var(--acc);
   --card: rgba(255,255,255,.7); --line: rgba(0,0,0,.14);
@@ -732,3 +732,71 @@
 .wl.has-bg .wl-cv::before { display: none; }
 .wl-cv::after, .wl.has-bg .wl-cv::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,.12) 48%, rgba(20,12,10,.62) 72%, rgba(20,12,10,.82) 100%); }
 .wl-cv-in .wl-intro, .wl-cv-in .wl-pl-date { text-shadow: 0 1px 8px rgba(0,0,0,.45); }
+
+/* Free plan: 'Crafted by TheWedLink' seal, styled in the design's own colours */
+.wl-crafted { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 6px auto; padding: 12px 20px; max-width: 340px; text-decoration: none; color: var(--acc); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; z-index: 2; }
+.wl-crafted-seal { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--card); box-shadow: 0 0 0 1px var(--line), inset 0 0 0 4px var(--page), inset 0 0 0 5px var(--line); }
+.wl-crafted-seal svg { width: 26px; height: 26px; }
+.wl-crafted-t { display: grid; text-align: left; line-height: 1.15; }
+.wl-crafted-t small { font-size: .66em; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.wl-crafted-t b { font-family: var(--fh); font-weight: 600; font-size: 1.25em; color: var(--acc2); }
+.wl-crafted-t em { font-style: normal; font-size: .72em; letter-spacing: .08em; color: var(--muted); }
+.wl-crafted-end { flex-wrap: wrap; margin-top: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
+.wl-crafted-cta { flex-basis: 100%; text-align: center; font-size: .78em; letter-spacing: .06em; text-transform: uppercase; color: var(--acc); padding-top: 4px; }
+
+/* ---------- Lavender (Standard) ---------- */
+.wl[data-theme=lavender] {
+  --page: #FAF7FD; --outer: #E7E0F1; --ink: #3D3550; --muted: #776D8C; --acc: #7A64A8; --acc2: #5E4A8C;
+  --card: rgba(255,255,255,.75); --line: rgba(122,100,168,.25);
+  --fs: 'Great Vibes'; --ft: 'Cormorant Garamond'; --fh: 'Cormorant Garamond'; --names: clamp(2.8rem, 17vw, 5.2rem); --tsize: 1.1rem;
+  --btn: #7A64A8; --foil: linear-gradient(100deg, #5E4A8C, #A68CCF 40%, #6E58A0 62%, #C3B2E2 85%, #5E4A8C); --veil: rgba(250,247,253,.6); --photo-r: 18px;
+}
+.wl[data-theme=lavender] .wl-body { background: radial-gradient(70% 30% at 50% 10%, #fff 0, transparent 70%), linear-gradient(#F1EBF9, #FAF7FD 40%, #FDFBFF); }
+.wl[data-theme=lavender] .wl-door { background: linear-gradient(#F1EBF9, #FAF7FD); }
+.wl[data-theme=lavender] .wl-lil { position: absolute; top: 0; width: 120px; }
+.wl[data-theme=lavender] .wl-lil.l { left: -6px; } .wl[data-theme=lavender] .wl-lil.r { right: -6px; transform: scaleX(-1); }
+.wl[data-theme=lavender] .wl-hero { padding-top: 170px; }
+.wl[data-theme=lavender] h2 { font-style: italic; }
+
+/* ---------- Mehndi (Standard) ---------- */
+.wl[data-theme=mehndi] {
+  --page: #1E4A35; --outer: #10291D; --ink: #F3ECD8; --muted: #CFD8C4; --acc: #DDBB66; --acc2: #F1DB9A;
+  --card: rgba(255,255,255,.06); --line: rgba(221,187,102,.3);
+  --fs: 'Rozha One'; --ft: 'Cormorant Garamond'; --fh: 'Rozha One'; --names: clamp(2.4rem, 13vw, 4.2rem); --tsize: 1.1rem;
+  --btn: #DDBB66; --btnInk: #1E4A35; --foil: var(--foilG); --grain: .14; --grain-mode: overlay; --veil: rgba(16,41,29,.45);
+}
+.wl[data-theme=mehndi] .wl-body { background: radial-gradient(120% 55% at 50% 0%, #2B6B4C 0%, #1E4A35 55%, #143524 100%); }
+.wl[data-theme=mehndi] .wl-door { background: radial-gradient(100% 70% at 50% 40%, #276045, #143524); }
+.wl[data-theme=mehndi] .wl-pai { position: absolute; left: 0; width: 100%; }
+.wl[data-theme=mehndi] .wl-pai.t { top: 18px; } .wl[data-theme=mehndi] .wl-pai.b { bottom: 18px; transform: scaleY(-1); }
+.wl[data-theme=mehndi] .wl-hero { padding-top: 130px; }
+
+/* ---------- Mughal (Premium) ---------- */
+.wl[data-theme=mughal] {
+  --page: #FBF6EA; --outer: #EADFC8; --ink: #3E2F1C; --muted: #86735A; --acc: #9A7535; --acc2: #7A5A22;
+  --card: rgba(255,255,255,.7); --line: rgba(154,117,53,.3);
+  --fs: 'Pinyon Script'; --ft: 'Cormorant Garamond'; --fh: 'Cinzel'; --names: clamp(2.8rem, 16vw, 5rem); --tsize: 1.1rem;
+  --btn: #9A7535; --foil: var(--foilD); --veil: rgba(251,246,234,.6); --photo-r: 999px 999px 12px 12px;
+}
+.wl[data-theme=mughal] .wl-body { background: radial-gradient(80% 35% at 50% 14%, #FFFDF5 0, transparent 70%), linear-gradient(#F6EDD8, #FBF6EA 45%, #F6EEDC); }
+.wl[data-theme=mughal] .wl-door { background: linear-gradient(#F6EDD8, #FBF6EA); }
+.wl[data-theme=mughal] .wl-mihrab { position: absolute; top: 60px; left: 50%; width: 86%; height: calc(100% - 64px); transform: translateX(-50%); }
+.wl[data-theme=mughal] .wl-mg-dome { position: absolute; top: 34px; left: 50%; width: 120px; transform: translateX(-50%); overflow: visible; }
+.wl[data-theme=mughal] .wl-hero { padding: 190px 48px 80px; }
+.wl[data-theme=mughal] h2, .wl[data-theme=mughal] .wl-ev h3 { letter-spacing: .08em; font-size: 1.25rem; }
+
+/* ---------- Bloom (Premium, photo-led): photo in a floral arch window ---------- */
+.wl[data-theme=bloom] {
+  --page: #FDF3F4; --outer: #F1DADD; --ink: #4A3036; --muted: #8C6A70; --acc: #B4606E; --acc2: #94485A;
+  --card: rgba(255,255,255,.78); --line: rgba(180,96,110,.25);
+  --fs: 'Pinyon Script'; --ft: 'Cormorant Garamond'; --fh: 'Cormorant Garamond'; --names: clamp(3rem, 17vw, 5.4rem); --tsize: 1.1rem;
+  --btn: #B4606E; --foil: linear-gradient(100deg, #8E3E4C, #D98C99 40%, #A44E5D 62%, #E7A5AF 85%, #8E3E4C); --veil: rgba(253,243,244,.6); --photo-r: 999px 999px 18px 18px;
+}
+.wl[data-theme=bloom] .wl-body { background: radial-gradient(70% 30% at 50% 6%, #fff 0, transparent 70%), linear-gradient(#FBE4E7, #FDF3F4 40%, #FFF9F9); }
+.wl[data-theme=bloom] .wl-pl-img { width: 78%; height: 56svh; min-height: 360px; margin: 26px auto 0; border-radius: 999px 999px 16px 16px; box-shadow: 0 0 0 6px #fff, 0 0 0 7px #E7B5BD, 0 26px 50px -26px rgba(148,72,90,.6); }
+.wl[data-theme=bloom] .wl-pl-img.none { background: linear-gradient(170deg, #F6D3D9, #E7A5AF); }
+.wl[data-theme=bloom] .wl-pl-in { padding: 30px 24px 52px; }
+.wl[data-theme=bloom] .wl-pl .wl-intro { letter-spacing: .18em; text-transform: uppercase; font-size: .72em; color: var(--muted); }
+.wl[data-theme=bloom] .wl-pl-date { color: var(--acc2); }
+.wl[data-theme=bloom] h2 { font-style: italic; font-size: 1.8rem; }
+.wl-crafted-top { margin-top: 28px; }
