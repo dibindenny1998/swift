@@ -70,6 +70,11 @@ function showcase_themes(): array
     $ids = array_keys(THEMES);
     $pos = array_flip($ids);
     usort($ids, fn($a, $b) => [$rank($a, THEMES[$a]), array_search($a, PHOTO_LED_THEMES) ?: 0, $pos[$a]] <=> [$rank($b, THEMES[$b]), array_search($b, PHOTO_LED_THEMES) ?: 0, $pos[$b]]);
+    // fixed spots near the top: Monochrome 4th, Reel 6th
+    foreach (['mono' => 3, 'reel' => 5] as $id => $at) {
+        $ids = array_values(array_diff($ids, [$id]));
+        array_splice($ids, $at, 0, [$id]);
+    }
     $out = [];
     foreach ($ids as $id) $out[$id] = THEMES[$id];
     return $out;
