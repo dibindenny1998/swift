@@ -945,3 +945,6 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
   .hero { --ph: clamp(290px, calc(100vh - 380px), 530px); --ph: clamp(290px, calc(100svh - 380px), 530px); }
   .hero .hero-title { font-size: clamp(2.3rem, 10.5vw, 2.9rem) !important; }
 }
+/* side cards: softly visible, not washed out */
+.hero .hero-card { opacity: .78 !important; filter: saturate(.92) !important; }
+@media (max-width: 900px) { .hero .hero-card { opacity: .72 !important; } }
