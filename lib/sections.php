@@ -127,9 +127,10 @@ function sec_pricing(): void
           </ul>
           <a class="btn alt js-make" href="/create?t=classic">Start free</a>
         </div>
-        <div class="plan">
+        <div class="plan pick">
+          <span class="plan-flag">Most couples pick this</span>
           <h3>Standard</h3>
-          <p class="price">₹<?= $ps ?> <small>one time</small></p>
+          <p class="price"><span class="foil">₹<?= $ps ?></span> <small>one time</small></p>
           <p class="who">All the classic designs</p>
           <ul>
             <li><?= $tick ?><?= count(themes_by_tier('standard')) ?> Standard designs, plus the 2 free ones</li>
@@ -139,12 +140,11 @@ function sec_pricing(): void
             <li><?= $tick ?>Edit anytime, live for 6 months</li>
             <li class="no"><?= $tick ?>No gallery or gift list</li>
           </ul>
-          <a class="btn alt js-make" href="/create">Start with Standard</a>
+          <a class="btn js-make" href="/create">Start with Standard</a>
         </div>
-        <div class="plan pick">
-          <span class="plan-flag">Most couples pick this</span>
+        <div class="plan">
           <h3>Premium</h3>
-          <p class="price"><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
+          <p class="price">₹<?= $pp ?> <small>one time</small></p>
           <p class="who">Everything, with our best designs</p>
           <ul>
             <li><?= $tick ?><?= count(themes_by_tier('premium')) ?> Premium designs, plus all the others</li>
@@ -155,7 +155,7 @@ function sec_pricing(): void
             <li><?= $tick ?>Background music and up to 6 events</li>
             <li><?= $tick ?>Live for 1 year, no <?= e($brand) ?> credit</li>
           </ul>
-          <a class="btn js-make" href="/create">Start with Premium</a>
+          <a class="btn alt js-make" href="/create">Start with Premium</a>
         </div>
         <div class="plan custom">
           <h3>Custom</h3>

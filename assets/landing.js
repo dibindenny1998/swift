@@ -108,7 +108,7 @@
   document.querySelectorAll('.js-cat').forEach(function (a) { a.addEventListener('click', function () { filter(a.dataset.cat); }); });
 })();
 
-// plan cards on phones: start with Premium (Most Popular) in the middle
+// plan cards on phones: start with Standard (Most Popular) in the middle
 (function () {
   var row = document.getElementById('mini-plans'), pop = row && row.querySelector('.pop');
   if (!row || !pop || row.scrollWidth <= row.clientWidth) return;
