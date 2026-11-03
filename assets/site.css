@@ -768,3 +768,20 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
 .hero-card svg { width: 24%; margin-left: 5%; }
 .hero-card.r svg { margin: 0 5% 0 0; }
 .hero-card.l { z-index: 0; } .hero-card.r { z-index: 0; }
+/* ===== hero polish: closer to the mockup ===== */
+@media (max-width: 900px) {
+  /* soft photographic backdrop: blurred roses and silk around the phone */
+  .lux-hero > .slot { display: block !important; opacity: .55 !important; filter: blur(14px) saturate(1.1); transform: scale(1.15); top: 38%; height: 70%; object-position: 70% 50%; }
+  .lux-hero::after { background: linear-gradient(180deg, #FDF6F3 0%, rgba(253,246,243,.92) 30%, rgba(253,246,243,.35) 62%, rgba(253,246,243,.75) 100%) !important; }
+  .hero .eyebrow { font-size: .62rem; letter-spacing: .1em; padding: 9px 14px; white-space: nowrap; }
+  .hero .eyebrow svg { width: 14px; height: 14px; }
+}
+/* slim rose-gold phone with a dark notch */
+.hero .fan .phone.front { background: linear-gradient(145deg, #F6DCD3, #D9A99F 40%, #F2D3C8 60%, #C99189); padding: 5px; box-shadow: 0 40px 70px -30px rgba(120,50,62,.55), inset 0 0 0 1px rgba(255,255,255,.6); }
+.hero .fan .phone.front::before { background: #3A2428; width: 30%; height: 16px; top: 13px; }
+.hero .fan .phone.front iframe { border: 4px solid #241618; }
+/* softer cards with a thin gold edge */
+.hero-card.l { background: linear-gradient(160deg, #2E5E4E, #1D4236); box-shadow: inset 0 0 0 1px rgba(214,178,110,.55), 0 30px 60px -34px rgba(30,60,48,.55); }
+.hero-card.r { background: linear-gradient(160deg, #FFFBF4, #F4EADA); box-shadow: inset 0 0 0 1px #E2CFA6, 0 30px 60px -34px rgba(74,40,46,.35); }
+/* berry-rose main button */
+.hero-cta-m .btn, .hero-cta .btn { background: linear-gradient(135deg, #C2456E, #9C2B52); box-shadow: 0 18px 34px -14px rgba(156,43,82,.6); }
