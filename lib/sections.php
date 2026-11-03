@@ -25,7 +25,7 @@ function sec_designs(int $limit = 0): void
     <div class="wrap">
       <?php if ($limit): ?><div class="sec-head">
           <h2 class="foil">Our favourite designs</h2>
-          <p>Your photo fills the first screen, with petals, sparkles or lanterns moving over it. Tap any design to preview it.</p>
+          <p>Each one opens in its own way. Tap any design to preview it.</p>
       </div><?php endif; ?>
       <?php if (!$limit): ?>
       <div class="dz-bar" id="dz-bar">
