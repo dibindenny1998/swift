@@ -948,3 +948,12 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
 /* side cards: softly visible, not washed out */
 .hero .hero-card { opacity: .78 !important; filter: saturate(.92) !important; }
 @media (max-width: 900px) { .hero .hero-card { opacity: .72 !important; } }
+/* phones: room to breathe between the label, headline, names and hint */
+@media (max-width: 900px) {
+  .hero { --ph: clamp(280px, calc(100vh - 412px), 520px); --ph: clamp(280px, calc(100svh - 412px), 520px); }
+  .hero .eyebrow { margin-top: 6px !important; margin-bottom: 22px !important; font-size: .64rem !important; padding: 7px 14px !important; }
+  .hero .hero-title .pre { margin-bottom: .32em !important; }
+  .hero .hero-title { line-height: 1.12 !important; }
+  .hero-hint { margin-top: 14px !important; }
+  .hero .fan { margin-top: 18px !important; }
+}
