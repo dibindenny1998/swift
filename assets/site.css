@@ -807,3 +807,20 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
   .hero .eyebrow { max-width: calc(100vw - 32px); white-space: normal; text-align: center; justify-content: center; line-height: 1.35; letter-spacing: .08em; }
   .lux-hero > .slot, .lux-hero::after { display: none !important; }
 }
+/* side cards show two real designs */
+.hero-card { overflow: hidden; padding: 0; background: #fff !important; }
+.hero-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-card.l, .hero-card.r { box-shadow: 0 0 0 1px rgba(201,162,90,.45), 0 30px 50px -28px rgba(74,40,46,.55); }
+@media (max-width: 900px) {
+  .hero { --ph: clamp(296px, calc(100vh - 366px), 530px); --ph: clamp(296px, calc(100svh - 366px), 530px); }
+  .hero .eyebrow .eb-x { display: none; }
+  .hero .eyebrow { white-space: nowrap; font-size: .74rem; letter-spacing: .06em; padding: 9px 16px; margin-bottom: 14px; }
+  .hero-hint { margin-top: 4px; }
+  .hero .fan { margin-top: -8px; }
+  .hero .hero-card { --peek: min(calc(var(--pw) * .44), calc((100vw - var(--pw)) / 2 - 36px)); top: calc(var(--ph) * .09); width: calc(var(--pw) * .8); height: calc(var(--pw) * .8 * 2.07); border-radius: 22px; }
+  .hero .hero-card.l { left: calc(50% - var(--pw) * .5 - var(--peek)); transform: rotate(-5deg); }
+  .hero .hero-card.r { right: calc(50% - var(--pw) * .5 - var(--peek)); transform: rotate(5deg); }
+}
+@keyframes heroCardL { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(-6deg) translateY(-5px); } }
+@keyframes heroCardR { 0%, 100% { transform: rotate(5deg); } 50% { transform: rotate(6deg) translateY(-5px); } }
+@media (max-width: 900px) { .fan .hero-card.l { animation-name: heroCardL; } .fan .hero-card.r { animation-name: heroCardR; } }
