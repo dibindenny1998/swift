@@ -110,14 +110,14 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
         <button type="button" class="btn alt small" id="music-x" hidden>Remove song</button>
       </div>
       <div class="field">
-        <label for="video">YouTube video <span class="tag">Premium</span></label>
-        <input id="video" name="video" inputmode="url" maxlength="300" placeholder="https://youtu.be/…">
+        <label for="video">Video link <span class="tag">Premium</span></label>
+        <input id="video" name="video" inputmode="url" maxlength="300" placeholder="YouTube, Vimeo or Google Drive link">
         <div class="chips" id="video-kind" role="radiogroup" aria-label="Video type">
           <label class="chip-r"><input type="radio" name="video_kind" value="prewedding" checked><span>Pre-wedding film</span></label>
           <label class="chip-r"><input type="radio" name="video_kind" value="wishes"><span>Wishes from family</span></label>
           <label class="chip-r"><input type="radio" name="video_kind" value="story"><span>Our story</span></label>
         </div>
-        <small>Upload your video to YouTube (Unlisted is fine) and paste the link. It starts playing by itself in your invite, muted; guests tap to hear it. Leave empty for no video.</small>
+        <small>Paste a YouTube (Unlisted is fine), Vimeo or Google Drive link (set to "Anyone with the link"). YouTube and Vimeo videos start playing by themselves, muted; guests tap to hear them. Leave empty for no video.</small>
       </div>
       <div class="field"><label for="message">A message for your guests</label><textarea id="message" name="message" maxlength="500" rows="3" placeholder="With the blessings of our elders, we warmly invite you and your family to share our joy."></textarea></div>
       <div class="field"><label for="closing">Closing line</label><input id="closing" name="closing" maxlength="120" placeholder="Your presence is the blessing we look forward to."></div>

@@ -230,6 +230,7 @@ const SETTING_DEFAULTS = [
     'brand'           => 'TheWedLink',
     'business_name'   => 'TheWedLink',
     'site_domain'     => 'thewedlink.in',
+    'demo_video'      => '',
     'support_phone'   => '',
     'support_email'   => '',
     'address'         => 'Bangalore, Karnataka, India',

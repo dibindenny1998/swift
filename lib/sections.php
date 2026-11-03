@@ -47,11 +47,12 @@ function sec_designs(int $limit = 0): void
         <?php foreach ($themes as $id => $t):
             $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? '';
             $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
-          <a class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" href="/create?t=<?= $id ?>" data-tags="<?= e($tags) ?>">
-            <span class="gd-img">
+          <div class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" data-tags="<?= e($tags) ?>">
+            <button type="button" class="gd-img js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>" aria-label="Preview <?= e($t['name']) ?>">
               <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
               <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
-            </span>
+              <span class="gd-eye"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Preview</span>
+            </button>
             <b><?= e($t['name']) ?></b>
             <span class="gd-tags">
               <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
@@ -60,13 +61,33 @@ function sec_designs(int $limit = 0): void
             </span>
             <span><?= e($t['note']) ?></span>
             <small><?= e(implode(', ', array_map(fn($x) => CATEGORIES[$x], $t['tags']))) ?></small>
-          </a>
+            <span class="gd-acts"><button type="button" class="gd-btn js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>">Preview</button><a class="gd-btn solid" href="/create?t=<?= $id ?>">Use this</a></span>
+          </div>
         <?php endforeach; ?>
       </div>
+      <?php preview_modal(); ?>
       <?php if ($limit): ?><p style="text-align:center;margin-top:34px"><a class="btn" href="/designs" style="background:var(--foil);color:var(--wine-2)">See all <?= $nThemes ?> designs</a></p><?php endif; ?>
     </div>
   </section>
 <?php
+}
+
+/** The design preview pop-up: a phone showing the full sample invite. Printed once per page. */
+function preview_modal(): void
+{
+    static $done = false;
+    if ($done) return;
+    $done = true;
+    $photos = array_values(array_filter([slot_url('demo-1'), slot_url('demo-2'), slot_url('demo-3')]));
+    $cfg = ['photos' => $photos, 'video' => setting('demo_video'), 'brand' => setting('brand'), 'domain' => setting('site_domain'),
+        'led' => array_values(array_filter(array_map(fn($id) => slot_url('theme-' . $id) ? [$id, slot_url('theme-' . $id)] : null, PHOTO_LED_THEMES)))];
+    echo '<div class="pv-modal" id="pv-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pv-title"><div class="pv-box">'
+        . '<div class="pv-head"><div><small id="pv-tier"></small><h3 id="pv-title">Preview</h3></div><button type="button" class="pv-x" id="pv-x" aria-label="Close preview">&times;</button></div>'
+        . '<div class="phone pv-phone"><iframe id="pv-frame" title="Design preview"></iframe></div>'
+        . '<p class="pv-note">Sample names and photos. Scroll inside the phone to see the whole invite.</p>'
+        . '<a class="btn" id="pv-use" href="/create">Use this design</a></div></div>'
+        . '<script>window.WL_PREVIEW = ' . json_for_script($cfg) . ';</script>'
+        . '<script src="' . asset('assets/samples.js') . '"></script><script src="' . asset('assets/preview.js') . '"></script>';
 }
 
 function sec_pricing(): void

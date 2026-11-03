@@ -282,8 +282,8 @@
       if (bad.length) msg = 'Each gift needs a name. Add one or remove the gift.';
       else if (data.gifts.some(function (g) { return g.link && !/^https:\/\/[^\s]+\.[a-z]{2,}/i.test(g.link.trim()); })) msg = 'Example links must start with https://';
     }
-    if (step === 3 && (data.video || '').trim() && !/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(data.video.trim())) {
-      msg = 'Paste a YouTube link, starting with https://youtu.be/ or https://www.youtube.com/';
+    if (step === 3 && (data.video || '').trim() && !/^https:\/\/(www\.|m\.|player\.)?(youtube\.com|youtu\.be|vimeo\.com|drive\.google\.com)\//i.test(data.video.trim())) {
+      msg = 'Paste a YouTube, Vimeo or Google Drive link starting with https://';
     }
     if (step === 2) {
       var withDate = data.events.filter(function (e) { return e.date; });

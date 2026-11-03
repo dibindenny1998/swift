@@ -40,9 +40,9 @@ function sanitize_data(array $r): array
         $d['events'][] = ['name' => clip($ev['name'] ?? '', 40) ?: 'Wedding', 'date' => $date, 'time' => $time,
             'venue' => clip($ev['venue'] ?? '', 80), 'address' => clip($ev['address'] ?? '', 160), 'map' => $map];
     }
-    // one YouTube video (Premium)
+    // one video: YouTube, Vimeo or Google Drive (Premium)
     $v = clip($r['video'] ?? '', 300);
-    if ($v !== '' && !preg_match('#^https://(www\.|m\.)?(youtube\.com|youtu\.be)/#i', $v)) $v = '';
+    if ($v !== '' && !preg_match('#^https://(www\.|m\.|player\.)?(youtube\.com|youtu\.be|vimeo\.com|drive\.google\.com)/#i', $v)) $v = '';
     $d['video'] = $v;
     $d['video_kind'] = in_array($r['video_kind'] ?? '', ['prewedding', 'wishes', 'story'], true) ? $r['video_kind'] : 'prewedding';
     $d['gift_note'] = clip($r['gift_note'] ?? '', 200);
