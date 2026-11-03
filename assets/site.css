@@ -791,3 +791,14 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
   .hero .fan .phone.front { width: min(260px, 66vw); height: calc(min(260px, 66vw) * 2.02); }
   .hero .hero-card { top: 60px; width: min(210px, 52vw); height: calc(min(210px, 52vw) * 1.9); }
 }
+/* ================= phone: whole hero fits in one screen ================= */
+@media (max-width: 900px) {
+  .hero { --ph: clamp(296px, calc(100vh - 372px), 520px); --ph: clamp(296px, calc(100svh - 372px), 520px); --pw: min(calc(var(--ph) / 2.02), 66vw); }
+  .hero-hint { margin-top: 8px; }
+  .hero .fan { margin-top: 0; height: calc(var(--ph) + 14px); }
+  .hero .fan .phone.front { width: var(--pw); height: var(--ph); }
+  .hero .hero-card { top: calc(var(--ph) * .1); width: calc(var(--pw) * .82); height: calc(var(--ph) * .78); }
+  .hero .hero-card.l { left: calc(50% - var(--pw) * .5 - var(--pw) * .58); } .hero .hero-card.r { right: calc(50% - var(--pw) * .5 - var(--pw) * .58); }
+  .hero-cta-m { margin-top: -30px !important; gap: 6px; }
+  .hero-cta-m .btn { min-height: 54px; }
+}
