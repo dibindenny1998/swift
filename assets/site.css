@@ -664,3 +664,9 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
 /* final banner: soft blush veil so the words read clearly over the mandap photo */
 .final > .slot { opacity: .9; }
 .final::after { display: block !important; background: radial-gradient(60% 75% at 50% 50%, rgba(255,248,246,.88) 0%, rgba(255,248,246,.62) 60%, rgba(255,248,246,.28) 100%) !important; }
+/* home preview: 6 designs fill whole rows (6, 3 or 2 across), never leaving one alone */
+.grid-designs.grid-six { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 16px; }
+@media (max-width: 1100px) { .grid-designs.grid-six { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid-designs.grid-six { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Designs page: column count that suits 26 cards */
+@media (min-width: 1101px) { .grid-designs:not(.grid-six) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

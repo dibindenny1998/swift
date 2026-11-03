@@ -43,7 +43,7 @@ function sec_designs(int $limit = 0): void
         <?php foreach (CATEGORIES as $k => $label): ?><button type="button" data-f="<?= $k ?>" aria-pressed="false"><?= e($label) ?></button><?php endforeach; ?>
       </div>
       <?php endif; ?>
-      <div class="grid-designs">
+      <div class="grid-designs<?= $limit ? ' grid-six' : '' ?>">
         <?php foreach ($themes as $id => $t):
             $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? '';
             $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
