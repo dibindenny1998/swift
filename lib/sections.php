@@ -90,7 +90,11 @@ function preview_modal(): void
     $done = true;
     $photos = array_values(array_filter([slot_url('demo-1'), slot_url('demo-2'), slot_url('demo-3')]));
     $cfg = ['photos' => $photos, 'video' => setting('demo_video'), 'brand' => setting('brand'), 'domain' => setting('site_domain'),
-        'led' => array_values(array_filter(array_map(fn($id) => slot_url('theme-' . $id) ? [$id, slot_url('theme-' . $id)] : null, PHOTO_LED_THEMES)))];
+        'led' => array_values(array_filter(array_map(function ($id) {
+            // each design leads with its own couple: photo-led designs use their cover photo, the rest their sample couple
+            $u = slot_url((in_array($id, PHOTO_LED_THEMES, true) ? 'theme-' : 'sample-') . $id);
+            return $u ? [$id, $u] : null;
+        }, array_keys(THEMES))))];
     echo '<div class="pv-modal" id="pv-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pv-title"><div class="pv-box">'
         . '<div class="pv-head"><div><small id="pv-tier"></small><h3 id="pv-title">Preview</h3></div><button type="button" class="pv-x" id="pv-x" aria-label="Close preview">&times;</button></div>'
         . '<div class="phone pv-phone"><iframe id="pv-frame" title="Design preview"></iframe></div>'
