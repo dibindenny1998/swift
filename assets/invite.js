@@ -258,10 +258,43 @@
       '<rect width="100%" height="26" fill="url(#wlKb)"/></svg>';
   }
 
+  // the little ornament in the middle of each design's divider
+  var MOTIF = {
+    blush: '<circle r="4"/><circle cx="-5" cy="2" r="2.6" opacity=".6"/><circle cx="5" cy="2" r="2.6" opacity=".6"/>',
+    champagne: '<circle r="2.4"/><circle cx="-6" cy="-3" r="1.6"/><circle cx="6" cy="-4" r="1.2"/><circle cx="-2" cy="-7" r="1"/>',
+    kasavu: '<path d="M0,-8 C3,-4 3,0 0,2 C-3,0 -3,-4 0,-8Z"/><rect x="-6" y="3" width="12" height="2" rx="1"/>',
+    noor: '<path d="M0,-8 L2.3,-2.3 L8,0 L2.3,2.3 L0,8 L-2.3,2.3 L-8,0 L-2.3,-2.3Z"/><path d="M-5.7,-5.7 L0,-3 L5.7,-5.7 L3,0 L5.7,5.7 L0,3 L-5.7,5.7 L-3,0Z" opacity=".55"/>',
+    sindoor: '<circle r="3"/><g opacity=".7"><ellipse rx="2" ry="5" cy="-7"/><ellipse rx="2" ry="5" cy="7"/><ellipse rx="5" ry="2" cx="-7"/><ellipse rx="5" ry="2" cx="7"/></g>',
+    kesar: '<path d="M0,-7 L7,0 L0,7 L-7,0Z"/><path d="M0,-3 L3,0 L0,3 L-3,0Z" fill="#fff"/>',
+    grace: '<path d="M-1,6 C-8,2 -9,-4 -3,-7 C-4,-2 -2,2 -1,6Z"/><path d="M1,6 C8,2 9,-4 3,-7 C4,-2 2,2 1,6Z"/>',
+    marigold: '<circle r="5"/><circle r="7.5" fill="none" stroke-width="2" stroke-dasharray="2 1.6"/>',
+    nilavu: '<path d="M2,-7 A7,7 0 1,0 7,3 A5.5,5.5 0 1,1 2,-7Z"/>',
+    mullappoo: '<g><ellipse rx="1.9" ry="4.6" cy="-4.4"/><ellipse rx="1.9" ry="4.6" cy="-4.4" transform="rotate(72)"/><ellipse rx="1.9" ry="4.6" cy="-4.4" transform="rotate(144)"/><ellipse rx="1.9" ry="4.6" cy="-4.4" transform="rotate(216)"/><ellipse rx="1.9" ry="4.6" cy="-4.4" transform="rotate(288)"/></g>',
+    thamara: '<path d="M0,-8 C3,-4 3,2 0,5 C-3,2 -3,-4 0,-8Z"/><path d="M0,5 C-4,4 -8,0 -8,-4 C-4,-3 -2,0 0,5Z M0,5 C4,4 8,0 8,-4 C4,-3 2,0 0,5Z" opacity=".7"/>',
+    lavender: '<path d="M0,8 V-8" stroke-width="1.2"/><ellipse cx="-2" cy="-5" rx="1.6" ry="2.4"/><ellipse cx="2" cy="-2" rx="1.6" ry="2.4"/><ellipse cx="-2" cy="1" rx="1.6" ry="2.4"/>',
+    mehndi: '<path d="M2,7 C-6,7 -7,-3 -1,-6 C4,-8 7,-3 4,0 C2,2 -2,0 0,-2 C1,3 6,3 2,7Z"/>',
+    gulmohar: '<g><ellipse rx="2.4" ry="4.4" cy="-4.4"/><ellipse rx="2.4" ry="4.4" cy="-4.4" transform="rotate(72)"/><ellipse rx="2.4" ry="4.4" cy="-4.4" transform="rotate(144)"/><ellipse rx="2.4" ry="4.4" cy="-4.4" transform="rotate(216)"/><ellipse rx="2.4" ry="4.4" cy="-4.4" transform="rotate(288)" fill="#F2C14E"/></g>',
+    bloom: '<circle r="4.5"/><circle r="2.5" fill="#fff" opacity=".5"/><path d="M-5,4 C-9,6 -10,2 -8,1Z M5,4 C9,6 10,2 8,1Z" opacity=".6"/>',
+    mughal: '<path d="M-6,6 V-1 C-6,-5 -2,-6 0,-9 C2,-6 6,-5 6,-1 V6Z"/>',
+    lumiere: '<circle r="2.6"/><g stroke-width="1.2"><path d="M0,-8 V-5 M0,5 V8 M-8,0 H-5 M5,0 H8 M-5.6,-5.6 L-3.6,-3.6 M3.6,3.6 L5.6,5.6 M-5.6,5.6 L-3.6,3.6 M3.6,-3.6 L5.6,-5.6"/></g>',
+    journal: '<path d="M0,6 C-9,0 -6,-8 0,-3.5 C6,-8 9,0 0,6Z" fill="none" stroke-width="1.4"/>',
+    vogue: '<rect x="-9" y="-1.5" width="18" height="3"/>',
+    sage: '<path d="M-8,4 C-2,2 2,-2 8,-4" fill="none" stroke-width="1.1"/><ellipse cx="-3" cy="0" rx="3" ry="1.4" transform="rotate(-50 -3 0)"/><ellipse cx="3" cy="-3" rx="3" ry="1.4" transform="rotate(40 3 -3)"/>',
+    seal: '<circle r="6.5"/><circle r="4.2" fill="none" stroke="#fff" stroke-width=".8" opacity=".6"/>',
+    ink: '<path d="M0,6 C-9,0 -6,-8 0,-3.5 C6,-8 9,0 0,6Z"/>',
+    toile: '<path d="M0,0 C-6,-6 -9,-1 -8,2 C-6,4 -3,2 0,0Z M0,0 C6,-6 9,-1 8,2 C6,4 3,2 0,0Z M0,0 L-3,7 M0,0 L3,7" stroke-width="1.1"/>',
+    velvet: '<path d="M0,6 L-8,-4 A10,10 0 0 1 8,-4Z"/><path d="M0,6 L-4,-6 M0,6 L0,-7 M0,6 L4,-6" stroke="#fff" stroke-width=".6" opacity=".5"/>',
+    gopuram: '<path d="M-5,4 C-5,-3 -3,-6 0,-6 C3,-6 5,-3 5,4 L7,6 H-7Z"/><circle cy="7.5" r="1.6"/>',
+    mayil: '<ellipse rx="5" ry="7"/><ellipse rx="3" ry="4.6" fill="#0F9AA0"/><ellipse rx="1.5" ry="2.4" fill="#173E8C"/>',
+    qamar: '<rect x="-3.5" y="-5" width="7" height="9" rx="2"/><path d="M0,-5 V-9 M-4.5,-5 H4.5 M-3,4 L0,8 L3,4" stroke-width="1"/>',
+    chapel: '<rect x="-1.2" y="-8" width="2.4" height="16"/><rect x="-5" y="-4" width="10" height="2.4"/>',
+    jaipur: '<path d="M-6,7 V-1 C-6,-4 -4,-5 -3,-6 C-1,-6 0,-8 0,-9 C0,-8 1,-6 3,-6 C4,-5 6,-4 6,-1 V7Z" fill="none" stroke-width="1.3"/>',
+    mono: '<circle r="2.2"/>'
+  };
   function divider(theme) {
     var c = theme === 'mono' ? '#1A1A1A' : theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
-      '<g fill="' + c + '" transform="translate(100,10)"><path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/></g></svg>';
+      '<g fill="' + c + '" stroke="' + c + '" stroke-width="0" transform="translate(100,10)">' + (MOTIF[theme] ? '<g stroke-linecap="round">' + MOTIF[theme] + '</g><circle cx="-14" r="1.4"/><circle cx="14" r="1.4"/>' : '<path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/>') + '</g></svg>';
   }
 
   /* ---------- foil + new ornaments ---------- */
@@ -477,13 +510,15 @@
   var EVSTYLE = { champagne: 'ticket', velvet: 'ticket', mono: 'ticket', vogue: 'ticket', lumiere: 'ticket', gulmohar: 'ticket', grace: 'ticket', lavender: 'ticket',
     sindoor: 'band', kesar: 'band', marigold: 'band', mehndi: 'band', gopuram: 'band', jaipur: 'band', mayil: 'band', noor: 'band', qamar: 'band' };
   // Premium designs get an animated header: photos fading in, plus moving decor
-  var ANIM = { bloom: 'petals', mughal: 'sparkle', lumiere: 'petals', journal: 'petals', seal: 'petals', jaipur: 'petals', sage: 'petals', ink: 'petals',
-    vogue: 'sparkle', velvet: 'sparkle', mayil: 'sparkle', gopuram: 'sparkle', chapel: 'sparkle', toile: 'sparkle', qamar: 'lanterns' };
+  var ANIM = { bloom: 'petals', lumiere: 'bokeh', journal: 'confetti', vogue: 'flash', mughal: 'stars', sage: 'leaves', seal: 'blossom', ink: 'hearts',
+    toile: 'butterflies', velvet: 'dust', gopuram: 'marigolds', mayil: 'feathers', qamar: 'lanterns', chapel: 'light', jaipur: 'kites', mono: 'grain',
+    champagne: 'bubbles', nilavu: 'fireflies' };
   function particles(kind) {
     if (!kind) return '';
     var r = rng(kind.length * 97), o = '<div class="wl-fx wl-fx-' + kind + '" aria-hidden="true">';
-    for (var i = 0; i < 18; i++) {
-      o += '<i style="left:' + f1(r() * 100) + '%;animation-delay:' + f1(-r() * 14) + 's;animation-duration:' + f1(9 + r() * 9) + 's;--s:' + f1(.55 + r() * .9) + ';--x:' + f1(-40 + r() * 80) + 'px"></i>';
+    var n = { bubbles: 12, fireflies: 14, grain: 30, flash: 10, stars: 26, light: 22, confetti: 30, dust: 34 }[kind] || 22;
+    for (var i = 0; i < n; i++) {
+      o += '<i style="left:' + f1(r() * 100) + '%;--y:' + f1(r() * 100) + '%;animation-delay:' + f1(-r() * 14) + 's;animation-duration:' + f1(9 + r() * 9) + 's;--s:' + f1(.55 + r() * .9) + ';--x:' + f1(-40 + r() * 80) + 'px;--h:' + Math.floor(r() * 360) + '"></i>';
     }
     return o + '</div>';
   }
@@ -600,6 +635,131 @@
       case 'mono': return '<div class="wl-mono-rules" aria-hidden="true"><i></i><i></i></div>';
     }
     return '';
+  }
+
+  /* ---------- every design opens in its own way ---------- */
+  // kind, the line above the names, the button
+  var OPENER = {
+    classic: ['card', 'Wedding invitation', 'Open invitation'],
+    blush: ['rise', 'With love', 'Open invitation'],
+    champagne: ['scratch', 'Scratch the gold to reveal the date', 'Reveal'],
+    kasavu: ['lamp', 'Tap to light the lamp', 'Light the lamp'],
+    noor: ['mihrab', 'You are invited to our Nikah', 'Open the doors'],
+    sindoor: ['mandala', '|| Shubh Vivah ||', 'Begin'],
+    kesar: ['phulkari', 'With the blessings of Waheguru', 'Enter'],
+    grace: ['wreath', 'Two become one', 'Open'],
+    marigold: ['toran', 'Let the celebrations begin', "Let's celebrate"],
+    nilavu: ['diyas', 'Tap to light the diyas', 'Light the diyas'],
+    mullappoo: ['jasmine', 'Part the jasmine', 'Step inside'],
+    thamara: ['lotus', 'As the lotus blooms', 'Bloom'],
+    lavender: ['breeze', 'Carried on a summer breeze', 'Open'],
+    mehndi: ['henna', 'Painted with love', 'Open'],
+    gulmohar: ['branch', 'Under the gulmohar', 'Open'],
+    bloom: ['arch', 'Step through the flowers', 'Step in'],
+    mughal: ['gate', 'Welcome to the palace', 'Enter the palace'],
+    lumiere: ['projector', 'Now showing', 'Play'],
+    journal: ['album', 'Our little album', 'Open the album'],
+    vogue: ['magazine', 'The wedding issue', 'Read the issue'],
+    sage: ['watercolour', 'Painted in olive and sage', 'Open'],
+    seal: ['envelope'],
+    ink: ['letter', 'A letter for you', 'Unfold the letter'],
+    toile: ['sketch', 'Drawn by hand, for you', 'Open'],
+    velvet: ['curtain', 'Tonight, a love story', 'Raise the curtain'],
+    gopuram: ['bell', 'Tap to ring the temple bell', 'Ring the bell'],
+    mayil: ['feathers', 'In the peacock garden', 'Open'],
+    qamar: ['lanterns', 'Under the crescent moon', 'Release the lanterns'],
+    chapel: ['window', 'With the blessings of God', 'Enter'],
+    jaipur: ['jharokha', 'Padharo mhare des', 'Open the windows'],
+    mono: ['shutter', 'Save the date', 'Take a look']
+  };
+  // how long the first moment plays (lighting the lamp, the countdown...) before the cover opens, in ms
+  var ACT_MS = { lamp: 1300, diyas: 1700, projector: 2700, bell: 1300, shutter: 700, scratch: 500, lotus: 900, toran: 300, mandala: 200 };
+  // how long the opening itself takes before the cover is removed
+  var OPEN_MS = { gate: 2000, curtain: 2000, album: 1900, magazine: 1700, jharokha: 2000, mihrab: 1800, letter: 1700, lanterns: 2000, window: 1900 };
+
+  function openerArt(kind, v) {
+    switch (kind) {
+      case 'lamp': return lamp();
+      case 'mandala': return mandala('url(#wlFoil)');
+      case 'phulkari': return '';
+      case 'wreath': return wreath();
+      case 'toran': return toran();
+      case 'diyas': return moon() + diyas();
+      case 'lotus': return lotus('wl-lotus');
+      case 'breeze': return lilacSpray('wl-lil');
+      case 'henna': return paisleyBand('wl-pai');
+      case 'branch': return gulmoharBranch(4, false);
+      case 'arch': return '<svg class="wl-op-archsvg" viewBox="0 0 200 260" aria-hidden="true"><path d="M20,258 V100 A80,80 0 0 1 180,100 V258" fill="none" stroke="url(#wlFoilD)" stroke-width="2"/><path d="M34,258 V104 A66,66 0 0 1 166,104 V258" fill="none" stroke="url(#wlFoilD)" stroke-width=".8"/></svg>' + roseLine();
+      case 'gate': return mihrab('url(#wlFoilD)');
+      case 'sketch': return gazebo();
+      case 'curtain': return deco();
+      case 'bell': return gopuramSvg() + '<svg class="wl-bell" viewBox="0 0 60 80" aria-hidden="true"><path d="M30,4 v8" stroke="url(#wlFoil)" stroke-width="3"/><path d="M12,58 C12,30 18,14 30,14 C42,14 48,30 48,58 L54,64 H6Z" fill="url(#wlFoil)"/><circle cx="30" cy="70" r="6" fill="url(#wlFoil)"/></svg>';
+      case 'feathers': var f = ''; for (var i = 0; i < 7; i++) f += '<i style="--a:' + (i - 3) * 16 + 'deg">' + peacock() + '</i>'; return '<div class="wl-op-fan">' + f + '</div>';
+      case 'lanterns': return lanterns() + '<svg class="wl-moon wl-moon-q" viewBox="0 0 60 60" aria-hidden="true"><path d="M38,4 A27,27 0 1,0 56,40 A22,22 0 1,1 38,4Z" fill="url(#wlFoil)"/></svg>';
+      case 'window': return crossWindow();
+      case 'jharokha': return '';
+      case 'projector': return '<div class="wl-op-reel" aria-hidden="true"><span>3</span><span>2</span><span>1</span><i></i></div>';
+      case 'magazine': return '<p class="wl-op-mast">The Wedding</p>';
+      case 'album': return '<span class="wl-op-tape" aria-hidden="true"></span>';
+      case 'shutter': return '';
+      case 'watercolour': return washes();
+      case 'mihrab': return '<div class="wl-hd-top">' + starBand('url(#wlFoil)') + '</div>';
+      case 'jasmine': return '';
+      case 'rise': return roseLine();
+    }
+    return '';
+  }
+  // the parts that move out of the way when the invitation opens
+  function openerLayers(kind) {
+    var l = '';
+    if (/^(card|mihrab|gate|jharokha|bell|jasmine|phulkari)$/.test(kind)) {
+      var inner = kind === 'jasmine' ? jasmine(900, 3, false) + jasmine(860, 9, true) + jasmine(920, 5, false) : '';
+      l = '<div class="wl-door l">' + inner + '</div><div class="wl-door r">' + inner + '</div>';
+      if (kind === 'phulkari') l += '<div class="wl-op-band t">' + phulkari(1) + '</div><div class="wl-op-band b">' + phulkari(2) + '</div>';
+    }
+    else if (kind === 'curtain') l = '<div class="wl-curt l"></div><div class="wl-curt r"></div><div class="wl-curt-top"></div>';
+    else if (kind === 'letter') l = '<div class="wl-fold t"></div><div class="wl-fold b"></div>';
+    else if (kind === 'magazine') l = '<div class="wl-strip s1"></div><div class="wl-strip s2"></div><div class="wl-strip s3"></div>';
+    else if (kind === 'shutter') { for (var i = 0; i < 6; i++) l += '<i class="wl-blade" style="--r:' + i * 60 + 'deg"></i>'; l += '<b class="wl-flash"></b>'; }
+    else l = '<div class="wl-op-bg"></div>';
+    return l;
+  }
+  function opener(v, title, first) {
+    if (v.theme === 'seal') return '';
+    var o = OPENER[v.theme] || OPENER.classic, kind = o[0];
+    var date = first && first.date ? '<p class="wl-cover-d">' + esc(longDate(first.date)) + '</p>' : '';
+    var mono = '<div class="wl-mono"><span>' + esc(initial(v.p1)) + '</span><i>&amp;</i><span>' + esc(initial(v.p2)) + '</span></div>';
+    if (kind === 'scratch') date = '<div class="wl-scratch"><p class="wl-cover-d">' + (first && first.date ? esc(longDate(first.date)) : 'Save the date') + '</p><canvas aria-hidden="true"></canvas></div>';
+    return '<div class="wl-cover wl-op wl-op-' + kind + '" role="dialog" aria-label="Invitation" data-act="' + (ACT_MS[kind] || 0) + '" data-out="' + (OPEN_MS[kind] || 1400) + '">' + openerLayers(kind) +
+      '<div class="wl-cover-in"><div class="wl-op-art">' + openerArt(kind, v) + '</div>' +
+      '<p class="wl-cover-k">' + esc(o[1]) + '</p>' + mono + '<p class="wl-cover-n">' + esc(title) + '</p>' + date +
+      '<button type="button" class="wl-open">' + esc(o[2]) + '</button></div></div>';
+  }
+  // champagne: scratch the gold foil off the date
+  function scratchCard(cover, done) {
+    var c = cover.querySelector('.wl-scratch canvas'); if (!c) return;
+    var box = c.parentNode, r = box.getBoundingClientRect(), dpr = w.devicePixelRatio || 1;
+    c.width = r.width * dpr; c.height = r.height * dpr;
+    var x = c.getContext('2d'); x.scale(dpr, dpr);
+    var g = x.createLinearGradient(0, 0, r.width, r.height);
+    g.addColorStop(0, '#B8902F'); g.addColorStop(.3, '#FFF0C2'); g.addColorStop(.5, '#D9B35A'); g.addColorStop(.75, '#FBE7A8'); g.addColorStop(1, '#A07A22');
+    x.fillStyle = g; x.fillRect(0, 0, r.width, r.height);
+    x.fillStyle = 'rgba(110,80,20,.55)'; x.font = '600 12px sans-serif'; x.textAlign = 'center'; x.fillText('SCRATCH HERE', r.width / 2, r.height / 2 + 4);
+    x.globalCompositeOperation = 'destination-out';
+    var down = false, n = 0;
+    function at(e) { var b = c.getBoundingClientRect(), p = e.touches ? e.touches[0] : e; return [p.clientX - b.left, p.clientY - b.top]; }
+    function rub(e) {
+      if (!down) return; e.preventDefault();
+      var p = at(e); x.beginPath(); x.arc(p[0], p[1], 18, 0, 7); x.fill();
+      if (++n % 8) return;
+      var d = x.getImageData(0, 0, c.width, c.height).data, clear = 0;
+      for (var i = 3; i < d.length; i += 64) if (!d[i]) clear++;
+      if (clear / (d.length / 64) > .45) { c.style.transition = 'opacity .5s'; c.style.opacity = 0; done(); }
+    }
+    c.addEventListener('pointerdown', function (e) { down = true; rub(e); });
+    c.addEventListener('pointermove', rub);
+    w.addEventListener('pointerup', function () { down = false; });
+    c.addEventListener('touchmove', function (e) { down = true; rub(e); }, { passive: false });
   }
 
   /* ---------------- render ---------------- */
@@ -722,12 +882,7 @@
         '<div class="wl-cover-in"><p class="wl-cover-k">You are invited</p><div class="wl-env"><div class="wl-env-back"></div><div class="wl-env-card"><span>' + esc(title) + '</span></div><div class="wl-env-front"></div><div class="wl-env-flap"></div>' +
         '<button type="button" class="wl-open wl-seal" aria-label="Open invitation"><span>' + esc(initial(v.p1)) + '<i>&amp;</i>' + esc(initial(v.p2)) + '</span></button></div>' +
         '<p class="wl-cover-d">' + (first && first.date ? esc(longDate(first.date)) : '') + '</p><p class="wl-env-tap">Tap the seal to open</p></div></div>';
-      else html += '<div class="wl-cover" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
-        '<div class="wl-cover-in"><p class="wl-cover-k">Wedding invitation</p>' +
-        '<div class="wl-mono"><span>' + esc(initial(v.p1)) + '</span><i>&amp;</i><span>' + esc(initial(v.p2)) + '</span></div>' +
-        '<p class="wl-cover-n">' + esc(title) + '</p>' +
-        (first && first.date ? '<p class="wl-cover-d">' + esc(longDate(first.date)) + '</p>' : '') +
-        '<button type="button" class="wl-open">Open invitation</button></div></div>';
+      else html += opener(v, title, first);
     }
 
     html += '<main class="wl-body">';
@@ -852,15 +1007,20 @@
     if (!cover && mode !== 'editor') el.classList.add('revealed');
     if (cover) {
       el.classList.add('is-closed');
+      var act = +cover.getAttribute('data-act') || 0, out = +cover.getAttribute('data-out') || 1400;
       var open = function () {
-        if (cover.classList.contains('open')) return;
-        cover.classList.add('open');
-        el.classList.remove('is-closed');
-        el.classList.add('revealed');
+        if (cover.classList.contains('act')) return;
+        cover.classList.add('act');
         if (mode === 'live') setPlaying(true);
-        setTimeout(function () { cover.remove(); }, 1400);
+        setTimeout(function () {
+          cover.classList.add('open');
+          el.classList.remove('is-closed');
+          el.classList.add('revealed');
+          setTimeout(function () { cover.remove(); }, out);
+        }, act);
       };
       cover.querySelector('.wl-open').addEventListener('click', open);
+      if (cover.classList.contains('wl-op-scratch')) requestAnimationFrame(function () { scratchCard(cover, open); });
       if (opts.autoOpen) setTimeout(open, opts.autoOpen);
     }
 

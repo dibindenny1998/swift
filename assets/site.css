@@ -913,3 +913,5 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
 /* phones: no photo behind the hero, plain cream so everything reads clearly */
 @media (max-width: 900px) { .lux-hero > .slot, .lux-hero::after { display: none !important; } }
 .grid-six .gd .gd-tags { display: none !important; } .grid-six .gd b { margin-top: 6px; }
+.gd-open { display: block; font-size: .78rem !important; line-height: 1.3; color: var(--plum-2) !important; font-style: italic; margin-top: 2px; }
+.gd-open::before { content: '✦ '; color: #C2456E; font-style: normal; }

@@ -21,7 +21,7 @@
     });
     var n = st.trad.length + st.style.length + st.plan.length;
     $('dz-n').hidden = !n; $('dz-n').textContent = n;
-    $('dz-count').textContent = shown === cards.length ? 'Showing all ' + shown + ' designs' : 'Showing ' + shown + ' of ' + cards.length + ' designs';
+    $('dz-count').textContent = shown === cards.length ? 'Showing all designs' : 'Showing ' + shown + (shown === 1 ? ' design' : ' designs');
     $('dz-empty').hidden = shown > 0;
     $('dz-clear').hidden = !st.q;
     chips.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.plan === st.quick)); });

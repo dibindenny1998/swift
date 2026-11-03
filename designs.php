@@ -2,7 +2,7 @@
 require __DIR__ . '/lib/bootstrap.php';
 $brand = setting('brand');
 $n = count(THEMES);
-site_head("Wedding Invitation Website Designs: Hindu, Christian, Muslim, Sikh | $brand", "$n wedding invitation website designs for Hindu, Christian, Muslim, Sikh and Kerala weddings. Two are free. Pick one, add your names and share on WhatsApp.",
+site_head("Wedding Invitation Website Designs: Hindu, Christian, Muslim, Sikh | $brand", "Wedding invitation website designs for Hindu, Christian, Muslim, Sikh and Kerala weddings. Two are free. Pick one, add your names and share on WhatsApp.",
     '/assets/og/site.jpg', '', ['path' => '/designs', 'jsonld' => [ld_breadcrumb([['Home', '/'], ['Designs', '/designs']])]]);
 ?>
 <body>
@@ -12,7 +12,7 @@ site_head("Wedding Invitation Website Designs: Hindu, Christian, Muslim, Sikh | 
     <div class="wrap dz-hero-in">
       <div class="dz-hero-txt">
         <span class="tag">Hindu · Christian · Muslim · Sikh · Kerala</span>
-        <h1><?= $n ?> wedding designs</h1>
+        <h1>Wedding designs</h1>
         <p>Tap any design to see it live.</p>
       </div>
       <div class="dz-fan" aria-hidden="true">

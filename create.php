@@ -52,7 +52,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
 
     <section class="panel" data-step="0">
       <h1>Pick a design</h1>
-      <p class="lead"><?= $nThemes ?> designs. Two are free, and Premium unlocks the most detailed ones. You can switch any time before you share.</p>
+      <p class="lead">Designs for every tradition. Two are free, and Premium unlocks the most detailed ones. You can switch any time before you share.</p>
       <div class="chips cat-chips" role="group" aria-label="Filter designs">
         <button type="button" data-f="all" aria-pressed="true">All</button>
         <button type="button" data-f="tier-free" aria-pressed="false">Free</button>

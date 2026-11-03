@@ -78,7 +78,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
           <?php foreach ($heroPick as $id): ?>
             <button type="button" class="sw2" data-theme="<?= $id ?>" data-name="<?= e(THEMES[$id]['name']) ?>" aria-pressed="<?= $id === 'champagne' ? 'true' : 'false' ?>"><i style="background:<?= $swatch[$id] ?>"></i><?= e(THEMES[$id]['name']) ?></button>
           <?php endforeach; ?>
-          <a class="more-chip" href="/designs">+<?= count(THEMES) - count($heroPick) ?> more</a>
+          <a class="more-chip" href="/designs">See all designs</a>
         </div>
         <p class="design-now sr" aria-live="polite">Design: <b id="design-name">Champagne</b></p>
       </div>

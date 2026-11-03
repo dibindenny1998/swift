@@ -47,8 +47,16 @@ const THEMES = [
 
 /* Showcase order and what makes each Premium design special. Must match ANIM / PHOTO_LED in assets/invite.js. */
 const PHOTO_LED_THEMES = ['lumiere', 'vogue', 'journal', 'bloom'];
-const THEME_FX = ['bloom' => 'petals', 'mughal' => 'sparkle', 'lumiere' => 'petals', 'journal' => 'petals', 'seal' => 'petals', 'jaipur' => 'petals', 'sage' => 'petals', 'ink' => 'petals',
-    'vogue' => 'sparkle', 'velvet' => 'sparkle', 'mayil' => 'sparkle', 'gopuram' => 'sparkle', 'chapel' => 'sparkle', 'toile' => 'sparkle', 'qamar' => 'lanterns'];
+const THEME_FX = ['bloom' => 'petals', 'lumiere' => 'bokeh', 'journal' => 'confetti', 'vogue' => 'flash', 'mughal' => 'stars', 'sage' => 'leaves', 'seal' => 'blossom', 'ink' => 'hearts',
+    'toile' => 'butterflies', 'velvet' => 'dust', 'gopuram' => 'marigolds', 'mayil' => 'feathers', 'qamar' => 'lanterns', 'chapel' => 'light', 'jaipur' => 'kites', 'mono' => 'grain'];
+/* What happens when a guest opens each design: shown on the design cards. */
+const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts away', 'champagne' => 'Scratch the gold to see the date', 'kasavu' => 'Guests light the lamp',
+    'noor' => 'Arched doors open', 'sindoor' => 'A spinning mandala', 'kesar' => 'Phulkari border opens', 'grace' => 'A wreath of light', 'marigold' => 'Garlands drop away',
+    'nilavu' => 'Guests light the diyas', 'mullappoo' => 'Jasmine curtains part', 'thamara' => 'A lotus blooms open', 'lavender' => 'Blown away on a breeze', 'mehndi' => 'Henna draws itself',
+    'gulmohar' => 'Falls like a petal', 'bloom' => 'Step through a flower arch', 'mughal' => 'Palace gates swing open', 'lumiere' => 'A 3-2-1 film countdown', 'journal' => 'An album cover opens',
+    'vogue' => 'A magazine cover splits', 'sage' => 'Watercolour pulls away', 'seal' => 'Break the wax seal', 'ink' => 'A folded letter opens', 'toile' => 'Sketched in ink',
+    'velvet' => 'Velvet curtains rise', 'gopuram' => 'Guests ring the temple bell', 'mayil' => 'Peacock feathers fan out', 'qamar' => 'Lanterns float into the night',
+    'chapel' => 'Light through stained glass', 'jaipur' => 'Palace windows open', 'mono' => 'A camera shutter clicks'];
 
 /** All designs in showcase order: photo-led, animated Premium, other Premium, Standard, Free. */
 function showcase_themes(): array

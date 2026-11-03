@@ -19,7 +19,7 @@ function sec_designs(int $limit = 0): void
     $all = showcase_themes();
     $themes = $limit > 0 ? array_slice(array_intersect_key($all, array_flip($pick)), 0, $limit, true) : $all;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
-    $fxNames = ['petals' => 'Falling petals', 'sparkle' => 'Gold sparkles', 'lanterns' => 'Floating lanterns'];
+    
 ?>
   <section class="sec gallery-band" id="designs" data-start-filter="<?= e($f) ?>">
     <div class="wrap">
@@ -34,7 +34,7 @@ function sec_designs(int $limit = 0): void
         <button type="button" class="dz-fbtn" id="dz-fbtn" aria-haspopup="dialog" aria-controls="dz-sheet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Filters<i id="dz-n" hidden></i></button>
       </div>
       <div class="dz-chips" role="group" aria-label="Plan">
-        <button type="button" data-plan="" aria-pressed="true">All <?= $nThemes ?></button>
+        <button type="button" data-plan="" aria-pressed="true">All designs</button>
         <button type="button" data-plan="tier-free" aria-pressed="false">Free</button>
         <button type="button" data-plan="tier-standard" aria-pressed="false">₹<?= $ps ?></button>
         <button type="button" data-plan="tier-premium" aria-pressed="false">₹<?= $pp ?> Premium</button>
@@ -57,25 +57,26 @@ function sec_designs(int $limit = 0): void
         <?php foreach ($themes as $id => $t):
             $photoLed = in_array($id, PHOTO_LED_THEMES, true); $fx = THEME_FX[$id] ?? '';
             $tags = implode(' ', $t['tags']) . ' tier-' . $t['tier'] . ($photoLed ? ' photo-led' : '') . ($fx ? ' animated' : ''); ?>
-          <div class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" data-tags="<?= e($tags) ?>" data-q="<?= e(strtolower($t['name'] . ' ' . $t['note'] . ' ' . implode(' ', array_map(fn($x) => CATEGORIES[$x], $t['tags'])) . ($photoLed ? ' photo' : '') . ($fx ? ' animated ' . $fxNames[$fx] : ''))) ?>">
+          <div class="gd<?= $t['tier'] === 'premium' ? ' gd-prem' : '' ?>" data-tags="<?= e($tags) ?>" data-q="<?= e(strtolower($t['name'] . ' ' . $t['note'] . ' ' . implode(' ', array_map(fn($x) => CATEGORIES[$x], $t['tags'])) . ($photoLed ? ' photo' : '') . ($fx ? ' animated ' . (THEME_OPEN[$id] ?? '') : ''))) ?>">
             <button type="button" class="gd-img js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>" aria-label="Preview <?= e($t['name']) ?>">
               <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
-              <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
+              <?php if ($fx): $cfx = in_array($fx, ['petals', 'confetti', 'leaves', 'blossom', 'hearts', 'marigolds', 'feathers'], true) ? 'petals' : ($fx === 'lanterns' ? 'lanterns' : 'sparkle'); ?><span class="gd-fx gd-fx-<?= $cfx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
               <span class="gd-eye" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>
             </button>
             <b><?= e($t['name']) ?></b>
             <span class="gd-tags">
               <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
               <?php if ($photoLed): ?><em class="feat-tag">Photo-led</em><?php endif; ?>
-              <?php if ($fx): ?><em class="feat-tag" title="<?= e($fxNames[$fx]) ?>">Animated</em><?php endif; ?>
+              <?php if ($fx): ?><em class="feat-tag">Animated</em><?php endif; ?>
             </span>
+            <span class="gd-open"><?= e(THEME_OPEN[$id] ?? '') ?></span>
             <small class="gd-price"><?= $t['tier'] === 'free' ? 'Free' : '₹' . ($t['tier'] === 'premium' ? $pp : $ps) ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small>
           </div>
         <?php endforeach; ?>
       </div>
       <?php if (!$limit): ?><div class="dz-empty" id="dz-empty" hidden><p>No design matches that.</p><button type="button" class="btn alt" id="dz-empty-reset">Show all designs</button></div><?php endif; ?>
       <?php preview_modal(); ?>
-      <?php if ($limit): ?><p style="text-align:center;margin-top:34px"><a class="btn" href="/designs" style="background:var(--foil);color:var(--wine-2)">See all <?= $nThemes ?> designs</a></p><?php endif; ?>
+      <?php if ($limit): ?><p style="text-align:center;margin-top:34px"><a class="btn" href="/designs" style="background:var(--foil);color:var(--wine-2)">See all designs</a></p><?php endif; ?>
     </div>
   </section>
 <?php
