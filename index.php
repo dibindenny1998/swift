@@ -64,8 +64,8 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
       </div>
       <div class="stage">
         <div class="fan">
-          <div class="hero-card l" aria-hidden="true"><img src="<?= asset('assets/img/designs/noor.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
-          <div class="hero-card r" aria-hidden="true"><img src="<?= asset('assets/img/designs/kasavu.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
+          <div class="hero-card l" aria-hidden="true"><img src="<?= asset('assets/img/designs/noor-art.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
+          <div class="hero-card r" aria-hidden="true"><img src="<?= asset('assets/img/designs/kasavu-art.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager"></iframe></div>
         </div>
         <div class="hero-cta-m">
