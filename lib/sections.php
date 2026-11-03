@@ -27,10 +27,10 @@ function sec_designs(int $limit = 0): void
         <?php if ($limit): ?>
           <span class="tag" style="margin:0 0 12px">Premium</span>
           <h2 class="foil">Photo-led &amp; animated designs</h2>
-          <p>Your photo fills the first screen, with petals, sparkles or lanterns moving over it. Tap one to try it with your names.</p>
+          <p>Your photo fills the first screen, with petals, sparkles or lanterns moving over it. Tap any design to preview it.</p>
         <?php else: ?>
           <h2 class="foil"><?= $nThemes ?> designs for every wedding</h2>
-          <p>Photo-led and animated Premium designs first, then classic designs for every tradition. Two are free. You can switch any time before you share.</p>
+          <p>Photo-led and animated Premium designs first, then classic designs for every tradition. Two are free. Tap any design to preview it.</p>
         <?php endif; ?>
       </div>
       <?php if (!$limit): ?>
@@ -51,7 +51,7 @@ function sec_designs(int $limit = 0): void
             <button type="button" class="gd-img js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>" aria-label="Preview <?= e($t['name']) ?>">
               <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="<?= e($t['name']) ?> invite design" width="232" height="480" loading="lazy">
               <?php if ($fx): ?><span class="gd-fx gd-fx-<?= $fx ?>" aria-hidden="true"><?php for ($i = 0; $i < 9; $i++): ?><i></i><?php endfor; ?></span><?php endif; ?>
-              <span class="gd-eye"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Preview</span>
+              <span class="gd-eye" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>
             </button>
             <b><?= e($t['name']) ?></b>
             <span class="gd-tags">
@@ -61,7 +61,6 @@ function sec_designs(int $limit = 0): void
             </span>
             <span><?= e($t['note']) ?></span>
             <small><?= e(implode(', ', array_map(fn($x) => CATEGORIES[$x], $t['tags']))) ?></small>
-            <span class="gd-acts"><button type="button" class="gd-btn js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>">Preview</button><a class="gd-btn solid" href="/create?t=<?= $id ?>">Use this</a></span>
           </div>
         <?php endforeach; ?>
       </div>

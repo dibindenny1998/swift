@@ -140,9 +140,16 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
       <div class="bio-band">
         <div>
           <span class="free-tag big" style="top:0;margin-bottom:12px">Free</span>
-          <h2>Make your marriage biodata too.</h2>
-          <p>Pick your religion and a minimal design, fill in your details and download a PDF to share on WhatsApp.</p>
-          <a class="btn" href="/biodata">Make my biodata</a>
+          <h2>Free marriage biodata maker</h2>
+          <p>Make a clean, beautiful biodata in minutes and share it with families on WhatsApp.</p>
+          <ul class="bio-feats">
+            <li><b>Made for your religion.</b> Pick Hindu, Muslim, Christian, Sikh, Jain or Buddhist and get the details families ask for: gotra, star and rasi; sect and maslak; parish and diocese; got and Amritdhari status.</li>
+            <li><b>Minimal designs.</b> 4 styles in 6 soft colours, an optional photo, and a blessing line or symbol only if you want it.</li>
+            <li><b>Any language.</b> Write in English, Malayalam, Hindi, Tamil, Kannada, Telugu or Punjabi.</li>
+            <li><b>PDF or image.</b> Download an A4 PDF to print or a picture to send on WhatsApp. Edit and download again any time.</li>
+            <li><b>Free, or ₹<?= $pb ?> for a clean copy.</b> The free version has a small red "Created by <?= e($brand) ?>" strip at the bottom.</li>
+          </ul>
+          <div class="bio-cta"><a class="btn" href="/biodata">Make my biodata</a><span>Formats: <a href="/biodata/hindu">Hindu</a> · <a href="/biodata/muslim">Muslim</a> · <a href="/biodata/christian">Christian</a> · <a href="/biodata/sikh">Sikh</a> · <a href="/biodata/kerala">Kerala</a></span></div>
         </div>
         <div class="bio-mini"><img src="<?= asset('assets/img/biodata-sample.jpg') ?>" alt="Sample marriage biodata" width="600" height="849" loading="lazy"></div>
       </div>
