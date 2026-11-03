@@ -1201,3 +1201,17 @@
 /* Nilavu: fireflies */
 .wl-fx-fireflies i { width: 5px; height: 5px; border-radius: 50%; background: #FFE89A; box-shadow: 0 0 10px 3px rgba(255,220,120,.7); animation-duration: 5s !important; }
 .wl-fx-grain i { background: rgba(20,20,20,.35); }
+/* never cut a face: covers keep the photo's full width */
+.wl-cv-full { height: auto !important; min-height: 0 !important; aspect-ratio: 9 / 16; max-height: none; }
+.wl-cv-full .wl-slides img { object-position: 50% 30%; }
+.wl-cv-split .wl-slides { width: 88% !important; aspect-ratio: 9 / 12 !important; border-radius: 10px 0 0 10px; }
+.wl-cv-split .wl-slides img { object-position: 50% 20%; }
+.wl-cv-circle .wl-slides { width: 74% !important; aspect-ratio: 3 / 4 !important; border-radius: 50% / 50%; }
+.wl-cv-circle .wl-slides img { object-position: 50% 22%; }
+.wl-cv-circle .wl-cv-frame { width: calc(74% + 44px); aspect-ratio: 3 / 4 !important; margin-left: calc((74% + 44px) / -2); }
+/* fizz: soft gold bubbles rise and carry the card up (Champagne) */
+.wl-op-fizz .wl-op-art { position: absolute; inset: 0; width: auto; margin: 0; overflow: hidden; }
+.wl-op-fizz .wl-op-art > * { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; animation: wlFizz 9s linear infinite; }
+@keyframes wlFizz { from { transform: translateY(0); } to { transform: translateY(-40%); } }
+.wl-op-fizz .wl-op-bg { box-shadow: inset 0 0 0 14px rgba(255,255,255,.5), inset 0 0 0 15px rgba(201,162,74,.5); }
+.wl-op-fizz.open .wl-op-bg, .wl-op-fizz.open .wl-op-art { transform: translateY(-104%); transition: transform 1.3s cubic-bezier(.7,0,.25,1); }

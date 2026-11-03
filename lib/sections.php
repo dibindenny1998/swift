@@ -15,17 +15,16 @@ function sec_designs(int $limit = 0): void
 {
     extract(page_vars());
     // the home page leads with the photo-led and animated Premium designs; /designs shows everything in the same order
-    $pick = ['lumiere', 'vogue', 'bloom', 'journal', 'mughal', 'seal'];
+    $pick = ['mono', 'lumiere', 'marigold', 'vogue', 'journal', 'bloom'];
     $all = showcase_themes();
-    $themes = $limit > 0 ? array_slice(array_intersect_key($all, array_flip($pick)), 0, $limit, true) : $all;
+    $themes = $limit > 0 ? array_slice(array_replace(array_flip($pick), array_intersect_key($all, array_flip($pick))), 0, $limit, true) : $all;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
     
 ?>
   <section class="sec gallery-band" id="designs" data-start-filter="<?= e($f) ?>">
     <div class="wrap">
       <?php if ($limit): ?><div class="sec-head">
-          <span class="tag" style="margin:0 0 12px">Premium</span>
-          <h2 class="foil">Photo-led &amp; animated designs</h2>
+          <h2 class="foil">Our favourite designs</h2>
           <p>Your photo fills the first screen, with petals, sparkles or lanterns moving over it. Tap any design to preview it.</p>
       </div><?php endif; ?>
       <?php if (!$limit): ?>
@@ -36,8 +35,8 @@ function sec_designs(int $limit = 0): void
       <div class="dz-chips" role="group" aria-label="Plan">
         <button type="button" data-plan="" aria-pressed="true">All designs</button>
         <button type="button" data-plan="tier-free" aria-pressed="false">Free</button>
-        <button type="button" data-plan="tier-standard" aria-pressed="false">₹<?= $ps ?></button>
-        <button type="button" data-plan="tier-premium" aria-pressed="false">₹<?= $pp ?> Premium</button>
+        <button type="button" data-plan="tier-standard" aria-pressed="false">Standard</button>
+        <button type="button" data-plan="tier-premium" aria-pressed="false">Premium</button>
         <button type="button" data-plan="animated" aria-pressed="false">✨ Animated</button>
         <button type="button" data-plan="photo-led" aria-pressed="false">Photo-led</button>
       </div>
@@ -49,7 +48,7 @@ function sec_designs(int $limit = 0): void
         <p class="dz-lbl">Style</p>
         <div class="dz-opts" data-group="style"><button type="button" data-v="photo-led" aria-pressed="false">Photo-led</button><button type="button" data-v="animated" aria-pressed="false">Animated</button></div>
         <p class="dz-lbl">Plan</p>
-        <div class="dz-opts" data-group="plan"><button type="button" data-v="tier-free" aria-pressed="false">Free</button><button type="button" data-v="tier-standard" aria-pressed="false">₹<?= $ps ?></button><button type="button" data-v="tier-premium" aria-pressed="false">₹<?= $pp ?></button></div>
+        <div class="dz-opts" data-group="plan"><button type="button" data-v="tier-free" aria-pressed="false">Free</button><button type="button" data-v="tier-standard" aria-pressed="false">Standard</button><button type="button" data-v="tier-premium" aria-pressed="false">Premium</button></div>
         <div class="dz-sheet-ft"><button type="button" class="btn alt" id="dz-reset">Clear all</button><button type="button" class="btn" id="dz-apply">Show designs</button></div>
       </div></div>
       <?php endif; ?>
@@ -70,7 +69,7 @@ function sec_designs(int $limit = 0): void
               <?php if ($fx): ?><em class="feat-tag">Animated</em><?php endif; ?>
             </span>
             <span class="gd-open"><?= e(THEME_OPEN[$id] ?? '') ?></span>
-            <small class="gd-price"><?= $t['tier'] === 'free' ? 'Free' : '₹' . ($t['tier'] === 'premium' ? $pp : $ps) ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small>
+            <?php if ($t['tier'] === 'free' || $fx || $photoLed): ?><small class="gd-price"><?= $t['tier'] === 'free' ? '<b>Free</b>' : '' ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small><?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>

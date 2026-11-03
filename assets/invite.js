@@ -642,7 +642,7 @@
   var OPENER = {
     classic: ['card', 'Wedding invitation', 'Open invitation'],
     blush: ['rise', 'With love', 'Open invitation'],
-    champagne: ['scratch', 'Scratch the gold to reveal the date', 'Reveal'],
+    champagne: ['fizz', 'Raise a glass with us', 'Open invitation'],
     kasavu: ['lamp', 'Tap to light the lamp', 'Light the lamp'],
     noor: ['mihrab', 'You are invited to our Nikah', 'Open the doors'],
     sindoor: ['mandala', '|| Shubh Vivah ||', 'Begin'],
@@ -706,6 +706,7 @@
       case 'mihrab': return '<div class="wl-hd-top">' + starBand('url(#wlFoil)') + '</div>';
       case 'jasmine': return '';
       case 'rise': return roseLine();
+      case 'fizz': return bokeh(5, 18, 400, 700);
     }
     return '';
   }

@@ -50,7 +50,7 @@ const PHOTO_LED_THEMES = ['lumiere', 'vogue', 'journal', 'bloom'];
 const THEME_FX = ['bloom' => 'petals', 'lumiere' => 'bokeh', 'journal' => 'confetti', 'vogue' => 'flash', 'mughal' => 'stars', 'sage' => 'leaves', 'seal' => 'blossom', 'ink' => 'hearts',
     'toile' => 'butterflies', 'velvet' => 'dust', 'gopuram' => 'marigolds', 'mayil' => 'feathers', 'qamar' => 'lanterns', 'chapel' => 'light', 'jaipur' => 'kites', 'mono' => 'grain'];
 /* What happens when a guest opens each design: shown on the design cards. */
-const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts away', 'champagne' => 'Scratch the gold to see the date', 'kasavu' => 'Guests light the lamp',
+const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts away', 'champagne' => 'Gold bubbles lift the card', 'kasavu' => 'Guests light the lamp',
     'noor' => 'Arched doors open', 'sindoor' => 'A spinning mandala', 'kesar' => 'Phulkari border opens', 'grace' => 'A wreath of light', 'marigold' => 'Garlands drop away',
     'nilavu' => 'Guests light the diyas', 'mullappoo' => 'Jasmine curtains part', 'thamara' => 'A lotus blooms open', 'lavender' => 'Blown away on a breeze', 'mehndi' => 'Henna draws itself',
     'gulmohar' => 'Falls like a petal', 'bloom' => 'Step through a flower arch', 'mughal' => 'Palace gates swing open', 'lumiere' => 'A 3-2-1 film countdown', 'journal' => 'An album cover opens',

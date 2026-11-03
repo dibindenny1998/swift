@@ -73,7 +73,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
           <small>Free plan · No card needed</small>
         </div>
         <div class="url-pill-wrap"><span class="url-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><?php $host = preg_replace('#^https?://#', '', base_url()); ?><span><?= strlen($host) > 24 ? '…' : e($host) ?>/i/<b id="url-names">arjun-meera</b></span></span></div>
-        <?php $heroPick = ['champagne', 'kasavu', 'noor', 'sage', 'seal', 'lumiere']; ?>
+        <?php $heroPick = ['champagne', 'mono', 'marigold', 'kasavu', 'noor', 'lumiere']; ?>
         <div class="style-pills" role="group" aria-label="Try a design">
           <?php foreach ($heroPick as $id): ?>
             <button type="button" class="sw2" data-theme="<?= $id ?>" data-name="<?= e(THEMES[$id]['name']) ?>" aria-pressed="<?= $id === 'champagne' ? 'true' : 'false' ?>"><i style="background:<?= $swatch[$id] ?>"></i><?= e(THEMES[$id]['name']) ?></button>

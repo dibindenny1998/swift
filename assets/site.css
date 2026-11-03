@@ -915,3 +915,4 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
 .grid-six .gd .gd-tags { display: none !important; } .grid-six .gd b { margin-top: 6px; }
 .gd-open { display: block; font-size: .78rem !important; line-height: 1.3; color: var(--plum-2) !important; font-style: italic; margin-top: 2px; }
 .gd-open::before { content: '✦ '; color: #C2456E; font-style: normal; }
+.gd-price b { color: var(--leaf, #3E7B4F); font-weight: 700; margin-right: 8px; } .gd-price b + i { margin-left: 0; padding-left: 8px; } .gd-price i:first-child { margin-left: 0; padding-left: 0; border-left: 0; }
