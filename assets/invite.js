@@ -33,7 +33,8 @@
     thamara: 'family=Parisienne&family=Lora:ital,wght@0,400;0,500;1,400',
     mayil: 'family=Rouge+Script&family=EB+Garamond:ital,wght@0,400;0,500;1,400',
     jaipur: 'family=Gloock&family=Lora:ital,wght@0,400;0,500;1,400',
-    gulmohar: 'family=Tangerine:wght@700&family=Lora:ital,wght@0,400;0,500;1,400'
+    gulmohar: 'family=Tangerine:wght@700&family=Lora:ital,wght@0,400;0,500;1,400',
+    mono: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600'
   };
   // Opening lines that suit each design when the couple leaves them empty.
   var DEFAULTS = {
@@ -44,7 +45,8 @@
     kesar: { intro: 'With the blessings of Waheguru', line: 'request your presence at their Anand Karaj' },
     gopuram: { intro: '|| Shree Ganeshaya Namah ||', line: 'invite you to grace their auspicious wedding' },
     sindoor: { intro: '|| Shubh Vivah ||', line: 'invite you to celebrate their wedding' },
-    jaipur: { intro: '|| Shubh Vivah ||', line: 'request the pleasure of your company at their wedding' }
+    jaipur: { intro: '|| Shubh Vivah ||', line: 'request the pleasure of your company at their wedding' },
+    mono: { intro: 'Save the date', line: 'are getting married' }
   };
   // Indian scripts: Google serves these with unicode-range, so they only download when the text uses them.
   var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
@@ -63,6 +65,10 @@
     if ((m = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url))) return 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&muted=1&loop=1&playsinline=1';
     if ((m = /drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{20,})/.exec(url))) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
     return '';
+  }
+  // the couple's film playing silently behind the names, in place of the cover photo
+  function filmCover(url, title, poster) {
+    return '<div class="wl-slides wl-film">' + (poster ? '<img class="on" src="' + esc(poster) + '" alt="">' : '') + '<iframe src="' + esc(url.replace('controls=1', 'controls=0')) + '" title="' + esc(title) + ' film" tabindex="-1" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
   }
   var VIDEO_TITLE = { prewedding: 'Our pre-wedding film', wishes: 'Wishes from our families', story: 'Our story' };
 
@@ -253,7 +259,7 @@
   }
 
   function divider(theme) {
-    var c = theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
+    var c = theme === 'mono' ? '#1A1A1A' : theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" transform="translate(100,10)"><path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/></g></svg>';
   }
@@ -267,7 +273,7 @@
     '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
     '</defs></svg>';
 
-  var LIGHT = { lavender: 1, mughal: 1, bloom: 1, lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  var LIGHT = { mono: 1, lavender: 1, mughal: 1, bloom: 1, lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
   function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
 
   function bokeh(seed, n, w, h) {
@@ -461,6 +467,15 @@
   /* ---------- premium art: sage, seal, ink, toile ---------- */
   var TIMELINE = { sage: 1, ink: 1, toile: 1, journal: 1 };
   var PHOTO_LED = { lumiere: 1, journal: 1, vogue: 1, bloom: 1 };
+  // Each design opens differently: the shape of the cover photo and how the names sit with it
+  var COVER = { noor: 'arch', qamar: 'arch', mughal: 'arch', jaipur: 'arch', chapel: 'arch',
+    kasavu: 'circle', mullappoo: 'circle', thamara: 'circle', nilavu: 'circle', gopuram: 'circle',
+    velvet: 'full', sindoor: 'full', kesar: 'full', marigold: 'full', mehndi: 'full', mono: 'full',
+    seal: 'polaroid', ink: 'polaroid', sage: 'polaroid',
+    grace: 'split', toile: 'split', mayil: 'split', gulmohar: 'split' };
+  // ...and lists the celebrations in its own way
+  var EVSTYLE = { champagne: 'ticket', velvet: 'ticket', mono: 'ticket', vogue: 'ticket', lumiere: 'ticket', gulmohar: 'ticket', grace: 'ticket', lavender: 'ticket',
+    sindoor: 'band', kesar: 'band', marigold: 'band', mehndi: 'band', gopuram: 'band', jaipur: 'band', mayil: 'band', noor: 'band', qamar: 'band' };
   // Premium designs get an animated header: photos fading in, plus moving decor
   var ANIM = { bloom: 'petals', mughal: 'sparkle', lumiere: 'petals', journal: 'petals', seal: 'petals', jaipur: 'petals', sage: 'petals', ink: 'petals',
     vogue: 'sparkle', velvet: 'sparkle', mayil: 'sparkle', gopuram: 'sparkle', chapel: 'sparkle', toile: 'sparkle', qamar: 'lanterns' };
@@ -582,6 +597,7 @@
       case 'mayil': return peacock() + bokeh(9, 16, 400, 700);
       case 'jaipur': return jharokha();
       case 'gulmohar': return gulmoharBranch(4, false) + gulmoharBranch(8, true);
+      case 'mono': return '<div class="wl-mono-rules" aria-hidden="true"><i></i><i></i></div>';
     }
     return '';
   }
@@ -619,16 +635,17 @@
     if (!v.events.length) return '';
     var cards = v.events.map(function (ev) {
       var map = mapLink(ev);
-      return '<article class="wl-ev">' + evIcon(ev.name) + (TIMELINE[v.theme] && ev.time ? '<p class="wl-ev-t">' + esc(time12(ev.time)) + '</p>' : '') +
+      var st = EVSTYLE[v.theme], dp = ev.date ? parts(ev.date) : null;
+      return '<article class="wl-ev">' + (st && dp ? '<div class="wl-ev-stub" aria-hidden="true"><span>' + DAYS[dp.wd].slice(0, 3) + '</span><b>' + dp.d + '</b><span>' + MONTHS[dp.mo].slice(0, 3) + '</span></div><div class="wl-ev-main">' : '') + evIcon(ev.name) + (TIMELINE[v.theme] && ev.time ? '<p class="wl-ev-t">' + esc(time12(ev.time)) + '</p>' : '') +
         '<h3>' + esc(ev.name || 'Wedding') + '</h3>' +
         (ev.date ? '<p class="wl-ev-when">' + esc(longDate(ev.date)) + (ev.time && !TIMELINE[v.theme] ? '<br>' + esc(time12(ev.time)) : '') + '</p>' : '') +
         (ev.venue ? '<p class="wl-ev-venue">' + esc(ev.venue) + '</p>' : '') +
         (ev.address ? '<p class="wl-ev-addr">' + nl2br(ev.address) + '</p>' : '') +
         '<div class="wl-ev-acts">' + (map ? '<a class="wl-btn" href="' + esc(map) + '" target="_blank" rel="noopener">Directions</a>' : '') +
         (ev.date ? '<a class="wl-btn ghost" href="' + esc(calLink(ev, title)) + '" target="_blank" rel="noopener">Add to calendar</a>' : '') + '</div>' +
-        '</article>';
+        (st && dp ? '</div>' : '') + '</article>';
     }).join('');
-    return '<section class="wl-sec wl-events' + (TIMELINE[v.theme] ? ' wl-tl' : '') + '" data-sec="events"><h2>' + (v.events.length > 1 ? 'Celebrations' : 'The celebration') + '</h2>' + divider(v.theme) + cards + '</section>';
+    return '<section class="wl-sec wl-events' + (TIMELINE[v.theme] ? ' wl-tl' : EVSTYLE[v.theme] ? ' wl-ev-' + EVSTYLE[v.theme] : '') + '" data-sec="events"><h2>' + (v.events.length > 1 ? 'Celebrations' : 'The celebration') + '</h2>' + divider(v.theme) + cards + '</section>';
   }
 
   function rsvpHtml(v, mode) {
@@ -691,6 +708,7 @@
     var first = v.main;
     var photos = v.photos;
     var showCover = opts.cover && mode !== 'editor';
+    var film = opts.filmCover && /youtube|vimeo/.test(v.video) ? filmCover(v.video, title, photos[0] || v.bg) : '';
 
     // A photo-led design's sample couple photo is only for building and browsing designs;
     // a couple's own preview and live invite never show someone else's photo.
@@ -726,7 +744,7 @@
       var heroImg = photos[0] || v.bg || '';
       var dp = first && first.date ? parts(first.date) : null;
       html += '<header class="wl-hero wl-pl" data-sec="hero">' +
-        '<div class="wl-pl-img' + (heroImg ? '' : ' none') + '" data-sec="photos">' + (heroImg ? slides(photos.length ? photos.slice(0, 5) : [heroImg], title) : '') + particles(ANIM[v.theme]) +
+        '<div class="wl-pl-img' + (heroImg ? '' : ' none') + '" data-sec="photos">' + (film || (heroImg ? slides(photos.length ? photos.slice(0, 5) : [heroImg], title) : '')) + particles(ANIM[v.theme]) +
           (mode === 'editor' && !photos.length ? '<span class="wl-pl-add">' + (heroImg ? 'Sample photo. Add yours in the Photos step' : 'Add your photo in the Photos step') + '</span>' : '') + '</div>' +
         '<div class="wl-pl-in">' +
           (v.theme === 'vogue' ? '<p class="wl-pl-kick">The wedding of</p>' : '<p class="wl-intro">' + esc(v.intro) + '</p>') +
@@ -737,7 +755,7 @@
     } else {
     if (photos[0]) {
       var cp = first && first.date ? parts(first.date) : null;
-      html += '<header class="wl-hero wl-cv" data-sec="hero"><span class="wl-cv-frame" aria-hidden="true"></span>' + slides(ANIM[v.theme] ? photos.slice(0, 5) : [photos[0]], title) + particles(ANIM[v.theme]) +
+      html += '<header class="wl-hero wl-cv wl-cv-' + (COVER[v.theme] || 'classic') + '" data-sec="hero"><span class="wl-cv-frame" aria-hidden="true"></span>' + (film || slides(ANIM[v.theme] ? photos.slice(0, 5) : [photos[0]], title)) + particles(ANIM[v.theme]) +
         '<div class="wl-cv-in"><p class="wl-intro">' + esc(v.intro) + '</p>' +
         '<h1 class="wl-names"><span>' + esc(v.p1) + '</span><span class="wl-amp">&amp;</span><span>' + esc(v.p2) + '</span></h1>' +
         divider(v.theme) +

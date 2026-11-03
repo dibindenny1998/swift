@@ -828,3 +828,98 @@
 .wl-cv-in { margin-top: -80px; }
 /* Bloom: the arch shows the couple, not the soft misty bottom of the photo */
 .wl[data-theme=bloom] .wl-pl-img .wl-slides { bottom: -34%; }
+
+/* ===================== each design opens in its own way ===================== */
+.wl-cv-arch::after, .wl-cv-circle::after, .wl-cv-polaroid::after, .wl-cv-split::after { display: none !important; }
+.wl-cv-arch .wl-slides, .wl-cv-circle .wl-slides, .wl-cv-polaroid .wl-slides, .wl-cv-split .wl-slides { -webkit-mask-image: none !important; mask-image: none !important; overflow: hidden; }
+
+/* arch window: a mihrab / palace / chapel arch */
+.wl-cv-arch { padding: 38px 0 0 !important; }
+.wl-cv-arch .wl-slides { width: 72% !important; align-self: center !important; aspect-ratio: 3 / 4.2 !important; border-radius: 999px 999px 8px 8px;
+  box-shadow: 0 0 0 6px var(--page), 0 0 0 7px var(--acc), 0 34px 50px -30px rgba(0,0,0,.55); }
+.wl-cv-arch .wl-cv-frame { inset: 18px auto auto 50% !important; width: calc(72% + 40px); height: auto !important; aspect-ratio: 3 / 4.05 !important; transform: translateX(-50%);
+  border: 1px solid var(--acc) !important; border-radius: 999px 999px 12px 12px !important; -webkit-mask-image: none !important; mask-image: none !important; opacity: .55 !important; }
+.wl-cv-arch .wl-cv-in { margin-top: 34px !important; }
+
+/* circle medallion with a slowly turning dotted ring */
+.wl-cv-circle { padding: 52px 0 0 !important; }
+.wl-cv-circle .wl-slides { width: 68% !important; align-self: center !important; aspect-ratio: 1 !important; border-radius: 50%;
+  box-shadow: 0 0 0 7px var(--page), 0 0 0 8px var(--acc), 0 34px 50px -30px rgba(0,0,0,.5); }
+.wl-cv-circle .wl-slides img { object-position: 50% 18%; }
+.wl-cv-circle .wl-cv-frame { inset: 26px auto auto 50% !important; width: calc(68% + 52px); height: auto !important; aspect-ratio: 1 !important; margin-left: calc((68% + 52px) / -2);
+  border: 1.5px dashed var(--acc) !important; border-radius: 50% !important; -webkit-mask-image: none !important; mask-image: none !important; opacity: .6 !important; animation: wlTurn 60s linear infinite; }
+@keyframes wlTurn { to { transform: rotate(360deg); } }
+.wl-cv-circle .wl-cv-in { margin-top: 40px !important; }
+
+/* full screen: photo fills the phone, names in white over it */
+.wl-cv-full { display: block !important; height: 100svh !important; min-height: 600px !important; }
+.wl-cv-full .wl-slides { position: absolute !important; inset: 0 !important; height: 100% !important; aspect-ratio: auto !important; -webkit-mask-image: none !important; mask-image: none !important; }
+.wl-cv-full .wl-slides img { object-position: 50% 22%; }
+.wl-cv-full::after { top: 0 !important; bottom: 0 !important; height: auto !important; background: linear-gradient(180deg, rgba(0,0,0,.3) 0%, transparent 26%, transparent 42%, rgba(0,0,0,.5) 66%, rgba(0,0,0,.86) 100%) !important; }
+.wl-cv-full .wl-cv-frame { inset: 14px !important; height: auto !important; aspect-ratio: auto !important; border: 1px solid rgba(255,255,255,.5) !important; border-radius: 4px !important; -webkit-mask-image: none !important; mask-image: none !important; }
+.wl-cv-full .wl-cv-in { position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important; margin: 0 !important; padding: 0 26px 48px !important; }
+.wl-cv-full .wl-names > span:not(.wl-amp) { background: none !important; -webkit-text-fill-color: #fff !important; color: #fff !important; text-shadow: 0 2px 22px rgba(0,0,0,.4) !important; }
+.wl-cv-full .wl-intro, .wl-cv-full .wl-pl-date { color: rgba(255,255,255,.92) !important; text-shadow: 0 1px 8px rgba(0,0,0,.5) !important; }
+.wl-cv-full .wl-amp { color: #fff !important; opacity: .85; }
+.wl-cv-full .wl-div { filter: brightness(0) invert(1); opacity: .8; }
+.wl-cv-full .wl-cv-down { border-color: rgba(255,255,255,.75) !important; }
+.wl-cv-full .wl-cv-down::after { background: #fff !important; }
+
+/* polaroid: a tilted print with tape, names written underneath */
+.wl-cv-polaroid { padding: 46px 0 0 !important; }
+.wl-cv-polaroid .wl-slides { width: 76% !important; align-self: center !important; aspect-ratio: 4 / 4.7 !important; transform: rotate(-2.5deg); margin-bottom: 52px;
+  box-shadow: 0 0 0 12px #fff, 0 46px 0 12px #fff, 0 50px 40px -8px rgba(0,0,0,.28); }
+.wl-cv-polaroid .wl-cv-frame { inset: 30px auto auto 50% !important; width: 120px; height: 32px !important; aspect-ratio: auto !important; margin-left: -60px; transform: rotate(4deg);
+  background: rgba(255,248,226,.78); border: 0 !important; border-radius: 2px !important; box-shadow: 0 1px 4px rgba(0,0,0,.18); -webkit-mask-image: none !important; mask-image: none !important; opacity: 1 !important; z-index: 4; }
+.wl-cv-polaroid .wl-cv-in { margin-top: 18px !important; }
+
+/* split: names first, photo below with a colour block behind it */
+.wl-cv-split { padding: 44px 0 40px !important; }
+.wl-cv-split .wl-cv-in { order: -1; margin-top: 0 !important; padding-bottom: 26px !important; }
+.wl-cv-split .wl-cv-down { display: none; }
+.wl-cv-split .wl-slides { width: 80% !important; align-self: flex-end !important; aspect-ratio: 4 / 5 !important; border-radius: 180px 0 0 0; z-index: 1; }
+.wl-cv-split .wl-cv-frame { inset: auto auto 18px 0 !important; width: 58%; height: 46% !important; aspect-ratio: auto !important; background: color-mix(in srgb, var(--acc) 26%, var(--page));
+  border: 0 !important; border-radius: 0 !important; -webkit-mask-image: none !important; mask-image: none !important; opacity: 1 !important; z-index: 0; }
+
+/* ===================== celebrations: ticket and band styles ===================== */
+.wl-ev-ticket .wl-ev, .wl-ev-band .wl-ev { text-align: left !important; }
+.wl-ev-ticket .wl-ev-ic, .wl-ev-band .wl-ev-ic { display: none !important; }
+.wl-ev-ticket .wl-ev-acts, .wl-ev-band .wl-ev-acts { justify-content: flex-start !important; }
+.wl-ev-stub { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; line-height: 1.1; }
+.wl-ev-stub span { font-size: .66em; letter-spacing: .18em; text-transform: uppercase; }
+.wl-ev-stub b { font-family: var(--fh); font-size: 2.3em; font-weight: 500; margin: 2px 0; }
+.wl-ev-ticket .wl-ev { display: flex !important; padding: 0 !important; overflow: visible; border-radius: 12px !important; }
+.wl-ev-ticket .wl-ev-stub { flex: 0 0 82px; position: relative; padding: 16px 4px; background: var(--acc2); color: var(--btnInk, #fff); border-radius: 12px 0 0 12px; border-right: 2px dashed color-mix(in srgb, #fff 55%, transparent); }
+.wl-ev-ticket .wl-ev-stub::before, .wl-ev-ticket .wl-ev-stub::after { content: ''; position: absolute; right: -9px; width: 16px; height: 16px; border-radius: 50%; background: var(--page); }
+.wl-ev-ticket .wl-ev-stub::before { top: -8px; } .wl-ev-ticket .wl-ev-stub::after { bottom: -8px; }
+.wl-ev-ticket .wl-ev-main { flex: 1; min-width: 0; padding: 18px 18px 20px; }
+.wl-ev-band .wl-ev { display: grid !important; grid-template-columns: 74px 1fr; gap: 16px; align-items: start; background: none !important; border: 0 !important; border-top: 1px solid var(--line) !important; border-radius: 0 !important; box-shadow: none !important; padding: 22px 2px !important; margin: 0 !important; }
+.wl-ev-band .wl-ev:last-of-type { border-bottom: 1px solid var(--line) !important; }
+.wl-ev-band .wl-ev-stub { width: 74px; height: 92px; padding-top: 10px; border-radius: 40px 40px 6px 6px; background: var(--acc); color: var(--btnInk, #fff); box-shadow: 0 12px 24px -14px rgba(0,0,0,.5); }
+
+/* ===================== Monochrome: black and white editorial ===================== */
+.wl[data-theme=mono] {
+  --page: #FAFAF7; --outer: #E6E6E2; --ink: #151515; --muted: #6E6E6A; --acc: #1A1A1A; --acc2: #0E0E0E;
+  --card: #FFFFFF; --line: rgba(0,0,0,.16);
+  --fs: 'Playfair Display'; --ft: 'Manrope'; --fh: 'Playfair Display'; --names: clamp(2.9rem, 14.5vw, 5rem); --tsize: .98rem;
+  --btn: #111; --btnInk: #fff; --foil: linear-gradient(#111, #111); --grain: .05; --photo-r: 0; --veil: rgba(250,250,247,.6);
+}
+.wl[data-theme=mono] .wl-slides img, .wl[data-theme=mono] .wl-ph img, .wl[data-theme=mono] .wl-pl-img img { filter: grayscale(1) contrast(1.1); }
+.wl[data-theme=mono] .wl-names { font-style: italic; font-weight: 400; letter-spacing: -.01em; }
+.wl[data-theme=mono] .wl-names .wl-amp { font-style: normal; font-family: 'Manrope'; font-weight: 300; font-size: .32em; letter-spacing: .4em; text-transform: uppercase; }
+.wl[data-theme=mono] .wl-intro { font-family: 'Manrope'; letter-spacing: .34em; text-transform: uppercase; font-size: .68em; font-weight: 500; }
+.wl[data-theme=mono] h2 { font-style: italic; font-weight: 400; font-size: 2rem; }
+.wl[data-theme=mono] .wl-sec { border-top: 1px solid var(--line); }
+.wl[data-theme=mono] .wl-btn { border-radius: 0 !important; letter-spacing: .16em; text-transform: uppercase; font-size: .74em; font-weight: 600; }
+.wl[data-theme=mono] .wl-ev, .wl[data-theme=mono] .wl-cd > div, .wl[data-theme=mono] .wl-ph { border-radius: 0 !important; }
+.wl[data-theme=mono] .wl-ev-ticket .wl-ev-stub { border-radius: 0; }
+.wl[data-theme=mono] .wl-date-d { font-style: italic; }
+.wl-mono-rules i { position: absolute; left: 22px; right: 22px; height: 1px; background: #151515; }
+.wl-mono-rules i:first-child { top: 26px; } .wl-mono-rules i:last-child { top: 32px; }
+/* film cover: the video plays silently, cropped to fill the cover shape */
+.wl-film { overflow: hidden; background: #111; }
+.wl-film iframe { position: absolute; top: 50%; left: 50%; width: 400%; aspect-ratio: 16 / 9; height: auto; border: 0; transform: translate(-50%, -50%); pointer-events: none; }
+.wl-cv-frame + .wl-film, .wl-pl-img .wl-film { opacity: 1; }
+.wl-cv-full .wl-cv-in { background: none !important; }
+.wl-cv-full .wl-cv-in::before, .wl-cv-full .wl-cv-in::after { display: none !important; }
+.wl-film img { animation: none !important; } .wl-film iframe { z-index: 1; }

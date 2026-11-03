@@ -16,7 +16,7 @@ $swatch = [
     'noor' => 'radial-gradient(circle at 50% 35%,#E3C26E 0 14%,#145A44 15%)', 'chapel' => 'linear-gradient(160deg,#3B5BA9,#C9506E 55%,#E7A93C)',
     'sindoor' => 'radial-gradient(circle at 50% 40%,#E9C46A 0 16%,#C9727F 17%)', 'kesar' => 'linear-gradient(135deg,#F4A21C 0 30%,#172C6E 30%)',
     'gopuram' => 'linear-gradient(180deg,#E8C26A 0 35%,#5E1020 35%)', 'velvet' => 'radial-gradient(circle at 50% 100%,#E5C37A 0 30%,#4A5739 31%)',
-    'qamar' => 'radial-gradient(circle at 65% 35%,#F5DFA8 0 15%,#1B1440 16%)', 'grace' => 'linear-gradient(135deg,#DCE6EE,#8EA3B6)',
+    'qamar' => 'radial-gradient(circle at 65% 35%,#F5DFA8 0 15%,#1B1440 16%)', 'grace' => 'linear-gradient(135deg,#DCE6EE,#8EA3B6)', 'mono' => 'linear-gradient(135deg,#FAFAF7 0 50%,#151515 50%)',
     'marigold' => 'radial-gradient(circle at 30% 30%,#F7B500 0 22%,transparent 23%),radial-gradient(circle at 70% 30%,#F07B0A 0 22%,transparent 23%),#FFF1C9',
     'nilavu' => 'radial-gradient(circle at 68% 32%,#F6E7B8 0 14%,#13214A 15%)', 'mullappoo' => 'radial-gradient(circle,#fff 0 22%,#CFE3D4 23% 30%,#F2F8F3 31%)',
     'thamara' => 'radial-gradient(ellipse at 50% 70%,#F3B3C1 0 30%,#F1F2EA 31%)', 'mayil' => 'radial-gradient(circle at 50% 45%,#173E8C 0 12%,#0F9AA0 13% 22%,#E2C46F 23% 28%,#0D4651 29%)',
@@ -66,7 +66,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
         <div class="fan">
           <div class="hero-card l" aria-hidden="true"><img src="<?= asset('assets/img/designs/noor-art.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
           <div class="hero-card r" aria-hidden="true"><img src="<?= asset('assets/img/designs/kasavu-art.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
-          <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager"></iframe></div>
+          <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
         </div>
         <div class="hero-cta-m">
           <a class="btn js-make" href="/create">Make our website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -171,6 +171,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
 </main>
 <?php site_footer(); ?>
 <?= sticky_cta() ?>
+<script>window.WL_DEMO_VIDEO = <?= json_encode(setting('demo_video'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;</script>
 <script>window.WL_DEMO_PHOTOS = <?= json_for_script(array_values(array_filter([slot_url('demo-1'), slot_url('demo-2'), slot_url('demo-3')]))) ?>;</script>
 <script>window.WL_THEMES = <?= json_for_script(array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags']], THEMES)) ?>;</script>
 <script src="<?= asset('assets/samples.js') ?>"></script>

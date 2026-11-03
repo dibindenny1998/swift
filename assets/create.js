@@ -13,7 +13,7 @@
     sikh: ['Anand Karaj', 'Roka', 'Mehendi', 'Jaago', 'Milni', 'Reception'],
     modern: ['Wedding', 'Engagement', 'Sangeet', 'Mehendi', 'Cocktail', 'Reception']
   };
-  var PRIMARY = { lavender: 'modern', mehndi: 'hindu', mughal: 'muslim', bloom: 'modern', lumiere: 'modern', journal: 'modern', vogue: 'modern', sage: 'modern', seal: 'modern', ink: 'modern', toile: 'modern', classic: 'modern', blush: 'modern', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
+  var PRIMARY = { mono: 'christian', lavender: 'modern', mehndi: 'hindu', mughal: 'muslim', bloom: 'modern', lumiere: 'modern', journal: 'modern', vogue: 'modern', sage: 'modern', seal: 'modern', ink: 'modern', toile: 'modern', classic: 'modern', blush: 'modern', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
   function eventNames() { return EVENT_SETS[PRIMARY[data.theme] || 'hindu']; }
   var MAX_PHOTOS = 15;
 

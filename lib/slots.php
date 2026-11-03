@@ -61,6 +61,7 @@ const SAMPLE_PROMPTS = [
     'thamara' => 'Indian couple by a lotus pond at sunrise, the bride in a soft pink silk saree, the groom in an ivory kurta with a pink stole, pink lotus flowers in the water.',
     'gulmohar' => 'Indian couple under a flowering red gulmohar tree, the bride in a coral silk saree, the groom in an ivory kurta, red petals falling around them, bright summer light.',
     'lavender' => 'Couple walking through a lavender field, the bride in a lilac lehenga with a sheer dupatta, the groom in a cream kurta with a lilac stole, soft evening light.',
+    'mono' => 'Black and white fashion-editorial portrait of an Indian bride and groom, the bride in an ivory lace gown with a long veil, the groom in a dark suit, foreheads touching, strong contrast, timeless.',
     'mehndi' => 'Bride and groom at their mehndi ceremony, the bride showing her hennaed hands, wearing a green and gold lehenga, the groom in a pale green kurta, floor cushions and marigolds, warm light.',
 ];
 

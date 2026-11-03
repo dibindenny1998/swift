@@ -41,6 +41,7 @@ const THEMES = [
     'mayil'     => ['name' => 'Mayil',     'note' => 'Peacock feathers in teal and gold', 'tags' => ['hindu', 'kerala', 'modern'], 'tier' => 'premium'],
     'qamar'     => ['name' => 'Qamar',     'note' => 'Midnight lanterns and a crescent moon', 'tags' => ['muslim'], 'tier' => 'premium'],
     'chapel'    => ['name' => 'Chapel',    'note' => 'Stained-glass arch and a gold cross', 'tags' => ['christian', 'kerala'], 'tier' => 'premium'],
+    'mono'      => ['name' => 'Monochrome', 'note' => 'Black and white, like a fashion editorial', 'tags' => ['modern', 'christian', 'hindu', 'muslim', 'sikh', 'kerala'], 'tier' => 'premium'],
     'jaipur'    => ['name' => 'Jaipur',    'note' => 'Pink sandstone palace arches', 'tags' => ['hindu', 'sikh'], 'tier' => 'premium'],
 ];
 

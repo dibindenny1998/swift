@@ -32,11 +32,12 @@
   function sample() { return WL_SAMPLES.get(WL_SAMPLES.faith(state.theme)); }
   // real photos uploaded in Admin → Images (Home page demo) make the preview feel real
   var DEMO_PHOTOS = window.WL_DEMO_PHOTOS || [];
-  function data() { var s = sample(); return Object.assign({}, s, { theme: state.theme, p1: state.p1 || s.p1, p2: state.p2 || s.p2, brand: 'TheWedLink' }, DEMO_PHOTOS.length ? { photos: DEMO_PHOTOS, plan: 'premium' } : {}); }
+  var DEMO_VIDEO = window.WL_DEMO_VIDEO || '';
+  function data() { var s = sample(); return Object.assign({}, s, { theme: state.theme, p1: state.p1 || s.p1, p2: state.p2 || s.p2, brand: 'TheWedLink' }, DEMO_PHOTOS.length ? { photos: DEMO_PHOTOS, plan: 'premium' } : {}, DEMO_VIDEO ? { video: DEMO_VIDEO, plan: 'premium' } : {}); }
   function paint() {
     if (!ready) return;
     try {
-      frame.contentWindow.wlRender(data(), first ? { mode: 'demo', cover: true, autoOpen: 1300 } : { mode: 'editor', keepScroll: !state.jump });
+      frame.contentWindow.wlRender(data(), first ? { mode: 'demo', cover: true, autoOpen: 1300, filmCover: true } : { mode: 'editor', keepScroll: !state.jump, filmCover: true });
       if (state.jump) frame.contentWindow.scrollTo(0, 0);
       first = false; state.jump = false;
     } catch (e) {}

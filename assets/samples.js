@@ -16,7 +16,7 @@ window.WL_SAMPLES = (function () {
     modern: { c: 'Vikram Rao', p1: 'Rahul', p2: 'Ananya', p1_family: 'Son of Vikram & Priya Rao, Bengaluru', p2_family: 'Daughter of Anil & Kavita Shetty, Mangaluru',
       events: [['Sangeet', 71, '19:00', 'The Tamarind Tree', 'Kanakapura Road, Bengaluru'], ['Wedding', 72, '11:00', 'The Leela Palace', 'Old Airport Road, Bengaluru'], ['Reception', 72, '19:30', 'The Leela Palace', 'Bengaluru']] }
   };
-  var PRIMARY = { noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
+  var PRIMARY = { mono: 'christian', noor: 'muslim', qamar: 'muslim', chapel: 'christian', grace: 'christian', kesar: 'sikh', champagne: 'modern', velvet: 'modern', gulmohar: 'modern' };
   return {
     faith: function (theme) { return PRIMARY[theme] || 'hindu'; },
     get: function (faith) {
