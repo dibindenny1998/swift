@@ -910,3 +910,5 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
   .lux-hero::after { background: linear-gradient(180deg, #FDF6F3 0%, #FDF6F3 34%, rgba(253,246,243,.5) 52%, rgba(253,246,243,.12) 70%, rgba(253,246,243,.8) 86%, #FDF6F3 100%) !important; }
   .hero-cta-m small { color: var(--plum) !important; font-weight: 500; text-shadow: 0 0 10px #FDF6F3, 0 0 4px #FDF6F3; }
 }
+/* phones: no photo behind the hero, plain cream so everything reads clearly */
+@media (max-width: 900px) { .lux-hero > .slot, .lux-hero::after { display: none !important; } }
