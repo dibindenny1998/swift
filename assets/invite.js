@@ -54,12 +54,12 @@
     standard: { events: 3, photos: 1, rsvp: false, music: false, gifts: false, video: false, badge: true },
     premium: { events: 6, photos: 15, rsvp: true, music: true, gifts: true, video: true, badge: false }
   };
-  // turn a pasted YouTube / Vimeo / Google Drive link into its player address
+  // turn a pasted YouTube link into its player address
   function videoEmbed(url) {
     url = String(url || '').trim(); var m;
-    if ((m = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(url))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&modestbranding=1&playsinline=1';
-    if ((m = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url))) return 'https://player.vimeo.com/video/' + m[1];
-    if ((m = /drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{20,})/.exec(url))) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+    // YouTube only; plays by itself (muted, as phones require) and loops
+    if ((m = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(url)))
+      return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&mute=1&loop=1&playlist=' + m[1] + '&rel=0&modestbranding=1&playsinline=1&controls=1';
     return '';
   }
   var VIDEO_TITLE = { prewedding: 'Our pre-wedding film', wishes: 'Wishes from our families', story: 'Our story' };

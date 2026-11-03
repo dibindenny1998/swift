@@ -34,6 +34,36 @@ const PHOTO_LED_PROMPTS = [
     'journal' => 'Candid, warm photo of a laughing Indian couple sitting close on the steps of a sunlit veranda with pots of white flowers, the bride in a soft pink saree with jasmine in her hair, the groom in a cream kurta, natural and intimate, like a favourite photo from a family album.',
 ];
 
+/* One couple photo per design, for its card on the home and Designs pages. Each matches the design's tradition and colours,
+   so no two cards share a photo. Keep the top two-thirds for the couple and the bottom third soft: it fades into the design. */
+const SAMPLE_PROMPTS = [
+    'bloom' => 'Indian bride and groom standing face to face under a tall arch of blush roses and white flowers, the bride in a blush-pink lehenga with a sheer dupatta, the groom in an ivory sherwani, smiling, soft daylight.',
+    'mughal' => 'Muslim bride and groom on the steps of a white marble Mughal palace with carved arches, the bride in an ivory and gold sharara with a long dupatta, the groom in a cream sherwani and pagdi, warm golden light.',
+    'seal' => 'Bride and groom seated at a garden table reading a handwritten letter together, cream envelopes and wax seals on the table, the bride in a champagne-gold saree, the groom in an ivory kurta, soft afternoon light.',
+    'velvet' => 'Elegant evening portrait of an Indian couple in a grand palace hall with wine-red velvet drapes and warm chandelier light, the bride in a deep maroon and gold lehenga, the groom in a black bandhgala.',
+    'qamar' => 'Muslim bride and groom at night on a terrace hung with glowing brass lanterns, the bride in an emerald and gold gharara, the groom in an ivory sherwani, a crescent moon in the deep blue sky.',
+    'sage' => 'Christian couple walking through an olive grove, the bride in an ivory lace gown with a long veil, the groom in a sage-green suit, soft overcast light, airy and natural.',
+    'ink' => 'Intimate close portrait of a couple laughing, foreheads touching, in a sunlit room with white linen curtains, the bride in an ivory chikankari saree, the groom in a cream kurta, quiet and romantic.',
+    'toile' => 'Christian bride and groom under a white garden gazebo, the bride in a classic ivory gown, the groom in a navy suit, blue hydrangeas around them, bright daylight.',
+    'gopuram' => 'South Indian Hindu couple in front of a temple gopuram tower, the bride in a maroon and gold Kanjeevaram silk saree with temple jewellery, the groom in a white veshti and angavastram, morning light.',
+    'mayil' => 'Indian couple in a garden courtyard with peacocks, the bride in a teal and gold silk saree, the groom in an ivory kurta with a teal stole, rich and joyful.',
+    'chapel' => 'Christian bride and groom at the altar of a white church with light falling through stained-glass windows, the bride in an ivory gown and veil, the groom in a grey suit, smiling at each other.',
+    'jaipur' => 'Rajasthani couple in a pink sandstone palace courtyard with carved jharokha windows, the bride in a coral and gold lehenga, the groom in an ivory sherwani with a pink safa, warm light.',
+    'champagne' => 'Modern Indian couple toasting with champagne glasses at a candlelit reception, the bride in a champagne sequinned lehenga, the groom in an ivory tuxedo-style bandhgala, soft golden bokeh.',
+    'kasavu' => 'Kerala Hindu couple in front of a traditional nalukettu home with a brass lamp, the bride in an ivory kasavu saree with gold border and jasmine in her hair, the groom in a kasavu mundu and shirt, morning light.',
+    'noor' => 'Muslim couple at a Nikah under an arch of white roses, the bride in an emerald-green and gold lehenga with a dupatta over her head, the groom in an ivory sherwani, soft light.',
+    'sindoor' => 'North Indian Hindu bride and groom at the mandap, the bride in a red and gold lehenga with a long dupatta, the groom in an ivory sherwani with a red safa, marigold garlands, warm festive light.',
+    'kesar' => 'Sikh bride and groom at a gurdwara courtyard, the bride in a red and saffron lehenga with kaleere, the groom in an ivory sherwani with a saffron turban, bright joyful daylight.',
+    'grace' => 'Christian couple on a quiet beach at sunset, the bride in a flowing ivory gown, the groom in a light-blue suit, soft pastel sky, gentle and calm.',
+    'marigold' => 'Laughing Indian couple at their haldi ceremony with marigold garlands and yellow drapes, the bride in a mustard lehenga, the groom in a yellow kurta, turmeric on their cheeks, joyful daylight.',
+    'nilavu' => 'Indian couple at dusk by a lake lined with floating diyas, the bride in a navy and gold silk saree, the groom in an ivory kurta, warm lamp light reflecting on the water.',
+    'mullappoo' => 'Kerala couple in a garden full of white jasmine, the bride in an ivory set-mundu with a green border and long jasmine strings in her hair, the groom in an ivory mundu, soft morning light.',
+    'thamara' => 'Indian couple by a lotus pond at sunrise, the bride in a soft pink silk saree, the groom in an ivory kurta with a pink stole, pink lotus flowers in the water.',
+    'gulmohar' => 'Indian couple under a flowering red gulmohar tree, the bride in a coral silk saree, the groom in an ivory kurta, red petals falling around them, bright summer light.',
+    'lavender' => 'Couple walking through a lavender field, the bride in a lilac lehenga with a sheer dupatta, the groom in a cream kurta with a lilac stole, soft evening light.',
+    'mehndi' => 'Bride and groom at their mehndi ceremony, the bride showing her hennaed hands, wearing a green and gold lehenga, the groom in a pale green kurta, floor cushions and marigolds, warm light.',
+];
+
 /* Soft backgrounds behind the names on the illustrated designs (optional). */
 const THEME_SLOT_PROMPTS = [
     'lavender' => 'Soft lilac and lavender watercolour wash on white cold-press paper with delicate lavender sprigs at the top corners.',
@@ -77,6 +107,13 @@ function all_slots(): array
     $out = [];
     foreach ($s as $k => $v) { if ($v['group'] === 'Other pages' && $photo) { $out += $photo; $photo = []; } $out[$k] = $v; }
     $out += $photo;
+    foreach (SAMPLE_PROMPTS as $id => $prompt) {
+        if (!isset(THEMES[$id]) || isset(PHOTO_LED_PROMPTS[$id]) && $id !== 'bloom') continue;
+        $key = $id === 'bloom' ? 'theme-bloom' : 'sample-' . $id;
+        $out[$key] = ['group' => 'Design card couples', 'label' => THEMES[$id]['name'] . ' couple', 'where' => 'The ' . THEMES[$id]['name'] . ' card on the home and Designs pages' . ($id === 'bloom' ? ', and its first screen in the builder' : ''),
+            'w' => 1080, 'h' => 1920, 'ratio' => '9:16', 'kind' => 'photo',
+            'prompt' => $prompt . ' Keep the couple in the top two-thirds of the frame and the bottom third simple and soft.'];
+    }
     foreach (THEMES as $id => $t) {
         if (isset(PHOTO_LED_PROMPTS[$id])) continue;
         $out['theme-' . $id] = ['group' => 'Design backdrops (optional)', 'label' => $t['name'] . ' backdrop', 'where' => 'Faint background behind the names on the ' . $t['name'] . ' design',
