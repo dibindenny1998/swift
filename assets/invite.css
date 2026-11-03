@@ -819,3 +819,10 @@
 .wl-cv-down { border-color: var(--line) !important; }
 .wl-cv-down::after { background: var(--acc) !important; }
 .wl-cv-in { align-self: stretch; }
+/* cover photo keeps its own shape (4:5) so the couple is never zoomed in; gentle zoom only */
+.wl-cv .wl-slides { height: auto !important; min-height: 0 !important; aspect-ratio: 4 / 5; }
+.wl-cv-frame { height: auto !important; min-height: 0 !important; aspect-ratio: 4 / 5.3; }
+.wl-cv .wl-slides img { transform: none; }
+.wl-cv .wl-slides img.on { animation: wlKenSoft 9s ease-out both; }
+@keyframes wlKenSoft { from { transform: scale(1.025); } to { transform: scale(1); } }
+.wl-cv-in { margin-top: -80px; }
