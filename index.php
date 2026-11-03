@@ -109,18 +109,18 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
       <div class="mini-plans" id="mini-plans">
         <a class="mp" href="/create?t=classic">
           <span class="mp-name">Basic</span><b class="mp-price">Free</b>
-          <ul><li>2 simple designs</li><li>Up to 2 events with maps</li><li>Countdown</li><li class="no">Small WedLink credit</li></ul>
+          <ul><li>2 simple designs</li><li>Up to 2 events with maps</li><li>Live for 3 months</li><li class="no">Small WedLink credit</li></ul>
           <span class="mp-go">Start free</span>
         </a>
         <a class="mp" href="/create">
           <span class="mp-name">Standard</span><b class="mp-price">₹<?= $ps ?></b>
-          <ul><li><?= count(themes_by_tier('free')) + count(themes_by_tier('standard')) ?> designs</li><li>Up to 3 events</li><li>Cover photo</li><li class="no">No RSVP or gift list</li></ul>
+          <ul><li><?= count(themes_by_tier('free')) + count(themes_by_tier('standard')) ?> designs</li><li>Cover photo, 3 events</li><li>Live for 6 months</li><li class="no">No gallery, RSVP or gift list</li></ul>
           <span class="mp-go">Choose Standard</span>
         </a>
         <a class="mp pop" href="/create">
           <span class="mp-badge">Most Popular</span>
           <span class="mp-name">Premium</span><b class="mp-price">₹<?= $pp ?></b>
-          <ul><li>All <?= count(THEMES) ?> designs, animated</li><li>RSVP and gift list</li><li>15-photo gallery and music</li><li>No WedLink credit</li></ul>
+          <ul><li>All <?= count(THEMES) ?> designs, animated</li><li>15-photo gallery and a video</li><li>RSVP and gift list</li><li>Live for 1 year</li></ul>
           <span class="mp-go">Choose Premium</span>
         </a>
         <a class="mp" href="/custom">

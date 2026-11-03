@@ -30,9 +30,9 @@ $upgradeDiff = max(0, $pp - $ps);
 $theme = $inv['theme'];
 $themeName = THEMES[$theme]['name'] ?? $theme;
 $planOpts = [
-    'premium' => ['RSVPs, gift list, up to 15 photos, your song, 6 events, all designs, no ' . $brand . ' credit', $pp],
-    'standard' => ['Up to 3 events, a cover photo, countdown, maps and calendar', $ps],
-    'free' => ['Classic or Blush design, up to 2 events, countdown and maps. Small ' . $brand . ' credit', 0],
+    'premium' => ['Live for 1 year. 15-photo gallery, a video, RSVPs, gift list, your song, 6 events, all designs, no ' . $brand . ' credit', $pp],
+    'standard' => ['Live for 6 months. Up to 3 events, a cover photo, countdown, maps and calendar', $ps],
+    'free' => ['Live for 3 months. Classic or Blush design, up to 2 events, countdown and maps. Small ' . $brand . ' credit', 0],
 ];
 $defaultPlan = 'premium';
 $gifts = $d['gifts'] ?? [];
@@ -100,6 +100,8 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <div class="linkbox"><input id="link" value="<?= e($live) ?>" readonly aria-label="Your invite link"><button type="button" class="btn small" id="copy">Copy</button></div>
     <a class="btn wa-btn" href="https://wa.me/?text=<?= rawurlencode("We're getting married! Here is our invitation, with the dates, venues and directions:\n" . $live) ?>" target="_blank" rel="noopener">Share on WhatsApp</a>
     <div class="nav-btns" style="margin-top:12px"><a class="btn alt small" href="<?= e($live) ?>" target="_blank" rel="noopener">Open invite</a><a class="btn alt small" href="/create?t=<?= e($inv['token']) ?>">Edit details</a></div>
+    <?php $exp = invite_expiry($inv); $isExp = invite_expired($inv); ?>
+    <p class="live-until<?= $isExp ? ' ended' : '' ?>"><?= $isExp ? 'This link ended on ' : 'Live until ' ?><b><?= date('j F Y', strtotime($exp)) ?></b> · <?= PLAN_NAMES[$inv['plan']] ?> plan (<?= plan_term($inv['plan']) ?>)<?php if ($isExp && $inv['plan'] !== 'premium'): ?>. Upgrade below to switch it back on.<?php elseif ($isExp): ?>. Message us on WhatsApp to renew it.<?php endif; ?></p>
     <div class="stats"><div><b><?= (int)$inv['views'] ?></b><span>Opens</span></div><div><b><?= $coming ?></b><span>Guests coming</span></div><div><b><?= $declined ?></b><span>Can't come</span></div></div>
     <p class="note" style="margin-top:18px">This page is your private edit link. Keep it safe and don't forward it.
       <?php if ($inv['phone']): ?><a href="https://wa.me/91<?= e($inv['phone']) ?>?text=<?= rawurlencode("My $brand edit link (private): $ownerUrl\nShare this one with guests: $live") ?>" target="_blank" rel="noopener">Send it to my WhatsApp</a><?php endif; ?></p>

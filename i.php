@@ -4,7 +4,7 @@ header('X-Robots-Tag: noindex');
 
 $slug = (string)($_GET['s'] ?? '');
 $inv = preg_match('/^[a-z0-9-]{3,60}$/', $slug) ? find_invite('slug', $slug) : null;
-$expired = $inv && $inv['status'] === 'paid' && strtotime((string)$inv['paid_at']) < time() - 366 * 86400;
+$expired = $inv && invite_expired($inv);
 
 if (!$inv || $inv['status'] !== 'paid' || $expired) {
     http_response_code($inv ? 200 : 404);
@@ -26,6 +26,7 @@ $lim = PLAN_LIMITS[$inv['plan']] ?? PLAN_LIMITS['premium'];
 $d['photos'] = array_slice($d['photos'], 0, $lim['photos']);
 if (!$lim['music']) $d['music'] = '';
 if (!$lim['gifts']) { $d['gifts'] = []; $d['gifts_taken'] = []; }
+if (!$lim['video']) $d['video'] = '';
 $d['brand'] = setting('brand');
 
 $title = invite_title($d) . ' are getting married';

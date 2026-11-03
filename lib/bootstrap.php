@@ -68,12 +68,42 @@ const PLAN_RANK = ['free' => 0, 'standard' => 1, 'premium' => 2];
 const TIER_NAMES = ['free' => 'Free', 'standard' => 'Standard', 'premium' => 'Premium'];
 
 const PLAN_LIMITS = [
-    'free'     => ['events' => 2, 'photos' => 0,  'rsvp' => false, 'music' => false, 'gifts' => false, 'badge' => true],
-    'standard' => ['events' => 3, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'badge' => true],
-    'premium'  => ['events' => 6, 'photos' => 15, 'rsvp' => true,  'music' => true,  'gifts' => true,  'badge' => false],
+    'free'     => ['events' => 2, 'photos' => 0,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
+    'standard' => ['events' => 3, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
+    'premium'  => ['events' => 6, 'photos' => 15, 'rsvp' => true,  'music' => true,  'gifts' => true,  'video' => true,  'badge' => false],
 ];
 
 const MAX_GIFTS = 40;
+
+/** How long a published invite stays live, in months. */
+const PLAN_MONTHS = ['free' => 3, 'standard' => 6, 'premium' => 12];
+
+function plan_term(string $plan): string
+{
+    $m = PLAN_MONTHS[$plan] ?? 12;
+    return $m === 12 ? '1 year' : $m . ' months';
+}
+
+/** End date for a plan bought or upgraded now; an upgrade never shortens the time left. */
+function new_expiry(string $plan, ?string $current = null): string
+{
+    $end = date('Y-m-d H:i:s', strtotime('+' . (PLAN_MONTHS[$plan] ?? 12) . ' months'));
+    return ($current && $current > $end) ? $current : $end;
+}
+
+/** When an invite's link stops working (older invites without a stored date use paid date + plan term). */
+function invite_expiry(array $inv): ?string
+{
+    if ($inv['status'] !== 'paid') return null;
+    if (!empty($inv['expires_at'])) return $inv['expires_at'];
+    return date('Y-m-d H:i:s', strtotime(($inv['paid_at'] ?: $inv['updated_at']) . ' +' . (PLAN_MONTHS[$inv['plan']] ?? 12) . ' months'));
+}
+
+function invite_expired(array $inv): bool
+{
+    $e = invite_expiry($inv);
+    return $e !== null && $e < now();
+}
 
 function theme_tier(string $theme): string { return THEMES[$theme]['tier'] ?? 'standard'; }
 /** Can an invite on $plan use $theme? Free designs work on every plan; premium designs need Premium. */
@@ -174,6 +204,9 @@ function db(): PDO
         );
     ");
     // v2 pricing: Basic ₹199, Premium ₹499 (runs once, even if old prices were saved in admin)
+    // v3: each published invite has its own end date (Free 3 months, Standard 6, Premium 12)
+    $cols = array_column($pdo->query('PRAGMA table_info(invites)')->fetchAll(), 'name');
+    if (!in_array('expires_at', $cols, true)) $pdo->exec('ALTER TABLE invites ADD COLUMN expires_at TEXT');
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_prices_v2'")->fetchColumn()) {
         $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_standard', '199'), ('price_premium', '499'), ('mig_prices_v2', '1')");
     }
@@ -354,8 +387,8 @@ function asset(string $path): string
 function mark_paid(array $inv, string $plan, int $amountPaise, ?string $paymentId, bool $demo = false): void
 {
     if ($inv['status'] === 'paid') return;
-    $st = db()->prepare("UPDATE invites SET status='paid', plan=?, amount=?, rzp_payment_id=?, is_demo=?, paid_at=?, updated_at=? WHERE id=? AND status!='paid'");
-    $st->execute([$plan, $amountPaise, $paymentId, $demo ? 1 : 0, now(), now(), $inv['id']]);
+    $st = db()->prepare("UPDATE invites SET status='paid', plan=?, amount=?, rzp_payment_id=?, is_demo=?, paid_at=?, expires_at=?, updated_at=? WHERE id=? AND status!='paid'");
+    $st->execute([$plan, $amountPaise, $paymentId, $demo ? 1 : 0, now(), new_expiry($plan), now(), $inv['id']]);
     if ($st->rowCount() > 0 && !$demo) capi_purchase($inv, $amountPaise);
 }
 
@@ -365,8 +398,8 @@ function apply_payment(array $inv, int $amountPaise, ?string $paymentId, bool $d
     $target = isset(PLAN_RANK[$inv['pending_plan'] ?? '']) ? $inv['pending_plan'] : 'premium';
     if ($inv['status'] !== 'paid') { mark_paid($inv, $target, $amountPaise, $paymentId, $demo); return; }
     if (PLAN_RANK[$target] > (PLAN_RANK[$inv['plan']] ?? 2) && ($paymentId === null || $paymentId !== $inv['rzp_payment_id'])) {
-        $st = db()->prepare("UPDATE invites SET plan = ?, amount = amount + ?, rzp_payment_id = ?, is_demo = CASE WHEN amount = 0 THEN ? ELSE is_demo END, updated_at = ? WHERE id = ? AND plan = ?");
-        $st->execute([$target, $amountPaise, $paymentId, $demo ? 1 : 0, now(), $inv['id'], $inv['plan']]);
+        $st = db()->prepare("UPDATE invites SET plan = ?, amount = amount + ?, rzp_payment_id = ?, is_demo = CASE WHEN amount = 0 THEN ? ELSE is_demo END, expires_at = ?, updated_at = ? WHERE id = ? AND plan = ?");
+        $st->execute([$target, $amountPaise, $paymentId, $demo ? 1 : 0, new_expiry($target, invite_expiry($inv)), now(), $inv['id'], $inv['plan']]);
         if ($st->rowCount() > 0 && !$demo && !$inv['is_demo']) capi_purchase($inv, $amountPaise);
     }
 }
@@ -375,8 +408,8 @@ function apply_payment(array $inv, int $amountPaise, ?string $paymentId, bool $d
 function publish_free(array $inv): void
 {
     if ($inv['status'] === 'paid') return;
-    db()->prepare("UPDATE invites SET status='paid', plan='free', amount=0, is_demo=0, paid_at=?, updated_at=? WHERE id=? AND status!='paid'")
-        ->execute([now(), now(), $inv['id']]);
+    db()->prepare("UPDATE invites SET status='paid', plan='free', amount=0, is_demo=0, paid_at=?, expires_at=?, updated_at=? WHERE id=? AND status!='paid'")
+        ->execute([now(), new_expiry('free'), now(), $inv['id']]);
 }
 
 /** Confirmed biodata payment: removes the watermark. */

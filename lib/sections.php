@@ -77,7 +77,7 @@ function sec_pricing(): void
     <div class="wrap">
       <div class="sec-head">
         <h2>Start free. Pay once if you want more.</h2>
-        <p>No subscription. Your link stays live for a full year.</p>
+        <p>No subscription. Free links stay live for 3 months, Standard for 6 months and Premium for a full year.</p>
       </div>
       <div class="plans">
         <div class="plan">
@@ -88,7 +88,7 @@ function sec_pricing(): void
             <li><?= $tick ?>2 simple designs: Classic and Blush</li>
             <li><?= $tick ?>Up to 2 events with maps and calendar</li>
             <li><?= $tick ?>Countdown and family details</li>
-            <li><?= $tick ?>Live for a year</li>
+            <li><?= $tick ?>Live for 3 months</li>
             <li class="no"><?= $tick ?>Small <?= e($brand) ?> credit at the bottom</li>
           </ul>
           <a class="btn alt js-make" href="/create?t=classic">Start free</a>
@@ -102,7 +102,7 @@ function sec_pricing(): void
             <li><?= $tick ?>Up to 3 events with maps and calendar</li>
             <li><?= $tick ?>One cover photo</li>
             <li><?= $tick ?>Countdown and family details</li>
-            <li><?= $tick ?>Edit anytime, live for a year</li>
+            <li><?= $tick ?>Edit anytime, live for 6 months</li>
             <li class="no"><?= $tick ?>No gallery or gift list</li>
           </ul>
           <a class="btn alt js-make" href="/create">Start with Standard</a>
@@ -116,9 +116,10 @@ function sec_pricing(): void
             <li><?= $tick ?>All <?= $nThemes ?> designs, including Premium ones</li>
             <li><?= $tick ?>Gift list: guests reserve what you need</li>
             <li><?= $tick ?>RSVPs with guest list and headcount</li>
-            <li><?= $tick ?>Gallery of up to 15 photos</li>
+            <li><?= $tick ?>Gallery of up to 15 photos guests can download</li>
+            <li><?= $tick ?>Pre-wedding or wishes video</li>
             <li><?= $tick ?>Background music and up to 6 events</li>
-            <li><?= $tick ?>No <?= e($brand) ?> credit</li>
+            <li><?= $tick ?>Live for 1 year, no <?= e($brand) ?> credit</li>
           </ul>
           <a class="btn js-make" href="/create">Start with Premium</a>
         </div>
@@ -147,14 +148,14 @@ function site_faq(): array
 {
     $ps = price('standard'); $pp = price('premium');
     return [
-        ['Is WedLink really free?', "Yes. The Basic plan is free for a year: make a wedding website with the Classic or Blush design and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
+        ['Is WedLink really free?', "Yes. The Basic plan is free for 3 months: make a wedding website with the Classic or Blush design and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
         ['What is a wedding website?', 'A wedding website is a single link that replaces the printed card. Guests open it from WhatsApp and see your invitation, every event with Google Maps directions, a countdown, RSVP, gift list and photos.'],
         ['Do guests need to install anything?', 'No. The invite is a web page. It opens in WhatsApp, Instagram or any browser on any phone.'],
         ['Can I change details after I share the link?', 'Yes. You get a private edit link. Change times, venues, photos or wording, and the shared link shows the update straight away.'],
         ['When do I pay?', 'Only after you have built and previewed your full website. If you don\'t like it, close the page and pay nothing.'],
         ['How does the gift list work?', 'On Premium, you list gifts you would love. Guests tap one, type their name and reserve it. Others then see it as reserved, and you see who picked what.'],
         ['Is there a design for our tradition?', 'Yes. There are designs for Hindu, Christian, Muslim and Sikh weddings, Kerala weddings, and modern designs that suit everyone. Every line of text can be changed.'],
-        ['How long does the link work?', 'For a full year from the day you publish, so it covers the wedding, the reception and the thank-yous.'],
+        ['How long does the link work?', 'Free links work for 3 months, Standard for 6 months and Premium for a full year from the day you publish. Upgrading later adds time and never shortens it.'],
         ['Can I write in Malayalam, Hindi, Tamil or Arabic?', 'Yes. Type in any Indian language or Arabic in any field and the invite shows it in a matching font.'],
         ['Is the payment safe?', 'Payments go through Razorpay. Pay by UPI, card or net banking. We never see your card or UPI details.'],
         ['Can I also make a marriage biodata?', 'Yes. The biodata maker is free: choose your religion, fill in your details and download a PDF or image to share on WhatsApp.'],

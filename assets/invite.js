@@ -46,10 +46,19 @@
   var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
 
   var LIMITS = {
-    free: { events: 2, photos: 0, rsvp: false, music: false, gifts: false, badge: true },
-    standard: { events: 3, photos: 1, rsvp: false, music: false, gifts: false, badge: true },
-    premium: { events: 6, photos: 15, rsvp: true, music: true, gifts: true, badge: false }
+    free: { events: 2, photos: 0, rsvp: false, music: false, gifts: false, video: false, badge: true },
+    standard: { events: 3, photos: 1, rsvp: false, music: false, gifts: false, video: false, badge: true },
+    premium: { events: 6, photos: 15, rsvp: true, music: true, gifts: true, video: true, badge: false }
   };
+  // turn a pasted YouTube / Vimeo / Google Drive link into its player address
+  function videoEmbed(url) {
+    url = String(url || '').trim(); var m;
+    if ((m = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(url))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&modestbranding=1&playsinline=1';
+    if ((m = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url))) return 'https://player.vimeo.com/video/' + m[1];
+    if ((m = /drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{20,})/.exec(url))) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+    return '';
+  }
+  var VIDEO_TITLE = { prewedding: 'Our pre-wedding film', wishes: 'Wishes from our families', story: 'Our story' };
 
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -574,6 +583,7 @@
       photos: (d.photos || []).slice(0, lim.photos),
       music: lim.music ? (d.music || '') : '',
       contactName: (d.contact_name || '').trim(), contactPhone: (d.contact_phone || '').replace(/[^\d+]/g, ''),
+      video: lim.video ? videoEmbed(d.video) : '', videoKind: d.video_kind || 'prewedding',
       gifts: lim.gifts ? (d.gifts || []).filter(function (g) { return g && (g.name || '').trim(); }) : [],
       giftsTaken: d.gifts_taken || [], giftNote: (d.gift_note || '').trim(),
       slug: d.slug || '', brand: d.brand || 'WedLink'
@@ -671,7 +681,8 @@
     html += '<main class="wl-body">';
     // website-style header: monogram + links to the sections this invite has
     var links = [['events', 'Events']];
-    if (photos.length) links.push(['photos', 'Photos']);
+    if (photos.length > 1) links.push(['gallery', 'Photos']);
+    if (v.video) links.push(['video', 'Film']);
     if (v.lim.rsvp) links.push(['rsvp', 'RSVP']);
     if (v.gifts.length) links.push(['gifts', 'Gifts']);
     html += '<nav class="wl-nav" aria-label="Invitation"><button type="button" class="wl-nav-mono" data-go="hero">' + esc(initial(v.p1)) + '<i>&amp;</i>' + esc(initial(v.p2)) + '</button><div class="wl-nav-l">' +
@@ -732,9 +743,16 @@
 
     html += eventsHtml(v, title);
 
+    if (v.video) {
+      html += '<section class="wl-sec wl-video" data-sec="video"><h2>' + esc(VIDEO_TITLE[v.videoKind] || VIDEO_TITLE.prewedding) + '</h2>' + divider(v.theme) +
+        '<div class="wl-video-box"><iframe src="' + esc(v.video) + '" title="' + esc(VIDEO_TITLE[v.videoKind] || 'Video') + '" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></section>';
+    }
+
     if (photos.length > 1) {
-      html += '<section class="wl-sec wl-gal" data-sec="gallery"><h2>Our moments</h2>' + divider(v.theme) + '<div class="wl-grid">' +
-        photos.slice(1).map(function (src, i) { return '<button type="button" class="wl-ph" data-i="' + (i + 1) + '"><img src="' + esc(src) + '" alt="Photo ' + (i + 2) + '" loading="lazy"></button>'; }).join('') +
+      // every photo the couple added, including the cover; guests can open and save them
+      html += '<section class="wl-sec wl-gal" data-sec="gallery"><h2>Our moments</h2>' + divider(v.theme) +
+        '<p class="wl-gal-sub">' + photos.length + ' photos · tap one to view and save</p><div class="wl-grid">' +
+        photos.map(function (src, i) { return '<button type="button" class="wl-ph" data-i="' + i + '" aria-label="Open photo ' + (i + 1) + '"><img src="' + esc(src) + '" alt="Photo ' + (i + 1) + '" loading="lazy"></button>'; }).join('') +
         '</div></section>';
     }
 
@@ -753,7 +771,10 @@
 
     if (v.music) html += '<button type="button" class="wl-music" aria-label="Play music" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="18" cy="16" r="3" fill="currentColor"/></svg></button><audio class="wl-audio" src="' + esc(v.music) + '" loop preload="none"></audio>';
     if (mode === 'preview') html += '<div class="wl-wm" aria-hidden="true"></div>';
-    html += '<div class="wl-lb" hidden><button type="button" class="wl-lb-x" aria-label="Close">&times;</button><img alt=""></div>';
+    html += '<div class="wl-lb" hidden role="dialog" aria-label="Photo"><img alt="">' +
+      '<button type="button" class="wl-lb-b wl-lb-x" aria-label="Close">&times;</button>' +
+      '<button type="button" class="wl-lb-b wl-lb-p" aria-label="Previous photo">&#8249;</button><button type="button" class="wl-lb-b wl-lb-n" aria-label="Next photo">&#8250;</button>' +
+      '<div class="wl-lb-bar"><span class="wl-lb-c"></span><a class="wl-lb-d" download>Download photo</a></div></div>';
     html += '</div>';
 
     var keep = opts.keepScroll ? (root.ownerDocument.scrollingElement || doc.documentElement).scrollTop : 0;
@@ -848,14 +869,31 @@
     }
 
     // lightbox
-    var lb = root.querySelector('.wl-lb');
-    root.querySelectorAll('.wl-ph').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        lb.querySelector('img').src = v.photos[+btn.dataset.i];
-        lb.hidden = false;
-      });
+    var lb = root.querySelector('.wl-lb'), lbImg = lb.querySelector('img'), lbI = 0, slug = (v.p1 + '-' + v.p2).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    function lbShow(i) {
+      lbI = (i + v.photos.length) % v.photos.length;
+      var src = v.photos[lbI];
+      lbImg.src = src;
+      lb.querySelector('.wl-lb-c').textContent = (lbI + 1) + ' / ' + v.photos.length;
+      var dl = lb.querySelector('.wl-lb-d');
+      dl.href = src + (src.indexOf('/m/') === 0 ? (src.indexOf('?') > -1 ? '&' : '?') + 'dl=1' : '');
+      dl.setAttribute('download', slug + '-' + (lbI + 1) + '.jpg');
+      lb.hidden = false;
+    }
+    root.querySelectorAll('.wl-ph').forEach(function (btn) { btn.addEventListener('click', function () { lbShow(+btn.dataset.i); }); });
+    lb.addEventListener('click', function (e) {
+      if (e.target.closest('.wl-lb-p')) return lbShow(lbI - 1);
+      if (e.target.closest('.wl-lb-n')) return lbShow(lbI + 1);
+      if (e.target.closest('.wl-lb-d')) return;
+      if (e.target === lb || e.target === lbImg || e.target.closest('.wl-lb-x')) lb.hidden = true;
     });
-    lb.addEventListener('click', function () { lb.hidden = true; });
+    var tx = null;
+    lb.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function (e) { if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) lbShow(lbI + (dx < 0 ? 1 : -1)); tx = null; });
+    (root.ownerDocument.defaultView || w).addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') lb.hidden = true; else if (e.key === 'ArrowRight') lbShow(lbI + 1); else if (e.key === 'ArrowLeft') lbShow(lbI - 1);
+    });
 
     // gift list
     var gsec = root.querySelector('.wl-gifts');

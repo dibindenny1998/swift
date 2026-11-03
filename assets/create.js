@@ -5,7 +5,7 @@
   var form = document.getElementById('f');
   var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
   var navBtns = Array.prototype.slice.call(document.querySelectorAll('.steps-nav button'));
-  var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone', 'gift_note'];
+  var TEXT = ['p1', 'p2', 'p1_family', 'p2_family', 'intro', 'line', 'message', 'closing', 'contact_name', 'contact_phone', 'gift_note', 'video'];
   var EVENT_SETS = {
     hindu: ['Muhurtham', 'Wedding', 'Engagement', 'Haldi', 'Mehendi', 'Sangeet', 'Reception'],
     christian: ['Holy Matrimony', 'Betrothal', 'Manasammatham', 'Madhuramvaypu', 'Bridal Shower', 'Reception'],
@@ -91,7 +91,9 @@
   form.addEventListener('input', function (e) {
     if (TEXT.indexOf(e.target.name) > -1) { data[e.target.name] = e.target.value; changed(); }
   });
+  if (data.video_kind) { var vk = form.querySelector('input[name=video_kind][value="' + data.video_kind + '"]'); if (vk) vk.checked = true; }
   form.addEventListener('change', function (e) {
+    if (e.target.name === 'video_kind') { data.video_kind = e.target.value; changed('video'); }
     if (e.target.name === 'theme') { data.theme = e.target.value; drawEvents(); placeholders(); changed('hero'); }
   });
 
@@ -280,6 +282,9 @@
       if (bad.length) msg = 'Each gift needs a name. Add one or remove the gift.';
       else if (data.gifts.some(function (g) { return g.link && !/^https:\/\/[^\s]+\.[a-z]{2,}/i.test(g.link.trim()); })) msg = 'Example links must start with https://';
     }
+    if (step === 3 && (data.video || '').trim() && !/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|vimeo\.com|drive\.google\.com)\//i.test(data.video.trim())) {
+      msg = 'The video link must be a YouTube, Vimeo or Google Drive link starting with https://';
+    }
     if (step === 2) {
       var withDate = data.events.filter(function (e) { return e.date; });
       if (!withDate.length) { msg = 'Add a date for at least one event.'; var d = evWrap.querySelector('[data-k=date]'); if (d) d.focus(); }
@@ -335,7 +340,7 @@
 
     var fd = new FormData();
     var clean = {};
-    TEXT.concat(['theme']).forEach(function (k) { clean[k] = (data[k] || '').trim ? (data[k] || '').trim() : data[k]; });
+    TEXT.concat(['theme', 'video_kind']).forEach(function (k) { clean[k] = (data[k] || '').trim ? (data[k] || '').trim() : data[k]; });
     clean.events = data.events.filter(function (ev) { return ev.date; });
     clean.gifts = data.gifts.filter(function (g) { return (g.name || '').trim(); }).map(function (g) { return { id: g.id, name: g.name.trim(), note: (g.note || '').trim(), link: (g.link || '').trim() }; });
     fd.append('data', JSON.stringify(clean));

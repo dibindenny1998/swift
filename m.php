@@ -16,6 +16,8 @@ header('Cache-Control: public, max-age=31536000, immutable');
 header('ETag: ' . $etag);
 header('Accept-Ranges: bytes');
 header('X-Content-Type-Options: nosniff');
+// ?dl=1 from the photo viewer: save to the phone instead of opening
+if (!empty($_GET['dl'])) header('Content-Disposition: attachment; filename="wedding-photo-' . substr($f, 0, 6) . '.' . pathinfo($f, PATHINFO_EXTENSION) . '"');
 if (($_SERVER['HTTP_IF_NONE_MATCH'] ?? '') === $etag) { http_response_code(304); exit; }
 
 $start = 0; $end = $size - 1;

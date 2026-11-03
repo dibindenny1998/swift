@@ -670,3 +670,15 @@ h1.eyebrow { font: 700 .8rem/1 var(--body); }
 @media (max-width: 640px) { .grid-designs.grid-six { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* Designs page: column count that suits 26 cards */
 @media (min-width: 1101px) { .grid-designs:not(.grid-six) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.live-until { margin-top: 14px; font-size: .95rem; color: var(--plum-2); }
+.live-until b { color: var(--plum); }
+.live-until.ended { color: #A03A3A; font-weight: 500; }
+
+.chip-r { cursor: pointer; }
+.chip-r input { position: absolute; opacity: 0; pointer-events: none; }
+.chip-r span { display: inline-block; border: 1px solid var(--line); background: var(--white); border-radius: 99px; padding: 5px 13px; font: 500 .88rem var(--body); color: var(--plum); }
+.chip-r input:checked + span { background: var(--rose-2); border-color: var(--kumkum); color: var(--kumkum-d); }
+.chip-r input:focus-visible + span { outline: 3px solid var(--turmeric); outline-offset: 2px; }
+#video-kind { margin-top: 8px; }
+.plan-opt small.why[hidden] { display: none; }
