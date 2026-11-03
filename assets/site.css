@@ -718,3 +718,53 @@ button.gd-img { border: 0; padding: 0; background: none; cursor: pointer; width:
 .bio-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
 .bio-cta span { font-size: .92rem; color: var(--plum-2); }
 .bio-cta span a { font-weight: 600; }
+
+/* ================= hero (matches the TheWedLink mockup) ================= */
+.hero .eyebrow b { font-weight: 800; color: var(--kumkum-d); }
+.hero .hero-title .pre { font-style: italic; font-weight: 500; color: var(--plum); font-size: .62em; }
+.hero-hint { font-family: var(--display); font-size: 1.15rem; color: var(--plum-2); gap: 0; }
+.hero-card { position: absolute; top: 90px; width: 230px; height: 470px; border-radius: 34px; display: grid; place-items: center; box-shadow: 0 30px 60px -34px rgba(74,40,46,.5); }
+.hero-card svg { width: 46%; height: auto; }
+.hero-card.l { left: 0; transform: rotate(-9deg); background: linear-gradient(160deg, #1F4A3C, #143326); }
+.hero-card.r { right: 0; transform: rotate(9deg); background: linear-gradient(160deg, #FBF5EA, #F1E6D2); box-shadow: 0 0 0 1px #E8D6B4, 0 30px 60px -34px rgba(74,40,46,.4); }
+.hero-card.r svg { transform: scaleX(-1); }
+.hero-cta-m { display: none; }
+.hero-cta-m .btn svg { width: 20px; height: 20px; }
+@media (max-width: 900px) {
+  .hero { text-align: center; padding-bottom: 28px;
+    background: radial-gradient(60% 30% at 0% 78%, rgba(240,196,206,.5), transparent 70%), radial-gradient(55% 28% at 100% 92%, rgba(244,182,196,.55), transparent 70%), radial-gradient(90% 40% at 50% 100%, #fff, transparent 70%) !important; }
+  .hero .eyebrow { justify-self: center; margin: 0 auto 18px; font-size: .7rem; padding: 10px 16px; text-align: left; }
+  .hero-copy > *, .hero .hero-title { justify-content: center; }
+  .hero .hero-title .pre { display: block; text-align: center; font-size: .6em; margin-bottom: .18em; }
+  .hero .hero-title .names { justify-content: center; }
+  .hero-hint { justify-content: center; margin-top: 12px; font-size: 1.1rem; }
+  .hero-lead, .hero .ticks { display: none !important; }
+  .fan { margin-top: 6px; }
+  .hero-card { top: 70px; width: 46%; height: 72%; border-radius: 28px; }
+  .hero-card.l { left: 2%; } .hero-card.r { right: 2%; }
+  .hero-cta-m { display: grid; justify-items: center; gap: 10px; margin: 18px 0 8px; position: relative; z-index: 3; }
+  .hero-cta-m .btn { min-height: 58px; padding: 0 34px; font-size: 1.15rem; box-shadow: 0 18px 34px -16px rgba(168,86,106,.75); }
+  .hero-cta-m small { font-family: var(--display); font-size: 1.05rem; color: var(--plum-2); }
+  /* the bottom bar takes over only after the hero button scrolls away */
+  .sticky-cta { transition: transform .3s ease; }
+  body.hero-cta-visible .sticky-cta { transform: translateY(110%); }
+}
+.fan .hero-card.l { animation: siteFloatL 7s ease-in-out infinite; }
+.fan .hero-card.r { animation: siteFloatR 7.5s ease-in-out infinite; }
+@media (max-width: 900px) {
+  /* phone sized like the mockup: the button overlaps its lower edge so it sits in the first screen */
+  .hero .fan { height: calc(min(250px, 64vw) * 1.62 + 30px); }
+  .hero .fan .phone.front { width: min(250px, 64vw); height: calc(min(250px, 64vw) * 1.62); border-radius: 36px; padding: 8px; }
+  .hero .fan .phone.front iframe { border-radius: 29px; }
+  .hero .hero-card { top: 46px; width: min(200px, 50vw); height: calc(min(200px, 50vw) * 1.55); }
+  .hero .hero-card.l { left: 4%; } .hero .hero-card.r { right: 4%; }
+  .hero-cta-m { margin-top: -34px; }
+  .hero-cta-m small { margin-top: 2px; }
+}
+.hero-card { place-items: center start; }
+.hero-card svg { width: 30%; margin-left: 9%; }
+.hero-card.r { place-items: center end; }
+.hero-card.r svg { margin: 0 9% 0 0; }
+.hero-card svg { width: 24%; margin-left: 5%; }
+.hero-card.r svg { margin: 0 5% 0 0; }
+.hero-card.l { z-index: 0; } .hero-card.r { z-index: 0; }

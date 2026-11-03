@@ -45,12 +45,12 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
     <?= slot_img('hero', '', '', false) ?>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1 class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg>Free wedding website &amp; invitation maker</h1>
+        <h1 class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg><span>Free wedding website, invitation &amp; <b>biodata maker</b></span></h1>
         <div class="hero-title">
           <span class="pre">A wedding website for</span>
           <span class="names" id="names"><label class="sr" for="n1">First name</label><span class="name-box hint"><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><span class="name-box"><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span></span>
         </div>
-        <p class="hero-hint"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Tap the names and type yours. Your website changes as you type.</p>
+        <p class="hero-hint">Tap the names and make it yours.</p>
         <p class="hero-lead">Send one link on WhatsApp instead of a printed card. Your invitation, venues, countdown and RSVP in one beautiful page.</p>
         <div class="hero-cta">
           <a class="btn js-make" href="/create">Make our wedding website</a>
@@ -64,9 +64,13 @@ site_head('Free Wedding Website & Invitation Maker for WhatsApp | ' . $brand,
       </div>
       <div class="stage">
         <div class="fan">
-          <div class="phone back l" aria-hidden="true"><img src="<?= asset('assets/img/designs/noor.jpg') ?>" alt="" width="232" height="480"></div>
-          <div class="phone back r" aria-hidden="true"><img src="<?= asset('assets/img/designs/chapel.jpg') ?>" alt="" width="232" height="480"></div>
+          <div class="hero-card l" aria-hidden="true"><svg viewBox="0 0 120 260" aria-hidden="true"><g fill="none" stroke="#C9A25A" stroke-width="1.6" stroke-linecap="round"><path d="M30,250 C40,190 55,120 92,20"/><path d="M36,210 C6,186 20,176 28,172 C12,190 40,202 36,210Z"/><path d="M44,170 C62,146 76,136 84,132 C68,150 48,162 44,170Z"/><path d="M52,140 C24,116 38,106 46,102 C30,120 56,132 52,140Z"/><path d="M62,110 C78,86 92,76 100,72 C84,90 66,102 62,110Z"/><path d="M70,82 C46,58 60,48 68,44 C52,62 74,74 70,82Z"/><path d="M80,56 C92,32 106,22 114,18 C98,36 84,48 80,56Z"/></g></svg></div>
+          <div class="hero-card r" aria-hidden="true"><svg viewBox="0 0 120 260" aria-hidden="true"><g fill="none" stroke="#C9A25A" stroke-width="1.6" stroke-linecap="round"><path d="M30,250 C40,190 55,120 92,20"/><path d="M36,210 C6,186 20,176 28,172 C12,190 40,202 36,210Z"/><path d="M44,170 C62,146 76,136 84,132 C68,150 48,162 44,170Z"/><path d="M52,140 C24,116 38,106 46,102 C30,120 56,132 52,140Z"/><path d="M62,110 C78,86 92,76 100,72 C84,90 66,102 62,110Z"/><path d="M70,82 C46,58 60,48 68,44 C52,62 74,74 70,82Z"/><path d="M80,56 C92,32 106,22 114,18 C98,36 84,48 80,56Z"/></g></svg></div>
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager"></iframe></div>
+        </div>
+        <div class="hero-cta-m">
+          <a class="btn js-make" href="/create">Make our website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <small>Free plan · No card needed</small>
         </div>
         <div class="url-pill-wrap"><span class="url-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><?php $host = preg_replace('#^https?://#', '', base_url()); ?><span><?= strlen($host) > 24 ? '…' : e($host) ?>/i/<b id="url-names">arjun-meera</b></span></span></div>
         <?php $heroPick = ['champagne', 'kasavu', 'noor', 'sage', 'seal', 'lumiere']; ?>

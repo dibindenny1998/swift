@@ -113,3 +113,10 @@
   if (!row || !pop || row.scrollWidth <= row.clientWidth) return;
   row.scrollLeft = pop.offsetLeft - (row.clientWidth - pop.offsetWidth) / 2;
 })();
+
+// phones: hide the bottom bar while the hero's own button is on screen
+(function () {
+  var c = document.querySelector('.hero-cta-m');
+  if (!c || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (es) { document.body.classList.toggle('hero-cta-visible', es[0].isIntersecting); }).observe(c);
+})();
