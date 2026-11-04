@@ -7,6 +7,7 @@ $token = (string)($_GET['t'] ?? '');
 $bio = preg_match('/^[a-f0-9]{32}$/', $token) ? find_bio('token', $token) : null;
 if (!$bio) { header('Location: /biodata'); exit; }
 
+attach_to_user('biodata', (int)$bio['id']);
 $brand = setting('brand');
 $paid = (int)$bio['paid'] === 1;
 $pb = price('biodata');
@@ -72,6 +73,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
       </section>
       <?php endif; ?>
 
+      <?php if (!current_user()): ?><section class="card acct-nudge" style="margin-top:16px"><h2>Keep it safe in your account</h2><p class="lead">Sign in once to find and edit this biodata from any phone.</p><a class="btn small" href="/account">Sign in or create an account</a></section><?php endif; ?>
       <section class="card" style="margin-top:16px">
         <h2 style="font-size:1.4rem">Getting married soon?</h2>
         <p class="lead" style="margin:8px 0 16px;color:var(--plum-2)">Make a wedding website to share on WhatsApp, with your events, maps, RSVP and a gift list. There's a free plan.</p>

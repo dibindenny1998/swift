@@ -7,6 +7,7 @@ $token = (string)($_GET['t'] ?? '');
 $inv = preg_match('/^[a-f0-9]{32}$/', $token) ? find_invite('token', $token) : null;
 if (!$inv) { http_response_code(404); header('Location: /'); exit; }
 
+attach_to_user('invites', (int)$inv['id']);
 $brand = setting('brand');
 $d = public_payload($inv);
 $d['brand'] = $brand;
@@ -117,6 +118,8 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <?php if ($inv['phone']): ?><a href="https://wa.me/91<?= e($inv['phone']) ?>?text=<?= rawurlencode("My $brand edit link (private): $ownerUrl\nShare this one with guests: $live") ?>" target="_blank" rel="noopener">Send it to my WhatsApp</a><?php endif; ?></p>
     
   </section>
+
+  <?php if (!current_user()): ?><section class="card acct-nudge"><h2>Keep it safe in your account</h2><p class="lead">Sign in once and find this invite on any phone, any time, without this link.</p><a class="btn small" href="/account">Sign in or create an account</a></section><?php endif; ?>
 
   <section class="card ref-card" id="refer">
     <span class="tag">Refer &amp; earn</span>

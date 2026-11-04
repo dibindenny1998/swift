@@ -148,6 +148,7 @@ try {
                 ->execute([$slug, $token, $theme, '{}', $phone, $email, clip($_POST['utm_source'] ?? '', 80), clip($_POST['utm_campaign'] ?? '', 120),
                     clip($_POST['fbclid'] ?? '', 300), clip($_POST['fbp'] ?? '', 120), clip($_SERVER['HTTP_USER_AGENT'] ?? '', 300), $ip, now(), now()]);
             $inv = find_invite('token', $token);
+            attach_to_user('invites', (int)$inv['id']);
             // who sent them: the couple whose link they came from
             $ref = (string)($_COOKIE['wl_ref'] ?? '');
             if ($ref !== '' && ($by = find_invite('slug', $ref)) && $by['status'] === 'paid' && (int)$by['id'] !== (int)$inv['id'] && $by['phone'] !== $phone) {
@@ -198,6 +199,76 @@ try {
             if (!in_array($c['gift_id'], $keep, true)) $pdo->prepare('DELETE FROM gift_claims WHERE id = ?')->execute([$c['id']]);
         }
         json_out(['ok' => true, 'token' => $inv['token']]);
+    }
+
+    case 'login_code': {
+        // step 1 of email sign-in: send a 6-digit code
+        $j = body_json();
+        $email = strtolower(clip($j['email'] ?? '', 120));
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) json_out(['ok' => false, 'error' => 'Enter a valid email address.'], 422);
+        $pdo = db();
+        $st = $pdo->prepare('SELECT COUNT(*) FROM login_codes WHERE (email = ? OR ip = ?) AND created_at > ?');
+        $st->execute([$email, client_ip(), date('Y-m-d H:i:s', time() - 3600)]);
+        if ((int)$st->fetchColumn() >= 6) json_out(['ok' => false, 'error' => 'Too many codes. Try again in an hour.'], 429);
+        $code = (string)random_int(100000, 999999);
+        $pdo->prepare('INSERT INTO login_codes (email, code_hash, expires_at, ip, created_at) VALUES (?,?,?,?,?)')
+            ->execute([$email, password_hash($code, PASSWORD_DEFAULT), time() + 900, client_ip(), now()]);
+        $sent = send_login_code($email, $code);
+        $local = in_array(parse_url(base_url(), PHP_URL_HOST), ['127.0.0.1', 'localhost'], true);
+        if (!$sent && !$local) json_out(['ok' => false, 'error' => 'We could not send the email. Try again, or sign in with Google.'], 502);
+        json_out(['ok' => true] + ($local ? ['dev_code' => $code] : []));
+    }
+
+    case 'login_verify': {
+        $j = body_json();
+        $email = strtolower(clip($j['email'] ?? '', 120));
+        $code = preg_replace('/\D/', '', (string)($j['code'] ?? '')) ?? '';
+        $st = db()->prepare('SELECT * FROM login_codes WHERE email = ? AND used = 0 AND expires_at > ? ORDER BY id DESC LIMIT 1');
+        $st->execute([$email, time()]);
+        $row = $st->fetch();
+        if (!$row) json_out(['ok' => false, 'error' => 'This code has expired. Ask for a new one.'], 422);
+        if ((int)$row['tries'] >= 5) json_out(['ok' => false, 'error' => 'Too many wrong tries. Ask for a new code.'], 429);
+        if (!password_verify($code, $row['code_hash'])) {
+            db()->prepare('UPDATE login_codes SET tries = tries + 1 WHERE id = ?')->execute([$row['id']]);
+            json_out(['ok' => false, 'error' => 'That code is not right. Check the email and try again.'], 422);
+        }
+        db()->prepare('UPDATE login_codes SET used = 1 WHERE id = ?')->execute([$row['id']]);
+        $u = user_upsert($email);
+        sign_in_user((int)$u['id'], 'email');
+        json_out(['ok' => true, 'need_phone' => !$u['phone']]);
+    }
+
+    case 'login_google': {
+        $j = body_json();
+        $g = google_verify((string)($j['credential'] ?? ''));
+        if (!$g) json_out(['ok' => false, 'error' => 'Google sign-in did not work. Try again or use your email.'], 422);
+        $u = user_upsert($g[0], $g[1], $g[2]);
+        sign_in_user((int)$u['id'], 'google');
+        json_out(['ok' => true, 'need_phone' => !$u['phone']]);
+    }
+
+    case 'profile': {
+        $u = current_user();
+        if (!$u) json_out(['ok' => false, 'error' => 'Please sign in again.'], 401);
+        $j = body_json();
+        $name = clip($j['name'] ?? '', 80);
+        $phone = normalize_phone((string)($j['phone'] ?? ''));
+        if (mb_strlen($name) < 2) json_out(['ok' => false, 'field' => 'name', 'error' => 'Add your name.'], 422);
+        if (strlen($phone) !== 10) json_out(['ok' => false, 'field' => 'phone', 'error' => 'Enter a 10-digit mobile number.'], 422);
+        db()->prepare('UPDATE users SET name = ?, phone = ? WHERE id = ?')->execute([$name, $phone, $u['id']]);
+        json_out(['ok' => true]);
+    }
+
+    case 'logout': { sign_out_user(); json_out(['ok' => true]); }
+
+    case 'claim': {
+        // put invites and biodatas this browser made into the signed-in account (the private links prove ownership)
+        $u = current_user();
+        if (!$u) json_out(['ok' => false], 401);
+        $j = body_json(); $n = 0;
+        foreach (array_slice((array)($j['invites'] ?? []), 0, 20) as $t) if (is_string($t) && ($i = find_invite('token', $t))) { attach_to_user('invites', (int)$i['id']); $n++; }
+        foreach (array_slice((array)($j['bios'] ?? []), 0, 20) as $t) if (is_string($t) && ($b = find_bio('token', $t))) { attach_to_user('biodata', (int)$b['id']); $n++; }
+        json_out(['ok' => true, 'n' => $n]);
     }
 
     case 'details': {
@@ -378,6 +449,7 @@ try {
             $pdo->prepare('INSERT INTO biodata (token, template, data, phone, utm_source, utm_campaign, fbclid, ip, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?)')
                 ->execute([$token, $tpl, '{}', $phone, clip($_POST['utm_source'] ?? '', 80), clip($_POST['utm_campaign'] ?? '', 120), clip($_POST['fbclid'] ?? '', 300), $ip, now(), now()]);
             $bio = find_bio('token', $token);
+            attach_to_user('biodata', (int)$bio['id']);
         }
         $photo = $bio['photo'];
         $dir = data_dir() . '/uploads/b' . (int)$bio['id'];

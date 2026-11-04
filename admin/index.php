@@ -80,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         set_setting('offer_on', !empty($_POST['offer_on']) ? '1' : '0');
         if (($op = (int)($_POST['offer_premium'] ?? 0)) >= 1) set_setting('offer_premium', (string)$op);
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['offer_until'] ?? ''))) set_setting('offer_until', $_POST['offer_until'] . ' 23:59:59');
+        set_setting('google_client_id', mb_substr(trim((string)($_POST['google_client_id'] ?? '')), 0, 200));
+        set_setting('mail_from', mb_substr(trim((string)($_POST['mail_from'] ?? '')), 0, 120));
         foreach (['ref_friend_off', 'ref_reward'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, min(1000, (int)$_POST[$k])));
         set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
         $kid = trim((string)($_POST['rzp_key_id'] ?? ''));
@@ -200,6 +202,7 @@ site_head('Admin | ' . setting('brand'));
     <a href="/admin/?v=leads" class="<?= $view === 'leads' ? 'on' : '' ?>">Unpaid</a>
     <a href="/admin/?v=bio" class="<?= $view === 'bio' ? 'on' : '' ?>">Biodata</a>
     <a href="/admin/?v=customers" class="<?= $view === 'customers' ? 'on' : '' ?>">Customers</a>
+    <a href="/admin/?v=users" class="<?= $view === 'users' ? 'on' : '' ?>">Accounts</a>
     <a href="/admin/?v=refs" class="<?= $view === 'refs' ? 'on' : '' ?>">Referrals</a>
     <a href="/admin/?v=blog" class="<?= $view === 'blog' ? 'on' : '' ?>">Blog</a>
     <a href="/admin/?v=custom" class="<?= $view === 'custom' ? 'on' : '' ?>">Custom</a>
@@ -315,6 +318,20 @@ site_head('Admin | ' . setting('brand'));
     <td><?= e(trim(($r['address'] ? $r['address'] . ', ' : '') . $r['city'] . ', ' . $r['state'] . ' ' . $r['pincode'])) ?></td>
     <td><?= e($r['status']) ?><?= $r['amount'] ? ' · ₹' . e((string)$r['amount']) : '' ?></td>
     <td><a href="<?= e($r['link']) ?>" target="_blank" rel="noopener">Open</a></td></tr>
+  <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
+<?php elseif ($view === 'users'):
+    $rows = $pdo->query("SELECT u.*, (SELECT COUNT(*) FROM invites i WHERE i.user_id = u.id) AS ninv, (SELECT COUNT(*) FROM biodata b WHERE b.user_id = u.id) AS nbio FROM users u ORDER BY u.id DESC LIMIT 500")->fetchAll();
+?>
+  <h1 style="font-size:2.4rem">Accounts</h1>
+  <p class="lead" style="margin-top:8px;max-width:44em">Everyone who signed in, with the mobile number they gave.</p>
+  <?php if (!$rows): ?><p class="lead" style="margin-top:12px">No accounts yet.</p><?php else: ?>
+  <p class="note" style="margin-top:10px"><?= count($rows) ?> accounts</p>
+  <div class="scroll" style="margin-top:8px"><table class="tbl"><thead><tr><th>Joined</th><th>Name</th><th>Email</th><th>Mobile</th><th>Signed in with</th><th class="n">Invites</th><th class="n">Biodatas</th><th>Last sign-in</th></tr></thead><tbody>
+  <?php foreach ($rows as $r): ?>
+    <tr><td><?= date('j M Y', strtotime($r['created_at'])) ?></td><td><b><?= e($r['name']) ?></b></td><td><a href="mailto:<?= e($r['email']) ?>"><?= e($r['email']) ?></a></td>
+    <td><?= $r['phone'] ? '<a href="https://wa.me/91' . e($r['phone']) . '" target="_blank" rel="noopener">' . e($r['phone']) . '</a>' : '<small>not added yet</small>' ?></td>
+    <td><?= e(ucfirst((string)$r['via'])) ?></td><td class="n"><?= (int)$r['ninv'] ?></td><td class="n"><?= (int)$r['nbio'] ?></td><td><?= $r['last_login'] ? date('j M, g:i a', strtotime($r['last_login'])) : '' ?></td></tr>
   <?php endforeach; ?></tbody></table></div><?php endif; ?>
 
 <?php elseif ($view === 'refs'):
@@ -438,6 +455,12 @@ site_head('Admin | ' . setting('brand'));
         <div class="field"><label for="pr4">Custom plan "from" price (optional)</label><input id="pr4" name="custom_from" maxlength="30" placeholder="₹2,999" value="<?= e(setting('custom_from')) ?>"><small>Leave empty to show "Made for you" instead of a price.</small></div>
       </div>
       <p class="note" style="margin-top:6px">The Basic plan is always free.</p>
+      <h2 style="margin-top:22px">Customer sign-in</h2>
+      <div class="grid2">
+        <div class="field"><label for="gc1">Google sign-in Client ID (optional)</label><input id="gc1" name="google_client_id" maxlength="200" placeholder="1234-abc.apps.googleusercontent.com" value="<?= e(setting('google_client_id')) ?>">
+          <small>Shows "Continue with Google" on the sign-in page. Create it at console.cloud.google.com → APIs &amp; Services → Credentials → OAuth client ID → Web application. Add <b><?= e(base_url()) ?></b> under Authorised JavaScript origins.</small></div>
+        <div class="field"><label for="gc2">Send sign-in codes from (email)</label><input id="gc2" name="mail_from" maxlength="120" placeholder="no-reply@thewedlink.in" value="<?= e(setting('mail_from')) ?>"><small>An email address on your domain, created in Hostinger → Emails. Leave empty to use no-reply@ your site address.</small></div>
+      </div>
       <h2 style="margin-top:22px">Launch offer</h2>
       <label style="display:flex;gap:8px;align-items:center;margin:8px 0 12px"><input type="checkbox" name="offer_on" value="1"<?= setting('offer_on') === '1' ? ' checked' : '' ?>> Show the offer and countdown on the site</label>
       <div class="grid2">

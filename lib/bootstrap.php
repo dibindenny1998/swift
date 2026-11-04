@@ -238,6 +238,7 @@ function db(): PDO
         UNIQUE(kind, ref_id)
     )");
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_inv_ref ON invites(referred_by)');
+    accounts_schema($pdo);
     // v4: brand renamed to TheWedLink (only if the old default was saved in admin)
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_brand_v4'")->fetchColumn()) {
         $pdo->exec("UPDATE settings SET v = 'TheWedLink' WHERE k IN ('brand', 'business_name') AND v = 'WedLink'");
@@ -265,6 +266,8 @@ const SETTING_DEFAULTS = [
     'price_premium'   => '499',
     'price_biodata'   => '399',
     'ref_friend_off'  => '50',
+    'google_client_id' => '',
+    'mail_from'       => '',
     'offer_on'        => '1',
     'offer_premium'   => '299',
     'offer_until'     => '2026-12-31 23:59:59',
@@ -696,6 +699,7 @@ function site_header(string $active = ''): void
     echo offer_bar() . '<header class="top" id="top"><div class="wrap top-in">'
         . '<a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#C9A26B" stroke-width="2.6"/></svg>' . $brand . '</a>'
         . '<nav class="menu" id="menu" aria-label="Main">' . $links
+        . '<a href="/account"' . ($active === 'account' ? ' aria-current="page"' : '') . ' class="menu-acct">' . (current_user() ? 'My account' : 'Sign in') . '</a>'
         . '<a class="btn small js-make menu-cta" href="/create">Make our website</a></nav>'
         . '<a class="bio-quick" href="/biodata">Biodata' . $free . '</a>'
         . '<button type="button" class="menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>'
@@ -733,6 +737,11 @@ function site_footer(): void
 require __DIR__ . '/slots.php';
 require __DIR__ . '/biodata.php';
 require __DIR__ . '/sections.php';
+
+require_once __DIR__ . '/accounts.php';
+
+// signed-in customers: open their session before any page output
+if (PHP_SAPI !== 'cli' && !empty($_COOKIE['wluser'])) current_user();
 
 // referral links (/?ref=arjun-meera): remember who sent this visitor for 60 days
 if (PHP_SAPI !== 'cli' && isset($_GET['ref']) && is_string($_GET['ref']) && preg_match('/^[a-z0-9-]{3,60}$/', $_GET['ref']) && !headers_sent()) {
