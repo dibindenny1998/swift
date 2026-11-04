@@ -60,7 +60,7 @@ $cfg = [
 site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $brand);
 ?>
 <body>
-<header class="top">
+<?= $paid && $inv['plan'] === 'premium' ? '' : offer_bar() ?><header class="top">
   <div class="wrap top-in">
     <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B8913A" stroke-width="2.6"/></svg><?= e($brand) ?></a>
     <a class="btn small alt" href="/create?t=<?= e($inv['token']) ?>">Edit details</a>
@@ -93,7 +93,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <label class="plan-opt<?= $ok ? '' : ' off' ?>"><input type="radio" name="plan" value="<?= $k ?>"<?= $k === $defaultPlan ? ' checked' : '' ?><?= $ok ? '' : ' disabled' ?>>
         <div><b><?= PLAN_NAMES[$k] ?></b><span><?= e($desc) ?></span>
 <small class="why"<?= $ok ? ' hidden' : '' ?>>Your design is a <span class="why-tier"><?= TIER_NAMES[theme_tier($theme)] ?></span> design. <a href="#design">Pick another design</a> to use this plan.</small></div>
-        <em><?= $amt ? '₹' . $amt : 'Free' ?></em></label>
+        <em><?= $amt ? ($k === 'premium' ? premium_price_html($amt) : '₹' . $amt) : 'Free' ?></em></label>
       <?php endforeach; ?>
     </div>
     <?php if ($offFriend || $offCredit): ?><p class="ref-applied">🎁 <?= $offFriend ? '₹' . $offFriend . ' friend discount' : '' ?><?= $offFriend && $offCredit ? ' + ' : '' ?><?= $offCredit ? '₹' . $offCredit . ' referral credit' : '' ?> applied to the prices above.</p><?php endif; ?>

@@ -77,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($act === 'settings') {
         foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
         foreach (['price_standard', 'price_premium', 'price_biodata'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
+        set_setting('offer_on', !empty($_POST['offer_on']) ? '1' : '0');
+        if (($op = (int)($_POST['offer_premium'] ?? 0)) >= 1) set_setting('offer_premium', (string)$op);
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['offer_until'] ?? ''))) set_setting('offer_until', $_POST['offer_until'] . ' 23:59:59');
         foreach (['ref_friend_off', 'ref_reward'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, min(1000, (int)$_POST[$k])));
         set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
         $kid = trim((string)($_POST['rzp_key_id'] ?? ''));
@@ -418,6 +421,12 @@ site_head('Admin | ' . setting('brand'));
         <div class="field"><label for="pr4">Custom plan "from" price (optional)</label><input id="pr4" name="custom_from" maxlength="30" placeholder="₹2,999" value="<?= e(setting('custom_from')) ?>"><small>Leave empty to show "Made for you" instead of a price.</small></div>
       </div>
       <p class="note" style="margin-top:6px">The Basic plan is always free.</p>
+      <h2 style="margin-top:22px">Launch offer</h2>
+      <label style="display:flex;gap:8px;align-items:center;margin:8px 0 12px"><input type="checkbox" name="offer_on" value="1"<?= setting('offer_on') === '1' ? ' checked' : '' ?>> Show the offer and countdown on the site</label>
+      <div class="grid2">
+        <div class="field"><label for="of1">Premium offer price (₹)</label><input id="of1" name="offer_premium" type="number" min="1" value="<?= e(setting('offer_premium')) ?>"><small>Regular Premium price stays ₹<?= regular_price('premium') ?>.</small></div>
+        <div class="field"><label for="of2">Offer ends (end of this day)</label><input id="of2" name="offer_until" type="date" value="<?= e(date('Y-m-d', offer_end())) ?>"><small><?= offer_active() ? 'Running now.' : 'Not running.' ?> It switches off by itself after this date.</small></div>
+      </div>
       <h2 style="margin-top:22px">Referral reward</h2>
       <div class="grid2">
         <div class="field"><label for="rf1">Friend's discount on their first plan (₹)</label><input id="rf1" name="ref_friend_off" type="number" min="0" max="1000" value="<?= e(setting('ref_friend_off')) ?>"></div>

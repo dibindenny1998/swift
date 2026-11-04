@@ -88,7 +88,7 @@ function preview_modal(): void
     if ($done) return;
     $done = true;
     $photos = array_values(array_filter([slot_url('demo-1'), slot_url('demo-2'), slot_url('demo-3')]));
-    $cfg = ['photos' => $photos, 'video' => setting('demo_video'), 'brand' => setting('brand'), 'domain' => setting('site_domain'),
+    $cfg = ['ps' => price('standard'), 'pp' => price('premium'), 'offer' => offer_active(), 'photos' => $photos, 'video' => setting('demo_video'), 'brand' => setting('brand'), 'domain' => setting('site_domain'),
         'led' => array_values(array_filter(array_map(function ($id) {
             // each design leads with its own couple: photo-led designs use their cover photo, the rest their sample couple
             $u = slot_url((in_array($id, PHOTO_LED_THEMES, true) ? 'theme-' : 'sample-') . $id);
@@ -144,7 +144,8 @@ function sec_pricing(): void
         <div class="plan pick">
           <span class="plan-flag">Most couples pick this</span>
           <h3>Premium</h3>
-          <p class="price"><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
+          <p class="price"><?php if (offer_active()): ?><s class="was">₹<?= regular_price('premium') ?></s> <?php endif; ?><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
+          <?php if (offer_active()): ?><p class="offer-note">🎉 Launch offer, ends <?= date('j F', offer_end()) ?></p><?php endif; ?>
           <p class="who">Everything, with our best designs</p>
           <ul>
             <li><?= $tick ?><?= count(themes_by_tier('premium')) ?> Premium designs, plus all the others</li>

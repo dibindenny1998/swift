@@ -32,7 +32,7 @@ $nThemes = count(THEMES);
 site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . ' | ' . $brand, 'Build your wedding website step by step and preview it free.', '/assets/og/site.jpg', '', ['path' => '/create', 'noindex' => true]);
 ?>
 <body>
-<header class="top">
+<?= offer_bar() ?><header class="top">
   <div class="wrap top-in">
     <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#B8913A" stroke-width="2.6"/></svg><?= e($brand) ?></a>
     <?php if ($editing): ?><a class="btn small alt" href="/p/<?= e($editing['token']) ?>">Back to my invite</a><?php endif; ?>

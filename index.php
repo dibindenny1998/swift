@@ -125,7 +125,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
         </a>
         <a class="mp pop" href="/create">
           <span class="mp-badge">Most Popular</span>
-          <span class="mp-name">Premium</span><b class="mp-price">₹<?= $pp ?></b>
+          <span class="mp-name">Premium</span><b class="mp-price"><?= premium_price_html($pp) ?></b><?= offer_active() ? '<span class="mp-offer">Launch offer till ' . date('j M', offer_end()) . '</span>' : '' ?>
           <ul><li><?= count(themes_by_tier('premium')) ?> Premium designs, animated</li><li>15-photo gallery and a video</li><li>RSVP and gift list</li><li>Live for 1 year</li></ul>
           <span class="mp-go">Choose Premium</span>
         </a>

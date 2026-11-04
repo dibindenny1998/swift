@@ -265,6 +265,9 @@ const SETTING_DEFAULTS = [
     'price_premium'   => '499',
     'price_biodata'   => '399',
     'ref_friend_off'  => '50',
+    'offer_on'        => '1',
+    'offer_premium'   => '299',
+    'offer_until'     => '2026-12-31 23:59:59',
     'ref_reward'      => '100',
     'custom_from'     => '',
     'rzp_key_id'      => '',
@@ -296,7 +299,32 @@ function price(string $plan): int
 {
     if ($plan === 'free') return 0;
     if ($plan === 'biodata') return max(1, (int)setting('price_biodata'));
-    return max(1, (int)setting($plan === 'standard' ? 'price_standard' : 'price_premium'));
+    if ($plan === 'premium' && offer_active()) return offer_price();
+    return regular_price($plan);
+}
+function regular_price(string $plan): int { return max(1, (int)setting($plan === 'standard' ? 'price_standard' : 'price_premium')); }
+
+/* ---------- launch offer: Premium at a lower price until a set date ---------- */
+function offer_end(): int { return (int)strtotime(setting('offer_until') ?: '2026-12-31 23:59:59'); }
+function offer_price(): int { return max(1, (int)setting('offer_premium')); }
+function offer_active(): bool { return setting('offer_on') === '1' && time() < offer_end() && offer_price() < regular_price('premium'); }
+/** "₹499 ₹299" with the old price struck out while the offer runs */
+function premium_price_html(?int $amount = null): string
+{
+    $amount = $amount ?? price('premium');
+    return offer_active() ? '<s class="was">₹' . regular_price('premium') . '</s> ₹' . $amount : '₹' . $amount;
+}
+/** The slim bar at the top of every page with a live countdown */
+function offer_bar(): string
+{
+    if (!offer_active()) return '';
+    $end = offer_end();
+    return '<div class="offer-bar" id="offer-bar"><a href="/pricing"><b>Launch offer</b><span class="ob-price">Premium <s>₹' . regular_price('premium') . '</s> ₹' . offer_price() . '</span>'
+        . '<span class="ob-left">ends in <span class="ob-cd" data-end="' . ($end * 1000) . '">' . max(0, (int)ceil(($end - time()) / 86400)) . ' days</span></span><span class="ob-go">Grab it →</span></a></div>'
+        . '<script>(function(){var e=document.querySelector(".ob-cd");if(!e)return;var end=+e.dataset.end;function p(n){return String(n).padStart(2,"0")}'
+        . 'function t(){var s=Math.max(0,Math.floor((end-Date.now())/1000));if(!s){var b=document.getElementById("offer-bar");if(b)b.remove();document.body.classList.remove("has-offer");return}'
+        . 'var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;e.textContent=(d?d+"d ":"")+p(h)+"h "+p(m)+"m "+p(x)+"s";}t();setInterval(t,1000);'
+        . 'document.body.classList.add("has-offer");})();</script>';
 }
 /** What it costs to move an invite from its current plan to $target (₹). Drafts pay the full price. */
 /** What moving an invite to $target costs, before and after referral discounts (all in ₹). */
@@ -657,6 +685,7 @@ function site_header(string $active = ''): void
         'pricing' => ['/pricing', 'Pricing'],
         'biodata' => ['/biodata', 'Biodata'],
         'custom'  => ['/custom', 'Custom website'],
+        'blog'    => ['/blog', 'Blog'],
         'contact' => ['/legal.php?p=contact', 'Contact'],
     ];
     $free = '<span class="free-tag">Free</span>';
@@ -664,7 +693,7 @@ function site_header(string $active = ''): void
     foreach ($items as $k => [$href, $label]) {
         $links .= '<a href="' . $href . '"' . ($k === $active ? ' aria-current="page"' : '') . '>' . $label . ($k === 'biodata' ? $free : '') . '</a>';
     }
-    echo '<header class="top" id="top"><div class="wrap top-in">'
+    echo offer_bar() . '<header class="top" id="top"><div class="wrap top-in">'
         . '<a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#C9A26B" stroke-width="2.6"/></svg>' . $brand . '</a>'
         . '<nav class="menu" id="menu" aria-label="Main">' . $links
         . '<a class="btn small js-make menu-cta" href="/create">Make our website</a></nav>'
@@ -690,7 +719,7 @@ function site_footer(): void
     $wa = normalize_phone(setting('support_phone'));
     echo '<footer class="foot"><div class="wrap foot-in">'
         . '<a class="logo" href="/">' . $brand . '</a>'
-        . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Custom website</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
+        . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Custom website</a><a href="/blog">Blog</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
         . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
         . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'

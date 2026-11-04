@@ -22,7 +22,7 @@
   function open(btn) {
     pending = { theme: btn.dataset.theme, tier: btn.dataset.tier };
     document.getElementById('pv-title').textContent = btn.dataset.name;
-    document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'Standard design · ₹199 plan', premium: 'Premium design · ₹499 plan' }[pending.tier] || '';
+    document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'Standard design · ₹' + (C.ps || 199) + ' plan', premium: 'Premium design · ₹' + (C.pp || 499) + ' plan' + (C.offer ? ' (launch offer)' : '') }[pending.tier] || '';
     document.getElementById('pv-use').href = '/create?t=' + pending.theme;
     last = btn; modal.hidden = false; document.documentElement.style.overflow = 'hidden';
     if (!frame.src) frame.src = '/frame.php'; else paint();

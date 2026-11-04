@@ -991,3 +991,49 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
 .up-list svg { width: 18px; height: 18px; flex: none; color: #C2456E; margin-top: 3px; }
 .up-box .btn small { font-weight: 400; opacity: .8; }
 .up-later { margin-top: 12px; color: var(--plum-2); }
+/* launch offer */
+.offer-bar { background: linear-gradient(90deg, #9C2B52, #C2456E 50%, #9C2B52); color: #fff; font-size: .86rem; position: relative; z-index: 21; }
+.offer-bar a { display: flex; align-items: center; justify-content: center; gap: 6px 14px; flex-wrap: wrap; padding: 8px 16px; color: #fff; text-decoration: none; text-align: center; line-height: 1.3; }
+.offer-bar b { letter-spacing: .08em; text-transform: uppercase; font-size: .72rem; background: rgba(255,255,255,.18); padding: 3px 9px; border-radius: 99px; }
+.offer-bar s { opacity: .7; }
+.ob-price { font-weight: 600; }
+.ob-cd { font-variant-numeric: tabular-nums; font-weight: 600; }
+.ob-go { text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+@media (max-width: 520px) { .offer-bar a { gap: 2px 10px; font-size: .8rem; padding: 7px 12px; } .ob-go { display: none; } }
+s.was { color: var(--plum-2); opacity: .7; font-weight: 400; font-size: .7em; margin-right: 2px; }
+.mp-offer { display: inline-block; margin: 4px 0 2px; font-size: .72rem; font-weight: 700; color: #9C2B52; background: #FCE4EA; padding: 3px 9px; border-radius: 99px; }
+.offer-note { margin: -6px 0 10px; font-size: .86rem; font-weight: 600; color: #9C2B52; }
+/* the hero still fits one screen with the offer bar on top */
+@media (max-width: 900px) { body.has-offer .hero { --ph: clamp(225px, calc(100vh - 450px), 500px); --ph: clamp(225px, calc(100svh - 450px), 500px); } }
+/* blog */
+.blog { padding-bottom: 40px; }
+.crumbs { font-size: .88rem; color: var(--plum-2); padding-top: 26px; }
+.crumbs a { color: var(--plum-2); }
+.post { max-width: 720px; margin: 10px auto 0; }
+.post h1 { font-size: clamp(2rem, 5.5vw, 3.1rem); line-height: 1.1; }
+.post-meta { color: var(--plum-2); font-size: .9rem; margin: 10px 0 24px; }
+.post-body { font-size: 1.06rem; line-height: 1.75; color: var(--plum); }
+.post-body h2 { font-size: 1.7rem; margin: 34px 0 10px; }
+.post-body p, .post-body ul, .post-body ol { margin: 0 0 14px; }
+.post-body li { margin-bottom: 6px; }
+.post-body ul, .post-body ol { padding-left: 1.3em; }
+.post-body blockquote { margin: 14px 0 18px; padding: 18px 20px; border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px #F1D9DD; border-left: 4px solid #C9A24A; font-family: var(--display); font-size: 1.18rem; line-height: 1.6; text-align: center; }
+.post-body table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: .95rem; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px #F1D9DD; }
+.post-body th, .post-body td { padding: 10px 12px; border-bottom: 1px solid #F3E2E5; text-align: left; vertical-align: top; }
+.post-body th { background: #FBEEF0; }
+.post-cta { margin: 36px 0 10px; padding: 26px 22px; border-radius: 22px; background: linear-gradient(160deg, #FFF6F2, #FBE6EA); text-align: center; }
+.post-cta h2 { font-size: 1.8rem; } .post-cta p { color: var(--plum-2); margin: 8px 0 16px; }
+.post-more { max-width: 720px; margin: 30px auto 60px; } .post-more h2 { font-size: 1.6rem; margin-bottom: 14px; }
+.post-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.post-card { display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px #F1D9DD, 0 14px 30px -22px rgba(168,86,106,.5); text-decoration: none; color: var(--plum); transition: transform .2s; }
+.post-card:hover { transform: translateY(-3px); }
+.post-card b { font-family: var(--display); font-size: 1.35rem; font-weight: 600; line-height: 1.2; }
+.post-card span { color: var(--plum-2); font-size: .92rem; } .post-card small { color: #9C2B52; font-weight: 600; font-size: .8rem; }
+/* footer links on phones: neat two-column list, comfortable to tap without big gaps */
+@media (max-width: 900px) {
+  .foot-links { display: grid !important; grid-template-columns: 1fr 1fr; gap: 0 16px; margin-top: 14px; }
+  .foot-links a { display: block; padding: 9px 0; text-underline-offset: 3px; }
+  .foot-links.foot-sub { grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
+  .foot-links.foot-sub span { grid-column: 1 / -1; padding: 6px 0 2px; font-weight: 600; }
+}
+@media (max-width: 900px) { .foot-in { display: block !important; } .foot-in > .logo { display: inline-flex; margin-bottom: 4px; } .foot-links { width: 100%; } }
