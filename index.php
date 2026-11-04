@@ -115,7 +115,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
       <div class="mini-plans" id="mini-plans">
         <a class="mp" href="/create?t=classic">
           <span class="mp-name">Basic</span><b class="mp-price">Free</b>
-          <ul><li>2 free designs</li><li>Up to 2 events with maps</li><li>Live for 3 months</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
+          <ul><li>2 free designs</li><li>Up to 2 events with maps</li><li>One cover photo</li><li>Live for 3 months</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
         <a class="mp" href="/create" data-start>

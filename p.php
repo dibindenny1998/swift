@@ -40,7 +40,7 @@ $themeName = THEMES[$theme]['name'] ?? $theme;
 $planOpts = [
     'premium' => ['Live for 1 year. 15-photo gallery, a video, RSVPs, gift list, your song, 6 events, all designs, no ' . $brand . ' credit', $pp],
     'standard' => ['Live for 6 months. Up to 3 events, a cover photo, countdown, maps and calendar', $ps],
-    'free' => ['Live for 3 months. Classic or Blush design, up to 2 events, countdown and maps. Shows a "Crafted by ' . $brand . '" mark', 0],
+    'free' => ['Live for 3 months. Classic or Blush design, a cover photo, up to 2 events, countdown and maps. Shows a "Crafted by ' . $brand . '" mark', 0],
 ];
 $defaultPlan = 'premium';
 $gifts = $d['gifts'] ?? [];

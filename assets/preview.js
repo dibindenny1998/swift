@@ -10,7 +10,7 @@
     var plan = tier === 'free' ? 'free' : tier === 'standard' ? 'standard' : 'premium';
     var photos = (C.photos || []).slice();
     if (LED[theme]) photos.unshift(LED[theme]);
-    return Object.assign({}, s, { theme: theme, plan: plan, brand: C.brand, domain: C.domain, photos: plan === 'free' ? [] : photos,
+    return Object.assign({}, s, { theme: theme, plan: plan, brand: C.brand, domain: C.domain, photos: plan === 'free' ? photos.slice(0, 1) : photos,
       video: plan === 'premium' ? (C.video || '') : '', video_kind: 'prewedding',
       gifts: plan === 'premium' ? [{ id: 'g1aaaaaa', name: 'Dinner set' }, { id: 'g2bbbbbb', name: 'Air fryer' }, { id: 'g3cccccc', name: 'Silver pooja set' }] : [] });
   }

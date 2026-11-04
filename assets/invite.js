@@ -54,7 +54,7 @@
   var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
 
   var LIMITS = {
-    free: { events: 2, photos: 0, rsvp: false, music: false, gifts: false, video: false, badge: true },
+    free: { events: 2, photos: 1, rsvp: false, music: false, gifts: false, video: false, badge: true },
     standard: { events: 3, photos: 1, rsvp: false, music: false, gifts: false, video: false, badge: true },
     premium: { events: 6, photos: 15, rsvp: true, music: true, gifts: true, video: true, badge: false }
   };

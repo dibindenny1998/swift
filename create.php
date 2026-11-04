@@ -103,7 +103,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
       <p class="lead">All optional. The first photo is shown large under the countdown.</p>
       <div class="field">
         <span>Photos</span>
-        <label class="drop" for="photo-in"><b>Add photos</b><small>Up to 15. Standard shows the first one as a cover photo. Premium adds a full gallery.</small></label>
+        <label class="drop" for="photo-in"><b>Add photos</b><small>The first photo is your cover (all plans). Premium adds a gallery of up to 15 that guests can save.</small></label>
         <input type="file" id="photo-in" accept="image/*" multiple hidden>
         <div class="thumbs" id="thumbs"></div>
       </div>

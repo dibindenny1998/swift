@@ -121,6 +121,7 @@ function sec_pricing(): void
           <ul>
             <li><?= $tick ?>2 simple designs: Classic and Blush</li>
             <li><?= $tick ?>Up to 2 events with maps and calendar</li>
+            <li><?= $tick ?>One cover photo</li>
             <li><?= $tick ?>Countdown and family details</li>
             <li><?= $tick ?>Live for 3 months</li>
             <li class="no"><?= $tick ?>"Crafted by <?= e($brand) ?>" mark on the design</li>
@@ -183,7 +184,7 @@ function site_faq(): array
 {
     $ps = price('standard'); $pp = price('premium');
     return [
-        ['Is TheWedLink really free?', "Yes. The Basic plan is free for 3 months: make a wedding website with the Classic or Blush design and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
+        ['Is TheWedLink really free?', "Yes. The Basic plan is free for 3 months: make a wedding website with the Classic or Blush design, a cover photo and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
         ['What is a wedding website?', 'A wedding website is a single link that replaces the printed card. Guests open it from WhatsApp and see your invitation, every event with Google Maps directions, a countdown, RSVP, gift list and photos.'],
         ['Do guests need to install anything?', 'No. The invite is a web page. It opens in WhatsApp, Instagram or any browser on any phone.'],
         ['Can I change details after I share the link?', 'Yes. You get a private edit link. Change times, venues, photos or wording, and the shared link shows the update straight away.'],
