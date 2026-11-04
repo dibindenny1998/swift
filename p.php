@@ -100,7 +100,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <button type="button" class="btn pay-btn" id="pay">Pay ₹<?= $pp ?> and publish</button>
     <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
     <p class="safe"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2l6 3v5c0 4-3 7-6 8-3-1-6-4-6-8V5l6-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>UPI, cards and net banking via Razorpay</p>
-    <?php if (!payments_live()): ?><p class="demo"><b>Test mode.</b> Payments are not connected yet, so the button publishes without charging. Add Razorpay keys in the admin panel to go live.</p><?php endif; ?>
+    
     <p class="lead" style="font-size:.92rem;margin-top:16px">Your invite is saved. Bookmark this page to come back to it later.</p>
   </section>
 <?php else: ?>
@@ -115,7 +115,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <div class="stats"><div><b><?= (int)$inv['views'] ?></b><span>Opens</span></div><div><b><?= $coming ?></b><span>Guests coming</span></div><div><b><?= $declined ?></b><span>Can't come</span></div></div>
     <p class="note" style="margin-top:18px">This page is your private edit link. Keep it safe and don't forward it.
       <?php if ($inv['phone']): ?><a href="https://wa.me/91<?= e($inv['phone']) ?>?text=<?= rawurlencode("My $brand edit link (private): $ownerUrl\nShare this one with guests: $live") ?>" target="_blank" rel="noopener">Send it to my WhatsApp</a><?php endif; ?></p>
-    <?php if ($inv['is_demo']): ?><p class="demo">Published in test mode. No money was charged.</p><?php endif; ?>
+    
   </section>
 
   <section class="card ref-card" id="refer">

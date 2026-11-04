@@ -68,10 +68,8 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
         <button type="button" class="btn" id="pay" style="width:100%">Pay ₹<?= $pb ?> for a clean copy</button>
         <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
         <p class="safe" style="margin-top:6px">UPI, cards and net banking via Razorpay</p>
-        <?php if (!payments_live()): ?><p class="demo"><b>Test mode.</b> Payments are not connected yet, so the button removes the strip without charging.</p><?php endif; ?>
+        
       </section>
-      <?php elseif ($bio['is_demo']): ?>
-        <p class="demo">Unlocked in test mode. No money was charged.</p>
       <?php endif; ?>
 
       <section class="card" style="margin-top:16px">
