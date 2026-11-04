@@ -957,3 +957,8 @@ body:has(.top:not(.tuck)) .dz-bar { top: 64px; }
   .hero-hint { margin-top: 14px !important; }
   .hero .fan { margin-top: 18px !important; }
 }
+/* comfortable tap targets on phones */
+@media (max-width: 900px) {
+  .foot-links a { display: inline-block; padding: 9px 6px; }
+  .filters button, .dz-chips button { min-height: 40px; }
+}

@@ -70,7 +70,7 @@
   }
   // the couple's film playing silently behind the names, in place of the cover photo
   function filmCover(url, title, poster) {
-    return '<div class="wl-slides wl-film">' + (poster ? '<img class="on" src="' + esc(poster) + '" alt="">' : '') + '<iframe src="' + esc(url.replace('controls=1', 'controls=0')) + '" title="' + esc(title) + ' film" tabindex="-1" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+    return '<div class="wl-slides wl-film">' + (poster ? '<img class="on" src="' + esc(poster) + '" alt="">' : '') + '<iframe data-src="' + esc(url.replace('controls=1', 'controls=0')) + '" title="' + esc(title) + ' film" tabindex="-1" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
   }
   var VIDEO_TITLE = { prewedding: 'Our pre-wedding film', wishes: 'Wishes from our families', story: 'Our story' };
 
@@ -1046,6 +1046,12 @@
       if (cover.classList.contains('wl-op-scratch')) requestAnimationFrame(function () { scratchCard(cover, open); });
       if (opts.autoOpen) setTimeout(open, opts.autoOpen);
     }
+
+    // the header film starts once the page has settled, so the invitation itself shows first
+    root.querySelectorAll('.wl-film iframe[data-src]').forEach(function (f) {
+      var go = function () { if (!f.src) f.src = f.getAttribute('data-src'); };
+      if (doc.readyState === 'complete') setTimeout(go, 1200); else w.addEventListener('load', function () { setTimeout(go, 1200); });
+    });
 
     // photos coming in: cross-fade through the hero photos
     root.querySelectorAll('.wl-slides').forEach(function (box) {
