@@ -273,6 +273,9 @@ const SETTING_DEFAULTS = [
     'offer_until'     => '2026-12-31 23:59:59',
     'ref_reward'      => '100',
     'custom_from'     => '',
+    'payu_key'        => '',
+    'payu_salt'       => '',
+    'payu_mode'       => 'test',
     'rzp_key_id'      => '',
     'rzp_key_secret'  => '',
     'rzp_webhook_secret' => '',
@@ -365,7 +368,7 @@ function customer_get(string $kind, int $refId): ?array
 const INDIAN_STATES = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
     'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
     'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry', 'Outside India'];
-function payments_live(): bool { return setting('rzp_key_id') !== '' && setting('rzp_key_secret') !== ''; }
+function payments_live(): bool { return setting('payu_key') !== '' && setting('payu_salt') !== ''; }
 
 /* ---------- helpers ---------- */
 
@@ -726,7 +729,7 @@ function site_footer(): void
         . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Custom website</a><a href="/blog">Blog</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
         . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
-        . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by Razorpay.</p>'
+        . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by PayU.</p>'
         . '</div></footer>'
         // gentle scroll animations on the public pages
         . '<script>(function(){if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;'
@@ -739,6 +742,7 @@ require __DIR__ . '/biodata.php';
 require __DIR__ . '/sections.php';
 
 require_once __DIR__ . '/accounts.php';
+require_once __DIR__ . '/payu.php';
 
 // signed-in customers: open their session before any page output
 if (PHP_SAPI !== 'cli' && !empty($_COOKIE['wluser'])) current_user();

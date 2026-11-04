@@ -14,13 +14,13 @@ $pages = [
     <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. Publishing costs ₹$ps (Basic) or ₹$pp (Premium), paid once.</p>
     <h2>Your content</h2><p>You are responsible for the names, text, photos and music you add. Only upload content you have the right to use. We may remove invites with unlawful or abusive content.</p>
     <h2>Availability</h2><p>Published invites stay online for 3 months on the free Basic plan, 6 months on Standard and 12 months on Premium, counted from the day you publish. Upgrading extends the time. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
-    <h2>Payments</h2><p>Payments are processed by Razorpay. Prices are in Indian rupees and include all charges shown at checkout.</p>
+    <h2>Payments</h2><p>Payments are processed by PayU. Prices are in Indian rupees and include all charges shown at checkout.</p>
     <h2>Liability</h2><p>We work to keep invites online and correct, but we are not liable for indirect losses arising from downtime or errors in details you entered.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
   'privacy' => ['Privacy policy', "<p>This policy explains what $biz collects through $brand and why.</p>
     <h2>What we collect</h2><ul><li>Details you enter for your invite: names, family details, event dates and venues, photos and music.</li><li>Your WhatsApp number and optional email, to save your invite and help you if something goes wrong.</li><li>RSVP replies your guests send, which only you can see.</li><li>Basic visit data and advertising identifiers (Meta Pixel) to measure our ads.</li></ul>
     <h2>How we use it</h2><p>To show your invite, process your payment, support you, and improve our service. We do not sell your data.</p>
-    <h2>Payments</h2><p>Card, UPI and bank details go directly to Razorpay. We never see or store them.</p>
+    <h2>Payments</h2><p>Card, UPI and bank details go directly to PayU. We never see or store them.</p>
     <h2>Retention and deletion</h2><p>Invites and their photos are kept while the invite is live and for up to 30 days after. Ask us any time and we'll delete your invite and data.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
   'refund' => ['Refund and cancellation policy', "<p>You can see your complete invite before paying, so please check it carefully first.</p>

@@ -314,17 +314,13 @@ try {
             json_out(['ok' => true, 'free' => true]);
         }
         if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount]);
-        $res = rzp_request('POST', '/orders', ['amount' => $amount, 'currency' => 'INR', 'receipt' => 'wl_' . $inv['id'] . '_' . time(),
-            'notes' => ['type' => 'invite', 'invite_id' => (string)$inv['id'], 'plan' => $plan]]);
-        if ($res['code'] !== 200 || empty($res['body']['id'])) {
-            error_log('Razorpay order failed: ' . $res['code'] . ' ' . json_encode($res['body']) . ' ' . $res['error']);
-            json_out(['ok' => false, 'error' => 'Payment could not start. Try again in a minute.'], 502);
-        }
-        db()->prepare('UPDATE invites SET rzp_order_id = ? WHERE id = ?')->execute([$res['body']['id'], $inv['id']]);
+        // PayU: a fresh transaction id, then the signed form that sends the customer to PayU's payment page
+        $txnid = 'WL' . $inv['id'] . 'T' . time() . strtoupper(rand_hex(2));
+        db()->prepare('UPDATE invites SET rzp_order_id = ? WHERE id = ?')->execute([$txnid, $inv['id']]);
+        $c = customer_get('invite', (int)$inv['id']) ?: [];
         $d = invite_data($inv);
-        json_out(['ok' => true, 'key' => setting('rzp_key_id'), 'order_id' => $res['body']['id'], 'amount' => $amount, 'currency' => 'INR',
-            'name' => setting('brand'), 'description' => ($inv['status'] === 'paid' ? PLAN_NAMES[$plan] . ' upgrade: ' : PLAN_NAMES[$plan] . ' invite: ') . invite_title($d),
-            'prefill' => ['contact' => '+91' . $inv['phone'], 'email' => $inv['email'] ?: '']]);
+        json_out(['ok' => true, 'payu' => ['action' => payu_url(), 'fields' => payu_fields('invite', $inv['token'], $txnid, $amount,
+            PLAN_NAMES[$plan] . ' wedding website: ' . invite_title($d), (string)($c['name'] ?? invite_title($d)), (string)($c['email'] ?? $inv['email'] ?? ''), (string)($c['phone'] ?? $inv['phone']))]]);
     }
 
     case 'theme': {
@@ -491,17 +487,12 @@ try {
         $amount = price('biodata') * 100;
         db()->prepare('UPDATE biodata SET checkout_at = COALESCE(checkout_at, ?) WHERE id = ?')->execute([now(), $bio['id']]);
         if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount]);
-        $res = rzp_request('POST', '/orders', ['amount' => $amount, 'currency' => 'INR', 'receipt' => 'wlb_' . $bio['id'] . '_' . time(),
-            'notes' => ['type' => 'biodata', 'biodata_id' => (string)$bio['id']]]);
-        if ($res['code'] !== 200 || empty($res['body']['id'])) {
-            error_log('Razorpay order failed: ' . $res['code'] . ' ' . json_encode($res['body']) . ' ' . $res['error']);
-            json_out(['ok' => false, 'error' => 'Payment could not start. Try again in a minute.'], 502);
-        }
-        db()->prepare('UPDATE biodata SET rzp_order_id = ? WHERE id = ?')->execute([$res['body']['id'], $bio['id']]);
+        $txnid = 'WB' . $bio['id'] . 'T' . time() . strtoupper(rand_hex(2));
+        db()->prepare('UPDATE biodata SET rzp_order_id = ? WHERE id = ?')->execute([$txnid, $bio['id']]);
+        $c = customer_get('biodata', (int)$bio['id']) ?: [];
         $name = (json_decode($bio['data'], true) ?: [])['name'] ?? '';
-        json_out(['ok' => true, 'key' => setting('rzp_key_id'), 'order_id' => $res['body']['id'], 'amount' => $amount, 'currency' => 'INR',
-            'name' => setting('brand'), 'description' => 'Biodata, clean copy' . ($name ? ': ' . $name : ''),
-            'prefill' => ['contact' => '+91' . $bio['phone'], 'email' => $bio['email'] ?: '']]);
+        json_out(['ok' => true, 'payu' => ['action' => payu_url(), 'fields' => payu_fields('biodata', $bio['token'], $txnid, $amount,
+            'Biodata clean copy' . ($name ? ': ' . $name : ''), (string)($c['name'] ?? $name), (string)($c['email'] ?? $bio['email'] ?? ''), (string)($c['phone'] ?? $bio['phone']))]]);
     }
 
     case 'bio_verify': {

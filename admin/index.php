@@ -84,9 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         set_setting('mail_from', mb_substr(trim((string)($_POST['mail_from'] ?? '')), 0, 120));
         foreach (['ref_friend_off', 'ref_reward'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, min(1000, (int)$_POST[$k])));
         set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
-        $kid = trim((string)($_POST['rzp_key_id'] ?? ''));
-        if ($kid !== '') set_setting('rzp_key_id', $kid);
-        foreach (['rzp_key_secret', 'rzp_webhook_secret', 'capi_token'] as $k) { $v = trim((string)($_POST[$k] ?? '')); if ($v !== '') set_setting($k, $v); }
+        $pk = trim((string)($_POST['payu_key'] ?? ''));
+        if ($pk !== '') set_setting('payu_key', $pk);
+        set_setting('payu_mode', ($_POST['payu_mode'] ?? '') === 'live' ? 'live' : 'test');
+        foreach (['payu_salt', 'capi_token'] as $k) { $v = trim((string)($_POST[$k] ?? '')); if ($v !== '') set_setting($k, $v); }
         header('Location: /admin/?v=settings&saved=1'); exit;
     }
     if ($act === 'slot_upload' || $act === 'slot_remove') {
@@ -118,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /admin/?v=custom'); exit;
     }
     if ($act === 'rzp_clear') {
-        set_setting('rzp_key_id', ''); set_setting('rzp_key_secret', '');
+        set_setting('payu_key', ''); set_setting('payu_salt', '');
         header('Location: /admin/?v=settings&saved=1'); exit;
     }
     if ($act === 'password') {
@@ -213,7 +214,7 @@ site_head('Admin | ' . setting('brand'));
 </div></header>
 <main class="wrap adm">
 <?php if (!payments_live()): ?>
-  <p class="demo" style="margin-bottom:18px"><b>Payments are in test mode.</b> Customers can publish without paying. Add your Razorpay keys in <a href="/admin/?v=settings">Settings</a> before you run ads.</p>
+  <p class="demo" style="margin-bottom:18px"><b>Payments are in test mode.</b> Customers can publish without paying. Add your PayU key and salt in <a href="/admin/?v=settings">Settings</a> before you run ads.</p>
 <?php endif; ?>
 
 <?php if ($view === 'dash'):
@@ -222,7 +223,7 @@ site_head('Admin | ' . setting('brand'));
 ?>
   <div class="chips2"><?php foreach ($ranges as $k => $v): ?><a class="<?= $k === $r ? 'on' : '' ?>" href="/admin/?r=<?= $k ?>"><?= $v[1] ?></a><?php endforeach; ?></div>
   <div class="kpis">
-    <div class="kpi big"><span>Profit after ads and fees</span><b><?= money($m['profit']) ?></b><small>Revenue minus ad spend minus Razorpay fees</small></div>
+    <div class="kpi big"><span>Profit after ads and fees</span><b><?= money($m['profit']) ?></b><small>Revenue minus ad spend minus payment fees</small></div>
     <div class="kpi"><span>Revenue</span><b><?= money($m['rev']) ?></b><small><?= $m['orders'] ?> paid orders</small></div>
     <div class="kpi"><span>Ad spend</span><b><?= money($m['spend']) ?></b><small>Entered by you below</small></div>
     <div class="kpi <?= $m['spend'] > 0 ? ($m['rev'] >= $m['spend'] ? 'good' : 'bad') : '' ?>"><span>Return on ad spend</span><b><?= $roas ?></b><small>Above 1x means ads pay for themselves</small></div>
@@ -436,15 +437,15 @@ site_head('Admin | ' . setting('brand'));
   <?php if (($_GET['pw'] ?? '') === 'ok'): ?><p class="note" style="margin-top:12px">Password changed.</p><?php elseif (($_GET['pw'] ?? '') === 'wrong'): ?><p class="err" style="margin-top:12px">Current password was not right.</p><?php elseif (($_GET['pw'] ?? '') === 'short'): ?><p class="err" style="margin-top:12px">Use at least 10 characters.</p><?php endif; ?>
   <form method="post" style="margin-top:18px"><?= csrf_field() ?><input type="hidden" name="act" value="settings">
     <div class="card">
-      <h2>Razorpay</h2>
-      <p class="lead">From Razorpay Dashboard, Account &amp; Settings, API Keys. Use test keys first, then live keys after KYC.</p>
-      <p style="margin:12px 0"><?= payments_live() ? '<span class="pill ok">Connected: ' . e(substr(setting('rzp_key_id'), 0, 13)) . '…</span>' : '<span class="pill">Not connected</span>' ?></p>
+      <h2>PayU</h2>
+      <p class="lead">From your PayU dashboard (onboarding.payu.in → Developers → API keys): copy the <b>Merchant Key</b> and <b>Merchant Salt (v1)</b>. Use test mode first, then switch to live after PayU approves your account.</p>
+      <p style="margin:12px 0"><?= payments_live() ? '<span class="pill ok">Connected (' . (payu_mode() === 'live' ? 'live' : 'test') . '): ' . e(substr(setting('payu_key'), 0, 6)) . '…</span>' : '<span class="pill">Not connected. Everything is free until you add PayU.</span>' ?></p>
       <div class="grid2">
-        <div class="field"><label for="k1">Key ID</label><input id="k1" name="rzp_key_id" placeholder="<?= e(setting('rzp_key_id') ?: 'rzp_live_…') ?>" autocomplete="off"></div>
-        <div class="field"><label for="k2">Key secret</label><input id="k2" name="rzp_key_secret" type="password" placeholder="<?= setting('rzp_key_secret') ? 'Saved. Type to replace' : '' ?>" autocomplete="new-password"></div>
+        <div class="field"><label for="k1">Merchant key</label><input id="k1" name="payu_key" placeholder="<?= e(setting('payu_key') ?: 'e.g. gtKFFx') ?>" autocomplete="off"></div>
+        <div class="field"><label for="k2">Merchant salt</label><input id="k2" name="payu_salt" type="password" placeholder="<?= setting('payu_salt') ? 'Saved. Type to replace' : '' ?>" autocomplete="new-password"></div>
       </div>
-      <div class="field"><label for="k3">Webhook secret</label><input id="k3" name="rzp_webhook_secret" type="password" placeholder="<?= setting('rzp_webhook_secret') ? 'Saved. Type to replace' : 'Any strong text you also enter in Razorpay' ?>" autocomplete="new-password">
-        <small>In Razorpay, add a webhook to <b><?= e(base_url()) ?>/api.php?a=webhook</b> with events order.paid and payment.captured. This publishes invites even if a customer closes the page right after paying.</small></div>
+      <div class="field"><label for="k3">Mode</label><select id="k3" name="payu_mode"><option value="test"<?= payu_mode() === 'test' ? ' selected' : '' ?>>Test (test.payu.in, no real money)</option><option value="live"<?= payu_mode() === 'live' ? ' selected' : '' ?>>Live (real payments)</option></select>
+        <small>Optional: in PayU, add a webhook for successful payments to <b><?= e(base_url()) ?>/payu.php</b>. This marks the order paid even if a customer closes the page right after paying.</small></div>
     </div>
     <div class="card" style="margin-top:18px">
       <h2>Prices</h2>
@@ -482,7 +483,7 @@ site_head('Admin | ' . setting('brand'));
     </div>
     <div class="card" style="margin-top:18px">
       <h2>Business details</h2>
-      <p class="lead">Shown on the Contact, Terms, Privacy and Refund pages. Razorpay checks these pages during KYC.</p>
+      <p class="lead">Shown on the Contact, Terms, Privacy and Refund pages. PayU checks these pages during approval.</p>
       <div class="grid2" style="margin-top:12px">
         <div class="field"><label for="b1">Brand name</label><input id="b1" name="brand" value="<?= e(setting('brand')) ?>"></div>
         <div class="field"><label for="b6">Site domain</label><input id="b6" name="site_domain" value="<?= e(setting('site_domain')) ?>" placeholder="thewedlink.in"><small>Shown in the "Crafted by" mark on free invites.</small></div>
@@ -497,7 +498,7 @@ site_head('Admin | ' . setting('brand'));
   </form>
 
   <?php if (payments_live()): ?>
-  <form method="post" style="margin-top:14px"><?= csrf_field() ?><input type="hidden" name="act" value="rzp_clear"><button class="linkbtn">Disconnect Razorpay (back to test mode)</button></form>
+  <form method="post" style="margin-top:14px"><?= csrf_field() ?><input type="hidden" name="act" value="rzp_clear"><button class="linkbtn">Disconnect PayU (back to free mode)</button></form>
   <?php endif; ?>
 
   <form method="post" class="card" style="margin-top:28px"><?= csrf_field() ?><input type="hidden" name="act" value="password">

@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   var C = window.WL_OWNER;
+  if (/[?&]payfail=1/.test(location.search)) setTimeout(function () { var e = document.getElementById('pay-err'); if (e) { e.textContent = 'The payment did not go through, and no money was taken. Please try again.'; e.scrollIntoView({ block: 'center' }); } history.replaceState(null, '', location.pathname); }, 400);
   window.WL_STATES = C.states;
   function done() { location.href = location.pathname + '?published=1'; }
   var pv = document.getElementById('pv');
@@ -80,20 +81,12 @@
     setTimeout(function () { payBtn.focus(); }, 500);
   });
 
-  // payment
-  var rzpLoaded = null;
-  function loadRzp() {
-    if (window.Razorpay) return Promise.resolve();
-    if (rzpLoaded) return rzpLoaded;
-    rzpLoaded = new Promise(function (res, rej) {
-      var s = document.createElement('script');
-      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      s.onload = res; s.onerror = function () { rzpLoaded = null; rej(new Error('Could not load the payment window. Check your connection and try again.')); };
-      document.head.appendChild(s);
-    });
-    return rzpLoaded;
+  // payment: PayU hosted checkout (the customer goes to PayU's page and comes back here)
+  function goPayU(pu) {
+    var f = document.createElement('form'); f.method = 'POST'; f.action = pu.action;
+    Object.keys(pu.fields).forEach(function (k) { var i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = pu.fields[k]; f.appendChild(i); });
+    document.body.appendChild(f); f.submit();
   }
-  if (C.live && !C.paid) loadRzp().catch(function () {});
 
   function startPay(btn, chosen) {
     var err = document.getElementById('pay-err');
@@ -127,22 +120,8 @@
           if (r.ok) done(); else reset(r.error);
         });
       }
-      return loadRzp().then(function () {
-        var rzp = new Razorpay({
-          key: o.key, amount: o.amount, currency: o.currency, name: o.name, description: o.description, order_id: o.order_id,
-          prefill: o.prefill, theme: { color: '#C9727F' }, retry: { enabled: true },
-          handler: function (resp) {
-            btn.textContent = 'Confirming payment…';
-            post('/api.php?a=verify', Object.assign({ t: C.t }, resp)).then(function (v) {
-              if (v.ok) done();
-              else reset(v.error + ' If money was taken, refresh this page in a minute.');
-            }).catch(function () { reset('We could not confirm the payment yet. Refresh this page in a minute.'); });
-          },
-          modal: { ondismiss: function () { reset(); } }
-        });
-        rzp.on('payment.failed', function (r) { reset('Payment failed: ' + ((r.error && r.error.description) || 'try another method.')); });
-        rzp.open();
-      });
+      if (o.payu) { btn.textContent = 'Opening PayU…'; return goPayU(o.payu); }
+      reset('Payment could not start. Try again.');
     }).catch(function (x) { if (x) reset(x.message ? x.message : 'No connection. Try again.'); });
   }
 
@@ -169,7 +148,6 @@
   document.querySelectorAll('.js-up').forEach(function (b) {
     b.addEventListener('click', function () { startPay(b, b.dataset.plan); });
   });
-  if (C.live && C.paid && Object.keys(C.upgrades || {}).length) loadRzp().catch(function () {});
 
   // gift list: let the couple free up a reserved gift
   document.querySelectorAll('.js-release').forEach(function (b) {

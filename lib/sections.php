@@ -193,7 +193,7 @@ function site_faq(): array
         ['Is there a design for our tradition?', 'Yes. There are designs for Hindu, Christian, Muslim and Sikh weddings, Kerala weddings, and modern designs that suit everyone. Every line of text can be changed.'],
         ['How long does the link work?', 'Free links work for 3 months, Standard for 6 months and Premium for a full year from the day you publish. Upgrading later adds time and never shortens it.'],
         ['Can I write in Malayalam, Hindi, Tamil or Arabic?', 'Yes. Type in any Indian language or Arabic in any field and the invite shows it in a matching font.'],
-        ['Is the payment safe?', 'Payments go through Razorpay. Pay by UPI, card or net banking. We never see your card or UPI details.'],
+        ['Is the payment safe?', 'Payments go through PayU. Pay by UPI, card or net banking. We never see your card or UPI details.'],
         ['Can I also make a marriage biodata?', 'Yes. The biodata maker is free: choose your religion, fill in your details and download a PDF or image to share on WhatsApp.'],
     ];
 }

@@ -100,7 +100,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <?php if ($offFriend || $offCredit): ?><p class="ref-applied">🎁 <?= $offFriend ? '₹' . $offFriend . ' friend discount' : '' ?><?= $offFriend && $offCredit ? ' + ' : '' ?><?= $offCredit ? '₹' . $offCredit . ' referral credit' : '' ?> applied to the prices above.</p><?php endif; ?>
     <button type="button" class="btn pay-btn" id="pay">Pay ₹<?= $pp ?> and publish</button>
     <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
-    <p class="safe"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2l6 3v5c0 4-3 7-6 8-3-1-6-4-6-8V5l6-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>UPI, cards and net banking via Razorpay</p>
+    <p class="safe"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2l6 3v5c0 4-3 7-6 8-3-1-6-4-6-8V5l6-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>UPI, cards and net banking via PayU</p>
     
     <p class="lead" style="font-size:.92rem;margin-top:16px">Your invite is saved. Bookmark this page to come back to it later.</p>
   </section>

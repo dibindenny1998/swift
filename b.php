@@ -68,7 +68,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
         <p class="lead" style="margin:8px 0 18px;color:var(--plum-2)">One-time payment. Clean PDF and image, edit and download again any time.</p>
         <button type="button" class="btn" id="pay" style="width:100%">Pay ₹<?= $pb ?> for a clean copy</button>
         <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
-        <p class="safe" style="margin-top:6px">UPI, cards and net banking via Razorpay</p>
+        <p class="safe" style="margin-top:6px">UPI, cards and net banking via PayU</p>
         
       </section>
       <?php endif; ?>
@@ -154,11 +154,12 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   var pay = document.getElementById('pay');
   if (!pay) return;
   var payErr = document.getElementById('pay-err');
-  function loadRzp() {
-    if (window.Razorpay) return Promise.resolve();
-    return new Promise(function (res, rej) { var s = document.createElement('script'); s.src = 'https://checkout.razorpay.com/v1/checkout.js'; s.onload = res; s.onerror = function () { rej(new Error('Could not load the payment window. Check your connection.')); }; document.head.appendChild(s); });
+  function goPayU(pu) {
+    var f = document.createElement('form'); f.method = 'POST'; f.action = pu.action;
+    Object.keys(pu.fields).forEach(function (k) { var i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = pu.fields[k]; f.appendChild(i); });
+    document.body.appendChild(f); f.submit();
   }
-  if (C.live) loadRzp().catch(function () {});
+  if (/[?&]payfail=1/.test(location.search)) { payErr.textContent = 'The payment did not go through, and no money was taken. Please try again.'; history.replaceState(null, '', location.pathname); }
   pay.addEventListener('click', function () {
     var original = pay.textContent;
     function reset(m) { pay.disabled = false; pay.textContent = original; if (m) payErr.textContent = m; }
@@ -169,18 +170,8 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
       if (o.need_details) { C.hasDetails = false; return reset('Add your details to continue.'); }
       if (!o.ok) return reset(o.error);
       if (o.demo) return post('/api.php?a=bio_demo_pay', { t: C.t }).then(function (r) { if (r.ok) location.reload(); else reset(r.error); });
-      return loadRzp().then(function () {
-        var rzp = new Razorpay({ key: o.key, amount: o.amount, currency: o.currency, name: o.name, description: o.description, order_id: o.order_id, prefill: o.prefill,
-          theme: { color: '#C9727F' }, retry: { enabled: true },
-          handler: function (resp) {
-            pay.textContent = 'Confirming payment…';
-            post('/api.php?a=bio_verify', Object.assign({ t: C.t }, resp)).then(function (v) { if (v.ok) location.reload(); else reset(v.error + ' If money was taken, refresh this page in a minute.'); })
-              .catch(function () { reset('We could not confirm the payment yet. Refresh this page in a minute.'); });
-          },
-          modal: { ondismiss: function () { reset(); } } });
-        rzp.on('payment.failed', function (r) { reset('Payment failed: ' + ((r.error && r.error.description) || 'try another method.')); });
-        rzp.open();
-      });
+      if (o.payu) { pay.textContent = 'Opening PayU…'; return goPayU(o.payu); }
+      reset('Payment could not start. Try again.');
     }).catch(function (x) { reset(x && x.message ? x.message : 'No connection. Try again.'); });
     }, function () {});
   });
