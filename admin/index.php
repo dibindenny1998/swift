@@ -201,6 +201,7 @@ site_head('Admin | ' . setting('brand'));
     <a href="/admin/?v=bio" class="<?= $view === 'bio' ? 'on' : '' ?>">Biodata</a>
     <a href="/admin/?v=customers" class="<?= $view === 'customers' ? 'on' : '' ?>">Customers</a>
     <a href="/admin/?v=refs" class="<?= $view === 'refs' ? 'on' : '' ?>">Referrals</a>
+    <a href="/admin/?v=blog" class="<?= $view === 'blog' ? 'on' : '' ?>">Blog</a>
     <a href="/admin/?v=custom" class="<?= $view === 'custom' ? 'on' : '' ?>">Custom</a>
     <a href="/admin/?v=images" class="<?= $view === 'images' ? 'on' : '' ?>">Images</a>
     <a href="/admin/?v=settings" class="<?= $view === 'settings' ? 'on' : '' ?>">Settings</a>
@@ -330,6 +331,22 @@ site_head('Admin | ' . setting('brand'));
     <td class="n"><?= $r['plan'] === 'premium' && $st['available'] ? '<b>₹' . $st['available'] . '</b>' : '—' ?></td>
     <td><a href="https://wa.me/91<?= e($r['phone']) ?>" target="_blank" rel="noopener"><?= e($r['phone']) ?></a></td></tr>
   <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
+<?php elseif ($view === 'blog'): require_once dirname(__DIR__) . '/lib/blog.php'; $all = blog_posts(true); $pv = $all[$_GET['pv'] ?? ''] ?? null; ?>
+  <?php if ($pv): ?>
+    <p><a href="/admin/?v=blog">← Back to schedule</a></p>
+    <div class="card" style="margin-top:14px;max-width:760px"><p class="note"><?= $pv['live'] ? 'Live' : 'Goes live on ' . date('l, j F Y', strtotime($pv['date'])) ?> · <?= e($pv['cat']) ?></p>
+      <h1 style="font-size:2.2rem;margin-top:8px"><?= e($pv['title']) ?></h1><div class="post-body" style="margin-top:16px"><?= $pv['body'] ?></div></div>
+  <?php else: $live = count(array_filter($all, fn($p) => $p['live'])); ?>
+  <h1 style="font-size:2.4rem">Blog schedule</h1>
+  <p class="lead" style="margin-top:8px;max-width:46em"><?= $live ?> of <?= count($all) ?> guides are live. A new one publishes by itself every Tuesday and Friday. Scheduled guides stay hidden from visitors and Google until their day. Add a cover image as <b>assets/img/blog/&lt;name&gt;.jpg</b> (1200 × 675).</p>
+  <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Publishes</th><th>Guide</th><th>Topic</th><th>Cover</th><th></th></tr></thead><tbody>
+  <?php foreach (array_reverse($all, true) as $k => $p): ?>
+    <tr><td><?= date('D, j M Y', strtotime($p['date'])) ?></td><td><b><?= e($p['title']) ?></b><br><small>/blog/<?= e($k) ?></small></td><td><?= e($p['cat']) ?></td>
+    <td><?= blog_cover($k) ? '✓' : '—' ?></td>
+    <td><?= $p['live'] ? '<span class="pill ok">Live</span> <a href="/blog/' . e($k) . '" target="_blank" rel="noopener">Open</a>' : '<span class="pill">Scheduled</span> <a href="/admin/?v=blog&amp;pv=' . e($k) . '">Preview</a>' ?></td></tr>
+  <?php endforeach; ?></tbody></table></div>
+  <?php endif; ?>
 
 <?php elseif ($view === 'custom'):
     $rows = $pdo->query("SELECT * FROM enquiries ORDER BY status = 'done', id DESC LIMIT 300")->fetchAll();

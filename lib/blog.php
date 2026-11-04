@@ -1,9 +1,9 @@
 <?php
 /* Blog articles: written for what Indian couples search before a wedding. Each ends with a link to make one. */
-const BLOG = [
+const BLOG_POSTS_1 = [
 'wedding-invitation-for-whatsapp' => [
     'title' => 'How to Make a Wedding Invitation for WhatsApp (Step by Step)',
-    'short' => 'How to make a wedding invitation for WhatsApp',
+    'short' => 'How to make a wedding invitation for WhatsApp', 'cat' => 'Guides',
     'desc' => 'Make a beautiful wedding invitation to send on WhatsApp in 5 minutes: what to include, the best format, a sample message and how guests open it.',
     'date' => '2026-11-04', 'read' => 5, 'cta' => ['/create', 'Make your WhatsApp invitation free'],
     'body' => <<<'HTML'
@@ -131,7 +131,7 @@ HTML,
 ],
 'wedding-website-vs-printed-cards-cost' => [
     'title' => 'Wedding Website vs Printed Cards: What Indian Couples Really Spend',
-    'short' => 'Wedding website vs printed cards',
+    'short' => 'Wedding website vs printed cards', 'cat' => 'Guides',
     'desc' => 'Compare the cost of printed wedding cards in India with a wedding website link: printing, courier, time and what guests actually use.',
     'date' => '2026-11-04', 'read' => 4, 'cta' => ['/pricing', 'See wedding website plans'],
     'body' => <<<'HTML'
@@ -188,3 +188,37 @@ HTML,
 HTML,
 ],
 ];
+
+require __DIR__ . '/blog2.php';
+
+/* Publishing schedule: two guides a week, Tuesdays and Fridays (IST). A guide stays hidden, even from Google, until its day. */
+const BLOG_SCHEDULE = [
+    'wedding-invitation-for-whatsapp' => '2026-11-04', 'kerala-wedding-invitation-wording' => '2026-11-04',
+    'marriage-biodata-format' => '2026-11-06', 'nikah-invitation-wording' => '2026-11-10',
+    'how-to-write-about-me-in-marriage-biodata' => '2026-11-13', 'christian-wedding-invitation-wording' => '2026-11-17',
+    'hindu-marriage-biodata-format' => '2026-11-20', 'save-the-date-message-ideas' => '2026-11-24',
+    'wedding-invitation-message-for-friends' => '2026-11-27', 'muslim-marriage-biodata-format' => '2026-12-01',
+    'hindu-wedding-invitation-wording' => '2026-12-04', 'reception-invitation-wording' => '2026-12-08',
+    'biodata-photo-tips' => '2026-12-11', 'engagement-invitation-wording' => '2026-12-15',
+    'christian-marriage-biodata-format' => '2026-12-18', 'haldi-mehndi-sangeet-invitation-wording' => '2026-12-22',
+    'wedding-website-vs-printed-cards-cost' => '2026-12-25', 'how-to-make-wedding-website-free' => '2026-12-29',
+    'rsvp-for-indian-wedding' => '2027-01-01', 'marriage-biodata-tips' => '2027-01-05',
+];
+/** Every guide with its publish date, newest first. $all includes ones not yet published (for admin). */
+function blog_posts(bool $all = false): array
+{
+    $out = [];
+    foreach (BLOG_POSTS_1 + BLOG_POSTS_2 as $k => $p) {
+        $p['date'] = BLOG_SCHEDULE[$k] ?? ($p['date'] ?? '2099-01-01');
+        $p['live'] = $p['date'] <= date('Y-m-d');
+        $p['cat'] = $p['cat'] ?? 'Wording';
+        if ($all || $p['live']) $out[$k] = $p;
+    }
+    uasort($out, fn($a, $b) => strcmp($b['date'], $a['date']));
+    return $out;
+}
+function blog_cover(string $slug): string
+{
+    $f = 'assets/img/blog/' . $slug . '.jpg';
+    return is_file(dirname(__DIR__) . '/' . $f) ? asset($f) : '';
+}
