@@ -2633,6 +2633,47 @@ main:focus {
   outline-color: var(--gold-light);
 }
 
+/* Phones: everything centred, page links in two short columns. */
+@media (max-width: 767px) {
+  .site-footer__grid {
+    gap: 2.75rem;
+    text-align: center;
+  }
+
+  .site-footer__logo img {
+    margin-inline: auto;
+  }
+
+  .site-footer__tagline {
+    margin-inline: auto;
+  }
+
+  .social {
+    justify-content: center;
+  }
+
+  .site-footer__col ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem 1.5rem;
+    max-width: 22rem;
+    margin-inline: auto;
+  }
+
+  .site-footer__col li + li {
+    margin-top: 0;
+  }
+
+  .site-footer__col:last-child ul {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
 @media (min-width: 768px) {
   .site-footer__grid {
     grid-template-columns: 2fr 1fr 1fr;
