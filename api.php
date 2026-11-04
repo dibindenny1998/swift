@@ -148,6 +148,12 @@ try {
                 ->execute([$slug, $token, $theme, '{}', $phone, $email, clip($_POST['utm_source'] ?? '', 80), clip($_POST['utm_campaign'] ?? '', 120),
                     clip($_POST['fbclid'] ?? '', 300), clip($_POST['fbp'] ?? '', 120), clip($_SERVER['HTTP_USER_AGENT'] ?? '', 300), $ip, now(), now()]);
             $inv = find_invite('token', $token);
+            // who sent them: the couple whose link they came from
+            $ref = (string)($_COOKIE['wl_ref'] ?? '');
+            if ($ref !== '' && ($by = find_invite('slug', $ref)) && $by['status'] === 'paid' && (int)$by['id'] !== (int)$inv['id'] && $by['phone'] !== $phone) {
+                $pdo->prepare('UPDATE invites SET referred_by = ? WHERE id = ?')->execute([$by['id'], $inv['id']]);
+                $inv['referred_by'] = $by['id'];
+            }
         }
         if ($inv['status'] === 'paid' && !theme_allowed($theme, $inv['plan'])) json_out(['ok' => false, 'error' => design_error($theme)], 422);
         $prev = invite_data($inv);
@@ -194,15 +200,48 @@ try {
         json_out(['ok' => true, 'token' => $inv['token']]);
     }
 
+    case 'details': {
+        // name, mobile and address, asked once before buying or downloading
+        $j = body_json();
+        $kind = ($j['kind'] ?? '') === 'biodata' ? 'biodata' : 'invite';
+        $item = $kind === 'biodata' ? find_bio('token', (string)($j['t'] ?? '')) : find_invite('token', (string)($j['t'] ?? ''));
+        if (!$item) json_out(['ok' => false, 'error' => 'Not found. Refresh the page and try again.'], 404);
+        $name = clip($j['name'] ?? '', 80);
+        $phone = normalize_phone((string)($j['phone'] ?? ''));
+        $email = clip($j['email'] ?? '', 120);
+        $address = clip($j['address'] ?? '', 200);
+        $city = clip($j['city'] ?? '', 60);
+        $state = clip($j['state'] ?? '', 60);
+        $pin = preg_replace('/\D/', '', (string)($j['pincode'] ?? '')) ?? '';
+        if (mb_strlen($name) < 2) json_out(['ok' => false, 'field' => 'name', 'error' => 'Add your name.'], 422);
+        if (strlen($phone) !== 10) json_out(['ok' => false, 'field' => 'phone', 'error' => 'Enter a 10-digit mobile number.'], 422);
+        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) json_out(['ok' => false, 'field' => 'email', 'error' => 'That email does not look right. You can also leave it empty.'], 422);
+        if (mb_strlen($city) < 2) json_out(['ok' => false, 'field' => 'city', 'error' => 'Add your city or town.'], 422);
+        if (!in_array($state, INDIAN_STATES, true)) json_out(['ok' => false, 'field' => 'state', 'error' => 'Choose your state.'], 422);
+        if ($state !== 'Outside India' && !preg_match('/^[1-9]\d{5}$/', $pin)) json_out(['ok' => false, 'field' => 'pincode', 'error' => 'Enter a 6-digit PIN code.'], 422);
+        db()->prepare('INSERT INTO customers (kind, ref_id, name, phone, email, address, city, state, pincode, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+                       ON CONFLICT(kind, ref_id) DO UPDATE SET name=excluded.name, phone=excluded.phone, email=excluded.email, address=excluded.address, city=excluded.city, state=excluded.state, pincode=excluded.pincode, updated_at=excluded.updated_at')
+            ->execute([$kind, $item['id'], $name, $phone, $email, $address, $city, $state, substr($pin, 0, 6), now(), now()]);
+        $tbl = $kind === 'biodata' ? 'biodata' : 'invites';
+        if ($email !== '') db()->prepare("UPDATE $tbl SET email = ? WHERE id = ? AND (email IS NULL OR email = '')")->execute([$email, $item['id']]);
+        json_out(['ok' => true]);
+    }
+
     case 'order': {
         $j = body_json();
         $inv = find_invite('token', (string)($j['t'] ?? ''));
         if (!$inv) json_out(['ok' => false, 'error' => 'This invite was not found.'], 404);
+        if (!customer_get('invite', (int)$inv['id'])) json_out(['ok' => false, 'need_details' => true, 'error' => 'Add your details first.'], 428);
         $plan = ($j['plan'] ?? '') === 'standard' ? 'standard' : 'premium';
         if ($inv['status'] === 'paid' && PLAN_RANK[$plan] <= (PLAN_RANK[$inv['plan']] ?? 2)) json_out(['ok' => false, 'error' => 'This invite is already on ' . PLAN_NAMES[$inv['plan']] . '.'], 409);
         if (!theme_allowed($inv['theme'], $plan)) json_out(['ok' => false, 'error' => design_error($inv['theme'])], 422);
         $amount = upgrade_price($inv, $plan) * 100;
         db()->prepare('UPDATE invites SET pending_plan = ?, checkout_at = COALESCE(checkout_at, ?) WHERE id = ?')->execute([$plan, now(), $inv['id']]);
+        if ($amount === 0) {
+            // fully covered by referral credit: no payment needed
+            apply_payment(array_merge($inv, ['pending_plan' => $plan]), 0, 'credit-' . rand_hex(3), !payments_live());
+            json_out(['ok' => true, 'free' => true]);
+        }
         if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount]);
         $res = rzp_request('POST', '/orders', ['amount' => $amount, 'currency' => 'INR', 'receipt' => 'wl_' . $inv['id'] . '_' . time(),
             'notes' => ['type' => 'invite', 'invite_id' => (string)$inv['id'], 'plan' => $plan]]);
@@ -376,6 +415,7 @@ try {
         $bio = find_bio('token', (string)($j['t'] ?? ''));
         if (!$bio) json_out(['ok' => false, 'error' => 'This biodata was not found.'], 404);
         if ((int)$bio['paid'] === 1) json_out(['ok' => false, 'error' => 'This biodata is already clean.'], 409);
+        if (!customer_get('biodata', (int)$bio['id'])) json_out(['ok' => false, 'need_details' => true, 'error' => 'Add your details first.'], 428);
         $amount = price('biodata') * 100;
         db()->prepare('UPDATE biodata SET checkout_at = COALESCE(checkout_at, ?) WHERE id = ?')->execute([now(), $bio['id']]);
         if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount]);

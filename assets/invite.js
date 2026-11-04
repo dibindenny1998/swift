@@ -833,7 +833,7 @@
   // Free plan: an elegant 'Crafted by' seal that is part of the design
   function craftedMark(v, where) {
     var rings = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4" opacity=".6"/></svg>';
-    return '<a class="wl-crafted wl-crafted-' + where + '" href="/?ref=crafted" target="_blank" rel="noopener">' +
+    return '<a class="wl-crafted wl-crafted-' + where + '" href="/?ref=' + encodeURIComponent(v.slug || 'crafted') + '" target="_blank" rel="noopener">' +
       '<span class="wl-crafted-seal">' + rings + '</span>' +
       '<span class="wl-crafted-t"><small>Crafted by</small><b>' + esc(v.brand) + '</b><em>' + esc(v.domain) + '</em></span>' +
       (where === 'end' ? '<span class="wl-crafted-cta">Make your own free wedding website</span>' : '') + '</a>';

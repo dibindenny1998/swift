@@ -1,6 +1,8 @@
 (function () {
   'use strict';
   var C = window.WL_OWNER;
+  window.WL_STATES = C.states;
+  function done() { location.href = location.pathname + '?published=1'; }
   var pv = document.getElementById('pv');
   var plan = C.paid ? C.plan : (C.defaultPlan || 'premium');
   var first = true;
@@ -105,17 +107,24 @@
     if (chosen === 'free') {
       btn.textContent = 'Publishing…';
       return post('/api.php?a=publish_free', { t: C.t }).then(function (r) {
-        if (r.ok) { try { fbq('track', 'CompleteRegistration', { content_name: 'Free invite' }); } catch (e) {} location.reload(); }
+        if (r.ok) { try { fbq('track', 'CompleteRegistration', { content_name: 'Free invite' }); } catch (e) {} done(); }
         else reset(r.error);
       }).catch(function () { reset('No connection. Try again.'); });
     }
 
-    post('/api.php?a=order', { t: C.t, plan: chosen }).then(function (o) {
+    // name, mobile and address first (asked once)
+    WLDetails.ask({ kind: 'invite', t: C.t, have: C.hasDetails, prefill: C.prefill }).then(function () {
+      C.hasDetails = true; btn.textContent = 'Opening payment…';
+      return post('/api.php?a=order', { t: C.t, plan: chosen });
+    }, function () { reset(); throw null; }).then(function (o) {
+      if (!o) return;
+      if (o.need_details) { C.hasDetails = false; return reset('Add your details to continue.'); }
       if (!o.ok) return reset(o.error);
+      if (o.free) return done();
       if (o.demo) {
         btn.textContent = 'Publishing…';
         return post('/api.php?a=demo_pay', { t: C.t, plan: chosen }).then(function (r) {
-          if (r.ok) location.reload(); else reset(r.error);
+          if (r.ok) done(); else reset(r.error);
         });
       }
       return loadRzp().then(function () {
@@ -125,7 +134,7 @@
           handler: function (resp) {
             btn.textContent = 'Confirming payment…';
             post('/api.php?a=verify', Object.assign({ t: C.t }, resp)).then(function (v) {
-              if (v.ok) location.reload();
+              if (v.ok) done();
               else reset(v.error + ' If money was taken, refresh this page in a minute.');
             }).catch(function () { reset('We could not confirm the payment yet. Refresh this page in a minute.'); });
           },
@@ -134,8 +143,27 @@
         rzp.on('payment.failed', function (r) { reset('Payment failed: ' + ((r.error && r.error.description) || 'try another method.')); });
         rzp.open();
       });
-    }).catch(function (x) { reset(x && x.message ? x.message : 'No connection. Try again.'); });
+    }).catch(function (x) { if (x) reset(x.message ? x.message : 'No connection. Try again.'); });
   }
+
+  // after publishing: a gentle prompt to upgrade (once)
+  var up = document.getElementById('upsell');
+  if (up && C.showUpsell) {
+    up.hidden = false; document.documentElement.style.overflow = 'hidden';
+    var closeUp = function () { up.hidden = true; document.documentElement.style.overflow = ''; };
+    document.getElementById('up-x').addEventListener('click', closeUp);
+    document.getElementById('up-later').addEventListener('click', closeUp);
+    up.addEventListener('click', function (e) { if (e.target === up) closeUp(); });
+  }
+  if (C.showUpsell) history.replaceState(null, '', location.pathname);
+
+  // referral link
+  var rc = document.getElementById('ref-copy');
+  if (rc) rc.addEventListener('click', function () {
+    var inp = document.getElementById('ref-link'); inp.select();
+    (navigator.clipboard ? navigator.clipboard.writeText(inp.value) : Promise.reject()).catch(function () { document.execCommand('copy'); });
+    rc.textContent = 'Copied'; setTimeout(function () { rc.textContent = 'Copy'; }, 1800);
+  });
 
   if (payBtn) payBtn.addEventListener('click', function () { startPay(payBtn, plan); });
   document.querySelectorAll('.js-up').forEach(function (b) {

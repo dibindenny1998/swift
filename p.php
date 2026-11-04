@@ -14,7 +14,14 @@ $paid = $inv['status'] === 'paid';
 $names = invite_title($d);
 $live = base_url() . '/i/' . $inv['slug'];
 $ownerUrl = base_url() . '/p/' . $inv['token'];
-$ps = price('standard'); $pp = price('premium');
+$bdS = price_breakdown($inv, 'standard'); $bdP = price_breakdown($inv, 'premium');
+$ps = $paid ? price('standard') : $bdS['total']; $pp = $paid ? price('premium') : $bdP['total'];
+$offFriend = $bdP['friend']; $offCredit = $bdP['credit'];
+$refs = ref_stats($inv);
+$refLink = base_url() . '/?ref=' . $inv['slug'];
+$refOff = (int)setting('ref_friend_off'); $refReward = (int)setting('ref_reward');
+$cust = customer_get('invite', (int)$inv['id']);
+$justPublished = !empty($_GET['published']);
 $tick = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 $rsvps = [];
@@ -46,7 +53,9 @@ if ($paid) foreach (['standard', 'premium'] as $up) {
 $cfg = [
     't' => $inv['token'], 'paid' => $paid, 'plan' => $inv['plan'], 'data' => $d,
     'prices' => ['free' => 0, 'standard' => $ps, 'premium' => $pp], 'upgrade' => $upgradeDiff, 'upgrades' => $upgrades, 'defaultPlan' => $defaultPlan,
-    'rank' => PLAN_RANK, 'tierNames' => TIER_NAMES, 'live' => payments_live(), 'purchase' => $trackPurchase ? ['value' => $inv['amount'] / 100, 'id' => 'inv_' . $inv['id']] : null,
+    'rank' => PLAN_RANK, 'tierNames' => TIER_NAMES, 'live' => payments_live(),
+    'hasDetails' => (bool)$cust, 'prefill' => ['phone' => $inv['phone'] ?: '', 'email' => $inv['email'] ?: '', 'name' => ''], 'states' => INDIAN_STATES,
+    'refLink' => $refLink, 'showUpsell' => $justPublished && $paid && $inv['plan'] !== 'premium', 'purchase' => $trackPurchase ? ['value' => $inv['amount'] / 100, 'id' => 'inv_' . $inv['id']] : null,
 ];
 site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $brand);
 ?>
@@ -87,6 +96,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
         <em><?= $amt ? '₹' . $amt : 'Free' ?></em></label>
       <?php endforeach; ?>
     </div>
+    <?php if ($offFriend || $offCredit): ?><p class="ref-applied">🎁 <?= $offFriend ? '₹' . $offFriend . ' friend discount' : '' ?><?= $offFriend && $offCredit ? ' + ' : '' ?><?= $offCredit ? '₹' . $offCredit . ' referral credit' : '' ?> applied to the prices above.</p><?php endif; ?>
     <button type="button" class="btn pay-btn" id="pay">Pay ₹<?= $pp ?> and publish</button>
     <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
     <p class="safe"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2l6 3v5c0 4-3 7-6 8-3-1-6-4-6-8V5l6-3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>UPI, cards and net banking via Razorpay</p>
@@ -106,6 +116,17 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <p class="note" style="margin-top:18px">This page is your private edit link. Keep it safe and don't forward it.
       <?php if ($inv['phone']): ?><a href="https://wa.me/91<?= e($inv['phone']) ?>?text=<?= rawurlencode("My $brand edit link (private): $ownerUrl\nShare this one with guests: $live") ?>" target="_blank" rel="noopener">Send it to my WhatsApp</a><?php endif; ?></p>
     <?php if ($inv['is_demo']): ?><p class="demo">Published in test mode. No money was charged.</p><?php endif; ?>
+  </section>
+
+  <section class="card ref-card" id="refer">
+    <span class="tag">Refer &amp; earn</span>
+    <h2>Give ₹<?= $refOff ?>, get ₹<?= $refReward ?></h2>
+    <p class="lead">Friends who make their wedding website from your link get ₹<?= $refOff ?> off. Each friend who buys a plan earns you ₹<?= $refReward ?><?= $inv['plan'] === 'premium' ? ' cashback' : ' off your own upgrade' ?>.</p>
+    <div class="linkbox"><input id="ref-link" value="<?= e($refLink) ?>" readonly aria-label="Your referral link"><button type="button" class="btn small" id="ref-copy">Copy</button></div>
+    <a class="btn wa-btn" href="https://wa.me/?text=<?= rawurlencode("We made our wedding website on $brand and it's beautiful! Make yours and get ₹$refOff off with my link:
+" . $refLink) ?>" target="_blank" rel="noopener">Share on WhatsApp</a>
+    <div class="stats"><div><b><?= $refs['joined'] ?></b><span>Friends joined</span></div><div><b><?= $refs['paid'] ?></b><span>Bought a plan</span></div><div><b>₹<?= $refs['available'] ?></b><span><?= $inv['plan'] === 'premium' ? 'Cashback due' : 'Credit to use' ?></span></div></div>
+    <?php if ($inv['plan'] === 'premium' && $refs['available'] > 0): ?><p class="note">We send your cashback by UPI to <?= e($inv['phone']) ?>. Message us on WhatsApp to claim it.</p><?php endif; ?>
   </section>
 
   <section class="card design-card" id="design">
@@ -167,7 +188,25 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
 <?php if (!$paid): ?><div class="mobile-pay"><a class="btn" href="#plans" id="m-pay">Pay ₹<?= $pp ?> and publish</a></div><?php endif; ?>
 <?php if (!empty($_GET['saved'])): ?><div class="toast" role="status" id="toast">Changes saved</div><?php endif; ?>
 
+<?php if ($paid && $inv['plan'] !== 'premium'): $upP = $upgrades['premium'] ?? null; $upS = $upgrades['standard'] ?? null; ?>
+<div class="up-modal" id="upsell" hidden role="dialog" aria-modal="true" aria-labelledby="up-h"><div class="up-box">
+  <button type="button" class="dt-x" id="up-x" aria-label="Close">&times;</button>
+  <p class="up-yay">🎉 Your invite is live!</p>
+  <h2 id="up-h">Make it unforgettable</h2>
+  <ul class="up-list">
+    <li><?= $tick ?>Your photos and a gallery guests can save</li>
+    <li><?= $tick ?>RSVPs with a guest count</li>
+    <li><?= $tick ?>A gift list, music and your video</li>
+    <li><?= $tick ?>All Premium designs, no <?= e($brand) ?> mark</li>
+    <li><?= $tick ?>Live for a whole year</li>
+  </ul>
+  <?php if ($upP !== null): ?><button type="button" class="btn js-up" data-plan="premium" style="width:100%">Go Premium for ₹<?= $upP ?></button><?php endif; ?>
+  <?php if ($upS !== null): ?><button type="button" class="btn alt js-up" data-plan="standard" style="width:100%;margin-top:10px">Standard for ₹<?= $upS ?> <small>(cover photo, 3 events)</small></button><?php endif; ?>
+  <button type="button" class="linkbtn up-later" id="up-later">Maybe later</button>
+</div></div>
+<?php endif; ?>
 <script>window.WL_OWNER = <?= json_for_script($cfg) ?>;</script>
+<script src="<?= asset('assets/details.js') ?>"></script>
 <script src="<?= asset('assets/owner.js') ?>"></script>
 </body>
 </html>

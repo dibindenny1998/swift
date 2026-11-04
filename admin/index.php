@@ -49,6 +49,17 @@ if (empty($_SESSION['admin'])) {
 $pdo = db();
 $view = $_GET['v'] ?? 'dash';
 
+/* ---------- customer list as a CSV file (opens in Excel or Google Sheets) ---------- */
+if ($view === 'customers' && !empty($_GET['csv'])) {
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="customers-' . date('Y-m-d') . '.csv"');
+    $out = fopen('php://output', 'w');
+    fwrite($out, "\xEF\xBB\xBF");
+    fputcsv($out, ['Date', 'For', 'Name', 'Mobile', 'Email', 'Address', 'City', 'State', 'PIN', 'Status', 'Amount (Rs)', 'Link']);
+    foreach (customer_rows() as $r) fputcsv($out, [$r['created_at'], $r['for'], $r['name'], $r['phone'], $r['email'], $r['address'], $r['city'], $r['state'], $r['pincode'], $r['status'], $r['amount'], $r['link']]);
+    exit;
+}
+
 /* ---------- actions ---------- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     check_csrf();
@@ -66,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($act === 'settings') {
         foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
         foreach (['price_standard', 'price_premium', 'price_biodata'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
+        foreach (['ref_friend_off', 'ref_reward'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, min(1000, (int)$_POST[$k])));
         set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
         $kid = trim((string)($_POST['rzp_key_id'] ?? ''));
         if ($kid !== '') set_setting('rzp_key_id', $kid);
@@ -184,6 +196,8 @@ site_head('Admin | ' . setting('brand'));
     <a href="/admin/?v=orders" class="<?= $view === 'orders' ? 'on' : '' ?>">Orders</a>
     <a href="/admin/?v=leads" class="<?= $view === 'leads' ? 'on' : '' ?>">Unpaid</a>
     <a href="/admin/?v=bio" class="<?= $view === 'bio' ? 'on' : '' ?>">Biodata</a>
+    <a href="/admin/?v=customers" class="<?= $view === 'customers' ? 'on' : '' ?>">Customers</a>
+    <a href="/admin/?v=refs" class="<?= $view === 'refs' ? 'on' : '' ?>">Referrals</a>
     <a href="/admin/?v=custom" class="<?= $view === 'custom' ? 'on' : '' ?>">Custom</a>
     <a href="/admin/?v=images" class="<?= $view === 'images' ? 'on' : '' ?>">Images</a>
     <a href="/admin/?v=settings" class="<?= $view === 'settings' ? 'on' : '' ?>">Settings</a>
@@ -278,6 +292,42 @@ site_head('Admin | ' . setting('brand'));
     <td><a href="/b/<?= e($row['token']) ?>" target="_blank" rel="noopener">Open</a></td></tr>
   <?php endforeach; ?></tbody></table></div><?php endif; ?>
 
+<?php elseif ($view === 'customers'):
+    $q = mb_strtolower(trim((string)($_GET['q'] ?? '')));
+    $rows = array_values(array_filter(customer_rows(), fn($r) => $q === '' || str_contains(mb_strtolower(implode(' ', [$r['name'], $r['phone'], $r['email'], $r['city'], $r['state'], $r['pincode']])), $q)));
+?>
+  <h1 style="font-size:2.4rem">Customers</h1>
+  <p class="lead" style="margin-top:8px;max-width:44em">Everyone who filled in their details before buying a plan or downloading a biodata.</p>
+  <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><input type="hidden" name="v" value="customers">
+    <input name="q" value="<?= e($q) ?>" placeholder="Search name, mobile, city, PIN…" style="flex:1;min-width:200px">
+    <button class="btn small">Search</button><a class="btn small alt" href="/admin/?v=customers&amp;csv=1">Download CSV</a></form>
+  <?php if (!$rows): ?><p class="lead" style="margin-top:12px">None yet.</p><?php else: ?>
+  <p class="note" style="margin-top:10px"><?= count($rows) ?> customers</p>
+  <div class="scroll" style="margin-top:8px"><table class="tbl"><thead><tr><th>Date</th><th>For</th><th>Name</th><th>Mobile</th><th>Email</th><th>Address</th><th>Status</th><th></th></tr></thead><tbody>
+  <?php foreach ($rows as $r): ?>
+    <tr><td><?= date('j M, g:i a', strtotime($r['created_at'])) ?></td><td><?= e($r['for']) ?></td><td><b><?= e($r['name']) ?></b></td>
+    <td><a href="https://wa.me/91<?= e($r['phone']) ?>" target="_blank" rel="noopener"><?= e($r['phone']) ?></a></td>
+    <td><?= $r['email'] ? '<a href="mailto:' . e($r['email']) . '">' . e($r['email']) . '</a>' : '' ?></td>
+    <td><?= e(trim(($r['address'] ? $r['address'] . ', ' : '') . $r['city'] . ', ' . $r['state'] . ' ' . $r['pincode'])) ?></td>
+    <td><?= e($r['status']) ?><?= $r['amount'] ? ' · ₹' . e((string)$r['amount']) : '' ?></td>
+    <td><a href="<?= e($r['link']) ?>" target="_blank" rel="noopener">Open</a></td></tr>
+  <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
+<?php elseif ($view === 'refs'):
+    $rows = $pdo->query("SELECT r.*, COUNT(f.id) AS joined FROM invites r JOIN invites f ON f.referred_by = r.id GROUP BY r.id ORDER BY joined DESC, r.id DESC")->fetchAll();
+?>
+  <h1 style="font-size:2.4rem">Referrals</h1>
+  <p class="lead" style="margin-top:8px;max-width:46em">Couples who brought friends. Friends get ₹<?= (int)setting('ref_friend_off') ?> off; each friend who pays earns the couple ₹<?= (int)setting('ref_reward') ?>. Credit is used on their own upgrade automatically. <b>Cashback due</b> is for Premium couples, who have nothing left to upgrade: send it by UPI.</p>
+  <?php if (!$rows): ?><p class="lead" style="margin-top:12px">No referrals yet.</p><?php else: ?>
+  <div class="scroll" style="margin-top:18px"><table class="tbl"><thead><tr><th>Couple</th><th>Plan</th><th class="n">Friends joined</th><th class="n">Friends paid</th><th class="n">Earned</th><th class="n">Used</th><th class="n">Cashback due</th><th>Phone</th></tr></thead><tbody>
+  <?php foreach ($rows as $r): $st = ref_stats($r); $rd = invite_data($r); ?>
+    <tr><td><b><?= e(invite_title($rd)) ?></b><br><small><a href="/i/<?= e($r['slug']) ?>" target="_blank" rel="noopener">/i/<?= e($r['slug']) ?></a></small></td>
+    <td><?= e(PLAN_NAMES[$r['plan']] ?? $r['plan']) ?></td><td class="n"><?= $st['joined'] ?></td><td class="n"><?= $st['paid'] ?></td>
+    <td class="n">₹<?= $st['earned'] ?></td><td class="n">₹<?= $st['used'] ?></td>
+    <td class="n"><?= $r['plan'] === 'premium' && $st['available'] ? '<b>₹' . $st['available'] . '</b>' : '—' ?></td>
+    <td><a href="https://wa.me/91<?= e($r['phone']) ?>" target="_blank" rel="noopener"><?= e($r['phone']) ?></a></td></tr>
+  <?php endforeach; ?></tbody></table></div><?php endif; ?>
+
 <?php elseif ($view === 'custom'):
     $rows = $pdo->query("SELECT * FROM enquiries ORDER BY status = 'done', id DESC LIMIT 300")->fetchAll();
 ?>
@@ -368,6 +418,11 @@ site_head('Admin | ' . setting('brand'));
         <div class="field"><label for="pr4">Custom plan "from" price (optional)</label><input id="pr4" name="custom_from" maxlength="30" placeholder="₹2,999" value="<?= e(setting('custom_from')) ?>"><small>Leave empty to show "Made for you" instead of a price.</small></div>
       </div>
       <p class="note" style="margin-top:6px">The Basic plan is always free.</p>
+      <h2 style="margin-top:22px">Referral reward</h2>
+      <div class="grid2">
+        <div class="field"><label for="rf1">Friend's discount on their first plan (₹)</label><input id="rf1" name="ref_friend_off" type="number" min="0" max="1000" value="<?= e(setting('ref_friend_off')) ?>"></div>
+        <div class="field"><label for="rf2">Reward per friend who pays (₹)</label><input id="rf2" name="ref_reward" type="number" min="0" max="1000" value="<?= e(setting('ref_reward')) ?>"><small>Used as credit on their own upgrade. Premium couples get it as cashback (see Referrals).</small></div>
+      </div>
     </div>
     <div class="card" style="margin-top:18px">
       <h2>Meta ads tracking</h2>

@@ -226,6 +226,18 @@ function db(): PDO
     // v3: each published invite has its own end date (Free 3 months, Standard 6, Premium 12)
     $cols = array_column($pdo->query('PRAGMA table_info(invites)')->fetchAll(), 'name');
     if (!in_array('expires_at', $cols, true)) $pdo->exec('ALTER TABLE invites ADD COLUMN expires_at TEXT');
+    // v5: referrals (who sent this couple, and how much reward credit they have used) and customer details
+    if (!in_array('referred_by', $cols, true)) $pdo->exec('ALTER TABLE invites ADD COLUMN referred_by INTEGER');
+    if (!in_array('ref_used', $cols, true)) $pdo->exec('ALTER TABLE invites ADD COLUMN ref_used INTEGER NOT NULL DEFAULT 0');
+    $pdo->exec("CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        kind TEXT NOT NULL, ref_id INTEGER NOT NULL,
+        name TEXT NOT NULL, phone TEXT NOT NULL, email TEXT,
+        address TEXT, city TEXT, state TEXT, pincode TEXT,
+        created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+        UNIQUE(kind, ref_id)
+    )");
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_inv_ref ON invites(referred_by)');
     // v4: brand renamed to TheWedLink (only if the old default was saved in admin)
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_brand_v4'")->fetchColumn()) {
         $pdo->exec("UPDATE settings SET v = 'TheWedLink' WHERE k IN ('brand', 'business_name') AND v = 'WedLink'");
@@ -252,6 +264,8 @@ const SETTING_DEFAULTS = [
     'price_standard'  => '199',
     'price_premium'   => '499',
     'price_biodata'   => '399',
+    'ref_friend_off'  => '50',
+    'ref_reward'      => '100',
     'custom_from'     => '',
     'rzp_key_id'      => '',
     'rzp_key_secret'  => '',
@@ -285,12 +299,41 @@ function price(string $plan): int
     return max(1, (int)setting($plan === 'standard' ? 'price_standard' : 'price_premium'));
 }
 /** What it costs to move an invite from its current plan to $target (₹). Drafts pay the full price. */
-function upgrade_price(array $inv, string $target): int
+/** What moving an invite to $target costs, before and after referral discounts (all in ₹). */
+function price_breakdown(array $inv, string $target): array
 {
     $from = $inv['status'] === 'paid' ? $inv['plan'] : null;
-    if ($from === null) return price($target);
-    return max(0, price($target) - price($from));
+    $base = $from === null ? price($target) : max(0, price($target) - price($from));
+    // a couple who came from a friend's link gets money off their first payment
+    $friend = (!empty($inv['referred_by']) && (int)$inv['amount'] === 0) ? min($base, max(0, (int)setting('ref_friend_off'))) : 0;
+    // reward credit this couple earned by sending friends who paid
+    $credit = min($base - $friend, ref_stats($inv)['available']);
+    return ['base' => $base, 'friend' => $friend, 'credit' => max(0, $credit), 'total' => max(0, $base - $friend - $credit)];
 }
+function upgrade_price(array $inv, string $target): int { return price_breakdown($inv, $target)['total']; }
+
+/** Referral numbers for an invite: friends who made one from its link, how many paid, and its reward credit (₹). */
+function ref_stats(array $inv): array
+{
+    $st = db()->prepare("SELECT COUNT(*) AS joined, SUM(CASE WHEN amount > 0 AND (is_demo = 0 OR ?) THEN 1 ELSE 0 END) AS paid FROM invites WHERE referred_by = ?");
+    $st->execute([payments_live() ? 0 : 1, (int)$inv['id']]);
+    $r = $st->fetch() ?: [];
+    $joined = (int)($r['joined'] ?? 0); $paid = (int)($r['paid'] ?? 0);
+    $earned = $paid * max(0, (int)setting('ref_reward'));
+    $used = (int)($inv['ref_used'] ?? 0);
+    return ['joined' => $joined, 'paid' => $paid, 'earned' => $earned, 'used' => $used, 'available' => max(0, $earned - $used)];
+}
+
+/** Contact details a customer gave before buying or downloading. $kind: invite | biodata */
+function customer_get(string $kind, int $refId): ?array
+{
+    $st = db()->prepare('SELECT * FROM customers WHERE kind = ? AND ref_id = ?');
+    $st->execute([$kind, $refId]);
+    return $st->fetch() ?: null;
+}
+const INDIAN_STATES = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
+    'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+    'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry', 'Outside India'];
 function payments_live(): bool { return setting('rzp_key_id') !== '' && setting('rzp_key_secret') !== ''; }
 
 /* ---------- helpers ---------- */
@@ -422,6 +465,14 @@ function mark_paid(array $inv, string $plan, int $amountPaise, ?string $paymentI
 function apply_payment(array $inv, int $amountPaise, ?string $paymentId, bool $demo = false): void
 {
     $target = isset(PLAN_RANK[$inv['pending_plan'] ?? '']) ? $inv['pending_plan'] : 'premium';
+    $credit = price_breakdown($inv, $target)['credit'];
+    $before = $inv['plan'] . '|' . $inv['status'];
+    apply_payment_inner($inv, $target, $amountPaise, $paymentId, $demo);
+    $now = find_invite('token', $inv['token']);
+    if ($credit > 0 && $now && $now['plan'] . '|' . $now['status'] !== $before) db()->prepare('UPDATE invites SET ref_used = ref_used + ? WHERE id = ?')->execute([$credit, $inv['id']]);
+}
+function apply_payment_inner(array $inv, string $target, int $amountPaise, ?string $paymentId, bool $demo): void
+{
     if ($inv['status'] !== 'paid') { mark_paid($inv, $target, $amountPaise, $paymentId, $demo); return; }
     if (PLAN_RANK[$target] > (PLAN_RANK[$inv['plan']] ?? 2) && ($paymentId === null || $paymentId !== $inv['rzp_payment_id'])) {
         $st = db()->prepare("UPDATE invites SET plan = ?, amount = amount + ?, rzp_payment_id = ?, is_demo = CASE WHEN amount = 0 THEN ? ELSE is_demo END, expires_at = ?, updated_at = ? WHERE id = ? AND plan = ?");
@@ -653,3 +704,28 @@ function site_footer(): void
 require __DIR__ . '/slots.php';
 require __DIR__ . '/biodata.php';
 require __DIR__ . '/sections.php';
+
+// referral links (/?ref=arjun-meera): remember who sent this visitor for 60 days
+if (PHP_SAPI !== 'cli' && isset($_GET['ref']) && is_string($_GET['ref']) && preg_match('/^[a-z0-9-]{3,60}$/', $_GET['ref']) && !headers_sent()) {
+    setcookie('wl_ref', $_GET['ref'], ['expires' => time() + 86400 * 60, 'path' => '/', 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'httponly' => true]);
+    $_COOKIE['wl_ref'] = $_GET['ref'];
+}
+
+/** Every customer's details joined with what they bought, newest first (admin list and CSV). */
+function customer_rows(): array
+{
+    $out = [];
+    $rows = db()->query("SELECT c.*, i.slug, i.token AS itok, i.status AS istatus, i.plan, i.amount AS iamount, i.is_demo AS idemo,
+            b.token AS btok, b.paid AS bpaid, b.amount AS bamount, b.is_demo AS bdemo
+        FROM customers c LEFT JOIN invites i ON c.kind = 'invite' AND i.id = c.ref_id LEFT JOIN biodata b ON c.kind = 'biodata' AND b.id = c.ref_id
+        ORDER BY c.id DESC")->fetchAll();
+    foreach ($rows as $r) {
+        $inv = $r['kind'] === 'invite';
+        $paid = $inv ? ($r['istatus'] === 'paid' ? PLAN_NAMES[$r['plan']] ?? $r['plan'] : 'Not published') : ((int)$r['bpaid'] ? 'Clean copy' : 'Free download');
+        if (($inv ? $r['idemo'] : $r['bdemo'])) $paid .= ' (test)';
+        $out[] = ['created_at' => $r['created_at'], 'for' => $inv ? 'Wedding website' : 'Biodata', 'name' => $r['name'], 'phone' => $r['phone'], 'email' => (string)$r['email'],
+            'address' => (string)$r['address'], 'city' => (string)$r['city'], 'state' => (string)$r['state'], 'pincode' => (string)$r['pincode'], 'status' => $paid,
+            'amount' => (int)(($inv ? $r['iamount'] : $r['bamount']) ?? 0) / 100, 'link' => $inv ? '/p/' . $r['itok'] : '/b/' . $r['btok']];
+    }
+    return $out;
+}

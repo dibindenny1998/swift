@@ -14,6 +14,7 @@ $d = json_decode($bio['data'], true) ?: [];
 $cfg = bio_js_config() + [
     't' => $bio['token'], 'paid' => $paid, 'data' => $d, 'template' => $bio['template'],
     'photo' => $bio['photo'] ? '/m/b' . $bio['id'] . '/' . $bio['photo'] : '',
+    'hasDetails' => (bool)customer_get('biodata', (int)$bio['id']), 'prefill' => ['name' => $d['name'] ?? '', 'phone' => $bio['phone'] ?: '', 'email' => $bio['email'] ?: ''], 'states' => INDIAN_STATES,
     'brand' => $brand, 'host' => preg_replace('#^https?://#', '', base_url()), 'live' => payments_live(), 'price' => $pb,
     'purchase' => $paid && !$bio['is_demo'] && $bio['paid_at'] && strtotime($bio['paid_at']) > time() - 600 ? ['value' => $bio['amount'] / 100, 'id' => 'bio_' . $bio['id']] : null,
 ];
@@ -87,10 +88,13 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
 <?php site_footer(); ?>
 <script>window.WLB_CFG = <?= json_for_script($cfg) ?>;</script>
 <script src="<?= asset('assets/biodata.js') ?>"></script>
+<script src="<?= asset('assets/details.js') ?>"></script>
 <script>
 (function () {
   'use strict';
   var C = window.WLB_CFG, pv = document.getElementById('pv');
+  window.WL_STATES = C.states;
+  function details() { return WLDetails.ask({ kind: 'biodata', t: C.t, have: C.hasDetails, prefill: C.prefill, why: 'We need these once before your download, so we can help if anything goes wrong.' }).then(function () { C.hasDetails = true; }); }
   var opts = { watermark: !C.paid, brand: C.brand, host: C.host };
   function paint() { WLB.render(pv, C.data, C.template, C.photo, opts); WLB.scaleTo(pv); }
 
@@ -121,11 +125,14 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   var err = document.getElementById('dl-err');
   document.querySelectorAll('[data-dl]').forEach(function (b) {
     b.addEventListener('click', function () {
-      var label = b.textContent; b.disabled = true; b.textContent = 'Preparing…'; err.textContent = '';
-      WLB.download(b.dataset.dl, C.data, C.template, C.photo, opts).then(function (file) {
+      var label = b.textContent;
+      details().then(function () {
+      b.disabled = true; b.textContent = 'Preparing…'; err.textContent = '';
+      return WLB.download(b.dataset.dl, C.data, C.template, C.photo, opts).then(function (file) {
         WLB.saveBlob(file.blob, file.name); post('/api.php?a=bio_download', { t: C.t });
       }).catch(function () { err.textContent = 'Could not create the file. Check your connection and try again.'; })
         .then(function () { b.disabled = false; b.textContent = label; });
+      }, function () {});
     });
   });
 
@@ -134,10 +141,12 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   if (navigator.canShare && navigator.canShare({ files: [new File(['x'], 'x.jpg', { type: 'image/jpeg' })] })) {
     share.hidden = false;
     share.addEventListener('click', function () {
+      details().then(function () {
       share.disabled = true;
-      WLB.download('jpg', C.data, C.template, C.photo, opts).then(function (file) {
+      return WLB.download('jpg', C.data, C.template, C.photo, opts).then(function (file) {
         return navigator.share({ files: [new File([file.blob], file.name, { type: file.type })], title: 'Marriage biodata' });
       }).catch(function () {}).then(function () { share.disabled = false; });
+      }, function () {});
     });
   }
 
@@ -153,9 +162,11 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   pay.addEventListener('click', function () {
     var original = pay.textContent;
     function reset(m) { pay.disabled = false; pay.textContent = original; if (m) payErr.textContent = m; }
+    details().then(function () {
     pay.disabled = true; pay.textContent = 'Opening payment…'; payErr.textContent = '';
     try { fbq('track', 'InitiateCheckout', { value: C.price, currency: 'INR', content_name: 'Biodata' }); } catch (e) {}
     post('/api.php?a=bio_order', { t: C.t }).then(function (o) {
+      if (o.need_details) { C.hasDetails = false; return reset('Add your details to continue.'); }
       if (!o.ok) return reset(o.error);
       if (o.demo) return post('/api.php?a=bio_demo_pay', { t: C.t }).then(function (r) { if (r.ok) location.reload(); else reset(r.error); });
       return loadRzp().then(function () {
@@ -171,6 +182,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
         rzp.open();
       });
     }).catch(function (x) { reset(x && x.message ? x.message : 'No connection. Try again.'); });
+    }, function () {});
   });
 })();
 </script>
