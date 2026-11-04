@@ -120,7 +120,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
         </a>
         <a class="mp" href="/create" data-start>
           <span class="mp-name">Standard</span><b class="mp-price">₹<?= $ps ?></b>
-          <ul><li><?= count(themes_by_tier('standard')) ?> Standard designs</li><li>Cover photo, 3 events</li><li>Live for 6 months</li><li class="no">No gallery, RSVP or gift list</li></ul>
+          <ul><li><?= count(themes_by_tier('standard')) ?> Standard designs</li><li>Cover + 5-photo gallery</li><li>3 events, live 6 months</li><li class="no">No video, RSVP or gift list</li></ul>
           <span class="mp-go">Choose Standard</span>
         </a>
         <a class="mp pop" href="/create">

@@ -88,7 +88,7 @@ const TIER_NAMES = ['free' => 'Free', 'standard' => 'Standard', 'premium' => 'Pr
 
 const PLAN_LIMITS = [
     'free'     => ['events' => 2, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
-    'standard' => ['events' => 3, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
+    'standard' => ['events' => 3, 'photos' => 5,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
     'premium'  => ['events' => 6, 'photos' => 15, 'rsvp' => true,  'music' => true,  'gifts' => true,  'video' => true,  'badge' => false],
 ];
 

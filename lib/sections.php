@@ -135,10 +135,10 @@ function sec_pricing(): void
           <ul>
             <li><?= $tick ?><?= count(themes_by_tier('standard')) ?> Standard designs, plus the 2 free ones</li>
             <li><?= $tick ?>Up to 3 events with maps and calendar</li>
-            <li><?= $tick ?>One cover photo</li>
+            <li><?= $tick ?>Cover photo and a gallery of 5</li>
             <li><?= $tick ?>Countdown and family details</li>
             <li><?= $tick ?>Edit anytime, live for 6 months</li>
-            <li class="no"><?= $tick ?>No gallery or gift list</li>
+            <li class="no"><?= $tick ?>No video, RSVP or gift list</li>
           </ul>
           <a class="btn alt js-make" href="/create">Start with Standard</a>
         </div>
