@@ -40,7 +40,7 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
 <div class="resume" id="resume" hidden><div class="wrap"><span>Your invite is saved.</span><a id="resume-link" href="#">Continue where you left off</a></div></div>
 <?php site_header(); ?>
 
-<main>
+<main class="home">
   <section class="hero lux-hero">
     <?= slot_img('hero', '', '', false) ?>
     <div class="wrap hero-grid">
@@ -87,11 +87,12 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
 
   <section class="sec feat-band">
     <div class="wrap">
+      <div class="feat-head"><h2>One link. Every guest knows where to go, and you know who's coming.</h2><p>Maps to every venue, your story and photos, RSVP, and changes that reach everyone at once.</p></div>
       <div class="quick">
-        <div><b>RSVP headcount</b><span>Know who's coming, for each function</span></div>
-        <div><b>Maps to every venue</b><span>One tap, no "where is the hall?" calls</span></div>
-        <div><b>Change once, everyone sees it</b><span>No corrected cards</span></div>
-        <div><b>Your story and photos</b><span>Something a card can't hold</span></div>
+        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><path d="M15.5 11.5l2 2 3.5-4"/></svg></i><p><b>RSVP headcount</b><span>Know who's coming, for each function</span></p></div>
+        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><p><b>Maps to every venue</b><span>One tap, no "where is the hall?" calls</span></p></div>
+        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0113.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 01-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></svg></i><p><b>Change once, everyone sees it</b><span>No corrected cards</span></p></div>
+        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.7"/><path d="M4 17l4.5-4 3.5 3 3-2.5 5 4"/></svg></i><p><b>Your story and photos</b><span>Something a card can't hold</span></p></div>
       </div>
     </div>
   </section>
@@ -101,7 +102,7 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
 
   <section class="sec band">
     <div class="wrap">
-      <div class="sec-head"><h2>How it works</h2></div>
+      <div class="sec-head"><h2>How it works</h2><p>From design to WhatsApp in about five minutes.</p></div>
       <ol class="steps">
         <li><h3>Pick a design</h3><p>Switch any time before you share.</p></li>
         <li><h3>Add your details</h3><p>The preview updates as you type.</p></li>
@@ -115,22 +116,22 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
       <div class="sec-head"><h2>Simple plans, paid once</h2><p>Build and preview free. Pay only when you want more.</p></div>
       <div class="mini-plans" id="mini-plans">
         <a class="mp" href="/create?t=classic">
-          <span class="mp-name">Free</span><b class="mp-price">₹0</b>
+          <span class="mp-name">Free</span><b class="mp-price">₹0 <small>free</small></b>
           <ul><li>1 event with maps</li><li>2 designs, a cover photo</li><li>Live for 1 month</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
         <a class="mp pop" href="/create" data-start>
-          <span class="mp-name">One Link Wedding</span><b class="mp-price">₹<?= $pp ?></b>
+          <span class="mp-name">One Link Wedding</span><b class="mp-price">₹<?= $pp ?> <small>one time</small></b>
           <ul><li>All functions, RSVP and headcount</li><li>Story, 15 photos and a video</li><li>All designs, gift list, music</li><li>Live for 1 year</li></ul>
           <span class="mp-go">Choose One Link Wedding</span>
         </a>
         <a class="mp" href="/custom">
-          <span class="mp-name">Built for you</span><b class="mp-price">₹<?= number_format((int)setting('price_built')) ?></b>
+          <span class="mp-name">Built for you</span><b class="mp-price">₹<?= number_format((int)setting('price_built')) ?> <small>fixed</small></b>
           <ul><li>Everything in One Link Wedding</li><li>We fill it in from your WhatsApp message</li><li>You check it and ask for changes</li><li>Fixed price</li></ul>
           <span class="mp-go">Send us your details</span>
         </a>
       </div>
-<?php $fo = founding(); if ($fo['on']): ?>      <div class="founding"><p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples get Built for you for <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format((int)setting('price_built')) ?>, if they let us show their site as an example (names hidden on request).</p><p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?> · <a href="/custom?founding=1">Claim a founding spot →</a></p></div>
+<?php $fo = founding(); if ($fo['on']): ?>      <div class="founding"><div><p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples get Built for you for <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format((int)setting('price_built')) ?>, if they let us show their site as an example (names hidden on request).</p><p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?></p></div><a class="btn small" href="/custom?founding=1">Claim a founding spot</a></div>
 <?php endif; ?>
       <p class="mini-note">One-time prices. No subscription. <a href="/pricing">Compare every feature →</a></p>
     </div>

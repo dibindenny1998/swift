@@ -686,7 +686,7 @@ function ld_breadcrumb(array $items): array
 /** Visible FAQ block; pair it with ld_faq() on the same page. */
 function faq_html(array $qa, string $title = 'Questions people ask'): string
 {
-    $h = '<section class="sec"><div class="wrap"><div class="sec-head"><h2>' . e($title) . '</h2></div><div class="faq">';
+    $h = '<section class="sec faq-sec"><div class="wrap"><div class="sec-head"><h2>' . e($title) . '</h2></div><div class="faq">';
     foreach ($qa as [$q, $a]) $h .= '<details><summary>' . e($q) . '</summary><p>' . e($a) . '</p></details>';
     return $h . '</div></div></section>';
 }
@@ -733,13 +733,19 @@ function site_footer(): void
 {
     $brand = e(setting('brand'));
     $wa = normalize_phone(setting('support_phone'));
-    echo '<footer class="foot"><div class="wrap foot-in">'
-        . '<a class="logo" href="/">' . $brand . '</a>'
-        . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Built for you</a><a href="/blog">Blog</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
-        . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
-        . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
-        . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by PayU.</p>'
-        . '<p class="foot-biz">' . e(setting('business_name')) . ' · ' . e(setting('address')) . ($wa ? ' · <a href="tel:+91' . e($wa) . '">+91 ' . e($wa) . '</a>' : '') . (setting('support_email') ? ' · <a href="mailto:' . e(setting('support_email')) . '">' . e(setting('support_email')) . '</a>' : '') . '</p>'
+    $biz = e(setting('business_name')); $mail = e(setting('support_email'));
+    echo '<footer class="foot ft"><div class="wrap">'
+        . '<div class="ft-top">'
+        . '<div class="ft-brand"><a class="ft-logo" href="/">' . $brand . '</a><p>One link for every wedding guest. Maps, RSVP, your story and photos, sent on WhatsApp.</p>'
+        . '<a class="ft-cta" href="/create">Make our wedding link, free &rarr;</a></div>'
+        . '<nav class="ft-col" aria-label="Wedding website"><h3>Wedding website</h3><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/custom">Built for you</a><a href="/sample">See a sample site</a><a href="/blog">Blog</a></nav>'
+        . '<nav class="ft-col" aria-label="Free biodata"><h3>Free biodata</h3><a href="/biodata">Biodata maker</a><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav>'
+        . '<nav class="ft-col" aria-label="Help"><h3>Help</h3><a href="/legal.php?p=contact">Contact</a>'
+        . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a><a href="tel:+91' . e($wa) . '">+91 ' . e($wa) . '</a>' : '')
+        . ($mail ? '<a href="mailto:' . $mail . '">' . $mail . '</a>' : '')
+        . '<a href="/legal.php?p=terms">Terms</a><a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a></nav>'
+        . '</div>'
+        . '<div class="ft-bottom"><p>&copy; ' . date('Y') . ' ' . $biz . ' · ' . e(setting('address')) . '</p><p>Payments secured by PayU</p></div>'
         . '</div></footer>'
         . ($wa ? '<a class="wa-float" href="https://wa.me/91' . e($wa) . '?text=' . rawurlencode('Hi! I have a question about ' . setting('brand') . '.') . '" target="_blank" rel="noopener" aria-label="Questions? WhatsApp us"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 00-11.2 19.6L3 29l6.6-1.7A13 13 0 1016 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1116 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 01-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.6 3.6 0 00-1.1 2.7 6.3 6.3 0 001.3 3.3 14.4 14.4 0 005.5 4.9c2 .9 2.8.9 3.8.8a3.3 3.3 0 002.2-1.5 2.7 2.7 0 00.2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg><span>Questions? WhatsApp us</span></a>' : '')
         // gentle scroll animations on the public pages

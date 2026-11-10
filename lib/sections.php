@@ -163,10 +163,10 @@ function sec_pricing(): void
         </div>
       </div>
       <?php if ($fo['on']): ?>
-      <div class="founding">
+      <div class="founding"><div>
         <p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples get Built for you for <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format($pb4u) ?>, if they let us show their site as an example (names hidden on request).</p>
-        <p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?> · <a href="/custom?founding=1">Claim a founding spot →</a></p>
-      </div>
+        <p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?></p>
+      </div><a class="btn small" href="/custom?founding=1">Claim a founding spot</a></div>
       <?php endif; ?>
       <p class="plans-note">You choose the plan on the preview screen, after you have seen your own website.</p>
     </div>

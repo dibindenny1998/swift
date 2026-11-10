@@ -15,7 +15,7 @@ site_head('Built for You: We Make Your Wedding Website | ' . $brand, 'Send us yo
     <h1>Send us your details. We build your wedding link.</h1>
     <p>Tell us the names, the functions and send a few photos. We set up the whole site, you check it, and we change anything you like before you share it.</p>
   </div>
-  <?php if ($fo['on']): ?><div class="founding" style="margin:18px 0 0"><p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples pay <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format($price) ?>, if they let us show their site as an example (names hidden on request).</p><p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?></p></div><?php endif; ?>
+  <?php if ($fo['on']): ?><div class="founding" style="margin:18px 0 22px;max-width:none"><p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples pay <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format($price) ?>, if they let us show their site as an example (names hidden on request).</p><p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?></p></div><?php endif; ?>
   <div class="custom-grid">
     <div class="plan custom">
       <h3>What you get for ₹<?= number_format($price) ?></h3>
