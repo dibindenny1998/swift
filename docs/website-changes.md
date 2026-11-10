@@ -122,6 +122,8 @@ The panels showed most families print cards for elders anyway, so "instead of a 
 - [x] **19. Make a landing page for ads** that pushes the free plan: *"Make your free wedding link in 5 minutes."* Ads should bring people to make a free site, not to checkout.
   - ✅ Done: thewedlink.in/free. It is hidden from Google and saves the ad's UTM tags.
 - [ ] **20. Test on a cheap Android phone over mobile data, and load-test a published site** at wedding-day traffic on your current Hostinger plan. Buyers' biggest fear was the link failing on the day.
+  - ✅ Server half done (10 Nov 2026): 300 visits to a published site, 30 at a time, on the current Hostinger plan. All 300 loaded, typically in 0.5 s and 0.9 s at the slowest, about 55 visits a second. That is far more than a wedding's guest list opening the link at once.
+  - ⏳ Still to do: open the site on a cheap Android phone over mobile data.
 - [ ] **Budget test:** about ₹5,000 to ₹10,000 over 2 weeks. Measure cost per free site, free-to-paid rate and cost per paying customer. Stop or change the ads if one paying customer costs more than about ₹999 minus PayU fees.
 
 ## G. Build next (product)
