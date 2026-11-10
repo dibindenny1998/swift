@@ -7,7 +7,7 @@
   var LED = {}; (C.led || []).forEach(function (x) { LED[x[0]] = x[1]; });
   function data(theme, tier) {
     var s = window.WL_SAMPLES ? WL_SAMPLES.get(WL_SAMPLES.faith(theme)) : { p1: 'Arjun', p2: 'Meera', events: [] };
-    var plan = tier === 'free' ? 'free' : tier === 'standard' ? 'standard' : 'premium';
+    var plan = tier === 'free' ? 'free' : 'premium';
     var photos = (C.photos || []).slice();
     if (LED[theme]) photos.unshift(LED[theme]);
     return Object.assign({}, s, { theme: theme, plan: plan, brand: C.brand, domain: C.domain, photos: plan === 'free' ? photos.slice(0, 1) : photos,
@@ -22,7 +22,7 @@
   function open(btn) {
     pending = { theme: btn.dataset.theme, tier: btn.dataset.tier };
     document.getElementById('pv-title').textContent = btn.dataset.name;
-    document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'Standard design · ₹' + (C.ps || 199) + ' plan', premium: 'Premium design · ₹' + (C.pp || 499) + ' plan' + (C.offer ? ' (launch offer)' : '') }[pending.tier] || '';
+    document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'One Link Wedding · ₹' + (C.pp || 999), premium: 'One Link Wedding · ₹' + (C.pp || 999) }[pending.tier] || '';
     document.getElementById('pv-use').href = '/create?t=' + pending.theme;
     last = btn; modal.hidden = false; document.documentElement.style.overflow = 'hidden';
     if (!frame.src) frame.src = '/frame.php'; else paint();

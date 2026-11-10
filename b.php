@@ -35,8 +35,8 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   <div class="bio-layout" style="padding-top:28px">
     <div>
       <section class="card">
-        <h1 style="font-size:clamp(1.9rem,4vw,2.6rem)"><?= $paid ? 'Your biodata is ready.' : 'Your biodata is ready to download.' ?></h1>
-        <p class="lead" style="margin:10px 0 20px;color:var(--plum-2)"><?= $paid ? 'The strip is removed. Download it as often as you like, and edit it any time.' : 'Download it free with a small red “Created by ' . e($brand) . '” strip at the bottom, or remove it for a clean copy.' ?></p>
+        <h1 style="font-size:clamp(1.9rem,4vw,2.6rem)">Your biodata is ready.</h1>
+        <p class="lead" style="margin:10px 0 20px;color:var(--plum-2)">Download it free, with no watermark, as often as you like. You can edit it any time.</p>
         <div class="bio-actions">
           <button type="button" class="btn<?= $paid ? '' : ' alt' ?>" data-dl="pdf">Download PDF</button>
           <button type="button" class="btn alt" data-dl="jpg">Download image (JPG)</button>
@@ -62,18 +62,14 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
         <p class="note-saved" id="look-msg" role="status"></p>
       </section>
 
-      <?php if (!$paid): ?>
-      <section class="card" style="margin-top:16px" id="clean">
-        <div class="price-line"><h2 style="font-size:1.5rem">Remove the strip</h2><b>₹<?= $pb ?></b></div>
-        <p class="lead" style="margin:8px 0 18px;color:var(--plum-2)">One-time payment. Clean PDF and image, edit and download again any time.</p>
-        <button type="button" class="btn" id="pay" style="width:100%">Pay ₹<?= $pb ?> for a clean copy</button>
-        <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
-        <p class="safe" style="margin-top:6px">UPI, cards and net banking via PayU</p>
-        
-      </section>
-      <?php endif; ?>
+
 
       <?php if (!current_user()): ?><section class="card acct-nudge" style="margin-top:16px"><h2>Keep it safe in your account</h2><p class="lead">Sign in once to find and edit this biodata from any phone.</p><a class="btn small" href="/account">Sign in or create an account</a></section><?php endif; ?>
+      <section class="card later-card" id="later" style="margin-top:16px" hidden>
+        <h2 style="font-size:1.5rem">When the match is fixed, your wedding link is ready in 5 minutes.</h2>
+        <p class="lead" style="margin:8px 0 16px;color:var(--plum-2)">One link with every function, maps and RSVP, sent on WhatsApp. Save your details now and we'll keep them ready.</p>
+        <a class="btn" href="/account">Save my details for later</a>
+      </section>
       <section class="card" style="margin-top:16px">
         <h2 style="font-size:1.4rem">Getting married soon?</h2>
         <p class="lead" style="margin:8px 0 16px;color:var(--plum-2)">Make a wedding website to share on WhatsApp, with your events, maps, RSVP and a gift list. There's a free plan.</p>
@@ -95,7 +91,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
   var C = window.WLB_CFG, pv = document.getElementById('pv');
   window.WL_STATES = C.states;
   function details() { return WLDetails.ask({ kind: 'biodata', t: C.t, have: C.hasDetails, prefill: C.prefill, why: 'We need these once before your download, so we can help if anything goes wrong.' }).then(function () { C.hasDetails = true; }); }
-  var opts = { watermark: !C.paid, brand: C.brand, host: C.host };
+  var opts = { watermark: false, brand: C.brand, host: C.host };
   function paint() { WLB.render(pv, C.data, C.template, C.photo, opts); WLB.scaleTo(pv); }
 
   // change the look from this page: repaint now, save quietly in the background
@@ -130,6 +126,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
       b.disabled = true; b.textContent = 'Preparing…'; err.textContent = '';
       return WLB.download(b.dataset.dl, C.data, C.template, C.photo, opts).then(function (file) {
         WLB.saveBlob(file.blob, file.name); post('/api.php?a=bio_download', { t: C.t });
+        var later = document.getElementById('later'); if (later && later.hidden) { later.hidden = false; setTimeout(function () { later.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 600); }
       }).catch(function () { err.textContent = 'Could not create the file. Check your connection and try again.'; })
         .then(function () { b.disabled = false; b.textContent = label; });
       }, function () {});

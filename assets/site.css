@@ -1063,3 +1063,31 @@ s.was { color: var(--plum-2); opacity: .7; font-weight: 400; font-size: .7em; ma
 .acct-empty p { margin: 0; color: var(--plum-2); }
 @media (min-width: 901px) { .menu-acct { font-weight: 600; } }
 .acct-nudge h2 { font-size: 1.5rem; } .acct-nudge .lead { margin: 6px 0 14px; }
+/* three plans + founding offer */
+.plans.plans3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); max-width: 1060px; margin-left: auto; margin-right: auto; }
+.founding { max-width: 1060px; margin: 22px auto 0; padding: 18px 22px; border-radius: 18px; background: #FFF7EC; box-shadow: 0 0 0 1px #EAD3A8; }
+.founding p { margin: 0; }
+.founding-meta { margin-top: 8px !important; font-size: .92rem; color: var(--plum-2); }
+/* sample site button and feature band */
+.sample-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 99px; background: #fff; color: #9C2B52; font: 600 1rem var(--body); text-decoration: none; box-shadow: 0 0 0 1.5px #E7B5C2, 0 12px 26px -16px rgba(156,43,82,.6); }
+.sample-btn:hover { background: #FFF4F6; }
+.feat-band { padding-top: 26px; padding-bottom: 26px; }
+.hero-lead b { display: block; color: var(--plum); font-weight: 600; margin-bottom: 6px; }
+/* WhatsApp help button and footer business details */
+.wa-float { position: fixed; right: 16px; bottom: 18px; z-index: 45; display: flex; align-items: center; gap: 10px; background: #25D366; color: #fff; text-decoration: none; font: 600 .95rem var(--body); padding: 12px 18px 12px 14px; border-radius: 99px; box-shadow: 0 14px 30px -12px rgba(0,0,0,.45); }
+.wa-float svg { width: 26px; height: 26px; }
+@media (max-width: 900px) { .wa-float { bottom: 96px; right: 14px; padding: 12px; } .wa-float span { display: none; } }
+.foot-biz { width: 100%; margin: 16px 0 0; font-size: .85rem; color: var(--plum-2); }
+.foot-biz a { color: inherit; }
+/* ad landing page */
+.lp-hero { padding: 40px 0 30px; background: radial-gradient(80% 60% at 80% 20%, #FBE3E6 0, #FDF2EF 50%, #FFF9F6 100%); }
+.lp-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
+.lp-hero h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); line-height: 1.05; }
+.lp-hero .lead { margin: 14px 0 18px; font-size: 1.15rem; color: var(--plum-2); }
+.lp-ticks { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
+.lp-ticks li { display: flex; gap: 10px; align-items: center; }
+.lp-ticks svg { width: 20px; height: 20px; color: #2E6B3E; flex: none; }
+.lp-cta { min-height: 58px; padding: 0 34px; font-size: 1.15rem; }
+.lp-small { margin-top: 14px; color: var(--plum-2); font-size: .95rem; }
+.lp-phone img { width: 100%; max-width: 300px; display: block; margin: 0 auto; border-radius: 34px; box-shadow: 0 0 0 10px #fff, 0 40px 70px -30px rgba(120,50,62,.55); }
+@media (max-width: 900px) { .lp-grid { grid-template-columns: 1fr; gap: 26px; } .lp-phone img { max-width: 220px; } }

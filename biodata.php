@@ -18,7 +18,7 @@ $crumbs = [['Home', '/'], ['Free biodata maker', '/biodata']];
 if ($fmt) $crumbs[] = [$SEO['h1'], $path];
 $ld = [
     ld_app($SEO['h1'] . ' (free)', $SEO['desc'], $path, ['Religion-based biodata formats', 'Minimal designs in six colours', 'Photo', 'PDF and JPG download', 'Malayalam, Hindi, Tamil and other Indian languages'],
-        [['Free biodata with a small credit strip', 0], ['Clean biodata without the strip', $pb]]),
+        [['Free marriage biodata, no watermark', 0]]),
     ld_faq(bio_faq()),
     ld_breadcrumb($crumbs),
 ];
@@ -36,7 +36,7 @@ site_head($bio ? 'Edit your biodata | ' . $brand : $SEO['title'], $SEO['desc'], 
     <?php if ($bio): ?><p style="margin-bottom:10px"><a href="/b/<?= e($bio['token']) ?>">← Back to my biodata</a></p><?php endif; ?>
     <h1><?= $bio ? 'Edit your biodata' : e($SEO['h1']) ?> <span class="free-tag big">Free</span></h1>
     <?php if (!$bio): ?><p><?= e($SEO['intro']) ?></p><?php endif; ?>
-    <p>Fill in what you like and leave the rest empty. Empty lines don't print. Write in English or your own language. Free with a small red “Created by <?= e($brand) ?>” strip at the bottom, or ₹<?= $pb ?> to remove it.</p>
+    <p>Fill in what you like and leave the rest empty. Empty lines don't print. Write in English or your own language. Completely free, with no watermark.</p>
   </div>
 
   <div class="bio-layout edit">
@@ -118,7 +118,7 @@ site_head($bio ? 'Edit your biodata | ' . $brand : $SEO['title'], $SEO['desc'], 
 
     <aside class="bio-preview" aria-label="Preview">
       <div class="bd-frame" id="pv"></div>
-      <p>Live preview. The free download has a small red “Created by <?= e($brand) ?>” strip at the bottom.</p>
+      <p>Live preview. Your download is free, with no watermark.</p>
     </aside>
   </div>
 <?php if (!$bio): ?>

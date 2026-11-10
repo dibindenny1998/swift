@@ -35,8 +35,6 @@ function sec_designs(int $limit = 0): void
       <div class="dz-chips" role="group" aria-label="Plan">
         <button type="button" data-plan="" aria-pressed="true">All designs</button>
         <button type="button" data-plan="tier-free" aria-pressed="false">Free</button>
-        <button type="button" data-plan="tier-standard" aria-pressed="false">Standard</button>
-        <button type="button" data-plan="tier-premium" aria-pressed="false">Premium</button>
         <button type="button" data-plan="animated" aria-pressed="false">✨ Animated</button>
         <button type="button" data-plan="photo-led" aria-pressed="false">Photo-led</button>
       </div>
@@ -48,7 +46,7 @@ function sec_designs(int $limit = 0): void
         <p class="dz-lbl">Style</p>
         <div class="dz-opts" data-group="style"><button type="button" data-v="photo-led" aria-pressed="false">Photo-led</button><button type="button" data-v="animated" aria-pressed="false">Animated</button></div>
         <p class="dz-lbl">Plan</p>
-        <div class="dz-opts" data-group="plan"><button type="button" data-v="tier-free" aria-pressed="false">Free</button><button type="button" data-v="tier-standard" aria-pressed="false">Standard</button><button type="button" data-v="tier-premium" aria-pressed="false">Premium</button></div>
+        <div class="dz-opts" data-group="plan"><button type="button" data-v="tier-free" aria-pressed="false">Free</button></div>
         <div class="dz-sheet-ft"><button type="button" class="btn alt" id="dz-reset">Clear all</button><button type="button" class="btn" id="dz-apply">Show designs</button></div>
       </div></div>
       <?php endif; ?>
@@ -64,7 +62,7 @@ function sec_designs(int $limit = 0): void
             </button>
             <b><?= e($t['name']) ?></b>
             <span class="gd-tags">
-              <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
+              <?php if ($t['tier'] === 'free'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
               <?php if ($photoLed): ?><em class="feat-tag">Photo-led</em><?php endif; ?>
               <?php if ($fx): ?><em class="feat-tag">Animated</em><?php endif; ?>
             </span>
@@ -103,77 +101,73 @@ function preview_modal(): void
         . '<script src="' . asset('assets/samples.js') . '"></script><script src="' . asset('assets/preview.js') . '"></script>';
 }
 
+/** Founding-couples offer: Built for you at a lower price for the first few couples. Spots left come from admin. */
+function founding(): array
+{
+    $total = max(0, (int)setting('founding_total')); $left = max(0, $total - (int)setting('founding_taken'));
+    $end = (int)strtotime(setting('founding_until') ?: '2027-01-31 23:59:59');
+    return ['on' => $left > 0 && time() < $end, 'left' => $left, 'total' => $total, 'price' => (int)setting('founding_price'), 'end' => $end];
+}
+
 function sec_pricing(): void
 {
     extract(page_vars());
+    $pb4u = (int)setting('price_built'); $fo = founding();
 ?>
   <section class="sec band" id="pricing">
     <div class="wrap">
       <div class="sec-head">
         <h2>Start free. Pay once if you want more.</h2>
-        <p>No subscription. Free links stay live for 3 months, Standard for 6 months and Premium for a full year.</p>
+        <p>No subscription. Build and preview your whole site first, then choose.</p>
       </div>
-      <div class="plans">
+      <div class="plans plans3">
         <div class="plan">
-          <h3>Basic</h3>
+          <h3>Free</h3>
           <p class="price">₹0 <small>free</small></p>
-          <p class="who">For a simple, clean invite</p>
+          <p class="who">Try it for one function</p>
           <ul>
-            <li><?= $tick ?>2 simple designs: Classic and Blush</li>
-            <li><?= $tick ?>Up to 2 events with maps and calendar</li>
+            <li><?= $tick ?>1 event with maps and countdown</li>
+            <li><?= $tick ?>2 designs: Classic and Blush</li>
             <li><?= $tick ?>One cover photo</li>
-            <li><?= $tick ?>Countdown and family details</li>
-            <li><?= $tick ?>Live for 3 months</li>
-            <li class="no"><?= $tick ?>"Crafted by <?= e($brand) ?>" mark on the design</li>
+            <li><?= $tick ?>Live for 1 month</li>
+            <li class="no"><?= $tick ?>"Crafted by <?= e($brand) ?>" mark</li>
           </ul>
           <a class="btn alt js-make" href="/create?t=classic">Start free</a>
         </div>
-        <div class="plan">
-          <h3>Standard</h3>
-          <p class="price">₹<?= $ps ?> <small>one time</small></p>
-          <p class="who">All the classic designs</p>
-          <ul>
-            <li><?= $tick ?><?= count(themes_by_tier('standard')) ?> Standard designs, plus the 2 free ones</li>
-            <li><?= $tick ?>Up to 3 events with maps and calendar</li>
-            <li><?= $tick ?>Cover photo and a gallery of 5</li>
-            <li><?= $tick ?>Countdown and family details</li>
-            <li><?= $tick ?>Edit anytime, live for 6 months</li>
-            <li class="no"><?= $tick ?>No video, RSVP or gift list</li>
-          </ul>
-          <a class="btn alt js-make" href="/create">Start with Standard</a>
-        </div>
         <div class="plan pick">
-          <span class="plan-flag">Most couples pick this</span>
-          <h3>Premium</h3>
-          <p class="price"><?php if (offer_active()): ?><s class="was">₹<?= regular_price('premium') ?></s> <?php endif; ?><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
-          <?php if (offer_active()): ?><p class="offer-note">🎉 Launch offer, ends <?= date('j F', offer_end()) ?></p><?php endif; ?>
-          <p class="who">Everything, with our best designs</p>
+          <h3>One Link Wedding</h3>
+          <p class="price"><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
+          <p class="who">Every function, every guest, one link</p>
           <ul>
-            <li><?= $tick ?><?= count(themes_by_tier('premium')) ?> Premium designs, plus all the others</li>
-            <li><?= $tick ?>Gift list: guests reserve what you need</li>
-            <li><?= $tick ?>RSVPs with guest list and headcount</li>
-            <li><?= $tick ?>Gallery of up to 15 photos guests can download</li>
-            <li><?= $tick ?>Pre-wedding or wishes video</li>
-            <li><?= $tick ?>Background music and up to 6 events</li>
-            <li><?= $tick ?>Live for 1 year, no <?= e($brand) ?> credit</li>
+            <li><?= $tick ?>All functions, with maps and countdown</li>
+            <li><?= $tick ?>RSVP and headcount for each function</li>
+            <li><?= $tick ?>Your story, 15 photos and a video</li>
+            <li><?= $tick ?>All <?= $nThemes ?> designs</li>
+            <li><?= $tick ?>Gift list and background music</li>
+            <li><?= $tick ?>Live for 1 year, no <?= e($brand) ?> mark</li>
           </ul>
-          <a class="btn js-make" href="/create">Start with Premium</a>
+          <a class="btn js-make" href="/create">Choose One Link Wedding</a>
         </div>
         <div class="plan custom">
-          <h3>Custom</h3>
-          <p class="price<?= $customFrom ? '' : ' word' ?>"><?= $customFrom ? e($customFrom) . ' <small>from</small>' : 'Made for you' ?></p>
-          <p class="who">Your own design and web address</p>
+          <h3>Built for you</h3>
+          <p class="price">₹<?= number_format($pb4u) ?> <small>fixed</small></p>
+          <p class="who">Send us your details, we do the rest</p>
           <ul>
-            <li><?= $tick ?>A design made only for you</li>
-            <li><?= $tick ?>Your own domain, like arjunwedsmeera.com</li>
-            <li><?= $tick ?>Full photo gallery, no limit</li>
-            <li><?= $tick ?>Our story, timeline and video</li>
-            <li><?= $tick ?>Gift list, RSVP and everything in Premium</li>
-            <li><?= $tick ?>We build it, you approve it</li>
+            <li><?= $tick ?>Everything in One Link Wedding</li>
+            <li><?= $tick ?>We fill it in from your WhatsApp message</li>
+            <li><?= $tick ?>We set up every function and your photos</li>
+            <li><?= $tick ?>You check it and ask for changes</li>
+            <li><?= $tick ?>Live for 1 year</li>
           </ul>
-          <a class="btn alt" href="/custom">Ask for a quote</a>
+          <a class="btn alt" href="/custom">Send us your details</a>
         </div>
       </div>
+      <?php if ($fo['on']): ?>
+      <div class="founding">
+        <p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples get Built for you for <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format($pb4u) ?>, if they let us show their site as an example (names hidden on request).</p>
+        <p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?> · <a href="/custom?founding=1">Claim a founding spot →</a></p>
+      </div>
+      <?php endif; ?>
       <p class="plans-note">You choose the plan on the preview screen, after you have seen your own website.</p>
     </div>
   </section>
@@ -182,19 +176,17 @@ function sec_pricing(): void
 
 function site_faq(): array
 {
-    $ps = price('standard'); $pp = price('premium');
+    $pp = price('premium'); $pb4u = number_format((int)setting('price_built'));
+    $wa = normalize_phone(setting('support_phone'));
     return [
-        ['Is TheWedLink really free?', "Yes. The Basic plan is free for 3 months: make a wedding website with the Classic or Blush design, a cover photo and up to 2 events, then share the link on WhatsApp. Pay only if you want more designs, photos, RSVPs or a gift list (Standard ₹$ps or Premium ₹$pp, one time)."],
-        ['What is a wedding website?', 'A wedding website is a single link that replaces the printed card. Guests open it from WhatsApp and see your invitation, every event with Google Maps directions, a countdown, RSVP, gift list and photos.'],
-        ['Do guests need to install anything?', 'No. The invite is a web page. It opens in WhatsApp, Instagram or any browser on any phone.'],
-        ['Can I change details after I share the link?', 'Yes. You get a private edit link. Change times, venues, photos or wording, and the shared link shows the update straight away.'],
-        ['When do I pay?', 'Only after you have built and previewed your full website. If you don\'t like it, close the page and pay nothing.'],
-        ['How does the gift list work?', 'On Premium, you list gifts you would love. Guests tap one, type their name and reserve it. Others then see it as reserved, and you see who picked what.'],
-        ['Is there a design for our tradition?', 'Yes. There are designs for Hindu, Christian, Muslim and Sikh weddings, Kerala weddings, and modern designs that suit everyone. Every line of text can be changed.'],
-        ['How long does the link work?', 'Free links work for 3 months, Standard for 6 months and Premium for a full year from the day you publish. Upgrading later adds time and never shortens it.'],
-        ['Can I write in Malayalam, Hindi, Tamil or Arabic?', 'Yes. Type in any Indian language or Arabic in any field and the invite shows it in a matching font.'],
-        ['Is the payment safe?', 'Payments go through PayU. Pay by UPI, card or net banking. We never see your card or UPI details.'],
-        ['Can I also make a marriage biodata?', 'Yes. The biodata maker is free: choose your religion, fill in your details and download a PDF or image to share on WhatsApp.'],
+        ['Will older relatives be able to open it?', 'Yes. It opens from WhatsApp like any other link, on any phone. There is no app to install and no login.'],
+        ['What if the link stops working near the wedding?', 'Every site runs on our paid hosting and we keep an eye on it. If anything looks wrong, message us' . ($wa ? ' on WhatsApp at +91 ' . $wa : ' on WhatsApp') . ' and we fix it the same day. If we can\'t, you get your money back, as set out in our refund terms.'],
+        ['How long does it stay live?', 'Free sites stay live for 1 month. One Link Wedding and Built for you stay live for 1 year from the day you publish.'],
+        ['Can I change times or venues after sending?', 'Yes. Edit it from your private link and every guest sees the update on the same link. No corrected cards.'],
+        ['Is my payment and my family\'s data safe?', 'Payments go through PayU, so we never see your card or UPI details. Your site is only seen by people you send the link to, and it is hidden from Google. Our privacy policy has the details.'],
+        ['Can you build it for me?', "Yes. With Built for you (₹$pb4u, fixed), send us your details and photos on WhatsApp and we set up the whole site for you to check."],
+        ['Is it really free?', "Yes. The Free plan covers one function for 1 month, with maps and a countdown. One Link Wedding (₹$pp, one time) adds every function, RSVP, photos, a video and all designs."],
+        ['Do I still need printed cards?', 'Many families print a few cards for the elders. Send the link to everyone, so every guest gets maps, updates and RSVP.'],
     ];
 }
 

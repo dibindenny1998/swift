@@ -6,14 +6,15 @@ $biz = e(setting('business_name'));
 $email = e(setting('support_email'));
 $phone = e(setting('support_phone'));
 $addr = e(setting('address'));
-$ps = price('standard'); $pp = price('premium');
+$ps = price('standard'); $pp = price('premium'); $pb4u = number_format((int)setting('price_built'));
 $contactLine = trim(($email ? "Email: <a href=\"mailto:$email\">$email</a>" : '') . ($email && $phone ? '<br>' : '') . ($phone ? "Phone and WhatsApp: <a href=\"https://wa.me/91" . e(normalize_phone(setting('support_phone'))) . "\">$phone</a>" : ''));
+if ($contactLine === '') $contactLine = 'Send us a message through <a href="/custom">this form</a> and we will get back to you.';
 $pages = [
   'contact' => ['Contact us', "<p>We're happy to help with your invite, payments or refunds.</p><h2>Reach us</h2><p>$contactLine</p><h2>Business</h2><p>$biz<br>$addr</p><p>We reply within one working day, usually much sooner.</p>"],
   'terms' => ['Terms of service', "<p>These terms apply when you use $brand, operated by $biz.</p>
-    <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. Publishing costs ₹$ps (Basic) or ₹$pp (Premium), paid once.</p>
+    <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. You can publish free, or pay once for One Link Wedding (₹$pp) or Built for you (₹$pb4u, where we set it up for you).</p>
     <h2>Your content</h2><p>You are responsible for the names, text, photos and music you add. Only upload content you have the right to use. We may remove invites with unlawful or abusive content.</p>
-    <h2>Availability</h2><p>Published invites stay online for 3 months on the free Basic plan, 6 months on Standard and 12 months on Premium, counted from the day you publish. Upgrading extends the time. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
+    <h2>Availability</h2><p>Published invites stay online for 1 month on the Free plan and 12 months on One Link Wedding and Built for you, counted from the day you publish. Invites bought on the earlier Standard plan keep their 6 months. Upgrading extends the time. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
     <h2>Payments</h2><p>Payments are processed by PayU. Prices are in Indian rupees and include all charges shown at checkout.</p>
     <h2>Liability</h2><p>We work to keep invites online and correct, but we are not liable for indirect losses arising from downtime or errors in details you entered.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
@@ -24,7 +25,7 @@ $pages = [
     <h2>Retention and deletion</h2><p>Invites and their photos are kept while the invite is live and for up to 30 days after. Ask us any time and we'll delete your invite and data.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
   'refund' => ['Refund and cancellation policy', "<p>You can see your complete invite before paying, so please check it carefully first.</p>
-    <h2>When we refund</h2><ul><li>You were charged more than once for the same invite.</li><li>You paid but your invite did not go live and we could not fix it within 24 hours.</li><li>You ask within 24 hours of payment and have not shared the link yet.</li></ul>
+    <h2>When we refund</h2><ul><li>You were charged more than once for the same invite.</li><li>You paid but your invite did not go live and we could not fix it within 24 hours.</li><li>You ask within 24 hours of payment and have not shared the link yet.</li><li>Your paid link stops working before your wedding and we cannot fix it within 24 hours of you telling us.</li></ul>
     <h2>How refunds work</h2><p>Contact us with the phone number you used. Approved refunds go back to your original payment method within 5 to 7 working days.</p>
     <h2>Cancellation</h2><p>There is no subscription to cancel. Payment is one time.</p>
     <h2>Contact</h2><p>$contactLine</p>"],

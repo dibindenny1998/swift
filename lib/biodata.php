@@ -265,7 +265,7 @@ function bio_faq(): array
 {
     $pb = price('biodata');
     return [
-        ['Is the biodata maker free?', "Yes. Making and downloading your biodata is free. The free version has a small red \"Created by " . setting('brand') . "\" strip at the bottom. Pay ₹$pb once if you want a clean copy without it."],
+        ['Is the biodata maker free?', 'Yes. Making and downloading your biodata is completely free, with no watermark. Edit and download it again as often as you like.'],
         ['What format is the biodata downloaded in?', 'You can download an A4 PDF to print or share, and a JPG image that is easy to send on WhatsApp.'],
         ['Can I make a biodata in Malayalam, Hindi or Tamil?', 'Yes. Type in any Indian language and the biodata uses a matching font.'],
         ['Can I add a photo?', 'Yes. Add a clear, recent photo and it appears at the top of the biodata.'],

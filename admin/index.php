@@ -76,14 +76,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($act === 'settings') {
         foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
-        foreach (['price_standard', 'price_premium', 'price_biodata'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
+        foreach (['price_premium', 'price_built', 'founding_price'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
+        foreach (['founding_total', 'founding_taken'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, (int)$_POST[$k]));
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['founding_until'] ?? ''))) set_setting('founding_until', $_POST['founding_until'] . ' 23:59:59');
         set_setting('offer_on', !empty($_POST['offer_on']) ? '1' : '0');
         if (($op = (int)($_POST['offer_premium'] ?? 0)) >= 1) set_setting('offer_premium', (string)$op);
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['offer_until'] ?? ''))) set_setting('offer_until', $_POST['offer_until'] . ' 23:59:59');
         set_setting('google_client_id', mb_substr(trim((string)($_POST['google_client_id'] ?? '')), 0, 200));
         set_setting('mail_from', mb_substr(trim((string)($_POST['mail_from'] ?? '')), 0, 120));
         foreach (['ref_friend_off', 'ref_reward'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, min(1000, (int)$_POST[$k])));
-        set_setting('custom_from', mb_substr(trim((string)($_POST['custom_from'] ?? '')), 0, 30));
         $pk = trim((string)($_POST['payu_key'] ?? ''));
         if ($pk !== '') set_setting('payu_key', $pk);
         set_setting('payu_mode', ($_POST['payu_mode'] ?? '') === 'live' ? 'live' : 'test');
@@ -450,12 +451,17 @@ site_head('Admin | ' . setting('brand'));
     <div class="card" style="margin-top:18px">
       <h2>Prices</h2>
       <div class="grid2">
-        <div class="field"><label for="pr1">Standard (₹)</label><input id="pr1" name="price_standard" type="number" min="1" value="<?= e(setting('price_standard')) ?>"></div>
-        <div class="field"><label for="pr2">Premium (₹)</label><input id="pr2" name="price_premium" type="number" min="1" value="<?= e(setting('price_premium')) ?>"></div>
-        <div class="field"><label for="pr3">Biodata clean copy, no strip (₹)</label><input id="pr3" name="price_biodata" type="number" min="1" value="<?= e(setting('price_biodata')) ?>"></div>
-        <div class="field"><label for="pr4">Custom plan "from" price (optional)</label><input id="pr4" name="custom_from" maxlength="30" placeholder="₹2,999" value="<?= e(setting('custom_from')) ?>"><small>Leave empty to show "Made for you" instead of a price.</small></div>
+        <div class="field"><label for="pr2">One Link Wedding (₹)</label><input id="pr2" name="price_premium" type="number" min="1" value="<?= e(setting('price_premium')) ?>"><small>Test ₹699 against ₹999.</small></div>
+        <div class="field"><label for="pr5">Built for you (₹, fixed)</label><input id="pr5" name="price_built" type="number" min="1" value="<?= e(setting('price_built')) ?>"></div>
       </div>
-      <p class="note" style="margin-top:6px">The Basic plan is always free.</p>
+      <p class="note" style="margin-top:6px">The Free plan is always free, and so is the biodata.</p>
+      <h2 style="margin-top:22px">Founding couples offer</h2>
+      <div class="grid2">
+        <div class="field"><label for="fo1">Founding price (₹)</label><input id="fo1" name="founding_price" type="number" min="1" value="<?= e(setting('founding_price')) ?>"></div>
+        <div class="field"><label for="fo2">Total spots</label><input id="fo2" name="founding_total" type="number" min="0" value="<?= e(setting('founding_total')) ?>"></div>
+        <div class="field"><label for="fo3">Spots taken so far</label><input id="fo3" name="founding_taken" type="number" min="0" value="<?= e(setting('founding_taken')) ?>"><small>Update this every time a founding couple pays, so "spots left" stays true. The offer hides itself when spots run out.</small></div>
+        <div class="field"><label for="fo4">Offer ends</label><input id="fo4" name="founding_until" type="date" value="<?= e(date('Y-m-d', strtotime(setting('founding_until')))) ?>"></div>
+      </div>
       <h2 style="margin-top:22px">Customer sign-in</h2>
       <div class="grid2">
         <div class="field"><label for="gc1">Google sign-in Client ID (optional)</label><input id="gc1" name="google_client_id" maxlength="200" placeholder="1234-abc.apps.googleusercontent.com" value="<?= e(setting('google_client_id')) ?>">

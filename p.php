@@ -38,16 +38,15 @@ $upgradeDiff = max(0, $pp - $ps);
 $theme = $inv['theme'];
 $themeName = THEMES[$theme]['name'] ?? $theme;
 $planOpts = [
-    'premium' => ['Live for 1 year. 15-photo gallery, a video, RSVPs, gift list, your song, 6 events, all designs, no ' . $brand . ' credit', $pp],
-    'standard' => ['Live for 6 months. Up to 3 events, a cover photo and a 5-photo gallery, countdown, maps and calendar', $ps],
-    'free' => ['Live for 3 months. Classic or Blush design, a cover photo, up to 2 events, countdown and maps. Shows a "Crafted by ' . $brand . '" mark', 0],
+    'premium' => ['Live for 1 year. All functions, RSVP and headcount, your story, 15 photos, a video, gift list, music and all designs. No ' . $brand . ' mark', $pp],
+    'free' => ['Live for 1 month. 1 event with maps and countdown, a cover photo, Classic or Blush design. Shows a "Crafted by ' . $brand . '" mark', 0],
 ];
 $defaultPlan = 'premium';
 $gifts = $d['gifts'] ?? [];
 $claims = [];
 foreach (gift_claims((int)$inv['id']) as $c) $claims[$c['gift_id']] = $c;
 $upgrades = [];
-if ($paid) foreach (['standard', 'premium'] as $up) {
+if ($paid) foreach (['premium'] as $up) {
     if (PLAN_RANK[$up] > PLAN_RANK[$inv['plan']]) $upgrades[$up] = upgrade_price($inv, $up);
 }
 
@@ -81,7 +80,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <?php foreach (showcase_themes() as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
         <button type="button" class="ds<?= $id === $theme ? ' on' : '' ?><?= $lock ? ' locked' : '' ?>" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" aria-pressed="<?= $id === $theme ? 'true' : 'false' ?>">
           <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="" width="232" height="480" loading="lazy"><span><?= e($t['name']) ?></span>
-          <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
+          <?php if ($t['tier'] === 'free'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
         </button>
       <?php endforeach; ?>
     </div>
@@ -138,7 +137,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <?php foreach (showcase_themes() as $id => $t): $lock = $paid && !theme_allowed($id, $inv['plan']); ?>
         <button type="button" class="ds<?= $id === $theme ? ' on' : '' ?><?= $lock ? ' locked' : '' ?>" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" aria-pressed="<?= $id === $theme ? 'true' : 'false' ?>">
           <img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="" width="232" height="480" loading="lazy"><span><?= e($t['name']) ?></span>
-          <?php if ($t['tier'] !== 'standard'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
+          <?php if ($t['tier'] === 'free'): ?><em class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></em><?php endif; ?>
         </button>
       <?php endforeach; ?>
     </div>
@@ -149,10 +148,10 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <h2>Get more from your website</h2>
       <p class="lead">You are on <?= PLAN_NAMES[$inv['plan']] ?>. Upgrade any time. Your link stays the same.</p>
       <div class="nav-btns" style="margin-top:18px">
-        <?php if (isset($upgrades['premium'])): ?><button type="button" class="btn pay-btn js-up" data-plan="premium">Premium for ₹<?= $upgrades['premium'] ?></button><?php endif; ?>
-        <?php if (isset($upgrades['standard'])): ?><button type="button" class="btn alt js-up" data-plan="standard">Standard for ₹<?= $upgrades['standard'] ?></button><?php endif; ?>
+        <?php if (isset($upgrades['premium'])): ?><button type="button" class="btn pay-btn js-up" data-plan="premium">One Link Wedding for ₹<?= $upgrades['premium'] ?></button><?php endif; ?>
+
       </div>
-      <p class="note" style="margin-top:14px">Premium adds RSVPs, a gift list, a 15-photo gallery, music, 6 events and all designs.</p>
+      <p class="note" style="margin-top:14px">One Link Wedding adds every function, RSVP and headcount, 15 photos, a video, a gift list, music and all designs.</p>
       <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
     <?php endif; ?>
     <?php if ($inv['plan'] === 'premium'): ?>
@@ -200,11 +199,10 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <li><?= $tick ?>Your photos and a gallery guests can save</li>
     <li><?= $tick ?>RSVPs with a guest count</li>
     <li><?= $tick ?>A gift list, music and your video</li>
-    <li><?= $tick ?>All Premium designs, no <?= e($brand) ?> mark</li>
+    <li><?= $tick ?>Every function, all designs, no <?= e($brand) ?> mark</li>
     <li><?= $tick ?>Live for a whole year</li>
   </ul>
-  <?php if ($upP !== null): ?><button type="button" class="btn js-up" data-plan="premium" style="width:100%">Go Premium for ₹<?= $upP ?></button><?php endif; ?>
-  <?php if ($upS !== null): ?><button type="button" class="btn alt js-up" data-plan="standard" style="width:100%;margin-top:10px">Standard for ₹<?= $upS ?> <small>(5-photo gallery, 3 events)</small></button><?php endif; ?>
+  <?php if ($upP !== null): ?><button type="button" class="btn js-up" data-plan="premium" style="width:100%">Get One Link Wedding for ₹<?= $upP ?></button><?php endif; ?>
   <button type="button" class="linkbtn up-later" id="up-later">Maybe later</button>
 </div></div>
 <?php endif; ?>

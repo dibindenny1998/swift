@@ -82,12 +82,12 @@ function showcase_themes(): array
 
 const CATEGORIES = ['hindu' => 'Hindu', 'christian' => 'Christian', 'muslim' => 'Muslim', 'sikh' => 'Sikh', 'kerala' => 'Kerala', 'modern' => 'Modern'];
 
-const PLAN_NAMES = ['free' => 'Basic', 'standard' => 'Standard', 'premium' => 'Premium'];
+const PLAN_NAMES = ['free' => 'Free', 'standard' => 'Standard', 'premium' => 'One Link Wedding'];
 const PLAN_RANK = ['free' => 0, 'standard' => 1, 'premium' => 2];
-const TIER_NAMES = ['free' => 'Free', 'standard' => 'Standard', 'premium' => 'Premium'];
+const TIER_NAMES = ['free' => 'Free', 'standard' => 'One Link Wedding', 'premium' => 'One Link Wedding'];
 
 const PLAN_LIMITS = [
-    'free'     => ['events' => 2, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
+    'free'     => ['events' => 1, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
     'standard' => ['events' => 3, 'photos' => 5,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
     'premium'  => ['events' => 6, 'photos' => 15, 'rsvp' => true,  'music' => true,  'gifts' => true,  'video' => true,  'badge' => false],
 ];
@@ -95,12 +95,12 @@ const PLAN_LIMITS = [
 const MAX_GIFTS = 40;
 
 /** How long a published invite stays live, in months. */
-const PLAN_MONTHS = ['free' => 3, 'standard' => 6, 'premium' => 12];
+const PLAN_MONTHS = ['free' => 1, 'standard' => 6, 'premium' => 12];
 
 function plan_term(string $plan): string
 {
     $m = PLAN_MONTHS[$plan] ?? 12;
-    return $m === 12 ? '1 year' : $m . ' months';
+    return $m === 12 ? '1 year' : ($m === 1 ? '1 month' : $m . ' months');
 }
 
 /** End date for a plan bought or upgraded now; an upgrade never shortens the time left. */
@@ -247,6 +247,10 @@ function db(): PDO
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_prices_v2'")->fetchColumn()) {
         $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_standard', '199'), ('price_premium', '499'), ('mig_prices_v2', '1')");
     }
+    // v6 (Nov 2026 review): three plans, One Link Wedding ₹999, no strikethrough offer, free biodata
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_plans_v6'")->fetchColumn()) {
+        $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_premium', '999'), ('offer_on', '0'), ('mig_plans_v6', '1')");
+    }
     return $pdo;
 }
 
@@ -268,7 +272,12 @@ const SETTING_DEFAULTS = [
     'ref_friend_off'  => '50',
     'google_client_id' => '',
     'mail_from'       => '',
-    'offer_on'        => '1',
+    'offer_on'        => '0',
+    'price_built'     => '1999',
+    'founding_price'  => '999',
+    'founding_total'  => '25',
+    'founding_taken'  => '0',
+    'founding_until'  => '2027-01-31 23:59:59',
     'offer_premium'   => '299',
     'offer_until'     => '2026-12-31 23:59:59',
     'ref_reward'      => '100',
@@ -690,7 +699,7 @@ function site_header(string $active = ''): void
         'designs' => ['/designs', 'Designs'],
         'pricing' => ['/pricing', 'Pricing'],
         'biodata' => ['/biodata', 'Biodata'],
-        'custom'  => ['/custom', 'Custom website'],
+        'custom'  => ['/custom', 'Built for you'],
         'blog'    => ['/blog', 'Blog'],
         'contact' => ['/legal.php?p=contact', 'Contact'],
     ];
@@ -714,7 +723,7 @@ function site_header(string $active = ''): void
 }
 
 /** The single bottom action bar on phones. */
-function sticky_cta(string $href = '/create', string $label = 'Make our website', string $note = 'Free plan, no card needed'): string
+function sticky_cta(string $href = '/create', string $label = 'Make our wedding link, free', string $note = 'Free · No card needed'): string
 {
     $cls = $href === '/create' ? 'btn js-make' : 'btn';
     return '<div class="sticky-cta"><a class="' . $cls . '" href="' . e($href) . '">' . e($label) . '</a><small>' . e($note) . '</small></div>';
@@ -726,11 +735,13 @@ function site_footer(): void
     $wa = normalize_phone(setting('support_phone'));
     echo '<footer class="foot"><div class="wrap foot-in">'
         . '<a class="logo" href="/">' . $brand . '</a>'
-        . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Custom website</a><a href="/blog">Blog</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
+        . '<nav class="foot-links"><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/biodata">Free biodata</a><a href="/custom">Built for you</a><a href="/blog">Blog</a><a href="/legal.php?p=contact">Contact</a><a href="/legal.php?p=terms">Terms</a>'
         . '<a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a>' : '')
         . '</nav><nav class="foot-links foot-sub" aria-label="Biodata formats"><span>Free biodata:</span><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav><p class="foot-note">&copy; ' . date('Y') . ' ' . e(setting('business_name')) . '. Payments secured by PayU.</p>'
+        . '<p class="foot-biz">' . e(setting('business_name')) . ' · ' . e(setting('address')) . ($wa ? ' · <a href="tel:+91' . e($wa) . '">+91 ' . e($wa) . '</a>' : '') . (setting('support_email') ? ' · <a href="mailto:' . e(setting('support_email')) . '">' . e(setting('support_email')) . '</a>' : '') . '</p>'
         . '</div></footer>'
+        . ($wa ? '<a class="wa-float" href="https://wa.me/91' . e($wa) . '?text=' . rawurlencode('Hi! I have a question about ' . setting('brand') . '.') . '" target="_blank" rel="noopener" aria-label="Questions? WhatsApp us"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 00-11.2 19.6L3 29l6.6-1.7A13 13 0 1016 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1116 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 01-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.6 3.6 0 00-1.1 2.7 6.3 6.3 0 001.3 3.3 14.4 14.4 0 005.5 4.9c2 .9 2.8.9 3.8.8a3.3 3.3 0 002.2-1.5 2.7 2.7 0 00.2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg><span>Questions? WhatsApp us</span></a>' : '')
         // gentle scroll animations on the public pages
         . '<script>(function(){if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;'
         . 'var els=document.querySelectorAll(".sec-head,.gd,.plan,.quick>div,.steps li,.bio-band,.price-strip,.feat>div,.faq details,.cat,.guide-grid>*,.custom-grid>*");'

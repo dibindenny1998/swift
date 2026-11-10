@@ -29,12 +29,12 @@ $ogSlot = slot_url('og');
 $nThemes = count(THEMES);
 $pb = price('biodata');
 $customFrom = trim(setting('custom_from'));
-site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
-    "Your wedding invitation as one beautiful link. Make yours in 5 minutes.",
-    '/assets/og/home.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(),
+site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
+    "One link. Every guest knows where to go, and you know who's coming. Make yours free in 5 minutes.",
+    '/assets/og/home.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(), ld_faq(site_faq()),
         ld_app($brand . ' wedding website maker', 'Make a free wedding invitation website to share on WhatsApp, with events, maps, countdown, RSVP, gift list and photos.', '/',
             ['Free wedding website', 'Wedding invitation for WhatsApp', 'Google Maps directions for every event', 'Countdown', 'RSVP and guest list', 'Gift list', 'Photo gallery and music', 'Hindu, Christian, Muslim, Sikh and Kerala designs'],
-            [['Basic (free)', 0], ['Standard', $ps], ['Premium', $pp]])]]);
+            [['Free', 0], ['One Link Wedding', $pp], ['Built for you', (int)setting('price_built')]])]]);
 ?>
 <body>
 <div class="resume" id="resume" hidden><div class="wrap"><span>Your invite is saved.</span><a id="resume-link" href="#">Continue where you left off</a></div></div>
@@ -45,16 +45,16 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
     <?= slot_img('hero', '', '', false) ?>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1 class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg><span>Wedding website &amp; <b>biodata maker</b></span></h1>
+        <h1 class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg><span>One link for <b>every wedding guest</b></span></h1>
         <div class="hero-title">
           <span class="pre">A wedding website for</span>
           <span class="names" id="names"><label class="sr" for="n1">First name</label><span class="name-box hint"><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><span class="name-box"><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span></span>
         </div>
         <p class="hero-hint">Tap the names and make it yours.</p>
-        <p class="hero-lead">Send one link on WhatsApp instead of a printed card. Your invitation, venues, countdown and RSVP in one beautiful page.</p>
+        <p class="hero-lead"><b>One link. Every guest knows where to go, and you know who's coming.</b> Maps to every venue, your story and photos, RSVP, and changes that reach everyone at once. Send it on WhatsApp.</p>
         <div class="hero-cta">
-          <a class="btn js-make" href="/create">Make our wedding website</a>
-          <small>Free plan available. Paid from ₹<?= $ps ?>, one time.</small>
+          <a class="btn js-make" href="/create">Make our wedding link, free</a>
+          <small>Your card for the elders. Your link for everyone.</small>
         </div>
         <ul class="ticks">
           <li><?= $tick ?>Free plan, no card needed</li>
@@ -69,10 +69,10 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
         </div>
         <div class="hero-cta-m">
-          <a class="btn js-make" href="/create">Make our website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <small>Free plan · No card needed</small>
+          <a class="btn js-make" href="/create">Make our wedding link, free <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <small>Your card for the elders. Your link for everyone.</small>
         </div>
-        <div class="url-pill-wrap"><span class="url-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><?php $host = preg_replace('#^https?://#', '', base_url()); ?><span><?= strlen($host) > 24 ? '…' : e($host) ?>/i/<b id="url-names">arjun-meera</b></span></span></div>
+        <div class="url-pill-wrap"><a class="sample-btn" href="/sample" target="_blank" rel="noopener">See a live wedding site →</a></div>
         <?php $heroPick = ['champagne', 'mono', 'marigold', 'kasavu', 'noor', 'lumiere']; ?>
         <div class="style-pills" role="group" aria-label="Try a design">
           <?php foreach ($heroPick as $id): ?>
@@ -85,18 +85,19 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
     </div>
   </section>
 
-<?php sec_designs(6); ?>
-
-  <section class="sec">
+  <section class="sec feat-band">
     <div class="wrap">
       <div class="quick">
-        <div><b>Maps to every venue</b><span>One tap opens Google Maps</span></div>
-        <div><b>Live countdown</b><span>Right under your names</span></div>
-        <div><b>RSVP and gift list</b><span>Know who is coming and what they bring</span></div>
-        <div><b>Edit any time</b><span>The same link updates for everyone</span></div>
+        <div><b>RSVP headcount</b><span>Know who's coming, for each function</span></div>
+        <div><b>Maps to every venue</b><span>One tap, no "where is the hall?" calls</span></div>
+        <div><b>Change once, everyone sees it</b><span>No corrected cards</span></div>
+        <div><b>Your story and photos</b><span>Something a card can't hold</span></div>
       </div>
     </div>
   </section>
+
+<?php sec_designs(6); ?>
+
 
   <section class="sec band">
     <div class="wrap">
@@ -114,27 +115,23 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
       <div class="sec-head"><h2>Simple plans, paid once</h2><p>Build and preview free. Pay only when you want more.</p></div>
       <div class="mini-plans" id="mini-plans">
         <a class="mp" href="/create?t=classic">
-          <span class="mp-name">Basic</span><b class="mp-price">Free</b>
-          <ul><li>2 free designs</li><li>Up to 2 events with maps</li><li>One cover photo</li><li>Live for 3 months</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
+          <span class="mp-name">Free</span><b class="mp-price">₹0</b>
+          <ul><li>1 event with maps</li><li>2 designs, a cover photo</li><li>Live for 1 month</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
-        <a class="mp" href="/create" data-start>
-          <span class="mp-name">Standard</span><b class="mp-price">₹<?= $ps ?></b>
-          <ul><li><?= count(themes_by_tier('standard')) ?> Standard designs</li><li>Cover + 5-photo gallery</li><li>3 events, live 6 months</li><li class="no">No video, RSVP or gift list</li></ul>
-          <span class="mp-go">Choose Standard</span>
-        </a>
-        <a class="mp pop" href="/create">
-          <span class="mp-badge">Most Popular</span>
-          <span class="mp-name">Premium</span><b class="mp-price"><?= premium_price_html($pp) ?></b><?= offer_active() ? '<span class="mp-offer">Launch offer till ' . date('j M', offer_end()) . '</span>' : '' ?>
-          <ul><li><?= count(themes_by_tier('premium')) ?> Premium designs, animated</li><li>15-photo gallery and a video</li><li>RSVP and gift list</li><li>Live for 1 year</li></ul>
-          <span class="mp-go">Choose Premium</span>
+        <a class="mp pop" href="/create" data-start>
+          <span class="mp-name">One Link Wedding</span><b class="mp-price">₹<?= $pp ?></b>
+          <ul><li>All functions, RSVP and headcount</li><li>Story, 15 photos and a video</li><li>All designs, gift list, music</li><li>Live for 1 year</li></ul>
+          <span class="mp-go">Choose One Link Wedding</span>
         </a>
         <a class="mp" href="/custom">
-          <span class="mp-name">Custom</span><b class="mp-price"><?= $customFrom ? e($customFrom) : 'On request' ?></b>
-          <ul><li>Designed only for you</li><li>Your own domain</li><li>Unlimited gallery</li><li>We build it for you</li></ul>
-          <span class="mp-go">Ask for a quote</span>
+          <span class="mp-name">Built for you</span><b class="mp-price">₹<?= number_format((int)setting('price_built')) ?></b>
+          <ul><li>Everything in One Link Wedding</li><li>We fill it in from your WhatsApp message</li><li>You check it and ask for changes</li><li>Fixed price</li></ul>
+          <span class="mp-go">Send us your details</span>
         </a>
       </div>
+<?php $fo = founding(); if ($fo['on']): ?>      <div class="founding"><p><b>Founding couples:</b> the first <?= $fo['total'] ?> couples get Built for you for <b>₹<?= number_format($fo['price']) ?></b> instead of ₹<?= number_format((int)setting('price_built')) ?>, if they let us show their site as an example (names hidden on request).</p><p class="founding-meta"><b><?= $fo['left'] ?> of <?= $fo['total'] ?> spots left</b> · Ends <?= date('j M Y', $fo['end']) ?> · <a href="/custom?founding=1">Claim a founding spot →</a></p></div>
+<?php endif; ?>
       <p class="mini-note">One-time prices. No subscription. <a href="/pricing">Compare every feature →</a></p>
     </div>
   </section>
@@ -151,7 +148,7 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
             <li><b>Minimal designs.</b> 4 styles in 6 soft colours, an optional photo, and a blessing line or symbol only if you want it.</li>
             <li><b>Any language.</b> Write in English, Malayalam, Hindi, Tamil, Kannada, Telugu or Punjabi.</li>
             <li><b>PDF or image.</b> Download an A4 PDF to print or a picture to send on WhatsApp. Edit and download again any time.</li>
-            <li><b>Free, or ₹<?= $pb ?> for a clean copy.</b> The free version has a small red "Created by <?= e($brand) ?>" strip at the bottom.</li>
+            <li><b>Completely free.</b> No watermark, no payment, download as often as you like.</li>
           </ul>
           <div class="bio-cta"><a class="btn" href="/biodata">Make my biodata</a><span>Formats: <a href="/biodata/hindu">Hindu</a> · <a href="/biodata/muslim">Muslim</a> · <a href="/biodata/christian">Christian</a> · <a href="/biodata/sikh">Sikh</a> · <a href="/biodata/kerala">Kerala</a></span></div>
         </div>
@@ -160,12 +157,14 @@ site_head('Premium Wedding Website Designs & Biodata Maker | ' . $brand,
     </div>
   </section>
 
+<?php sec_faq(); ?>
+
   <section class="final">
     <?= slot_img('cta') ?>
     <div class="wrap">
       <h2>Your guests are waiting for the date.</h2>
       <p>Make your wedding website now. It takes about five minutes, and you can publish it free.</p>
-      <a class="btn js-make" href="/create">Make our wedding website</a>
+      <a class="btn js-make" href="/create">Make our wedding link, free</a>
     </div>
   </section>
 </main>

@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/lib/bootstrap.php';
 $brand = setting('brand');
-site_head("Pricing: Free Wedding Website, ₹" . price('standard') . " and ₹" . price('premium') . " Plans | $brand", 'Make a wedding website free. Standard ₹' . price('standard') . ' or Premium ₹' . price('premium') . ' one time, with RSVP, gift list and photos. Custom websites with your own domain on request.',
+site_head("Pricing: Free Wedding Link, One Link Wedding ₹" . price('premium') . " | $brand", 'Make a wedding link free. One Link Wedding ₹' . price('premium') . ' one time, with every function, RSVP, photos and video. Or Built for you, where we set it up for you.',
     '/assets/og/site.jpg', '', ['path' => '/pricing', 'jsonld' => [ld_faq(site_faq()), ld_breadcrumb([['Home', '/'], ['Pricing', '/pricing']])]]);
 ?>
 <body>
