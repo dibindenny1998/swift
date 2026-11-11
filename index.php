@@ -29,8 +29,8 @@ $ogSlot = slot_url('og');
 $nThemes = count(THEMES);
 $pb = price('biodata');
 $customFrom = trim(setting('custom_from'));
-site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
-    "One link. Every guest knows where to go, and you know who's coming. Make yours free in 5 minutes.",
+site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
+    "Create your own wedding website in 5 minutes. Pick a design, add your details and share one link with every guest on WhatsApp. Free to start.",
     '/assets/og/home.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(), ld_faq(site_faq()),
         ld_app($brand . ' wedding website maker', 'Make a free wedding invitation website to share on WhatsApp, with events, maps, countdown, RSVP, gift list and photos.', '/',
             ['Free wedding website', 'Wedding invitation for WhatsApp', 'Google Maps directions for every event', 'Countdown', 'RSVP and guest list', 'Gift list', 'Photo gallery and music', 'Hindu, Christian, Muslim, Sikh and Kerala designs'],
@@ -45,13 +45,14 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
     <?= slot_img('hero', '', '', false) ?>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1 class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg><span>One link for <b>every wedding guest</b></span></h1>
+        <p class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg><span>Wedding website maker</span></p>
+        <h1 class="hero-h1">Create your own <em>wedding website</em></h1>
+        <p class="hero-sub">Pick a design, add your wedding details and share one link with every guest on WhatsApp. Ready in 5 minutes.</p>
         <div class="hero-title">
-          <span class="pre">A wedding website for</span>
+          <span class="pre">Try it with your names</span>
           <span class="names" id="names"><label class="sr" for="n1">First name</label><span class="name-box hint"><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><span class="name-box"><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span></span>
         </div>
-        <p class="hero-hint">Tap the names and make it yours.</p>
-        <p class="hero-lead"><b>One link. Every guest knows where to go, and you know who's coming.</b> Maps to every venue, your story and photos, RSVP, and changes that reach everyone at once. Send it on WhatsApp.</p>
+        <p class="hero-hint">Type your names and watch the preview change.</p>
         <div class="hero-cta">
           <a class="btn js-make" href="/create">Create our wedding website</a>
           <small>Your card for the elders. Your link for everyone.</small>
