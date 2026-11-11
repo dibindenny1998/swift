@@ -676,6 +676,7 @@ function ld_org(): array
 {
     $o = ['@context' => 'https://schema.org', '@type' => 'Organization', 'name' => setting('brand'), 'url' => base_url() . '/',
         'logo' => base_url() . '/assets/img/favicon.svg', 'areaServed' => 'IN'];
+    if (trim(setting('business_name')) !== '') $o['legalName'] = setting('business_name');
     if (setting('support_email')) $o['email'] = setting('support_email');
     if ($ph = normalize_phone(setting('support_phone'))) $o['telephone'] = '+91' . $ph;
     return $o;
@@ -769,9 +770,9 @@ function site_footer(): void
         . '<nav class="ft-col" aria-label="Help"><h3>Help</h3><a href="/legal.php?p=contact">Contact</a>'
         . ($wa ? '<a href="https://wa.me/91' . e($wa) . '" rel="noopener">WhatsApp us</a><a href="tel:+91' . e($wa) . '">+91 ' . e($wa) . '</a>' : '')
         . ($mail ? '<a href="mailto:' . $mail . '">' . $mail . '</a>' : '')
-        . '<a href="/legal.php?p=terms">Terms</a><a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a></nav>'
+        . '<a href="/legal.php?p=terms">Terms</a><a href="/legal.php?p=privacy">Privacy</a><a href="/legal.php?p=refund">Refunds</a><a href="/legal.php?p=delivery">Service delivery</a></nav>'
         . '</div>'
-        . '<div class="ft-bottom"><p>&copy; ' . date('Y') . ' ' . $biz . ' · ' . e(setting('address')) . '</p><p>Payments secured by PayU</p></div>'
+        . '<div class="ft-bottom"><p>&copy; ' . date('Y') . ' ' . $brand . ($biz !== '' && strcasecmp($biz, $brand) !== 0 ? ', owned and operated by ' . $biz : '') . ' · ' . e(setting('address')) . '</p><p>Payments secured by PayU</p></div>'
         . '</div></footer>'
         . ($wa ? '<a class="wa-float" href="https://wa.me/91' . e($wa) . '?text=' . rawurlencode('Hi! I have a question about ' . setting('brand') . '.') . '" target="_blank" rel="noopener" aria-label="Questions? WhatsApp us"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 00-11.2 19.6L3 29l6.6-1.7A13 13 0 1016 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1116 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 01-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.6 3.6 0 00-1.1 2.7 6.3 6.3 0 001.3 3.3 14.4 14.4 0 005.5 4.9c2 .9 2.8.9 3.8.8a3.3 3.3 0 002.2-1.5 2.7 2.7 0 00.2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg><span>Questions? WhatsApp us</span></a>' : '')
         // gentle scroll animations on the public pages

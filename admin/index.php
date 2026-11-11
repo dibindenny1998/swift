@@ -513,7 +513,7 @@ site_head('Admin | ' . setting('brand'));
         <div class="field"><label for="b1">Brand name</label><input id="b1" name="brand" value="<?= e(setting('brand')) ?>"></div>
         <div class="field"><label for="b6">Site domain</label><input id="b6" name="site_domain" value="<?= e(setting('site_domain')) ?>" placeholder="thewedlink.in"><small>Shown in the "Crafted by" mark on free invites.</small></div>
         <div class="field"><label for="b7">Demo video (YouTube, Vimeo or Drive link)</label><input id="b7" name="demo_video" value="<?= e(setting('demo_video')) ?>" placeholder="https://youtu.be/…"><small>Plays in the design previews on the home and Designs pages.</small></div>
-        <div class="field"><label for="b2">Legal business name</label><input id="b2" name="business_name" value="<?= e(setting('business_name')) ?>"></div>
+        <div class="field"><label for="b2">Legal business name (exactly as on your PAN)</label><input id="b2" name="business_name" value="<?= e(setting('business_name')) ?>"></div>
         <div class="field"><label for="b3">Support WhatsApp number</label><input id="b3" name="support_phone" inputmode="tel" value="<?= e(setting('support_phone')) ?>"></div>
         <div class="field"><label for="b4">Support email</label><input id="b4" name="support_email" type="email" value="<?= e(setting('support_email')) ?>"></div>
       </div>

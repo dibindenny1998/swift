@@ -6,28 +6,34 @@ $biz = e(setting('business_name'));
 $email = e(setting('support_email'));
 $phone = e(setting('support_phone'));
 $addr = e(setting('address'));
+$ownLine = ($biz !== '' && strcasecmp(trim(setting('business_name')), trim(setting('brand'))) !== 0) ? "$brand is a brand owned and operated by <b>$biz</b>." : '';
+$domain = e(setting('site_domain') ?: 'thewedlink.in');
 $ps = price('standard'); $pp = price('premium'); $pb4u = number_format((int)setting('price_built'));
 $contactLine = trim(($email ? "Email: <a href=\"mailto:$email\">$email</a>" : '') . ($email && $phone ? '<br>' : '') . ($phone ? "Phone and WhatsApp: <a href=\"https://wa.me/91" . e(normalize_phone(setting('support_phone'))) . "\">$phone</a>" : ''));
 if ($contactLine === '') $contactLine = 'Send us a message through <a href="/custom">this form</a> and we will get back to you.';
 $pages = [
-  'contact' => ['Contact us', "<p>We're happy to help with your invite, payments or refunds.</p><h2>Reach us</h2><p>$contactLine</p><h2>Business</h2><p>$biz<br>$addr</p><p>We reply within one working day, usually much sooner.</p>"],
-  'terms' => ['Terms of service', "<p>These terms apply when you use $brand, operated by $biz.</p>
+  'contact' => ['Contact us', "<p>We're happy to help with your invite, payments or refunds.</p><h2>Reach us</h2><p>$contactLine</p><h2>Business details</h2><p>Brand: $brand<br>Legal name: $biz<br>Address: $addr</p><p>$ownLine</p><p>We reply within one working day, usually much sooner.</p>"],
+  'terms' => ['Terms of service', "<p>These terms apply when you use $brand ($domain), a service owned and operated by $biz.</p>
     <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. You can publish free, or pay once for Premium (₹$pp) or Built for you (₹$pb4u, where we set it up for you).</p>
     <h2>Your content</h2><p>You are responsible for the names, text, photos and music you add. Only upload content you have the right to use. We may remove invites with unlawful or abusive content.</p>
     <h2>Availability</h2><p>Published invites stay online for 1 month on the Free plan and 12 months on Premium and Built for you, counted from the day you publish. Invites bought on the earlier Standard plan keep their 6 months. Upgrading extends the time. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
     <h2>Payments</h2><p>Payments are processed by PayU. Prices are in Indian rupees and include all charges shown at checkout.</p>
     <h2>Liability</h2><p>We work to keep invites online and correct, but we are not liable for indirect losses arising from downtime or errors in details you entered.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
-  'privacy' => ['Privacy policy', "<p>This policy explains what $biz collects through $brand and why.</p>
+  'privacy' => ['Privacy policy', "<p>This policy explains what $biz, the owner and operator of $brand, collects through the service and why.</p>
     <h2>What we collect</h2><ul><li>Details you enter for your invite: names, family details, event dates and venues, photos and music.</li><li>Your WhatsApp number and optional email, to save your invite and help you if something goes wrong.</li><li>RSVP replies your guests send, which only you can see.</li><li>Basic visit data and advertising identifiers (Meta Pixel) to measure our ads.</li></ul>
     <h2>How we use it</h2><p>To show your invite, process your payment, support you, and improve our service. We do not sell your data.</p>
     <h2>Payments</h2><p>Card, UPI and bank details go directly to PayU. We never see or store them.</p>
     <h2>Retention and deletion</h2><p>Invites and their photos are kept while the invite is live and for up to 30 days after. Ask us any time and we'll delete your invite and data.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
-  'refund' => ['Refund and cancellation policy', "<p>You can see your complete invite before paying, so please check it carefully first.</p>
+  'refund' => ['Refund and cancellation policy', "<p>This policy applies to purchases on $brand, a service owned and operated by $biz.</p><p>You can see your complete invite before paying, so please check it carefully first.</p>
     <h2>When we refund</h2><ul><li>You were charged more than once for the same invite.</li><li>You paid but your invite did not go live and we could not fix it within 24 hours.</li><li>You ask within 24 hours of payment and have not shared the link yet.</li><li>Your paid link stops working before your wedding and we cannot fix it within 24 hours of you telling us.</li></ul>
     <h2>How refunds work</h2><p>Contact us with the phone number you used. Approved refunds go back to your original payment method within 5 to 7 working days.</p>
     <h2>Cancellation</h2><p>There is no subscription to cancel. Payment is one time.</p>
+    <h2>Contact</h2><p>$contactLine</p>"],
+  'delivery' => ['Service delivery policy', "<p>$brand is a digital service owned and operated by $biz. Nothing is shipped physically.</p>
+    <h2>How you receive the service</h2><ul><li><b>Free and Premium:</b> your wedding website goes live instantly when you publish or when your payment is confirmed. You get your link on screen straight away and can share it at once.</li><li><b>Built for you:</b> we set up your website from the details you send us and share the link with you on WhatsApp, usually within 2 working days.</li><li><b>Biodata:</b> the PDF or image downloads instantly.</li></ul>
+    <h2>If something goes wrong</h2><p>If your payment went through but your website is not live within 24 hours, contact us and we will fix it or refund you as described in our <a href=\"/legal.php?p=refund\">refund policy</a>.</p>
     <h2>Contact</h2><p>$contactLine</p>"],
 ];
 if (!isset($pages[$p])) $p = 'terms';
