@@ -403,21 +403,35 @@
     return '<div class="wl-onkar" aria-hidden="true"><svg viewBox="-50 -50 100 100"><circle r="46" fill="none" stroke="url(#wlFoil)" stroke-width="1.5"/><circle r="40" fill="none" stroke="url(#wlFoil)" stroke-width=".7"/></svg><span>ੴ</span></div>';
   }
   function gopuramSvg() {
-    var s = '', w = 150, y = 210, tiers = 7;
-    s += '<rect x="' + (-w / 2 - 10) + '" y="' + y + '" width="' + (w + 20) + '" height="10" fill="url(#wlFoil)"/>';
+    var F = 'url(#wlFoil)', s = '', w = 156, y = 214, tiers = 6;
+    // plinth and steps
+    s += '<rect x="-96" y="' + y + '" width="192" height="6" rx="1" fill="' + F + '"/><rect x="-88" y="' + (y - 7) + '" width="176" height="7" fill="' + F + '" opacity=".9"/>';
+    y -= 7;
     for (var i = 0; i < tiers; i++) {
-      var tw = w - i * 15, th = 20;
-      y -= th;
-      s += '<path d="M' + (-tw / 2) + ',' + (y + th) + ' L' + (-tw / 2 + 4) + ',' + y + ' L' + (tw / 2 - 4) + ',' + y + ' L' + (tw / 2) + ',' + (y + th) + 'Z" fill="url(#wlFoil)" opacity="' + (1 - i * .03) + '"/>';
-      s += '<rect x="' + (-tw / 2 - 3) + '" y="' + (y - 2.5) + '" width="' + (tw + 6) + '" height="3" fill="url(#wlFoil)"/>';
-      for (var k = -tw / 2 + 10; k < tw / 2 - 6; k += 12) s += '<rect x="' + f1(k) + '" y="' + (y + 5) + '" width="5" height="10" rx="2.5" fill="#5A0F1C" opacity=".55"/>';
+      var tw = w - i * 19, th = 27 - i * 2.4, top = y - th, nx;
+      // tier body, slightly tapered
+      s += '<path d="M' + f1(-tw / 2) + ',' + f1(y) + ' L' + f1(-tw / 2 + 6) + ',' + f1(top) + ' L' + f1(tw / 2 - 6) + ',' + f1(top) + ' L' + f1(tw / 2) + ',' + f1(y) + 'Z" fill="' + F + '" opacity="' + f1(.82 + i * .03) + '"/>';
+      // eave with upturned ends
+      s += '<path d="M' + f1(-tw / 2 - 7) + ',' + f1(y - 1) + ' q3,-5 8,-5 L' + f1(tw / 2 - 1) + ',' + f1(y - 6) + ' q5,0 8,5 Z" fill="' + F + '"/>';
+      // arched niches with a tiny lamp dot
+      var n = Math.max(2, 6 - i), gap = (tw - 22) / n, nh = th * .56;
+      for (var q = 0; q < n; q++) {
+        nx = -tw / 2 + 11 + gap * q + gap / 2;
+        if (i === 0 && Math.abs(nx) < 14) continue;
+        s += '<path d="M' + f1(nx - 4) + ',' + f1(y - 8) + ' v' + f1(-nh + 6) + ' a4,4 0 0 1 8,0 v' + f1(nh - 6) + 'Z" fill="#4A0C18" opacity=".6"/>';
+      }
+      y = top;
     }
-    y -= 20;
-    s += '<path d="M-36,' + (y + 20) + ' Q-36,' + (y - 6) + ' 0,' + (y - 8) + ' Q36,' + (y - 6) + ' 36,' + (y + 20) + 'Z" fill="url(#wlFoil)"/>';
-    [-24, -12, 0, 12, 24].forEach(function (x) {
-      s += '<path d="M' + (x - 3.5) + ',' + (y - 6) + ' Q' + x + ',' + (y - 16) + ' ' + (x + 3.5) + ',' + (y - 6) + 'Z" fill="url(#wlFoil)"/><rect x="' + (x - .6) + '" y="' + (y - 22) + '" width="1.2" height="8" fill="url(#wlFoil)"/>';
+    // doorway in the lowest tier
+    s += '<path d="M-13,207 V186 a13,13 0 0 1 26,0 V207Z" fill="#3A0812"/><path d="M-13,207 V186 a13,13 0 0 1 26,0 V207" fill="none" stroke="#F4DE95" stroke-width="1.2"/>';
+    // barrel roof with horn ends and a row of kalasams
+    s += '<path d="M-34,' + f1(y) + ' q-8,-2 -10,-12 q8,4 12,-2 Q-20,' + f1(y - 24) + ' 0,' + f1(y - 24) + ' Q20,' + f1(y - 24) + ' 32,' + f1(y - 14) + ' q4,6 12,2 q-2,10 -10,12Z" fill="' + F + '"/>';
+    [-20, -10, 0, 10, 20].forEach(function (x) {
+      var ky = y - 23 + Math.abs(x) * .12;
+      s += '<circle cx="' + x + '" cy="' + f1(ky - 4) + '" r="2.6" fill="' + F + '"/><path d="M' + x + ',' + f1(ky - 7) + ' v-7" stroke="#F4DE95" stroke-width="1.1"/><circle cx="' + x + '" cy="' + f1(ky - 15) + '" r="1.1" fill="#F4DE95"/>';
     });
-    return '<svg class="wl-gopuram" viewBox="-90 ' + (y - 26) + ' 180 ' + (250 - y) + '" aria-hidden="true">' + s + '</svg>';
+    y -= 24;
+    return '<svg class="wl-gopuram" viewBox="-100 ' + f1(y - 18) + ' 200 ' + f1(240 - y) + '" aria-hidden="true">' + s + '</svg>';
   }
   function kolam(fill) {
     var s = '';
@@ -650,7 +664,8 @@
       case 'mayil': return peacock() + bokeh(9, 16, 400, 700);
       case 'jaipur': return jharokha();
       case 'gulmohar': return gulmoharBranch(4, false) + gulmoharBranch(8, true);
-      case 'mono': return '<div class="wl-mono-rules" aria-hidden="true"><i></i><i></i></div>';
+      case 'mono': return '<div class="wl-mono-rules" aria-hidden="true"><i></i><i></i></div><p class="wl-mono-tag" aria-hidden="true"><span>The wedding edit</span><span>N\u00BA 01</span></p><span class="wl-mono-crop a" aria-hidden="true"></span><span class="wl-mono-crop b" aria-hidden="true"></span>';
+      case 'reel': return '<div class="wl-reel-strip t" aria-hidden="true"></div><div class="wl-reel-strip b" aria-hidden="true"></div><span class="wl-reel-glow" aria-hidden="true"></span>';
     }
     return '';
   }
@@ -1041,8 +1056,21 @@
     wire(root, v, mode, opts);
   }
 
+  // script fonts can be much wider than the ring: shrink the initials until they sit inside it
+  function fitMonos(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('.wl-mono, .wl-end-mono'), function (m) {
+      m.style.fontSize = '';
+      var kids = m.children; if (!kids.length) return;
+      var a = kids[0].getBoundingClientRect(), b = kids[kids.length - 1].getBoundingClientRect(), box = m.getBoundingClientRect();
+      var need = b.right - a.left, room = box.width * .7;
+      if (need > room && need > 0) m.style.fontSize = (parseFloat(getComputedStyle(m).fontSize) * room / need).toFixed(1) + 'px';
+    });
+  }
   function wire(root, v, mode, opts) {
     var el = root.querySelector('.wl');
+    fitMonos(root);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { fitMonos(root); });
+    setTimeout(function () { fitMonos(root); }, 1200);
     var audio = root.querySelector('.wl-audio');
     var mbtn = root.querySelector('.wl-music');
     function setPlaying(on) {

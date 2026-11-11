@@ -1354,3 +1354,39 @@
 .wl-end-mono i { font-style: normal; font-size: .5em; color: var(--acc); }
 .wl-end-date { letter-spacing: .3em; font-size: .78em; color: var(--muted); margin-top: 10px; }
 .wl-share { margin-top: 20px; }
+
+/* ============ fixes and rework for the weaker designs ============ */
+/* decor reused on the opening screen must not keep its page offset (it was pushed half off-screen) */
+.wl[data-theme] .wl-cover:not(.open) .wl-op-art > svg { transform: none; }
+.wl[data-theme=sindoor] .wl-op-art .wl-mandala { opacity: .75; max-width: none; }
+.wl-op-mandala .wl-op-art { width: 170px; margin-bottom: 20px; }
+/* Noor: the star band sits above the greeting, not on top of it */
+.wl-op-mihrab .wl-op-art { top: -64px; }
+/* Qamar: lanterns hang above the greeting; the moon stays clear of the ring */
+.wl-op-lanterns .wl-cover-in { padding-top: 96px; }
+.wl-op-lanterns .wl-moon-q { top: 6px !important; right: 18px !important; width: 46px !important; }
+/* Mughal: gate lines no longer cut through the initials */
+.wl-op-gate .wl-door::after { border-color: rgba(201,162,74,.5); }
+.wl-op-gate .wl-mono { background: radial-gradient(circle, #FBF6EC 55%, rgba(251,246,236,.85)); }
+.wl-op-mihrab .wl-mono { background: radial-gradient(circle, rgba(14,59,46,.92) 55%, rgba(14,59,46,.7)); }
+.wl-op-jharokha .wl-mono { background: radial-gradient(circle, #F4CDBF 55%, rgba(244,205,191,.85)); }
+/* Gopuram: larger, centred tower */
+.wl[data-theme=gopuram] .wl-gopuram { width: 190px; top: 22px; }
+.wl-op-bell .wl-op-art { width: 132px; }
+/* Monochrome: the ring and ampersand were invisible on black */
+.wl-op-shutter .wl-mono { border-color: rgba(255,255,255,.6); outline-color: rgba(255,255,255,.22); }
+.wl-op-shutter .wl-mono i { color: rgba(255,255,255,.75) !important; }
+/* Monochrome card: magazine masthead and crop marks */
+.wl-mono-tag { position: absolute; top: 44px; left: 22px; right: 22px; display: flex; justify-content: space-between; font: 600 .62rem/1 'Jost', system-ui, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #151515; margin: 0; }
+.wl-mono-crop { position: absolute; width: 18px; height: 18px; border: 1px solid #151515; }
+.wl-mono-crop.a { left: 22px; bottom: 24px; border-right: 0; border-top: 0; }
+.wl-mono-crop.b { right: 22px; bottom: 24px; border-left: 0; border-top: 0; }
+.wl[data-theme=mono] .wl-hero:not(.wl-cv) { padding-top: 104px; }
+.wl[data-theme=mono] .wl-hero:not(.wl-cv) .wl-names { font-size: clamp(3rem, 17vw, 5rem); line-height: .98; }
+.wl[data-theme=mono] .wl-hero:not(.wl-cv) .wl-date { border-top: 1px solid #151515; border-bottom: 1px solid #151515; padding: 14px 0; margin-top: 26px; }
+/* Reel card: film strip edges and a warm projector glow */
+.wl-reel-strip { position: absolute; left: 0; right: 0; height: 22px; background: #060504; background-image: repeating-linear-gradient(90deg, transparent 0 10px, rgba(217,183,106,.75) 10px 22px, transparent 22px 32px); background-size: 32px 10px; background-position: 0 6px; background-repeat: repeat-x; box-shadow: inset 0 0 0 1px rgba(217,183,106,.25); }
+.wl-reel-strip.t { top: 0; } .wl-reel-strip.b { bottom: 0; }
+.wl-reel-glow { position: absolute; left: 50%; top: 8%; width: 130%; height: 70%; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(217,183,106,.2), transparent 70%); pointer-events: none; }
+.wl[data-theme=reel] .wl-hero:not(.wl-cv) { padding-top: 96px; padding-bottom: 84px; }
+.wl[data-theme=reel] .wl-hero:not(.wl-cv) .wl-hero-in { position: relative; padding: 34px 18px; border: 1px solid rgba(217,183,106,.4); outline: 1px solid rgba(217,183,106,.16); outline-offset: 6px; }
