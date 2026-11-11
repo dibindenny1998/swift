@@ -242,7 +242,7 @@
 .wl[data-theme=mullappoo] {
   --page: #FFFFFF; --outer: #E4EEE6; --ink: #1F3B2D; --muted: #587063; --acc: #2E6B4A; --acc2: #1F4D36;
   --card: #F3F8F4; --line: rgba(46,107,74,.22);
-  --fs: 'Italiana'; --ft: 'Cormorant Garamond'; --fh: 'Italiana'; --names: clamp(2.6rem, 14vw, 4.3rem); --tsize: 1.12rem;
+  --fs: 'Forum'; --ft: 'Cormorant Garamond'; --fh: 'Forum'; --names: clamp(2.6rem, 14vw, 4.3rem); --tsize: 1.12rem;
   --btn: #2E6B4A; --photo-r: 18px; --foil: linear-gradient(100deg, #163D2A, #4E9A72 40%, #1F4D36 60%, #5FAE85 85%, #163D2A); --veil: rgba(255,255,255,.55);
 }
 .wl[data-theme=mullappoo] .wl-body { background: linear-gradient(#F2F8F3, #FFFFFF 30%); }
@@ -1266,3 +1266,69 @@
 .wl[data-theme=reel] .wl-fx { display: none; }
 .wl-film-ph { display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding-bottom: 38%; background: radial-gradient(60% 40% at 50% 38%, #3A2C20, #0F0D0C 75%) !important; }
 .wl-film-ph p { margin: 0; padding: 0 30px; color: rgba(243,234,219,.6); font-size: .78rem; letter-spacing: .26em; text-transform: uppercase; text-align: center; }
+/* every paid design moves: tints for the designs that share a particle shape */
+.wl[data-theme=kasavu] .wl-fx-dust i { background: #C9A24A; box-shadow: 0 0 6px 1px rgba(201,162,74,.65); width: calc(4px * var(--s)); height: calc(4px * var(--s)); }
+.wl[data-theme=sindoor] .wl-fx-petals i, .wl[data-theme=sindoor] .wl-fx-petals i:nth-child(3n) { background: linear-gradient(135deg, #F6E3A6, #C9A24A); box-shadow: 0 0 6px rgba(240,200,110,.45); }
+.wl[data-theme=lavender] .wl-fx-petals i { background: linear-gradient(135deg, #E4D8F6, #A892D4); box-shadow: 0 1px 2px rgba(90,60,140,.2); }
+.wl[data-theme=lavender] .wl-fx-petals i:nth-child(3n) { background: linear-gradient(135deg, #FFFFFF, #E9E0F7); }
+.wl[data-theme=gulmohar] .wl-fx-petals i { background: linear-gradient(135deg, #F7A46B, #D9452B); }
+.wl[data-theme=gulmohar] .wl-fx-petals i:nth-child(3n) { background: linear-gradient(135deg, #FBD08A, #EE8A3A); }
+.wl[data-theme=thamara] .wl-fx-petals i { background: linear-gradient(135deg, #FCE0E6, #D9798F); }
+.wl[data-theme=mehndi] .wl-fx-leaves i { background: linear-gradient(135deg, #EBD38F, #B98F38); opacity: .75; }
+.wl[data-theme=mullappoo] .wl-fx-blossom i { filter: drop-shadow(0 1px 2px rgba(60,100,70,.45)); }
+.wl[data-theme=grace] .wl-fx-light i { background: #fff; box-shadow: 0 0 10px 3px rgba(255,255,255,.85); }
+
+/* ---------- Terracotta (free) ---------- */
+.wl[data-theme=terra] {
+  --page: #F6EEE3; --outer: #E6D8C6; --ink: #3B2A22; --muted: #7A6558; --acc: #B5583A; --acc2: #9A4529;
+  --card: #FFFBF5; --line: rgba(181,88,58,.26);
+  --fs: 'DM Serif Display'; --ft: 'Jost'; --fh: 'DM Serif Display'; --names: clamp(2.5rem, 13vw, 4.2rem); --tsize: 1rem;
+  --btn: #B5583A; --foil: linear-gradient(#B5583A, #B5583A); --veil: rgba(246,238,227,.6); --photo-r: 999px 999px 10px 10px; --grain: .05;
+}
+.wl[data-theme=terra] .wl-body { background: radial-gradient(80% 26% at 50% 0%, #FBF5EC 0, transparent 70%), linear-gradient(#F3E7D8, #F6EEE3 40%, #FAF4EA); }
+.wl[data-theme=terra] .wl-door, .wl[data-theme=terra] .wl-op-bg, .wl[data-theme=terra] .wl-strip, .wl[data-theme=terra] .wl-fold { background: linear-gradient(#F3E7D8, #F6EEE3); }
+.wl[data-theme=terra] .wl-terra-arch { position: absolute; top: 30px; left: 50%; width: min(94%, 380px); transform: translateX(-50%); opacity: .8; }
+.wl[data-theme=terra] .wl-hero { padding: 128px 44px 84px; }
+.wl[data-theme=terra] .wl-hero .wl-intro { max-width: 15em; margin-left: auto; margin-right: auto; line-height: 1.7; }
+.wl[data-theme=terra] .wl-intro, .wl[data-theme=terra] .wl-date-a { letter-spacing: .16em; font-size: .72em; text-transform: uppercase; }
+.wl[data-theme=terra] .wl-amp { font-style: italic; color: var(--acc); }
+.wl[data-theme=terra] h2 { font-weight: 400; }
+
+/* ---------- Olive (free) ---------- */
+.wl[data-theme=olive] {
+  --page: #F4F5EC; --outer: #DFE3D0; --ink: #2F3A26; --muted: #66705A; --acc: #6B7A45; --acc2: #55632F;
+  --card: rgba(255,255,255,.82); --line: rgba(107,122,69,.28);
+  --fs: 'Forum'; --ft: 'Cormorant Garamond'; --fh: 'Forum'; --names: clamp(2.6rem, 14vw, 4.4rem); --tsize: 1.12rem;
+  --btn: #6B7A45; --foil: linear-gradient(#6B7A45, #6B7A45); --veil: rgba(244,245,236,.58); --photo-r: 50%; --grain: .04;
+}
+.wl[data-theme=olive] .wl-body { background: radial-gradient(70% 28% at 50% 6%, #FFFFFF 0, transparent 70%), linear-gradient(#EBEEDD, #F4F5EC 42%, #FAFAF4); }
+.wl[data-theme=olive] .wl-door, .wl[data-theme=olive] .wl-op-bg, .wl[data-theme=olive] .wl-strip, .wl[data-theme=olive] .wl-fold { background: linear-gradient(#EBEEDD, #F4F5EC); }
+.wl[data-theme=olive] .wl-ol-sprig { position: absolute; top: 22px; width: 150px; opacity: .9; }
+.wl[data-theme=olive] .wl-ol-sprig.l { left: -8px; transform: scaleY(-1) rotate(8deg); }
+.wl[data-theme=olive] .wl-ol-sprig.r { right: -8px; transform: scale(-1, -1) rotate(8deg); }
+.wl[data-theme=olive] .wl-hero { padding-top: 150px; }
+.wl[data-theme=olive] .wl-names { letter-spacing: .02em; }
+.wl[data-theme=olive] .wl-intro, .wl[data-theme=olive] .wl-date-a { letter-spacing: .16em; font-size: .8em; text-transform: uppercase; }
+
+/* ---------- Indigo (free) ---------- */
+.wl[data-theme=indigo] {
+  --page: #F7F8FC; --outer: #DDE2F0; --ink: #1E2A5A; --muted: #5C6690; --acc: #2E3F8F; --acc2: #1E2A5A;
+  --card: #FFFFFF; --line: rgba(46,63,143,.22);
+  --fs: 'Marcellus'; --ft: 'Jost'; --fh: 'Marcellus'; --names: clamp(2.4rem, 13vw, 4rem); --tsize: 1rem;
+  --btn: #2E3F8F; --foil: linear-gradient(#2E3F8F, #2E3F8F); --veil: rgba(247,248,252,.6); --photo-r: 6px; --grain: .04;
+}
+.wl[data-theme=indigo] .wl-body { background: linear-gradient(#EEF1FA, #F7F8FC 40%, #FFFFFF); }
+.wl[data-theme=indigo] .wl-door, .wl[data-theme=indigo] .wl-op-bg, .wl[data-theme=indigo] .wl-strip, .wl[data-theme=indigo] .wl-fold { background: linear-gradient(#EEF1FA, #F7F8FC); }
+.wl[data-theme=indigo] .wl-frame-2 { inset: 18px; border: 1px solid rgba(46,63,143,.6); }
+.wl[data-theme=indigo] .wl-frame-2::after { content: ''; position: absolute; inset: 6px; border: 1px solid rgba(46,63,143,.22); }
+.wl[data-theme=indigo] .wl-in-star { position: absolute; top: 58px; left: 50%; width: 130px; transform: translateX(-50%); }
+.wl[data-theme=indigo] .wl-hero { padding: 124px 44px 84px; }
+.wl[data-theme=indigo] .wl-names { text-transform: uppercase; letter-spacing: .08em; }
+.wl[data-theme=indigo] .wl-intro, .wl[data-theme=indigo] .wl-date-a { letter-spacing: .2em; font-size: .74em; text-transform: uppercase; }
+
+/* openers for the three new free designs */
+.wl-op-drop.open .wl-op-bg { transform: translateY(102%); }
+.wl-op-mist.open .wl-op-bg { opacity: 0; filter: blur(18px); transform: scale(1.12); }
+.wl-op-book .wl-op-bg { transform-origin: 0 50%; box-shadow: inset -30px 0 40px -30px rgba(30,42,90,.25); }
+.wl-op-book.open .wl-op-bg { transform: rotateY(-105deg); }
+.wl-op-drop .wl-op-art { width: 120px; } .wl-op-mist .wl-op-art { width: 170px; } .wl-op-book .wl-op-art { width: 130px; }

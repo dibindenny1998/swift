@@ -22,7 +22,7 @@
   function open(btn) {
     pending = { theme: btn.dataset.theme, tier: btn.dataset.tier };
     document.getElementById('pv-title').textContent = btn.dataset.name;
-    document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'One Link Wedding · ₹' + (C.pp || 999), premium: 'One Link Wedding · ₹' + (C.pp || 999) }[pending.tier] || '';
+    document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'Premium · ₹' + (C.pp || 999), premium: 'Premium · ₹' + (C.pp || 999) }[pending.tier] || '';
     document.getElementById('pv-use').href = '/create?t=' + pending.theme;
     last = btn; modal.hidden = false; document.documentElement.style.overflow = 'hidden';
     if (!frame.src) frame.src = '/frame.php'; else paint();

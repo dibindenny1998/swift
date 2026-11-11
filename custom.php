@@ -20,7 +20,7 @@ site_head('Built for You: We Make Your Wedding Website | ' . $brand, 'Send us yo
     <div class="plan custom">
       <h3>What you get for ₹<?= number_format($price) ?></h3>
       <ul>
-        <li><?= $tick ?>Everything in One Link Wedding: all functions, RSVP, 15 photos, video, gift list</li>
+        <li><?= $tick ?>Everything in Premium: all functions, RSVP, 15 photos, video, gift list</li>
         <li><?= $tick ?>We fill it in from your WhatsApp message</li>
         <li><?= $tick ?>We pick the design with you and set up every venue's map</li>
         <li><?= $tick ?>You check it and ask for changes before sharing</li>

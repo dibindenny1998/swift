@@ -11,8 +11,8 @@ site_head('Make Your Free Wedding Link in 5 Minutes | ' . $brand, 'One link for 
   <section class="lp-hero">
     <div class="wrap lp-grid">
       <div>
-        <span class="tag" style="margin:0 0 14px">Free · No card needed</span>
-        <h1>Make your free wedding link in 5 minutes.</h1>
+        <span class="tag" style="margin:0 0 14px">Free to start · No card needed</span>
+        <h1>Make your wedding website in 5 minutes.</h1>
         <p class="lead">One link. Every guest knows where to go, and you know who's coming. Send it on WhatsApp.</p>
         <ul class="lp-ticks">
           <li><?= $tick ?>Maps to every venue, one tap</li>
@@ -20,7 +20,7 @@ site_head('Make Your Free Wedding Link in 5 Minutes | ' . $brand, 'One link for 
           <li><?= $tick ?>Change it any time, everyone sees the update</li>
           <li><?= $tick ?>Opens from WhatsApp, no app, no login</li>
         </ul>
-        <a class="btn lp-cta js-make" href="/create?t=classic">Make our wedding link, free</a>
+        <a class="btn lp-cta js-make" href="/create?t=classic">Create our wedding website</a>
         <p class="lp-small">Your card for the elders. Your link for everyone. <a href="/sample" target="_blank" rel="noopener">See a live wedding site →</a></p>
       </div>
       <div class="lp-phone"><img src="<?= asset('assets/img/designs/kasavu.jpg') ?>" alt="A wedding link on a phone" width="232" height="480"></div>
@@ -30,7 +30,7 @@ site_head('Make Your Free Wedding Link in 5 Minutes | ' . $brand, 'One link for 
     <div class="wrap">
       <div class="sec-head"><h2>How it works</h2></div>
       <ol class="steps">
-        <li><h3>Pick a design</h3><p>Two free designs, more when you upgrade.</p></li>
+        <li><h3>Pick a design</h3><p>Five free designs, more when you upgrade.</p></li>
         <li><h3>Add your details</h3><p>Names, date and venue. The preview updates as you type.</p></li>
         <li><h3>Share on WhatsApp</h3><p>Publish free and send one link to everyone.</p></li>
       </ol>
@@ -40,7 +40,7 @@ site_head('Make Your Free Wedding Link in 5 Minutes | ' . $brand, 'One link for 
   <?php sec_faq(); ?>
 </main>
 <?php site_footer(); ?>
-<?= sticky_cta('/create?t=classic', 'Make our wedding link, free', 'Free · No card needed') ?>
+<?= sticky_cta('/create?t=classic', 'Create our wedding website', 'Free to start · No card needed') ?>
 <script>(function(){try{var q=new URLSearchParams(location.search);if(q.get('utm_source')||q.get('utm_campaign')||q.get('fbclid'))localStorage.setItem('wl_attr',JSON.stringify({utm_source:q.get('utm_source')||'',utm_campaign:q.get('utm_campaign')||'',fbclid:q.get('fbclid')||'',t:Date.now()}));}catch(e){}})();</script>
 </body>
 </html>

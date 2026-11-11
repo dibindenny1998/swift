@@ -106,7 +106,23 @@ function founding(): array
 {
     $total = max(0, (int)setting('founding_total')); $left = max(0, $total - (int)setting('founding_taken'));
     $end = (int)strtotime(setting('founding_until') ?: '2027-01-31 23:59:59');
-    return ['on' => $left > 0 && time() < $end, 'left' => $left, 'total' => $total, 'price' => (int)setting('founding_price'), 'end' => $end];
+    return ['on' => setting('founding_on') === '1' && $left > 0 && time() < $end, 'left' => $left, 'total' => $total, 'price' => (int)setting('founding_price'), 'end' => $end];
+}
+
+function sec_reviews(): void
+{
+    if (setting('reviews_on') !== '1') return;
+    $real = setting('reviews_real') === '1' && trim(setting('reviews')) !== '';
+    $stars = '<span class="rv-stars" aria-label="5 out of 5">' . str_repeat('<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.8l2.5 5.2 5.700.8-4.100 4 1 5.600L10 14.700 4.900 17.400l1-5.600-4.100-4 5.700-.8z"/></svg>', 5) . '</span>';
+    $stars = str_replace(['5.700', '4.100', '5.600', '14.700', '4.900', '17.400'], ['5.7', '4.1', '5.6', '14.7', '4.9', '17.4'], $stars);
+    echo '<section class="sec reviews-sec"><div class="wrap"><div class="sec-head"><h2>Loved by couples and their families</h2><p>What couples say after sending their link.</p></div><div class="reviews">';
+    foreach (array_slice(site_reviews(), 0, 6) as $r) {
+        $name = trim((string)($r['name'] ?? '')); $place = trim((string)($r['place'] ?? ''));
+        echo '<figure class="review">' . ($real ? '' : '<em class="review-sample">Sample review</em>') . $stars
+            . '<blockquote>' . e(trim((string)$r['text'])) . '</blockquote>'
+            . '<figcaption><i aria-hidden="true">' . e(mb_strtoupper(mb_substr($name ?: 'C', 0, 1))) . '</i><span><b>' . e($name ?: 'A happy couple') . '</b>' . ($place !== '' ? '<small>' . e($place) . '</small>' : '') . '</span></figcaption></figure>';
+    }
+    echo '</div></div></section>';
 }
 
 function sec_pricing(): void
@@ -127,7 +143,7 @@ function sec_pricing(): void
           <p class="who">Try it for one function</p>
           <ul>
             <li><?= $tick ?>1 event with maps and countdown</li>
-            <li><?= $tick ?>2 designs: Classic and Blush</li>
+            <li><?= $tick ?>5 simple designs</li>
             <li><?= $tick ?>One cover photo</li>
             <li><?= $tick ?>Live for 1 month</li>
             <li class="no"><?= $tick ?>"Crafted by <?= e($brand) ?>" mark</li>
@@ -135,7 +151,7 @@ function sec_pricing(): void
           <a class="btn alt js-make" href="/create?t=classic">Start free</a>
         </div>
         <div class="plan pick">
-          <h3>One Link Wedding</h3>
+          <h3>Premium</h3>
           <p class="price"><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
           <p class="who">Every function, every guest, one link</p>
           <ul>
@@ -146,14 +162,14 @@ function sec_pricing(): void
             <li><?= $tick ?>Gift list and background music</li>
             <li><?= $tick ?>Live for 1 year, no <?= e($brand) ?> mark</li>
           </ul>
-          <a class="btn js-make" href="/create">Choose One Link Wedding</a>
+          <a class="btn js-make" href="/create">Choose Premium</a>
         </div>
         <div class="plan custom">
           <h3>Built for you</h3>
           <p class="price">₹<?= number_format($pb4u) ?> <small>fixed</small></p>
           <p class="who">Send us your details, we do the rest</p>
           <ul>
-            <li><?= $tick ?>Everything in One Link Wedding</li>
+            <li><?= $tick ?>Everything in Premium</li>
             <li><?= $tick ?>We fill it in from your WhatsApp message</li>
             <li><?= $tick ?>We set up every function and your photos</li>
             <li><?= $tick ?>You check it and ask for changes</li>
@@ -181,11 +197,11 @@ function site_faq(): array
     return [
         ['Will older relatives be able to open it?', 'Yes. It opens from WhatsApp like any other link, on any phone. There is no app to install and no login.'],
         ['What if the link stops working near the wedding?', 'Every site runs on our paid hosting and we keep an eye on it. If anything looks wrong, message us' . ($wa ? ' on WhatsApp at +91 ' . $wa : ' on WhatsApp') . ' and we fix it the same day. If we can\'t, you get your money back, as set out in our refund terms.'],
-        ['How long does it stay live?', 'Free sites stay live for 1 month. One Link Wedding and Built for you stay live for 1 year from the day you publish.'],
+        ['How long does it stay live?', 'Free sites stay live for 1 month. Premium and Built for you stay live for 1 year from the day you publish.'],
         ['Can I change times or venues after sending?', 'Yes. Edit it from your private link and every guest sees the update on the same link. No corrected cards.'],
         ['Is my payment and my family\'s data safe?', 'Payments go through PayU, so we never see your card or UPI details. Your site is only seen by people you send the link to, and it is hidden from Google. Our privacy policy has the details.'],
         ['Can you build it for me?', "Yes. With Built for you (₹$pb4u, fixed), send us your details and photos on WhatsApp and we set up the whole site for you to check."],
-        ['Is it really free?', "Yes. The Free plan covers one function for 1 month, with maps and a countdown. One Link Wedding (₹$pp, one time) adds every function, RSVP, photos, a video and all designs."],
+        ['Is it really free?', "Yes. The Free plan covers one function for 1 month, with maps and a countdown. Premium (₹$pp, one time) adds every function, RSVP, photos, a video and all designs."],
         ['Do I still need printed cards?', 'Many families print a few cards for the elders. Send the link to everyone, so every guest gets maps, updates and RSVP.'],
     ];
 }

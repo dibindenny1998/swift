@@ -80,6 +80,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach (['founding_total', 'founding_taken'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, (int)$_POST[$k]));
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['founding_until'] ?? ''))) set_setting('founding_until', $_POST['founding_until'] . ' 23:59:59');
         set_setting('offer_on', !empty($_POST['offer_on']) ? '1' : '0');
+        foreach (['founding_on', 'reviews_on', 'reviews_real'] as $k) set_setting($k, !empty($_POST[$k]) ? '1' : '0');
+        $rv = [];
+        foreach ((array)($_POST['rv_text'] ?? []) as $i => $t) {
+            $t = mb_substr(trim((string)$t), 0, 400);
+            if ($t !== '') $rv[] = ['name' => mb_substr(trim((string)($_POST['rv_name'][$i] ?? '')), 0, 60), 'place' => mb_substr(trim((string)($_POST['rv_place'][$i] ?? '')), 0, 60), 'text' => $t];
+        }
+        set_setting('reviews', $rv ? json_encode($rv, JSON_UNESCAPED_UNICODE) : '');
         if (($op = (int)($_POST['offer_premium'] ?? 0)) >= 1) set_setting('offer_premium', (string)$op);
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['offer_until'] ?? ''))) set_setting('offer_until', $_POST['offer_until'] . ' 23:59:59');
         set_setting('google_client_id', mb_substr(trim((string)($_POST['google_client_id'] ?? '')), 0, 200));
@@ -451,11 +458,23 @@ site_head('Admin | ' . setting('brand'));
     <div class="card" style="margin-top:18px">
       <h2>Prices</h2>
       <div class="grid2">
-        <div class="field"><label for="pr2">One Link Wedding (₹)</label><input id="pr2" name="price_premium" type="number" min="1" value="<?= e(setting('price_premium')) ?>"><small>Test ₹699 against ₹999.</small></div>
+        <div class="field"><label for="pr2">Premium (₹)</label><input id="pr2" name="price_premium" type="number" min="1" value="<?= e(setting('price_premium')) ?>"><small>Test ₹699 against ₹999.</small></div>
         <div class="field"><label for="pr5">Built for you (₹, fixed)</label><input id="pr5" name="price_built" type="number" min="1" value="<?= e(setting('price_built')) ?>"></div>
       </div>
       <p class="note" style="margin-top:6px">The Free plan is always free, and so is the biodata.</p>
+      <h2 style="margin-top:22px">Reviews on the home page</h2>
+      <label style="display:flex;gap:8px;align-items:center;margin:8px 0 6px"><input type="checkbox" name="reviews_on" value="1"<?= setting('reviews_on') === '1' ? ' checked' : '' ?>> Show the reviews section</label>
+      <label style="display:flex;gap:8px;align-items:center;margin:0 0 12px"><input type="checkbox" name="reviews_real" value="1"<?= setting('reviews_real') === '1' ? ' checked' : '' ?>> These are real reviews from my customers (removes the "Sample review" label)</label>
+      <?php $rvSaved = json_decode(setting('reviews'), true); $rvSaved = is_array($rvSaved) ? $rvSaved : []; for ($i = 0; $i < 6; $i++): $r = $rvSaved[$i] ?? []; ?>
+      <div class="grid2" style="margin-bottom:6px">
+        <div class="field"><label>Review <?= $i + 1 ?>: couple's names</label><input name="rv_name[<?= $i ?>]" maxlength="60" value="<?= e($r['name'] ?? '') ?>" placeholder="Anjali &amp; Rohit"></div>
+        <div class="field"><label>City</label><input name="rv_place[<?= $i ?>]" maxlength="60" value="<?= e($r['place'] ?? '') ?>" placeholder="Kochi"></div>
+      </div>
+      <div class="field"><label>What they said</label><textarea name="rv_text[<?= $i ?>]" rows="2" maxlength="400"><?= e($r['text'] ?? '') ?></textarea></div>
+      <?php endfor; ?>
+      <p class="note">Leave all six empty to show the three sample reviews. Only tick "real reviews" once these are words your own customers sent you.</p>
       <h2 style="margin-top:22px">Founding couples offer</h2>
+      <label style="display:flex;gap:8px;align-items:center;margin:8px 0 12px"><input type="checkbox" name="founding_on" value="1"<?= setting('founding_on') === '1' ? ' checked' : '' ?>> Show the founding couples offer on the site</label>
       <div class="grid2">
         <div class="field"><label for="fo1">Founding price (₹)</label><input id="fo1" name="founding_price" type="number" min="1" value="<?= e(setting('founding_price')) ?>"></div>
         <div class="field"><label for="fo2">Total spots</label><input id="fo2" name="founding_total" type="number" min="0" value="<?= e(setting('founding_total')) ?>"></div>

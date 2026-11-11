@@ -9,9 +9,12 @@ const APP_VERSION = '1.0.0';
 const ADMIN_DEFAULT_HASH = '$2y$11$ApuzEe1Z4lTaqYK1tTCOWurl.MtvnTE9WvLQB1nh5wtzOclMU4XNa';
 
 const THEMES = [
-    // Free plan: two simple, clean designs.
+    // Free plan: five simple, clean designs.
     'classic'   => ['name' => 'Classic',   'note' => 'Simple black serif on soft ivory', 'tags' => ['modern', 'hindu', 'christian', 'muslim', 'sikh'], 'tier' => 'free'],
     'blush'     => ['name' => 'Blush',     'note' => 'Soft pink with a fine rose line', 'tags' => ['modern', 'hindu', 'christian', 'muslim', 'sikh'], 'tier' => 'free'],
+    'terra'     => ['name' => 'Terracotta', 'note' => 'Warm sand with a fine terracotta arch', 'tags' => ['modern', 'hindu', 'christian', 'muslim', 'sikh'], 'tier' => 'free'],
+    'olive'     => ['name' => 'Olive',     'note' => 'Soft cream with olive leaf sprigs', 'tags' => ['modern', 'christian', 'hindu', 'kerala'], 'tier' => 'free'],
+    'indigo'    => ['name' => 'Indigo',    'note' => 'Crisp white with deep indigo ink', 'tags' => ['modern', 'muslim', 'sikh', 'christian', 'hindu'], 'tier' => 'free'],
     // Standard and above.
     'champagne' => ['name' => 'Champagne', 'note' => 'Gold foil on blush and ivory silk', 'tags' => ['modern'], 'tier' => 'standard'],
     'kasavu'    => ['name' => 'Kasavu',    'note' => 'Ivory and gold, like a Kerala saree border', 'tags' => ['hindu', 'christian', 'kerala'], 'tier' => 'standard'],
@@ -49,9 +52,11 @@ const THEMES = [
 /* Showcase order and what makes each Premium design special. Must match ANIM / PHOTO_LED in assets/invite.js. */
 const PHOTO_LED_THEMES = ['lumiere', 'vogue', 'journal', 'bloom'];
 const THEME_FX = ['bloom' => 'petals', 'lumiere' => 'bokeh', 'journal' => 'confetti', 'vogue' => 'flash', 'mughal' => 'stars', 'sage' => 'leaves', 'seal' => 'blossom', 'ink' => 'hearts',
-    'toile' => 'butterflies', 'velvet' => 'dust', 'gopuram' => 'marigolds', 'mayil' => 'feathers', 'qamar' => 'lanterns', 'chapel' => 'light', 'jaipur' => 'kites', 'mono' => 'grain'];
+    'toile' => 'butterflies', 'velvet' => 'dust', 'gopuram' => 'marigolds', 'mayil' => 'feathers', 'qamar' => 'lanterns', 'chapel' => 'light', 'jaipur' => 'kites', 'mono' => 'grain',
+    'champagne' => 'bubbles', 'nilavu' => 'fireflies', 'kasavu' => 'dust', 'noor' => 'stars', 'sindoor' => 'petals', 'kesar' => 'sparkle', 'grace' => 'light', 'marigold' => 'marigolds',
+    'mullappoo' => 'blossom', 'thamara' => 'petals', 'lavender' => 'petals', 'mehndi' => 'leaves', 'gulmohar' => 'petals', 'reel' => 'dust'];
 /* What happens when a guest opens each design: shown on the design cards. */
-const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts away', 'champagne' => 'Gold bubbles lift the card', 'kasavu' => 'Guests light the lamp',
+const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts away', 'terra' => 'The card slips away', 'olive' => 'Fades like morning mist', 'indigo' => 'Opens like a book', 'champagne' => 'Gold bubbles lift the card', 'kasavu' => 'Guests light the lamp',
     'noor' => 'Arched doors open', 'sindoor' => 'A spinning mandala', 'kesar' => 'Phulkari border opens', 'grace' => 'A wreath of light', 'marigold' => 'Garlands drop away',
     'nilavu' => 'Guests light the diyas', 'mullappoo' => 'Jasmine curtains part', 'thamara' => 'A lotus blooms open', 'lavender' => 'Blown away on a breeze', 'mehndi' => 'Henna draws itself',
     'gulmohar' => 'Falls like a petal', 'bloom' => 'Step through a flower arch', 'mughal' => 'Palace gates swing open', 'lumiere' => 'A 3-2-1 film countdown', 'journal' => 'An album cover opens',
@@ -82,9 +87,21 @@ function showcase_themes(): array
 
 const CATEGORIES = ['hindu' => 'Hindu', 'christian' => 'Christian', 'muslim' => 'Muslim', 'sikh' => 'Sikh', 'kerala' => 'Kerala', 'modern' => 'Modern'];
 
-const PLAN_NAMES = ['free' => 'Free', 'standard' => 'Standard', 'premium' => 'One Link Wedding'];
+/* Placeholder reviews shown (labelled as samples) until real ones are added in Admin > Settings. */
+const SAMPLE_REVIEWS = [
+    ['name' => 'Anjali & Rohit', 'place' => 'Kochi', 'text' => 'We sent one link to both families and stopped answering "where is the hall?" calls. The map button alone was worth it.'],
+    ['name' => 'Fathima & Irfan', 'place' => 'Kozhikode', 'text' => 'Our reception time changed two days before. We updated it once and every guest saw the new time. No second card, no confusion.'],
+    ['name' => 'Sneha & Karthik', 'place' => 'Bengaluru', 'text' => 'The RSVP count told the caterer exactly how many plates to plan for each function. Our parents loved the photos and the story.'],
+];
+function site_reviews(): array
+{
+    $r = json_decode(setting('reviews'), true);
+    $r = is_array($r) ? array_values(array_filter($r, fn($x) => is_array($x) && trim((string)($x['text'] ?? '')) !== '')) : [];
+    return $r ?: SAMPLE_REVIEWS;
+}
+const PLAN_NAMES = ['free' => 'Free', 'standard' => 'Standard', 'premium' => 'Premium'];
 const PLAN_RANK = ['free' => 0, 'standard' => 1, 'premium' => 2];
-const TIER_NAMES = ['free' => 'Free', 'standard' => 'One Link Wedding', 'premium' => 'One Link Wedding'];
+const TIER_NAMES = ['free' => 'Free', 'standard' => 'Premium', 'premium' => 'Premium'];
 
 const PLAN_LIMITS = [
     'free'     => ['events' => 1, 'photos' => 1,  'rsvp' => false, 'music' => false, 'gifts' => false, 'video' => false, 'badge' => true],
@@ -247,9 +264,14 @@ function db(): PDO
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_prices_v2'")->fetchColumn()) {
         $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_standard', '199'), ('price_premium', '499'), ('mig_prices_v2', '1')");
     }
-    // v6 (Nov 2026 review): three plans, One Link Wedding ₹999, no strikethrough offer, free biodata
+    // v6 (Nov 2026 review): three plans, Premium ₹999, no strikethrough offer, free biodata
     if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_plans_v6'")->fetchColumn()) {
         $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('price_premium', '999'), ('offer_on', '0'), ('mig_plans_v6', '1')");
+    }
+    // v7: support WhatsApp number (editable in Admin > Settings)
+    if (!$pdo->query("SELECT 1 FROM settings WHERE k = 'mig_wa_v7'")->fetchColumn()) {
+        if (!trim((string)$pdo->query("SELECT v FROM settings WHERE k = 'support_phone'")->fetchColumn())) $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('support_phone', '8086207968')");
+        $pdo->exec("INSERT OR REPLACE INTO settings(k, v) VALUES ('mig_wa_v7', '1')");
     }
     return $pdo;
 }
@@ -273,6 +295,10 @@ const SETTING_DEFAULTS = [
     'google_client_id' => '',
     'mail_from'       => '',
     'offer_on'        => '0',
+    'founding_on'     => '0',
+    'reviews_on'      => '1',
+    'reviews_real'    => '0',
+    'reviews'         => '',
     'price_built'     => '1999',
     'founding_price'  => '999',
     'founding_total'  => '25',
@@ -723,7 +749,7 @@ function site_header(string $active = ''): void
 }
 
 /** The single bottom action bar on phones. */
-function sticky_cta(string $href = '/create', string $label = 'Make our wedding link, free', string $note = 'Free · No card needed'): string
+function sticky_cta(string $href = '/create', string $label = 'Create our wedding website', string $note = 'Free to start · No card needed'): string
 {
     $cls = $href === '/create' ? 'btn js-make' : 'btn';
     return '<div class="sticky-cta"><a class="' . $cls . '" href="' . e($href) . '">' . e($label) . '</a><small>' . e($note) . '</small></div>';
@@ -737,7 +763,7 @@ function site_footer(): void
     echo '<footer class="foot ft"><div class="wrap">'
         . '<div class="ft-top">'
         . '<div class="ft-brand"><a class="ft-logo" href="/">' . $brand . '</a><p>One link for every wedding guest. Maps, RSVP, your story and photos, sent on WhatsApp.</p>'
-        . '<a class="ft-cta" href="/create">Make our wedding link, free &rarr;</a></div>'
+        . '<a class="ft-cta" href="/create">Create our wedding website &rarr;</a></div>'
         . '<nav class="ft-col" aria-label="Wedding website"><h3>Wedding website</h3><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/custom">Built for you</a><a href="/sample">See a sample site</a><a href="/blog">Blog</a></nav>'
         . '<nav class="ft-col" aria-label="Free biodata"><h3>Free biodata</h3><a href="/biodata">Biodata maker</a><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav>'
         . '<nav class="ft-col" aria-label="Help"><h3>Help</h3><a href="/legal.php?p=contact">Contact</a>'

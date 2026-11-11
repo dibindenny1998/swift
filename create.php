@@ -52,7 +52,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
 
     <section class="panel" data-step="0">
       <h1>Pick a design</h1>
-      <p class="lead">Designs for every tradition. Two are free, and One Link Wedding unlocks all of them. You can switch any time before you share.</p>
+      <p class="lead">Designs for every tradition. Five are free, and Premium unlocks all of them. You can switch any time before you share.</p>
       <div class="chips cat-chips" role="group" aria-label="Filter designs">
         <button type="button" data-f="all" aria-pressed="true">All</button>
         <button type="button" data-f="tier-free" aria-pressed="false">Free</button>
@@ -103,18 +103,18 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
       <p class="lead">All optional. The first photo is shown large under the countdown.</p>
       <div class="field">
         <span>Photos</span>
-        <label class="drop" for="photo-in"><b>Add photos</b><small>The first photo is your cover. Free: 1 photo · One Link Wedding: up to 15, plus a video. Guests can view and save them.</small></label>
+        <label class="drop" for="photo-in"><b>Add photos</b><small>The first photo is your cover. Free: 1 photo · Premium: up to 15, plus a video. Guests can view and save them.</small></label>
         <input type="file" id="photo-in" accept="image/*" multiple hidden>
         <div class="thumbs" id="thumbs"></div>
       </div>
       <div class="field">
-        <span>Background music <span class="tag">One Link Wedding</span></span>
+        <span>Background music <span class="tag">Premium</span></span>
         <label class="drop" for="music-in" id="music-drop"><b id="music-label">Add a song (MP3 or M4A)</b><small>Plays when guests open the invite. Up to 10 MB.</small></label>
         <input type="file" id="music-in" accept="audio/mpeg,audio/mp3,audio/mp4,audio/x-m4a,audio/aac,.mp3,.m4a" hidden>
         <button type="button" class="btn alt small" id="music-x" hidden>Remove song</button>
       </div>
       <div class="field">
-        <label for="video">Video link <span class="tag">One Link Wedding</span></label>
+        <label for="video">Video link <span class="tag">Premium</span></label>
         <input id="video" name="video" inputmode="url" maxlength="300" placeholder="YouTube, Vimeo or Google Drive link">
         <div class="chips" id="video-kind" role="radiogroup" aria-label="Video type">
           <label class="chip-r"><input type="radio" name="video_kind" value="prewedding" checked><span>Pre-wedding film</span></label>
@@ -136,7 +136,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
     </section>
 
     <section class="panel" data-step="4" hidden>
-      <h1>Gift list <span class="tag">One Link Wedding</span></h1>
+      <h1>Gift list <span class="tag">Premium</span></h1>
       <p class="lead">List the gifts you would love. Guests pick one and type their name, so nobody brings the same thing. You see who picked what. Optional, and you can skip this.</p>
       <div class="field"><label for="gift_note">A line above the list</label><textarea id="gift_note" name="gift_note" maxlength="200" rows="2" placeholder="Your blessings are the best gift. If you would like to give something, here are a few things we would love."></textarea></div>
       <div class="field"><span>Quick add</span>

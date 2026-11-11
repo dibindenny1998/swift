@@ -4,6 +4,9 @@
   'use strict';
 
   var FONTS = {
+    terra: 'family=DM+Serif+Display:ital@0;1&family=Jost:wght@400;500',
+    olive: 'family=Forum&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
+    indigo: 'family=Marcellus&family=Jost:wght@400;500',
     classic: 'family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400',
     blush: 'family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
     lavender: 'family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500',
@@ -54,7 +57,7 @@
   var SCRIPT_FONTS = 'family=Noto+Serif+Malayalam:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Serif+Kannada:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&family=Noto+Serif+Gurmukhi:wght@400;600&family=Amiri:wght@400;700';
 
   var LIMITS = {
-    free: { events: 2, photos: 1, rsvp: false, music: false, gifts: false, video: false, badge: true },
+    free: { events: 1, photos: 1, rsvp: false, music: false, gifts: false, video: false, badge: true },
     standard: { events: 3, photos: 5, rsvp: false, music: false, gifts: false, video: false, badge: true },
     premium: { events: 6, photos: 15, rsvp: true, music: true, gifts: true, video: true, badge: false }
   };
@@ -295,7 +298,7 @@
     reel: '<rect x="-7" y="-5" width="14" height="10" rx="1.5" fill="none" stroke-width="1.2"/><path d="M-2,-2.6 L3,0 L-2,2.6Z"/>'
   };
   function divider(theme) {
-    var c = theme === 'reel' ? '#D9B76A' : theme === 'mono' ? '#1A1A1A' : theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
+    var c = theme === 'reel' ? '#D9B76A' : theme === 'mono' ? '#1A1A1A' : theme === 'marigold' ? '#E0700A' : theme === 'mullappoo' ? '#5D8B69' : theme === 'thamara' ? '#B5546B' : theme === 'classic' ? '#2B2B2B' : theme === 'terra' ? '#B5583A' : theme === 'olive' ? '#6B7A45' : theme === 'indigo' ? '#2E3F8F' : theme === 'blush' ? '#C27A86' : theme === 'lavender' ? '#8C78B4' : theme === 'mehndi' ? '#C9A24A' : theme === 'bloom' ? '#C27A86' : theme === 'sage' ? '#6B7A55' : theme === 'seal' ? '#A88A5E' : theme === 'ink' ? '#5A2E2A' : theme === 'toile' ? '#2F4A7A' : foil(theme);
     return '<svg class="wl-div" viewBox="0 0 200 20" aria-hidden="true"><rect x="10" y="9.5" width="72" height="1" fill="' + c + '"/><rect x="118" y="9.5" width="72" height="1" fill="' + c + '"/>' +
       '<g fill="' + c + '" stroke="' + c + '" stroke-width="0" transform="translate(100,10)">' + (MOTIF[theme] ? '<g stroke-linecap="round">' + MOTIF[theme] + '</g><circle cx="-14" r="1.4"/><circle cx="14" r="1.4"/>' : '<path d="M0,-8 L4,0 L0,8 L-4,0Z"/><circle cx="-11" r="2"/><circle cx="11" r="2"/><circle cx="-18" r="1.2"/><circle cx="18" r="1.2"/>') + '</g></svg>';
   }
@@ -309,7 +312,7 @@
     '<radialGradient id="wlLampIn"><stop offset="0" stop-color="#FFF4C4"/><stop offset=".7" stop-color="#FFC75A"/><stop offset="1" stop-color="#E08A1E"/></radialGradient>' +
     '</defs></svg>';
 
-  var LIGHT = { mono: 1, lavender: 1, mughal: 1, bloom: 1, lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
+  var LIGHT = { terra: 1, olive: 1, indigo: 1, mono: 1, lavender: 1, mughal: 1, bloom: 1, lumiere: 1, journal: 1, vogue: 1, sage: 1, seal: 1, ink: 1, toile: 1, classic: 1, blush: 1, kasavu: 1, champagne: 1, chapel: 1, jaipur: 1, gulmohar: 1, grace: 1, mullappoo: 1, thamara: 1, marigold: 1 };
   function foil(theme) { return theme === 'grace' ? 'url(#wlSilver)' : (LIGHT[theme] ? 'url(#wlFoilD)' : 'url(#wlFoil)'); }
 
   function bokeh(seed, n, w, h) {
@@ -504,8 +507,8 @@
   var TIMELINE = { sage: 1, ink: 1, toile: 1, journal: 1 };
   var PHOTO_LED = { lumiere: 1, journal: 1, vogue: 1, bloom: 1 };
   // Each design opens differently: the shape of the cover photo and how the names sit with it
-  var COVER = { noor: 'arch', qamar: 'arch', mughal: 'arch', jaipur: 'arch', chapel: 'arch',
-    kasavu: 'circle', mullappoo: 'circle', thamara: 'circle', nilavu: 'circle', gopuram: 'circle',
+  var COVER = { terra: 'arch', noor: 'arch', qamar: 'arch', mughal: 'arch', jaipur: 'arch', chapel: 'arch',
+    olive: 'circle', kasavu: 'circle', mullappoo: 'circle', thamara: 'circle', nilavu: 'circle', gopuram: 'circle',
     reel: 'full', velvet: 'full', sindoor: 'full', kesar: 'full', marigold: 'full', mehndi: 'full', mono: 'full',
     seal: 'polaroid', ink: 'polaroid', sage: 'polaroid',
     grace: 'split', toile: 'split', mayil: 'split', gulmohar: 'split' };
@@ -515,7 +518,9 @@
   // Premium designs get an animated header: photos fading in, plus moving decor
   var ANIM = { bloom: 'petals', lumiere: 'bokeh', journal: 'confetti', vogue: 'flash', mughal: 'stars', sage: 'leaves', seal: 'blossom', ink: 'hearts',
     toile: 'butterflies', velvet: 'dust', gopuram: 'marigolds', mayil: 'feathers', qamar: 'lanterns', chapel: 'light', jaipur: 'kites', mono: 'grain',
-    champagne: 'bubbles', nilavu: 'fireflies' };
+    champagne: 'bubbles', nilavu: 'fireflies',
+    kasavu: 'dust', noor: 'stars', sindoor: 'petals', kesar: 'sparkle', grace: 'light', marigold: 'marigolds', mullappoo: 'blossom', thamara: 'petals',
+    lavender: 'petals', mehndi: 'leaves', gulmohar: 'petals', reel: 'dust' };
   function particles(kind) {
     if (!kind) return '';
     var r = rng(kind.length * 97), o = '<div class="wl-fx wl-fx-' + kind + '" aria-hidden="true">';
@@ -538,6 +543,12 @@
     });
     return '<svg class="' + cls + '" viewBox="0 0 180 150" aria-hidden="true"><path d="M8,145 C50,110 110,50 172,8" fill="none" stroke="#7D8B66" stroke-width="1.4"/>' +
       '<g fill="#A7B293" fill-opacity=".75" stroke="#7D8B66" stroke-width=".7">' + leaves + '</g></svg>';
+  }
+  function terraArch(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 200 260" aria-hidden="true"><path d="M24,258 V104 A76,76 0 0 1 176,104 V258" fill="none" stroke="#B5583A" stroke-width="1.6"/><path d="M38,258 V108 A62,62 0 0 1 162,108 V258" fill="none" stroke="#B5583A" stroke-width=".7" opacity=".6"/><circle cx="100" cy="14" r="3" fill="#B5583A"/></svg>';
+  }
+  function indigoStar(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 120 40" aria-hidden="true"><g fill="#2E3F8F"><path d="M60,4 L64,16 L76,20 L64,24 L60,36 L56,24 L44,20 L56,16Z"/><circle cx="30" cy="20" r="2"/><circle cx="90" cy="20" r="2"/><rect x="2" y="19.5" width="20" height="1"/><rect x="98" y="19.5" width="20" height="1"/></g></svg>';
   }
   function washes() { return '<div class="wl-wash a"></div><div class="wl-wash b"></div><div class="wl-wash c"></div>'; }
   function heartLine() {
@@ -617,6 +628,9 @@
       case 'ink': return '';
       case 'toile': return gazebo() + toileFlorals('wl-tf l') + toileFlorals('wl-tf r');
       case 'classic': return '<div class="wl-frame wl-frame-2"></div>';
+      case 'terra': return terraArch('wl-terra-arch');
+      case 'olive': return sprig('wl-ol-sprig l') + sprig('wl-ol-sprig r');
+      case 'indigo': return '<div class="wl-frame wl-frame-2"></div>' + indigoStar('wl-in-star');
       case 'blush': return roseLine();
       case 'kasavu': return '<div class="wl-hd-top">' + kasavuBand() + '</div>' + lamp();
       case 'sindoor': return mandala('url(#wlFoil)');
@@ -644,6 +658,9 @@
   // kind, the line above the names, the button
   var OPENER = {
     classic: ['card', 'Wedding invitation', 'Open invitation'],
+    terra: ['drop', 'You are invited', 'Open invitation'],
+    olive: ['mist', 'Together with our families', 'Open invitation'],
+    indigo: ['book', 'Save the date', 'Open invitation'],
     blush: ['rise', 'With love', 'Open invitation'],
     champagne: ['fizz', 'Raise a glass with us', 'Open invitation'],
     kasavu: ['lamp', 'Tap to light the lamp', 'Light the lamp'],
@@ -710,6 +727,9 @@
       case 'mihrab': return '<div class="wl-hd-top">' + starBand('url(#wlFoil)') + '</div>';
       case 'jasmine': return '';
       case 'rise': return roseLine();
+      case 'drop': return terraArch('wl-op-terra');
+      case 'mist': return sprig('wl-op-sprig');
+      case 'book': return indigoStar('wl-op-star');
       case 'tv': return '<span class="wl-op-play" aria-hidden="true"></span>';
       case 'fizz': return bokeh(5, 18, 400, 700);
     }

@@ -34,7 +34,7 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
     '/assets/og/home.jpg', '', ['path' => '/', 'jsonld' => [ld_org(), ld_website(), ld_faq(site_faq()),
         ld_app($brand . ' wedding website maker', 'Make a free wedding invitation website to share on WhatsApp, with events, maps, countdown, RSVP, gift list and photos.', '/',
             ['Free wedding website', 'Wedding invitation for WhatsApp', 'Google Maps directions for every event', 'Countdown', 'RSVP and guest list', 'Gift list', 'Photo gallery and music', 'Hindu, Christian, Muslim, Sikh and Kerala designs'],
-            [['Free', 0], ['One Link Wedding', $pp], ['Built for you', (int)setting('price_built')]])]]);
+            [['Free', 0], ['Premium', $pp], ['Built for you', (int)setting('price_built')]])]]);
 ?>
 <body>
 <div class="resume" id="resume" hidden><div class="wrap"><span>Your invite is saved.</span><a id="resume-link" href="#">Continue where you left off</a></div></div>
@@ -53,11 +53,11 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
         <p class="hero-hint">Tap the names and make it yours.</p>
         <p class="hero-lead"><b>One link. Every guest knows where to go, and you know who's coming.</b> Maps to every venue, your story and photos, RSVP, and changes that reach everyone at once. Send it on WhatsApp.</p>
         <div class="hero-cta">
-          <a class="btn js-make" href="/create">Make our wedding link, free</a>
+          <a class="btn js-make" href="/create">Create our wedding website</a>
           <small>Your card for the elders. Your link for everyone.</small>
         </div>
         <ul class="ticks">
-          <li><?= $tick ?>Free plan, no card needed</li>
+          <li><?= $tick ?>Free to start, no card needed</li>
           <li><?= $tick ?>Ready in 5 minutes</li>
           <li><?= $tick ?>Opens straight from WhatsApp</li>
         </ul>
@@ -69,7 +69,7 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
           <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
         </div>
         <div class="hero-cta-m">
-          <a class="btn js-make" href="/create">Make our wedding link, free <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="btn js-make" href="/create">Create our wedding website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <small>Your card for the elders. Your link for everyone.</small>
         </div>
         <div class="url-pill-wrap"><a class="sample-btn" href="/sample" target="_blank" rel="noopener">See a live wedding site →</a></div>
@@ -111,23 +111,25 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
     </div>
   </section>
 
+<?php sec_reviews(); ?>
+
   <section class="sec">
     <div class="wrap">
       <div class="sec-head"><h2>Simple plans, paid once</h2><p>Build and preview free. Pay only when you want more.</p></div>
       <div class="mini-plans" id="mini-plans">
         <a class="mp" href="/create?t=classic">
           <span class="mp-name">Free</span><b class="mp-price">₹0 <small>free</small></b>
-          <ul><li>1 event with maps</li><li>2 designs, a cover photo</li><li>Live for 1 month</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
+          <ul><li>1 event with maps</li><li>5 designs, a cover photo</li><li>Live for 1 month</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
         <a class="mp pop" href="/create" data-start>
-          <span class="mp-name">One Link Wedding</span><b class="mp-price">₹<?= $pp ?> <small>one time</small></b>
+          <span class="mp-name">Premium</span><b class="mp-price">₹<?= $pp ?> <small>one time</small></b>
           <ul><li>All functions, RSVP and headcount</li><li>Story, 15 photos and a video</li><li>All designs, gift list, music</li><li>Live for 1 year</li></ul>
-          <span class="mp-go">Choose One Link Wedding</span>
+          <span class="mp-go">Choose Premium</span>
         </a>
         <a class="mp" href="/custom">
           <span class="mp-name">Built for you</span><b class="mp-price">₹<?= number_format((int)setting('price_built')) ?> <small>fixed</small></b>
-          <ul><li>Everything in One Link Wedding</li><li>We fill it in from your WhatsApp message</li><li>You check it and ask for changes</li><li>Fixed price</li></ul>
+          <ul><li>Everything in Premium</li><li>We fill it in from your WhatsApp message</li><li>You check it and ask for changes</li><li>Fixed price</li></ul>
           <span class="mp-go">Send us your details</span>
         </a>
       </div>
@@ -165,7 +167,7 @@ site_head('Wedding Website for WhatsApp: One Link for Every Guest | ' . $brand,
     <div class="wrap">
       <h2>Your guests are waiting for the date.</h2>
       <p>Make your wedding website now. It takes about five minutes, and you can publish it free.</p>
-      <a class="btn js-make" href="/create">Make our wedding link, free</a>
+      <a class="btn js-make" href="/create">Create our wedding website</a>
     </div>
   </section>
 </main>

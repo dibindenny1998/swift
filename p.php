@@ -148,10 +148,10 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
       <h2>Get more from your website</h2>
       <p class="lead">You are on <?= PLAN_NAMES[$inv['plan']] ?>. Upgrade any time. Your link stays the same.</p>
       <div class="nav-btns" style="margin-top:18px">
-        <?php if (isset($upgrades['premium'])): ?><button type="button" class="btn pay-btn js-up" data-plan="premium">One Link Wedding for ₹<?= $upgrades['premium'] ?></button><?php endif; ?>
+        <?php if (isset($upgrades['premium'])): ?><button type="button" class="btn pay-btn js-up" data-plan="premium">Premium for ₹<?= $upgrades['premium'] ?></button><?php endif; ?>
 
       </div>
-      <p class="note" style="margin-top:14px">One Link Wedding adds every function, RSVP and headcount, 15 photos, a video, a gift list, music and all designs.</p>
+      <p class="note" style="margin-top:14px">Premium adds every function, RSVP and headcount, 15 photos, a video, a gift list, music and all designs.</p>
       <p class="err" id="pay-err" role="alert" style="margin-top:10px"></p>
     <?php endif; ?>
     <?php if ($inv['plan'] === 'premium'): ?>
@@ -202,7 +202,7 @@ site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $bra
     <li><?= $tick ?>Every function, all designs, no <?= e($brand) ?> mark</li>
     <li><?= $tick ?>Live for a whole year</li>
   </ul>
-  <?php if ($upP !== null): ?><button type="button" class="btn js-up" data-plan="premium" style="width:100%">Get One Link Wedding for ₹<?= $upP ?></button><?php endif; ?>
+  <?php if ($upP !== null): ?><button type="button" class="btn js-up" data-plan="premium" style="width:100%">Get Premium for ₹<?= $upP ?></button><?php endif; ?>
   <button type="button" class="linkbtn up-later" id="up-later">Maybe later</button>
 </div></div>
 <?php endif; ?>

@@ -12,9 +12,9 @@ if ($contactLine === '') $contactLine = 'Send us a message through <a href="/cus
 $pages = [
   'contact' => ['Contact us', "<p>We're happy to help with your invite, payments or refunds.</p><h2>Reach us</h2><p>$contactLine</p><h2>Business</h2><p>$biz<br>$addr</p><p>We reply within one working day, usually much sooner.</p>"],
   'terms' => ['Terms of service', "<p>These terms apply when you use $brand, operated by $biz.</p>
-    <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. You can publish free, or pay once for One Link Wedding (₹$pp) or Built for you (₹$pb4u, where we set it up for you).</p>
+    <h2>The service</h2><p>$brand lets you design a wedding or event invitation and publish it as a web page with its own link. You can preview your invite free. You can publish free, or pay once for Premium (₹$pp) or Built for you (₹$pb4u, where we set it up for you).</p>
     <h2>Your content</h2><p>You are responsible for the names, text, photos and music you add. Only upload content you have the right to use. We may remove invites with unlawful or abusive content.</p>
-    <h2>Availability</h2><p>Published invites stay online for 1 month on the Free plan and 12 months on One Link Wedding and Built for you, counted from the day you publish. Invites bought on the earlier Standard plan keep their 6 months. Upgrading extends the time. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
+    <h2>Availability</h2><p>Published invites stay online for 1 month on the Free plan and 12 months on Premium and Built for you, counted from the day you publish. Invites bought on the earlier Standard plan keep their 6 months. Upgrading extends the time. You can edit your invite during that time using your private edit link. Keep that link safe: anyone with it can edit your invite.</p>
     <h2>Payments</h2><p>Payments are processed by PayU. Prices are in Indian rupees and include all charges shown at checkout.</p>
     <h2>Liability</h2><p>We work to keep invites online and correct, but we are not liable for indirect losses arising from downtime or errors in details you entered.</p>
     <h2>Contact</h2><p>$contactLine</p>"],

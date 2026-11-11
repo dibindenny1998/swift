@@ -340,7 +340,7 @@ try {
         $inv = find_invite('token', (string)($j['t'] ?? ''));
         if (!$inv) json_out(['ok' => false, 'error' => 'This invite was not found.'], 404);
         if ($inv['status'] === 'paid') json_out(['ok' => true]);
-        if (!theme_allowed($inv['theme'], 'free')) json_out(['ok' => false, 'error' => 'The free plan includes the Classic and Blush designs. Switch to one of them, or pick a paid plan.'], 422);
+        if (!theme_allowed($inv['theme'], 'free')) json_out(['ok' => false, 'error' => 'The free plan includes five designs: Classic, Blush, Terracotta, Olive and Indigo. Switch to one of them, or choose Premium.'], 422);
         publish_free($inv);
         json_out(['ok' => true]);
     }

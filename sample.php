@@ -36,7 +36,7 @@ $d = [
 </head>
 <body>
 <div id="invite"></div>
-<div class="sbar"><span><b>Sample site.</b> The couple, photos and events are examples.</span><a href="/create">Make ours, free →</a></div>
+<div class="sbar"><span><b>Sample site.</b> The couple, photos and events are examples.</span><a href="/create">Create ours →</a></div>
 <script>window.WL_BG = <?= json_for_script(theme_backdrops()) ?>;</script>
 <script src="<?= asset('assets/invite.js') ?>"></script>
 <script>WL.render(document.getElementById('invite'), <?= json_for_script($d) ?>, { mode: 'demo', cover: true });</script>
