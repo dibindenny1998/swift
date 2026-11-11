@@ -592,14 +592,15 @@
     return '<span class="wl-ev-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + d + '</g></svg></span>';
   }
   function calendarHtml(v) {
-    if (!CALENDAR[v.theme] || !v.main || !v.main.date) return '';
+    var own = CALENDAR[v.theme];
+    if ((!own && v.plan !== 'premium') || !v.main || !v.main.date) return '';
     var p = parts(v.main.date); if (!p) return '';
     var first = new Date(p.y, p.mo, 1).getDay(), days = new Date(p.y, p.mo + 1, 0).getDate();
     var lead = (first + 6) % 7, cells = '';
     ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].forEach(function (d) { cells += '<span class="wl-cal-h">' + d + '</span>'; });
     for (var i = 0; i < lead; i++) cells += '<span></span>';
     for (var dd = 1; dd <= days; dd++) cells += '<span' + (dd === p.d ? ' class="on"' : '') + '>' + dd + '</span>';
-    return '<section class="wl-sec wl-cal" data-sec="calendar"><h2>' + MONTHS[p.mo] + ' ' + p.y + '</h2><div class="wl-cal-g">' + cells + '</div></section>';
+    return '<section class="wl-sec wl-cal' + (own ? '' : ' wl-cal-card') + '" data-sec="calendar">' + (own ? '' : '<p class="wl-kick">Save the date</p>') + '<h2>' + MONTHS[p.mo] + ' ' + p.y + '</h2><div class="wl-cal-g">' + cells + '</div></section>';
   }
 
   function lilacSpray(cls) {
@@ -990,7 +991,7 @@
     }
     if (v.story) html += '<section class="wl-sec wl-story" data-sec="story"><h2>Our story</h2>' + divider(v.theme) + '<p>' + nl2br(v.story) + '</p></section>';
 
-    if (v.message) html += '<section class="wl-sec wl-msg" data-sec="message">' + divider(v.theme) + '<p>' + nl2br(v.message) + '</p></section>';
+    if (v.message) html += '<section class="wl-sec wl-msg" data-sec="message"><span class="wl-quote" aria-hidden="true">\u201C</span><p>' + nl2br(v.message) + '</p>' + divider(v.theme) + '</section>';
 
     html += eventsHtml(v, title);
     if (v.notes) html += '<section class="wl-sec wl-notes" data-sec="notes"><h2>Good to know</h2>' + divider(v.theme) + '<p>' + nl2br(v.notes) + '</p></section>';
@@ -1017,7 +1018,12 @@
         (tel ? '<div class="wl-ev-acts"><a class="wl-btn" href="tel:+91' + esc(tel) + '">Call</a><a class="wl-btn ghost" href="https://wa.me/91' + esc(tel) + '" target="_blank" rel="noopener">WhatsApp</a></div>' : '') + '</section>';
     }
 
-    html += '<footer class="wl-end"><p class="wl-closing">' + esc(v.closing) + '</p><p class="wl-sign">' + esc(title) + '</p>' + divider(v.theme) +
+    var endDate = first && first.date ? parts(first.date) : null;
+    var shareUrl = mode === 'live' ? 'https://wa.me/?text=' + encodeURIComponent(title + ' \u2014 our wedding invitation: ' + w.location.origin + w.location.pathname) : '';
+    html += '<footer class="wl-end"><div class="wl-end-mono" aria-hidden="true"><span>' + esc(initial(v.p1)) + '</span><i>&amp;</i><span>' + esc(initial(v.p2)) + '</span></div>' +
+      '<p class="wl-closing">' + esc(v.closing) + '</p><p class="wl-sign">' + esc(title) + '</p>' +
+      (endDate ? '<p class="wl-end-date">' + ('0' + endDate.d).slice(-2) + ' \u00B7 ' + ('0' + (endDate.mo + 1)).slice(-2) + ' \u00B7 ' + endDate.y + '</p>' : '') + divider(v.theme) +
+      (shareUrl ? '<p class="wl-share"><a class="wl-btn ghost" href="' + esc(shareUrl) + '" target="_blank" rel="noopener">Share this invitation</a></p>' : '') +
       (v.plan === 'free' ? craftedMark(v, 'end') : v.lim.badge ? '<a class="wl-badge" href="/?ref=badge" target="_blank" rel="noopener">Made with ' + esc(v.brand) + '. Make yours</a>' : '') + '</footer>';
     html += '</main>';
 

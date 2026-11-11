@@ -1332,3 +1332,25 @@
 .wl-op-book .wl-op-bg { transform-origin: 0 50%; box-shadow: inset -30px 0 40px -30px rgba(30,42,90,.25); }
 .wl-op-book.open .wl-op-bg { transform: rotateY(-105deg); }
 .wl-op-drop .wl-op-art { width: 120px; } .wl-op-mist .wl-op-art { width: 170px; } .wl-op-book .wl-op-art { width: 130px; }
+
+/* ============ richer lower half, shared by every design ============ */
+.wl-kick { font-size: .72em; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.wl-cal-card .wl-cal-g { padding: 18px 14px 14px; border-radius: 20px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 26px 50px -40px rgba(0,0,0,.4); }
+.wl-cal-card .wl-cal-g .on::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 22%, transparent); }
+.wl-msg { padding-top: 40px; }
+.wl-msg .wl-quote { display: block; font-family: Georgia, 'Times New Roman', serif; font-size: 4.6rem; line-height: .62; height: 2.1rem; color: var(--acc); opacity: .5; }
+.wl-msg p { font-size: 1.14em; line-height: 1.75; max-width: 30ch; }
+.wl-msg .wl-div { margin-top: 24px; }
+.wl-fam-grid { position: relative; padding: 30px 16px 28px; border-radius: 22px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 26px 50px -40px rgba(0,0,0,.4); }
+.wl-fam-grid::before { content: ''; position: absolute; inset: 7px; border-radius: 16px; border: 1px solid var(--line); pointer-events: none; }
+.wl-fam-amp { align-self: center; }
+.wl-story p { padding: 26px 24px; border-radius: 20px; background: var(--card); box-shadow: 0 0 0 1px var(--line); text-align: left; line-height: 1.75; }
+.wl-couple, .wl-gal { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--acc) 7%, transparent) 16%, color-mix(in srgb, var(--acc) 7%, transparent) 84%, transparent); }
+.wl-cp-ph { box-shadow: 0 0 0 1px var(--line), 0 18px 34px -22px rgba(0,0,0,.5); }
+.wl-rsvp .wl-form { padding: 26px 20px 24px; border-radius: 24px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 30px 60px -44px rgba(0,0,0,.45); }
+.wl-rsvp .wl-form input:not([type=radio]), .wl-rsvp .wl-form select, .wl-rsvp .wl-form textarea { background: color-mix(in srgb, var(--page) 55%, var(--card)); }
+.wl-end { padding-top: 56px; }
+.wl-end-mono { width: 96px; height: 96px; margin: 0 auto 24px; border-radius: 50%; border: 1px solid var(--acc); outline: 1px solid var(--line); outline-offset: 6px; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--fs); font-size: 1.6rem; line-height: 1; color: var(--acc2); overflow: hidden; }
+.wl-end-mono i { font-style: normal; font-size: .5em; color: var(--acc); }
+.wl-end-date { letter-spacing: .3em; font-size: .78em; color: var(--muted); margin-top: 10px; }
+.wl-share { margin-top: 20px; }
