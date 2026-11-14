@@ -27,14 +27,14 @@ ${ctx.page.noindex ? '<meta name="robots" content="noindex">' : `<link rel="cano
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#fbf6ec">
+<meta name="theme-color" content="#f8f5ef">
 <link rel="icon" href="${ctx.asset('favicon.ico')}" sizes="32x32">
 <link rel="icon" href="${ctx.asset('favicon.svg')}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${ctx.asset('apple-touch-icon.png')}">
 <link rel="manifest" href="${ctx.asset('site.webmanifest')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="${ctx.asset('assets/css/main.css', true)}">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script src="${ctx.asset('assets/js/main.js', true)}" defer></script>

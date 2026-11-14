@@ -62,8 +62,8 @@ ${p.goodness ? goodness(ctx) : ''}
 
 ${data.ritual ? html`<section class="section section--sand ritual has-flora" aria-labelledby="ritual-title">
   ${flora([
-    ['jasmine', 6, 10, 2.8, 0, 13, 0.5],
-    ['curry', 88, 60, 4.4, -10, 16, 0.4, false],
+    ['droplet', 6, 12, 2.4, 0, 14, 0.45],
+    ['leaf', 88, 60, 3, -10, 16, 0.45, false],
   ])}
   <div class="container">
     <header class="section-head center">

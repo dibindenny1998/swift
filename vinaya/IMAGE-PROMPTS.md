@@ -1,5 +1,61 @@
 # VINAYA · Image prompts
 
+## International refresh (use these first)
+
+The client wants Vinaya to feel like a **global premium skincare brand**, not a regional one.
+The old set looked alike because every image used the same recipe (golden-hour Kerala, cream
+and gold saree, jasmine, brass, the same young woman). This set keeps **one colour grade**
+so the site stays consistent, but varies **what** is in each picture.
+
+**Mix across the site:** about 40% product and texture, 30% ingredients, 20% people, 10% places.
+
+**People:** never the same model twice. Each prompt names a different person (age, background,
+gender). Modern clothing in neutral tones; no traditional dress, temples, brass lamps or jasmine
+in the hair. Mostly hands, profiles and backs, so faces never repeat.
+
+**Add this to the end of every prompt (the house grade):**
+
+> soft natural daylight, neutral warm-white, sand and sage palette, clean minimal composition,
+> generous negative space, premium international skincare campaign photography, true-to-life
+> skin texture, subtle film grain, no text, no logo, no watermark
+
+**Negative prompt:** `text, letters, logo, watermark, saree, temple, brass lamp, jasmine in hair, golden-hour orange cast, oversaturated, busy background, cartoon, extra fingers, distorted hands, same face`
+
+**Bottle shots (📦):** generate with your tool's image-reference mode using the real product photo,
+so the Vinaya label stays exact, or use a real photo.
+
+| File | Size | Shot | Prompt (+ house grade) |
+|---|---|---|---|
+| `home-hero.jpg` + `home-hero-mobile.jpg` | 1920×1080 + 1024×1536 | 📦 Product hero | The Vinaya hair-oil bottle standing on a pale travertine block, soft shadows of a single palm leaf falling across a warm white wall, a halved coconut and two green leaves placed with lots of space, left third of the frame empty and calm for text |
+| `collection-hair.jpg` | 1145×1374 | People | A Japanese woman in her 30s seen from behind in a bright minimal bathroom, running her fingers through long glossy black hair, linen robe, upper-left of the frame calm and light |
+| `collection-skin.jpg` (Face Care) | 1145×1374 | People | A Black woman in her 40s in profile, eyes closed, pressing a few drops of facial oil into her cheek with her fingertips, white ribbed top, plain sand wall, upper-left calm |
+| `collection-body.jpg` | 1145×1374 | Hands | Close-up of a man's forearm and hands (Mediterranean, 50s) smoothing body oil on his arm, sleeve rolled up, soft window light, stone basin softly blurred, upper-left calm |
+| `collection-gift.jpg` | 1145×1374 | Product | Overhead of an unbranded kraft gift box with linen ribbon, a small amber bottle and a wooden comb nested in natural paper, a sprig of eucalyptus, upper-left of the frame empty |
+| `story-hero.jpg` + `story-hero-mobile.jpg` | 1920×1080 + 1024×1536 | Place | A quiet glass greenhouse at early morning, rows of potted herbs and young plants, soft mist, no people, left third calm for text |
+| `story-heritage.jpg` (I · Nature) | 1122×1402 | Ingredients | Macro of morning dew on a large green leaf with one hibiscus flower out of focus behind it, clean dark-green background |
+| `story-change.jpg` (II · Tradition) | 1122×1402 | Hands | Weathered hands of an older woman in a plain linen shirt grinding dried herbs in a stone mortar on a light oak table, studio daylight, centred subject |
+| `story-reconnect.jpg` (III · You) | 1122×1402 | People | A Scandinavian man in his 30s in a bright modern apartment, combing oil through his beard-length hair with a wooden comb, relaxed, plants in the background |
+| `story-value.jpg` | 1920×1080 | Ingredients | Flat lay on dark green linen: coconut half, hibiscus, cinnamon bark, curry leaves, aloe slice and tulsi sprigs arranged in a loose ring, empty centre, moody even light |
+| `approach-simplicity.jpg` | 1448×1086 | 📦 Product | One Vinaya bottle alone on a smooth stone plinth against a warm white wall, long soft shadow, nothing else |
+| `approach-care.jpg` | 1448×1086 | Texture | Macro of a single golden drop of oil falling from a glass dropper into a shallow pool of oil, tiny ripples, clean backlight |
+| `approach-purpose.jpg` | 1448×1086 | Hands | Hands of a young South Asian woman in a denim apron planting a seedling in a terracotta pot inside a greenhouse, modern and hopeful |
+| `export-hero.jpg` | 1920×1080 | Place | A clean, bright packing studio: neat rows of unbranded kraft boxes and amber bottles on pale wooden shelves, a person in a white shirt (East African, 30s) checking a clipboard, soft daylight |
+| `product-hair-oil.jpg` | 1200×1500 | 📦 Product | The Vinaya hair-oil bottle on travertine with a coconut half and two leaves, warm white background, centred, crisp |
+| `product-gift-set.jpg` | 1200×1500 | 📦 Product | The Vinaya gift set (bottle, wooden comb, story card) arranged neatly on linen, top-down three-quarter angle, warm white background |
+| `blog-made-the-vinaya-way.jpg` | 1500×1000 | Process | Coconut oil gently warming in a steel pan with herbs and spices, steam, minimal modern kitchen, no faces |
+| `blog-seven-botanicals.jpg` | 1500×1000 | Ingredients | Seven botanicals in a straight row on white paper: coconut, aloe, cinnamon, hibiscus, curry leaf, tulsi, bhringraj, even studio light |
+| `blog-weekly-hair-oil-ritual.jpg` | 1500×1000 | People | A Latina woman in her 20s with curly hair massaging oil into her scalp, eyes closed, bright bedroom, white bedding |
+| `blog-why-natural-smells-different.jpg` | 1500×1000 | Texture | Macro of crushed green leaves and a broken cinnamon stick on pale stone, a faint wisp of steam catching light |
+| `blog-caring-for-your-wooden-comb.jpg` | 1500×1000 | Product | A wooden comb resting on a folded white towel next to a small bowl of water and a soft brush, top-down, minimal |
+| `share-image.jpg` | 1200×630 | 📦 Product | The Vinaya bottle centred on a stone plinth, two leaves either side, soft sage-green background |
+
+The Nature / Tradition / You cards on Home have their words built into the picture (supplied by
+the client). Keep them, or regenerate them in this grade and ask the designer to add the words.
+
+---
+
+## Earlier prompts (Kerala set)
+
 > **Update:** the client has supplied the Home banner (desktop + phone `home-hero-mobile.jpg`), the Nature / Tradition / You cards (words are part of those pictures), the four collection cards, the three Our Story sections and the three approach cards (now on Our Story). The prompts below remain for any future replacements; current sizes are listed in `/images/guide.html`.
 
 There are 27 photos and 7 optional ingredient icons. Each one has a file name, a size and a prompt.

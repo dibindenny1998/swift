@@ -22,8 +22,8 @@ function journey(ctx) {
   const slots = ['tale-nature', 'tale-tradition', 'tale-you'];
   return html`<section class="section section--green journey has-flora" aria-labelledby="journey-title">
   ${flora([
-    ['leaf', 4, 6, 3, 30, 13, 0.35],
-    ['jasmine', 91, 5, 2.6, 0, 11, 0.45],
+    ['seed', 5, 8, 2.6, -20, 15, 0.35],
+    ['droplet', 92, 6, 2.2, 0, 13, 0.4],
   ], { tone: 'light' })}
   <div class="container">
     <header class="section-head center">
@@ -46,8 +46,8 @@ function collections(ctx) {
   const items = ctx.raw('home.collections.items');
   return html`<section class="section collections has-flora" aria-labelledby="collections-title">
   ${flora([
-    ['curry', 5, 3, 4, 25, 15, 0.4],
-    ['jasmine', 92, 2, 2.6, 0, 12, 0.5],
+    ['leaf', 6, 4, 3, 25, 15, 0.45],
+    ['loop', 90, 2, 4.4, 0, 18, 0.35, false],
   ])}
   <div class="container">
     <header class="section-head center">
@@ -76,10 +76,8 @@ export default function home(ctx) {
   <div class="hero__bg">${image(ctx, 'home-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'home-hero-mobile' })}</div>
   <span class="hero__rays hero__rays--right" aria-hidden="true"></span>
   ${flora([
-    ['jasmine', 60, 16, 3, 10, 13, 0.55, false],
-    ['curry', 82, 52, 4.6, -20, 15, 0.45, false],
-    ['petal', 50, 70, 2.4, 30, 11, 0.4, false],
-    ['jasmine', 88, 20, 2.2, -15, 10, 0.5],
+    ['loop', 70, 18, 6, 0, 20, 0.4, false],
+    ['droplet', 88, 26, 2.2, 0, 14, 0.5],
   ], { tone: 'light' })}
   <div class="container hero__grid">
     <div class="hero__text">
@@ -101,9 +99,8 @@ export default function home(ctx) {
 
 <section class="section statement has-flora" aria-label="${ctx.tx('home.belief.eyebrow')}">
   ${flora([
-    ['jasmine', 7, 18, 3, 0, 12, 0.55],
-    ['curry', 85, 48, 5, 15, 16, 0.4, false],
-    ['petal', 14, 72, 2.4, -25, 11, 0.4, false],
+    ['leaf', 8, 22, 3, 20, 14, 0.5],
+    ['seed', 86, 56, 2.8, -15, 16, 0.45, false],
   ])}
   <div class="container container--narrow center">
     <span class="ornament ornament--vine" data-reveal>${VINE}</span>

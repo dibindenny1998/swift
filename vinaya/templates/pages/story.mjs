@@ -30,9 +30,8 @@ export default function story(ctx) {
   <div class="hero__bg">${image(ctx, 'story-hero', { eager: true, decorative: true, sizes: '100vw', mobile: 'story-hero-mobile' })}</div>
   <span class="hero__rays hero__rays--left" aria-hidden="true"></span>
   ${flora([
-    ['jasmine', 62, 14, 2.8, 0, 12, 0.5, false],
-    ['curry', 84, 58, 4.4, -15, 15, 0.4, false],
-    ['petal', 88, 18, 2.2, 20, 11, 0.45],
+    ['loop', 74, 16, 5.5, 0, 20, 0.4, false],
+    ['leaf', 88, 22, 2.4, 20, 14, 0.45],
   ], { tone: 'light' })}
   <div class="container hero__grid">
     <div class="hero__text">
@@ -44,8 +43,8 @@ export default function story(ctx) {
 
 <section class="section statement has-flora" aria-label="${ctx.tx('story.eyebrow')}">
   ${flora([
-    ['curry', 6, 20, 4.4, 10, 15, 0.4],
-    ['jasmine', 88, 55, 3, 0, 12, 0.5],
+    ['seed', 7, 22, 2.8, 10, 16, 0.45],
+    ['droplet', 88, 56, 2.4, 0, 13, 0.45],
   ])}
   <div class="container container--narrow center">
     <span class="ornament ornament--vine" data-reveal>${VINE}</span>
@@ -65,8 +64,8 @@ ${slots.map((slot, i) => scene(ctx, `story.chapters.${i}`, i + 1, slot))}
 
 <section class="section approach has-flora" aria-labelledby="approach-title">
   ${flora([
-    ['petal', 6, 6, 2.6, -20, 12, 0.4],
-    ['jasmine', 91, 4, 2.6, 0, 11, 0.5],
+    ['petal', 6, 6, 2.6, -20, 14, 0.4],
+    ['leaf', 91, 4, 2.6, 0, 15, 0.45],
   ])}
   <div class="container">
     <header class="section-head center">

@@ -1,44 +1,45 @@
 /* =========================================================================
    VINAYA — main stylesheet
    Mobile first. Colours, fonts and spacing are tokens in :root below.
-   Palette taken from the product photography: leaf green, sunlit sand,
-   the gold of the cap and the peach dot of the logo.
+   Palette: leaf green, soft neutral sand and a calm taupe accent (the "gold" tokens),
+   kept quiet for an international, premium feel.
    Every gradient stays within one hue (tone on tone) — colours are never mixed.
    ========================================================================= */
 
 :root {
   /* Colour */
-  --cream: #fbf6ec;
-  --sand: #f3e4c9;
-  --sand-deep: #e8d2ab;
+  --cream: #f8f5ef;
+  --sand: #eee7da;
+  --sand-deep: #e0d5c2;
   --green: #1f4a2e;
   --green-mid: #2a5e3b;
   --green-deep: #133021;
   --leaf: #3e7a4a;
-  --gold: #c39a45;
-  --gold-light: #e2c47f;
-  --gold-ink: #85601b; /* gold dark enough for small text on cream */
+  --gold: #a8916f;
+  --gold-light: #ddd0b9;
+  --gold-ink: #6f5d43; /* accent dark enough for small text on cream */
+  --sage: #7f9a83; /* fine line art */
   --peach: #dda77f;
   --ink: #1b2e22;
   --ink-soft: #4b5a4f;
-  --on-green: #fbf6ec;
-  --on-green-soft: rgba(251, 246, 236, 0.8);
+  --on-green: #f8f5ef;
+  --on-green-soft: rgba(248, 245, 239, 0.82);
   --line: rgba(27, 46, 34, 0.14);
   --line-strong: rgba(27, 46, 34, 0.3);
-  --line-light: rgba(251, 246, 236, 0.22);
+  --line-light: rgba(248, 245, 239, 0.22);
   --error: #9a2f22;
 
   /* Single-hue gradients */
-  --grad-sand: linear-gradient(165deg, #fcf4e4 0%, #f1dfbf 100%);
-  --grad-cream: linear-gradient(180deg, #f6ead4 0%, var(--cream) 100%);
+  --grad-sand: linear-gradient(165deg, #faf7f1 0%, #ece4d6 100%);
+  --grad-cream: linear-gradient(180deg, #f1ebe1 0%, var(--cream) 100%);
   --grad-green: linear-gradient(150deg, #24583a 0%, #133021 100%);
-  --grad-gold: linear-gradient(135deg, #e6ca88 0%, #c39a45 100%);
+  --grad-gold: linear-gradient(135deg, #efe7da 0%, #d6c7ad 100%);
   --grad-photo: linear-gradient(180deg, rgba(19, 48, 33, 0.9) 0%, rgba(19, 48, 33, 0.74) 50%, rgba(19, 48, 33, 0.92) 100%);
-  --grad-placeholder: linear-gradient(165deg, #f1e3c8 0%, #e5cfa6 100%);
+  --grad-placeholder: linear-gradient(165deg, #f0eadf 0%, #e1d6c4 100%);
 
   /* Type */
-  --serif: 'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
-  --sans: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --fs-body: 1.0625rem;
   --fs-small: 0.875rem;
   --fs-eyebrow: 0.75rem;
@@ -76,6 +77,8 @@
 }
 
 html {
+  /* Instrument Serif has one weight: never fake a bold version of it. */
+  font-synthesis-weight: none;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: calc(var(--header-h) + 1rem);
@@ -201,7 +204,7 @@ main:focus {
   display: inline;
   padding: 0.1em 0.5em;
   border-radius: 999px;
-  background: rgba(195, 154, 69, 0.16);
+  background: rgba(168, 145, 111, 0.16);
   color: var(--gold-ink);
   font-family: var(--sans);
   font-size: 0.8em;
@@ -493,7 +496,7 @@ main:focus {
   border-bottom-color: var(--line);
   /* Solid, no blur: a blur here would trap the full-screen phone menu inside the header
      and costs a repaint on every scroll. */
-  background: rgba(251, 246, 236, 0.97);
+  background: rgba(248, 245, 239, 0.97);
 }
 
 .site-header__inner {
@@ -738,7 +741,7 @@ main:focus {
 
 /* Temple-arch top */
 .media--arch {
-  border-radius: 999px 999px var(--radius) var(--radius);
+  border-radius: calc(var(--radius) * 1.6);
 }
 
 .media picture {
@@ -981,7 +984,7 @@ main:focus {
   width: 100%;
   height: 100%;
   padding: 0;
-  border: 1px solid rgba(195, 154, 69, 0.55);
+  border: 1px solid rgba(168, 145, 111, 0.55);
   border-radius: 50%;
   background: var(--cream);
   box-shadow: 0 14px 30px -18px rgba(19, 48, 33, 0.45);
@@ -1012,7 +1015,7 @@ main:focus {
 .orbit__node[aria-pressed='true'] {
   border-color: var(--green);
   background: #fff8ea;
-  box-shadow: 0 0 0 4px rgba(195, 154, 69, 0.35), 0 18px 34px -18px rgba(19, 48, 33, 0.55);
+  box-shadow: 0 0 0 4px rgba(168, 145, 111, 0.35), 0 18px 34px -18px rgba(19, 48, 33, 0.55);
   transform: scale(1.12);
 }
 
@@ -1065,7 +1068,7 @@ main:focus {
   padding: 2rem 2rem 2.25rem;
   border-left: 2px solid var(--gold);
   border-radius: 0 var(--radius) var(--radius) 0;
-  background: rgba(251, 246, 236, 0.85);
+  background: rgba(248, 245, 239, 0.85);
 }
 
 .ing + .ing {
@@ -1141,9 +1144,9 @@ main:focus {
   max-width: 44rem;
   margin: clamp(3rem, 2rem + 3vw, 4.5rem) auto 0;
   padding: 1.75rem 2rem;
-  border: 1px solid rgba(195, 154, 69, 0.45);
+  border: 1px solid rgba(168, 145, 111, 0.45);
   border-radius: var(--radius);
-  background: rgba(251, 246, 236, 0.8);
+  background: rgba(248, 245, 239, 0.8);
   text-align: center;
 }
 
@@ -1170,7 +1173,7 @@ main:focus {
   padding: 1.5rem 1.75rem;
   border: 1px solid var(--line-light);
   border-radius: var(--radius);
-  background: rgba(251, 246, 236, 0.05);
+  background: rgba(248, 245, 239, 0.05);
 }
 
 .method__num {
@@ -1336,11 +1339,11 @@ main:focus {
 
 @keyframes tap {
   0% {
-    box-shadow: 0 0 0 0 rgba(195, 154, 69, 0.6);
+    box-shadow: 0 0 0 0 rgba(168, 145, 111, 0.6);
   }
   70%,
   100% {
-    box-shadow: 0 0 0 12px rgba(195, 154, 69, 0);
+    box-shadow: 0 0 0 12px rgba(168, 145, 111, 0);
   }
 }
 
@@ -1470,7 +1473,7 @@ main:focus {
   left: auto;
   bottom: auto;
   background: rgba(19, 48, 33, 0.7);
-  border: 1px solid rgba(226, 196, 127, 0.4);
+  border: 1px solid rgba(221, 208, 185, 0.4);
 }
 
 @media (min-width: 768px) {
@@ -1502,7 +1505,7 @@ main:focus {
 }
 
 .has-cover:not(.menu-open) .site-header:not(.is-scrolled) .menu-toggle {
-  border-color: rgba(251, 246, 236, 0.5);
+  border-color: rgba(248, 245, 239, 0.5);
 }
 
 @media (min-width: 960px) {
@@ -1544,7 +1547,7 @@ main:focus {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 70% at 0% 0%, rgba(251, 246, 236, 0.78) 0%, rgba(251, 246, 236, 0.35) 45%, rgba(251, 246, 236, 0) 70%);
+  background: radial-gradient(120% 70% at 0% 0%, rgba(248, 245, 239, 0.78) 0%, rgba(248, 245, 239, 0.35) 45%, rgba(248, 245, 239, 0) 70%);
   pointer-events: none;
 }
 
@@ -2026,7 +2029,7 @@ main:focus {
   width: 1px;
   height: 3rem;
   overflow: hidden;
-  background: rgba(251, 246, 236, 0.25);
+  background: rgba(248, 245, 239, 0.25);
 }
 
 .scroll-cue::after {
@@ -2239,9 +2242,9 @@ main:focus {
 
 .specs li {
   padding: 0.55rem 1.1rem;
-  border: 1px solid rgba(195, 154, 69, 0.55);
+  border: 1px solid rgba(168, 145, 111, 0.55);
   border-radius: 999px;
-  background: rgba(251, 246, 236, 0.6);
+  background: rgba(248, 245, 239, 0.6);
   color: var(--ink);
   font-size: 0.75rem;
   font-weight: 500;
@@ -2250,8 +2253,8 @@ main:focus {
 }
 
 .section--green .specs li {
-  border-color: rgba(226, 196, 127, 0.5);
-  background: rgba(251, 246, 236, 0.06);
+  border-color: rgba(221, 208, 185, 0.5);
+  background: rgba(248, 245, 239, 0.06);
   color: var(--on-green);
 }
 
@@ -2369,9 +2372,9 @@ main:focus {
 
 .tile {
   overflow: hidden;
-  border: 1px solid rgba(195, 154, 69, 0.3);
+  border: 1px solid rgba(168, 145, 111, 0.3);
   border-radius: var(--radius);
-  background: rgba(251, 246, 236, 0.85);
+  background: rgba(248, 245, 239, 0.85);
   transition: transform 0.8s var(--ease), box-shadow 0.8s var(--ease);
 }
 
@@ -2487,8 +2490,9 @@ main:focus {
   max-width: 14ch;
   margin: 0 auto;
   color: var(--green-deep);
-  font-size: clamp(3.4rem, 2.2rem + 5vw, 6.5rem);
+  font-size: clamp(3.6rem, 2.2rem + 5.6vw, 7rem);
   font-weight: 600;
+  font-synthesis-weight: auto; /* the one deliberately heavy headline */
   line-height: 1;
   letter-spacing: -0.01em;
   text-wrap: balance;
@@ -2555,7 +2559,7 @@ main:focus {
   place-items: center;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid rgba(226, 196, 127, 0.4);
+  border: 1px solid rgba(221, 208, 185, 0.4);
   border-radius: 50%;
   color: var(--gold-light);
   transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
@@ -2602,7 +2606,7 @@ main:focus {
 }
 
 .site-footer .tbd {
-  background: rgba(226, 196, 127, 0.16);
+  background: rgba(221, 208, 185, 0.16);
   color: var(--gold-light);
 }
 
@@ -3054,8 +3058,8 @@ main:focus {
   gap: 0.6rem;
   padding: 1.75rem 1.75rem 2rem;
   border-radius: var(--radius);
-  background: rgba(251, 246, 236, 0.75);
-  border: 1px solid rgba(195, 154, 69, 0.3);
+  background: rgba(248, 245, 239, 0.75);
+  border: 1px solid rgba(168, 145, 111, 0.3);
 }
 
 .trade dt {
@@ -3332,7 +3336,7 @@ main:focus {
 }
 
 .direct .tbd {
-  background: rgba(226, 196, 127, 0.16);
+  background: rgba(221, 208, 185, 0.16);
   color: var(--gold-light);
 }
 
@@ -3586,7 +3590,7 @@ main:focus {
 }
 
 .flora--gold {
-  color: var(--gold);
+  color: var(--sage);
 }
 
 /* On cream the gold line art reads lighter, so it is shown a little stronger there. */
@@ -3595,7 +3599,7 @@ main:focus {
 }
 
 .flora--light {
-  color: var(--gold-light);
+  color: var(--on-green);
 }
 
 .flora__item {
@@ -3645,7 +3649,7 @@ main:focus {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: repeating-conic-gradient(from 200deg at var(--sun), rgba(255, 233, 180, 0) 0deg 7deg, rgba(255, 233, 180, 0.16) 9deg 12deg, rgba(255, 233, 180, 0) 14deg 22deg);
+  background: repeating-conic-gradient(from 200deg at var(--sun), rgba(255, 244, 222, 0) 0deg 7deg, rgba(255, 244, 222, 0.16) 9deg 12deg, rgba(255, 244, 222, 0) 14deg 22deg);
   -webkit-mask-image: radial-gradient(circle at var(--sun), #000 0%, transparent 62%);
   mask-image: radial-gradient(circle at var(--sun), #000 0%, transparent 62%);
   mix-blend-mode: screen;
@@ -3692,7 +3696,7 @@ main:focus {
   display: block;
   width: min(15rem, 70%);
   margin-inline: auto;
-  color: var(--gold);
+  color: var(--sage);
 }
 
 .ornament--vine .vine {
@@ -3729,28 +3733,6 @@ main:focus {
   opacity: 1;
 }
 
-/* Gold shimmer passing once over italic headline words */
-.js :is(.h2, .band__title, .story-closing__line, .page-hero__title, .hero__title) em {
-  padding-inline: 0.06em;
-  margin-inline: -0.06em;
-  background-image: linear-gradient(100deg, currentColor 0 40%, color-mix(in srgb, currentColor 40%, #fff6dc) 50%, currentColor 60% 100%);
-  background-size: 300% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 1.8s ease-out 0.5s both;
-}
-
-.js [data-reveal]:not(.is-visible) em {
-  animation-play-state: paused;
-}
-
-@keyframes shine {
-  to {
-    background-position: 0 0;
-  }
-}
 
 /* Cards tilt gently toward the pointer with a soft glare (mouse only, set by main.js). */
 .tilt {
@@ -3802,11 +3784,6 @@ main:focus {
     animation: none !important;
   }
 
-  .js :is(.h2, .band__title, .story-closing__line, .page-hero__title, .hero__title) em {
-    animation: none;
-    background: none;
-    -webkit-text-fill-color: currentColor;
-  }
 
 
   /* The client asked for the ingredient orbit to always turn; it stays slow and pausable. */

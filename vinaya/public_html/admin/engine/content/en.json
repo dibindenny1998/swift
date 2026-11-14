@@ -70,7 +70,7 @@
   "meta": {
     "home": {
       "title": "Vinaya | A Way of Being · Natural Cosmetics",
-      "description": "Vinaya is a natural cosmetics brand bringing traditional ingredients and personal care rituals into modern life, starting with a botanical hair oil from Kerala. Export enquiries welcome."
+      "description": "Vinaya is a natural cosmetics brand bringing time-tested botanical ingredients and personal care rituals into modern life, starting with a botanical hair oil. Trade and export enquiries welcome."
     },
     "story": {
       "title": "Our Story | Vinaya",
@@ -94,14 +94,14 @@
     },
     "blog": {
       "title": "Blog | Vinaya Natural Cosmetics",
-      "description": "Ingredients, traditions and simple natural-care rituals from Vinaya, a natural cosmetics brand rooted in Kerala."
+      "description": "Ingredients, rituals and simple natural-care guides from Vinaya, a botanical personal care brand."
     }
   },
   "home": {
     "hero": {
-      "eyebrow": "Natural cosmetics · Kerala",
+      "eyebrow": "Botanical personal care",
       "title": "A Way\n*of Being.*",
-      "text": "Personal care rooted in natural ingredients with traditional Indian knowledge.",
+      "text": "Natural care made with time-tested botanicals, for everyday modern life.",
       "badge": "100% Botanical · Zero Synthetics · Cruelty Free · ",
       "cta": "Discover"
     },
@@ -121,7 +121,7 @@
         },
         {
           "title": "Tradition",
-          "text": "Guided by knowledge kept alive in Indian homes for generations."
+          "text": "Guided by knowledge passed down through generations."
         },
         {
           "title": "You",
@@ -244,7 +244,7 @@
     "page": {
       "eyebrow": "Products",
       "title": "Natural cosmetics, *thoughtfully made.*",
-      "intro": "Our first product, from Kerala. More to come.",
+      "intro": "Our first product. More to come.",
       "comingSoonTitle": "Coming soon",
       "comingSoon": "Skin care, body care and more natural cosmetics will join the collection soon.",
       "detailsTitle": "Product details",
@@ -283,7 +283,7 @@
         "variant": "Green Leaves & Coconut Oil",
         "short": "Selected herbs and aromatic spices, slowly cooked in pure coconut oil.",
         "description": [
-          "A time-honoured hair-care ritual from Kerala: herbs and spices, slowly cooked in pure coconut oil."
+          "A time-honoured hair-care ritual: herbs and spices, slowly cooked in pure coconut oil."
         ],
         "highlights": [
           "110 ml",

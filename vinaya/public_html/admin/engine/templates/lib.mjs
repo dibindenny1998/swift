@@ -38,38 +38,10 @@ export const roman = (n) => ROMAN[n - 1] ?? String(n);
 export const pad = (n) => String(n).padStart(2, '0');
 
 // ---------------------------------------------------------------- botanical line art
-// Fine gold line drawings used as floating decoration. All stroke in currentColor.
+// Fine line drawings used as floating decoration. All stroke in currentColor.
 
 const svg = (cls, viewBox, body) =>
-  `<svg class="${cls}" viewBox="${viewBox}" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
-
-// Five-petal jasmine flower.
-export const JASMINE = svg(
-  'bot bot--jasmine',
-  '0 0 48 48',
-  [0, 72, 144, 216, 288]
-    .map((a) => `<path transform="rotate(${a} 24 24)" d="M24 22C20.5 15 21 8 24 4c3 4 3.5 11 0 18z"/>`)
-    .join('') + '<circle cx="24" cy="24" r="2.2"/>',
-);
-
-// A curry-leaf sprig: a curved stem with paired leaflets.
-const leaflet = (x, y, deg) =>
-  `<path transform="translate(${x} ${y}) rotate(${deg})" d="M0 0C3-3.6 8.5-3.6 11.5 0 8.5 3.6 3 3.6 0 0z"/>`;
-export const CURRY = svg(
-  'bot bot--curry',
-  '0 0 64 64',
-  '<path d="M6 58C20 44 36 26 58 6"/>' +
-    [
-      [14, 50.5],
-      [22, 42],
-      [30, 33.5],
-      [38, 25],
-      [46, 16.5],
-    ]
-      .map(([x, y]) => leaflet(x, y, -100) + leaflet(x, y, 10))
-      .join('') +
-    leaflet(54, 9, -45),
-);
+  `<svg class="${cls}" viewBox="${viewBox}" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
 
 // A single hibiscus petal with its veins.
 export const PETAL = svg(
@@ -78,16 +50,36 @@ export const PETAL = svg(
   '<path d="M24 45C9 37 6 16 17 6c2.5 3 4.5 4 7 4s4.5-1 7-4c11 10 8 31-7 39z"/><path d="M24 45V14M24 32l-7-9M24 28l7-9"/>',
 );
 
+// An oil droplet with a soft highlight.
+export const DROPLET = svg(
+  'bot bot--droplet',
+  '0 0 48 48',
+  '<path d="M24 5C18 15 12 22 12 30a12 12 0 0 0 24 0c0-8-6-15-12-25z"/><path d="M18 31a6 6 0 0 0 5 6"/>',
+);
+
+// A seed pod, split to show its line.
+export const SEED = svg(
+  'bot bot--seed',
+  '0 0 48 48',
+  '<path d="M24 4C13 14 13 34 24 44c11-10 11-30 0-40z"/><path d="M24 9v30"/>',
+);
+
+// A soft organic loop, like a ripple of oil.
+export const LOOP = svg(
+  'bot bot--loop',
+  '0 0 64 64',
+  '<path d="M33 7c13 1 24 10 23 24S45 58 31 57 7 47 8 32 20 6 33 7z"/><path d="M33 17c8 1 14 6 13 14s-7 15-15 14-14-6-13-14 7-15 15-14z"/>',
+);
+
 // A gold vine that draws itself between sections (every path has pathLength="1").
 export const VINE = `<svg class="vine" viewBox="0 0 260 40" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">${[
-  'M6 20C40 6 74 34 108 20',
-  'M152 20C186 6 220 34 254 20',
+  'M6 20C40 6 74 34 122 20',
+  'M138 20C186 6 220 34 254 20',
   'M40 13C46 4 56 4 60 8 54 13 46 15 40 13z',
   'M76 27C82 36 92 36 96 32 90 27 82 25 76 27z',
   'M220 13C214 4 204 4 200 8 206 13 214 15 220 13z',
   'M184 27C178 36 168 36 164 32 170 27 178 25 184 27z',
-  ...[0, 72, 144, 216, 288].map((a) => `M130 18C127.5 13 128 8 130 5c2 3 2.5 8 0 13z" transform="rotate(${a} 130 20)`),
 ]
   .map((d) => `<path pathLength="1" d="${d}"/>`)
-  .join('')}<circle cx="130" cy="20" r="1.6" fill="currentColor" stroke="none"/></svg>`;
+  .join('')}<circle cx="130" cy="20" r="2.4" fill="none"/></svg>`;
 

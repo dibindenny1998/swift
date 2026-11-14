@@ -1,4 +1,4 @@
-import { CURRY, JASMINE, LEAF, PETAL, esc, html } from './lib.mjs';
+import { DROPLET, LEAF, LOOP, PETAL, SEED, esc, html } from './lib.mjs';
 
 // An image slot from content/images.mjs. Renders the real image when a file exists in
 // static/assets/img/, otherwise a clearly labelled placeholder box of the same shape.
@@ -52,10 +52,8 @@ ${ctx.list(`products.items.${product.slug}.highlights`).map((item, i) => `  <li 
 export function pageHero(ctx, { eyebrow, title, intro, align = 'left' }) {
   return html`<section class="page-hero page-hero--${align} has-flora">
   ${flora([
-    ['jasmine', 70, 30, 3, 0, 13, 0.55],
-    ['curry', 84, 52, 5, -15, 16, 0.45, false],
-    ['petal', 90, 18, 2.4, 25, 12, 0.45],
-    ['leaf', 60, 72, 2.4, 40, 14, 0.35, false],
+    ['loop', 78, 22, 5, 0, 18, 0.45, false],
+    ['leaf', 88, 60, 2.6, 30, 14, 0.5],
   ])}
   <div class="container">
     <p class="eyebrow hero-in" style="--i:0">${eyebrow}</p>
@@ -135,9 +133,9 @@ export const words = (text) =>
     .map((w, i) => `<span class="w" style="--w:${i}">${w}</span>`)
     .join(' ');
 
-// Floating botanicals: fine gold line art that drifts and sways slowly. Each item is
+// Floating botanicals: fine line art that drifts and sways slowly. Each item is
 // [shape, left %, top %, size rem, start angle, seconds per sway, opacity, phone? ].
-const SHAPES = { jasmine: JASMINE, curry: CURRY, petal: PETAL, leaf: LEAF };
+const SHAPES = { leaf: LEAF, droplet: DROPLET, seed: SEED, petal: PETAL, loop: LOOP };
 export function flora(items, { tone = 'gold' } = {}) {
   return `<div class="flora flora--${tone}" aria-hidden="true">${items
     .map(
