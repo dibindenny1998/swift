@@ -34,7 +34,7 @@ ${ctx.page.noindex ? '<meta name="robots" content="noindex">' : `<link rel="cano
 <link rel="manifest" href="${ctx.asset('site.webmanifest')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <link rel="stylesheet" href="${ctx.asset('assets/css/main.css', true)}">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script src="${ctx.asset('assets/js/main.js', true)}" defer></script>
