@@ -16,10 +16,11 @@ function badge(ctx) {
 </div>`;
 }
 
-// "From the source to you": three tall pictures side by side. Their words are part of the pictures.
+// "From the source to you": three tall pictures side by side. A journey-* picture carries the
+// words as real text on top; until one is uploaded, the older picture with its words built in shows.
 function journey(ctx) {
   const steps = ctx.raw('home.tale.steps');
-  const slots = ['tale-nature', 'tale-tradition', 'tale-you'];
+  const keys = ['nature', 'tradition', 'you'];
   return html`<section class="section section--green journey has-flora" aria-labelledby="journey-title">
   ${flora([
     ['seed', 5, 8, 2.6, -20, 15, 0.35],
@@ -30,13 +31,15 @@ function journey(ctx) {
       <h2 class="eyebrow eyebrow--center" id="journey-title" data-reveal>${ctx.t('home.tale.eyebrow')}</h2>
     </header>
     <ol class="journey__grid">
-${steps.map(
-    (_, i) => html`      <li class="journey__card" data-reveal style="--delay:${i * 180}ms">
-        ${image(ctx, slots[i], { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' })}
-        <h3 class="visually-hidden">${ctx.t(`home.tale.steps.${i}.word`)}: ${ctx.t(`home.tale.steps.${i}.line`)}</h3>
+${steps.map((_, i) => {
+    const fresh = ctx.images[`journey-${keys[i]}`]?.exists;
+    const heading = `${ctx.t(`home.tale.steps.${i}.word`)} <span class="journey__line">${ctx.t(`home.tale.steps.${i}.line`)}</span>`;
+    return html`      <li class="journey__card${fresh ? ' journey__card--text' : ''}" data-reveal style="--delay:${i * 180}ms">
+        ${image(ctx, fresh ? `journey-${keys[i]}` : `tale-${keys[i]}`, { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' })}
+        <h3 class="${fresh ? 'journey__word' : 'visually-hidden'}">${heading}</h3>
       </li>
-`,
-  )}    </ol>
+`;
+  })}    </ol>
   </div>
 </section>`;
 }

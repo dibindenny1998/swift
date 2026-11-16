@@ -14,6 +14,32 @@ Copy each prompt block as it is. Each one already includes the subject, composit
 text, letters, words, logo, watermark, label text (unless using the real product photo as reference), saree, temple, brass lamp, jasmine in hair, Indian traditional dress, heavy golden-hour orange cast, oversaturated colours, harsh flash, busy or cluttered background, plastic look, CGI, cartoon, illustration, extra fingers, deformed hands, distorted face, duplicate people, same face as other images, blurry, low resolution
 ```
 
+
+## Home · Nature / Tradition / You cards (words are added by the website)
+
+These replace the three cards that have words built into the picture. **Do not put any text in these images**: the website writes "Nature inspires us.", "Tradition guides us." and "You are at the heart of what we do." on top. Upload them in **Admin → Photos** as the three "Home: … card" photos, and the site switches to them automatically.
+
+### `journey-nature.jpg` — Home · Nature card
+**Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
+
+```
+Morning dew on fresh botanicals: a sprig of curry leaves, a hibiscus bud and a tulsi stem resting on an aged, weathered stone ledge in a quiet walled garden, soft early light, the lower third of the frame calm and darker for text, vertical composition. Shot on a full-frame camera with a 100mm macro lens, even soft daylight, crisp natural textures. Colour grade: soft natural daylight, neutral warm-white and sand tones with muted sage-green accents, low contrast, lifted shadows, gentle highlight roll-off, subtle fine film grain, calm and minimal, premium European skincare campaign style (think Aesop, Byredo, Le Labo). Clean composition with generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks (the real product label is fine). Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+```
+
+### `journey-tradition.jpg` — Home · Tradition card
+**Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
+
+```
+Weathered hands of an older European woman slowly stirring herbs and cinnamon into golden oil in a hammered copper pot, in an old stone still-room with apothecary jars and dried herb bundles softly blurred behind, the lower third calm and darker for text, vertical composition, a quiet old-world mood. Shot on a full-frame camera with a 50mm lens at f/2.8, soft window light, natural skin texture, hands sharp and the background softly blurred. Colour grade: soft natural daylight, neutral warm-white and sand tones with muted sage-green accents, low contrast, lifted shadows, gentle highlight roll-off, subtle fine film grain, calm and minimal, premium European skincare campaign style (think Aesop, Byredo, Le Labo). Clean composition with generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks (the real product label is fine). Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+```
+
+### `journey-you.jpg` — Home · You card
+**Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
+
+```
+A Swiss woman in her 30s in a calm modern bathroom with pale oak and limewash walls, warming a few drops of hair oil between her palms, the Vinaya bottle softly out of focus on the shelf, the lower third calm and darker for text, vertical composition. Editorial beauty portrait shot on a full-frame camera with an 85mm lens at f/2, soft window light from the side, natural skin texture, relaxed and candid. Colour grade: soft natural daylight, neutral warm-white and sand tones with muted sage-green accents, low contrast, lifted shadows, gentle highlight roll-off, subtle fine film grain, calm and minimal, premium European skincare campaign style (think Aesop, Byredo, Le Labo). Clean composition with generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks (the real product label is fine). Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+```
+
 ---
 
 ### 1. `home-hero.jpg`

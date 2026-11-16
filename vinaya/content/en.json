@@ -2,7 +2,7 @@
   "site": {
     "name": "Vinaya",
     "slogan": "A Way of Being.",
-    "tagline": "Natural cosmetics, rooted in traditional wisdom",
+    "tagline": "Modern botanical care, rooted in old-world wisdom",
     "motto": "People · Purpose · Progress"
   },
   "nav": {
@@ -34,7 +34,7 @@
     "primary": "Get in touch"
   },
   "footer": {
-    "tagline": "Natural cosmetics, rooted in traditional wisdom.",
+    "tagline": "Modern botanical care, rooted in old-world wisdom.",
     "explore": "Explore",
     "reach": "Get in touch",
     "rights": "All rights reserved.",
@@ -65,12 +65,15 @@
     "story-value": "Coconut, hibiscus, cinnamon, curry leaves, tulsi and aloe vera arranged around the edges of dark green linen",
     "home-hero-mobile": "Vinaya Hair Oil on a travertine block beside a halved coconut and green leaves, palm shadows on a warm white wall",
     "col-face": "A woman with eyes closed pressing facial oil into her cheek",
-    "story-hero-mobile": "A sunlit glass greenhouse with potted herbs, an olive tree and amber bottles on a wooden bench"
+    "story-hero-mobile": "A sunlit glass greenhouse with potted herbs, an olive tree and amber bottles on a wooden bench",
+    "journey-nature": "Fresh botanicals glistening with morning dew",
+    "journey-tradition": "Hands steeping herbs and spices the old-world way",
+    "journey-you": "A modern daily ritual with Vinaya botanical oil"
   },
   "meta": {
     "home": {
-      "title": "Vinaya | A Way of Being · Natural Cosmetics",
-      "description": "Vinaya is a natural cosmetics brand bringing time-tested botanical ingredients and personal care rituals into modern life, starting with a botanical hair oil. Trade and export enquiries welcome."
+      "title": "Vinaya | A Way of Being · Botanical Hair & Body Care",
+      "description": "Vinaya is modern botanical hair and body care, made from old-world recipes: herbs and spices slowly steeped in pure coconut oil. Trade and export enquiries welcome."
     },
     "story": {
       "title": "Our Story | Vinaya",
@@ -99,9 +102,9 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Botanical personal care",
+      "eyebrow": "Botanical hair & body care",
       "title": "A Way\n*of Being.*",
-      "text": "Natural care made with time-tested botanicals, for everyday modern life.",
+      "text": "Old-world botanical recipes, reimagined for modern hair and skin.",
       "badge": "100% Botanical · Zero Synthetics · Cruelty Free · ",
       "cta": "Discover"
     },
@@ -175,15 +178,15 @@
       "steps": [
         {
           "word": "Nature",
-          "line": "It begins with natural ingredients."
+          "line": "inspires us."
         },
         {
           "word": "Tradition",
-          "line": "Guided by generations of knowledge."
+          "line": "guides us."
         },
         {
           "word": "You",
-          "line": "Made for life today."
+          "line": "are at the heart of what we do."
         }
       ]
     }
@@ -244,7 +247,7 @@
     "page": {
       "eyebrow": "Products",
       "title": "Natural cosmetics, *thoughtfully made.*",
-      "intro": "Our first product. More to come.",
+      "intro": "Small-batch botanical care, made the slow way. More to come.",
       "comingSoonTitle": "Coming soon",
       "comingSoon": "Skin care, body care and more natural cosmetics will join the collection soon.",
       "detailsTitle": "Product details",
@@ -257,7 +260,7 @@
       "ritualTitle": "Your Vinaya ritual",
       "ritualSub": "Simple steps and natural care",
       "methodTitle": "Made the Vinaya way",
-      "methodSub": "A time-honoured preparation where herbs and spices are slowly cooked in pure coconut oil.",
+      "methodSub": "An old-world preparation: selected herbs and spices slowly steeped in pure coconut oil, then filtered and bottled with care.",
       "faqTitle": "Your questions, our answers",
       "promisesTitle": "Our promises"
     },
@@ -283,7 +286,7 @@
         "variant": "Green Leaves & Coconut Oil",
         "short": "Selected herbs and aromatic spices, slowly cooked in pure coconut oil.",
         "description": [
-          "A time-honoured hair-care ritual: herbs and spices, slowly cooked in pure coconut oil."
+          "An old-world hair ritual, made the slow way: selected herbs and spices gently steeped in pure coconut oil."
         ],
         "highlights": [
           "110 ml",
