@@ -4,7 +4,7 @@ excerpt: Smooth, rounded edges that are gentle on hair and scalp, and kinder to 
 category: Rituals
 date: 2026-09-28
 image: blog-caring-for-your-wooden-comb.jpg
-alt: Vinaya Gift Set with a wooden comb, hair oil and story card in a sheer pouch
+alt: A wooden comb on a folded white towel beside a bowl of water and a soft brush
 ---
 Every Vinaya Gift Set includes a wooden comb. It is part of the ritual: you use it to spread the oil evenly through your hair and remove any excess.
 
