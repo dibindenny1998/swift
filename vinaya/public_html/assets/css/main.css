@@ -1424,8 +1424,8 @@ main:focus {
   inset: 0;
   /* Top band keeps the header readable over bright skies; the rest darkens behind the text. */
   background:
-    linear-gradient(180deg, rgba(19, 48, 33, 0.72) 0%, rgba(19, 48, 33, 0.35) 12%, rgba(19, 48, 33, 0) 24%),
-    linear-gradient(0deg, rgba(19, 48, 33, 0.94) 0%, rgba(19, 48, 33, 0.6) 50%, rgba(19, 48, 33, 0.2) 100%);
+    linear-gradient(180deg, rgba(19, 48, 33, 0.55) 0%, rgba(19, 48, 33, 0.18) 12%, rgba(19, 48, 33, 0) 22%),
+    linear-gradient(0deg, rgba(19, 48, 33, 0.9) 0%, rgba(19, 48, 33, 0.66) 46%, rgba(19, 48, 33, 0) 66%);
 }
 
 .hero--brand .hero__grid {
@@ -1477,11 +1477,7 @@ main:focus {
   border: 1px solid rgba(221, 208, 185, 0.4);
 }
 
-@media (min-width: 768px) {
-  .hero__badge {
-    display: block;
-  }
-}
+/* The badge stays hidden: the banner now shows the product itself, which the badge would cover. */
 
 @media (min-width: 960px) {
   .hero--brand {
@@ -1491,8 +1487,8 @@ main:focus {
 
   .hero__bg::after {
     background:
-      linear-gradient(180deg, rgba(19, 48, 33, 0.6) 0%, rgba(19, 48, 33, 0) 18%),
-      linear-gradient(100deg, rgba(19, 48, 33, 0.9) 0%, rgba(19, 48, 33, 0.55) 48%, rgba(19, 48, 33, 0.1) 100%);
+      linear-gradient(180deg, rgba(19, 48, 33, 0.45) 0%, rgba(19, 48, 33, 0) 16%),
+      linear-gradient(95deg, rgba(19, 48, 33, 0.82) 0%, rgba(19, 48, 33, 0.5) 32%, rgba(19, 48, 33, 0) 58%);
   }
 
   .hero--brand .hero__grid {
