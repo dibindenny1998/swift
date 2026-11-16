@@ -28,7 +28,6 @@ export default {
   'story-heritage': { file: 'story-heritage.jpg', width: 1122, height: 1402, page: 'Our Story: I Nature inspires us' },
   'story-change': { file: 'story-change.jpg', width: 1122, height: 1402, page: 'Our Story: II Tradition guides us (arch)' },
   'story-reconnect': { file: 'story-reconnect.jpg', width: 1122, height: 1402, page: 'Our Story: III You are at the heart of what we do' },
-  'story-value': { file: 'story-value.jpg', width: 1920, height: 1080, page: 'Our Story: full-width quote background' },
   'approach-1': { file: 'approach-simplicity.jpg', width: 1448, height: 1086, page: 'Our Story: Thoughtful Simplicity card' },
   'approach-2': { file: 'approach-care.jpg', width: 1448, height: 1086, page: 'Our Story: Conscious Care card' },
   'approach-3': { file: 'approach-purpose.jpg', width: 1448, height: 1086, page: 'Our Story: Our Purpose card' },

@@ -21,11 +21,11 @@ function badge(ctx) {
 function journey(ctx) {
   const steps = ctx.raw('home.tale.steps');
   const keys = ['nature', 'tradition', 'you'];
-  return html`<section class="section section--green journey has-flora" aria-labelledby="journey-title">
+  return html`<section class="section journey has-flora" aria-labelledby="journey-title">
   ${flora([
     ['seed', 5, 8, 2.6, -20, 15, 0.35],
     ['droplet', 92, 6, 2.2, 0, 13, 0.4],
-  ], { tone: 'light' })}
+  ])}
   <div class="container">
     <header class="section-head center">
       <h2 class="eyebrow eyebrow--center" id="journey-title" data-reveal>${ctx.t('home.tale.eyebrow')}</h2>

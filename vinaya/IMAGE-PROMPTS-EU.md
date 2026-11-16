@@ -15,29 +15,45 @@ text, letters, words, logo, watermark, label text (unless using the real product
 ```
 
 
-## Home · Nature / Tradition / You cards (words are added by the website)
+## Balanced cast (do these first)
 
-These replace the three cards that have words built into the picture. **Do not put any text in these images**: the website writes "Nature inspires us.", "Tradition guides us." and "You are at the heart of what we do." on top. Upload them in **Admin → Photos** as the three "Home: … card" photos, and the site switches to them automatically.
+Vinaya is **old-world knowledge from around the world, for the modern you**: never only Kerala. People across the site should reflect a multi-ethnic audience. With these five images the cast becomes: Caucasian (Hair Care, Body Care, Our Story · Tradition and You, blog, Partner), **Black** (Home · You, Our Purpose) and **Indian** (Home · Tradition, Face Care), with ingredient and greenhouse images in between. No bottle in any of them. White, bright backgrounds.
+
+The Home cards need **no text in the picture**: the website writes the words. Upload in **Admin → Photos** with the exact names below.
 
 ### `journey-nature.jpg` — Home · Nature card
 **Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
 
 ```
-Morning dew on fresh botanicals: a sprig of curry leaves, a hibiscus bud and a tulsi stem resting on an aged, weathered stone ledge in a quiet walled garden, soft early light, the lower third of the frame calm and darker for text, vertical composition. Shot on a full-frame camera with a 100mm macro lens, even soft daylight, crisp natural textures. Colour grade: soft natural daylight, neutral warm-white and sand tones with muted sage-green accents, low contrast, lifted shadows, gentle highlight roll-off, subtle fine film grain, calm and minimal, premium European skincare campaign style (think Aesop, Byredo, Le Labo). Clean composition with generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks (the real product label is fine). Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+Fresh botanicals on a seamless bright white background: a red hibiscus flower, a sprig of curry leaves, a slice of aloe vera and a cinnamon stick, loosely arranged in the upper two-thirds with soft shadows, lower third of the frame plain white for text, vertical composition. Shot with a 100mm macro lens at f/8, soft overhead daylight. Colour grade: bright, clean white and soft warm-white background, natural daylight, gentle soft shadows, true-to-life skin tones, low contrast, subtle fine film grain, calm and minimal, premium global skincare campaign style (think Aesop, Byredo, Le Labo). Generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks, no bottle. Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
 ```
 
 ### `journey-tradition.jpg` — Home · Tradition card
 **Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
 
 ```
-Weathered hands of an older European woman slowly stirring herbs and cinnamon into golden oil in a hammered copper pot, in an old stone still-room with apothecary jars and dried herb bundles softly blurred behind, the lower third calm and darker for text, vertical composition, a quiet old-world mood. Shot on a full-frame camera with a 50mm lens at f/2.8, soft window light, natural skin texture, hands sharp and the background softly blurred. Colour grade: soft natural daylight, neutral warm-white and sand tones with muted sage-green accents, low contrast, lifted shadows, gentle highlight roll-off, subtle fine film grain, calm and minimal, premium European skincare campaign style (think Aesop, Byredo, Le Labo). Clean composition with generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks (the real product label is fine). Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+Close-up of the hands and forearms of an Indian woman in her 60s, plain linen sleeves, grinding dried herbs and petals in a pale stone mortar on a white table against a white limewash wall, a few herbs scattered, warm and respectful, lower third calm for text, vertical composition. Shot with a 50mm lens at f/2.8, soft window light. Colour grade: bright, clean white and soft warm-white background, natural daylight, gentle soft shadows, true-to-life skin tones, low contrast, subtle fine film grain, calm and minimal, premium global skincare campaign style (think Aesop, Byredo, Le Labo). Generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks, no bottle. Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
 ```
 
 ### `journey-you.jpg` — Home · You card
 **Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
 
 ```
-A Swiss woman in her 30s in a calm modern bathroom with pale oak and limewash walls, warming a few drops of hair oil between her palms, the Vinaya bottle softly out of focus on the shelf, the lower third calm and darker for text, vertical composition. Editorial beauty portrait shot on a full-frame camera with an 85mm lens at f/2, soft window light from the side, natural skin texture, relaxed and candid. Colour grade: soft natural daylight, neutral warm-white and sand tones with muted sage-green accents, low contrast, lifted shadows, gentle highlight roll-off, subtle fine film grain, calm and minimal, premium European skincare campaign style (think Aesop, Byredo, Le Labo). Clean composition with generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks (the real product label is fine). Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+A Black woman in her 30s with natural curly hair, eyes closed, smiling softly, smoothing a few drops of oil through her hair, ivory ribbed top, seamless bright white studio background, relaxed and confident, modern, lower third calm for text, vertical composition. Editorial beauty portrait with an 85mm lens at f/2. Colour grade: bright, clean white and soft warm-white background, natural daylight, gentle soft shadows, true-to-life skin tones, low contrast, subtle fine film grain, calm and minimal, premium global skincare campaign style (think Aesop, Byredo, Le Labo). Generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks, no bottle. Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+```
+
+### `collection-skin.jpg` — Home · Face Care card
+**Size:** 1145 × 1374 px · **Aspect ratio:** 5:6
+
+```
+An Indian woman in her 30s in profile, eyes closed, gently pressing facial oil into her cheek with her fingertips, dewy natural skin, hair tied back, white linen top, plain white wall, upper-left of the frame empty and light for text. Editorial beauty portrait with an 85mm lens at f/2. Colour grade: bright, clean white and soft warm-white background, natural daylight, gentle soft shadows, true-to-life skin tones, low contrast, subtle fine film grain, calm and minimal, premium global skincare campaign style (think Aesop, Byredo, Le Labo). Generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks, no bottle. Resolution 1145×1374 pixels, aspect ratio 5:6. --ar 5:6 --style raw --v 7
+```
+
+### `approach-purpose.jpg` — Our Story · Our Purpose card
+**Size:** 1448 × 1086 px · **Aspect ratio:** 4:3
+
+```
+Hands of a young Black woman in a cream linen apron planting a small seedling into a terracotta pot on a white table, soft green leaves blurred at the edge, bright white background, hopeful and calm. Shot with a 50mm lens at f/2.8, soft daylight. Colour grade: bright, clean white and soft warm-white background, natural daylight, gentle soft shadows, true-to-life skin tones, low contrast, subtle fine film grain, calm and minimal, premium global skincare campaign style (think Aesop, Byredo, Le Labo). Generous negative space. Photorealistic, high detail, sharp focus, no added text, logos or watermarks, no bottle. Resolution 1448×1086 pixels, aspect ratio 4:3. --ar 4:3 --style raw --v 7
 ```
 
 ---

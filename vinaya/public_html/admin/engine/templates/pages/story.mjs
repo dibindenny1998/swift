@@ -54,8 +54,7 @@ export default function story(ctx) {
 
 ${slots.map((slot, i) => scene(ctx, `story.chapters.${i}`, i + 1, slot))}
 
-<section class="section section--photo section--green story-value" aria-label="${ctx.tx('story.eyebrow')}">
-  <div class="section__bg">${image(ctx, 'story-value', { decorative: true, sizes: '100vw' })}</div>
+<section class="section section--green story-value" aria-label="${ctx.tx('story.eyebrow')}">
   <div class="container container--narrow center">
     <span class="rule" aria-hidden="true"></span>
     <blockquote class="quote" data-reveal><p>${ctx.t('story.value')}</p></blockquote>

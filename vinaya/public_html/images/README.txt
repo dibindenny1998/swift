@@ -22,7 +22,6 @@ story-hero-mobile.jpg                      1024 x 1536 px   Our Story: top banne
 story-heritage.jpg                         1122 x 1402 px   Our Story: I Nature inspires us
 story-change.jpg                           1122 x 1402 px   Our Story: II Tradition guides us (arch)
 story-reconnect.jpg                        1122 x 1402 px   Our Story: III You are at the heart of what we do
-story-value.jpg                            1920 x 1080 px   Our Story: full-width quote background
 approach-simplicity.jpg                    1448 x 1086 px   Our Story: Thoughtful Simplicity card
 approach-care.jpg                          1448 x 1086 px   Our Story: Conscious Care card
 approach-purpose.jpg                       1448 x 1086 px   Our Story: Our Purpose card
