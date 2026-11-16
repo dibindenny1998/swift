@@ -2029,12 +2029,18 @@ main:focus {
   color: var(--ink-soft);
 }
 
-.journey__card--text::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(19, 48, 33, 0.82) 0%, rgba(19, 48, 33, 0.3) 38%, rgba(19, 48, 33, 0) 60%);
-  pointer-events: none;
+/* The card photos keep a white lower third, so the words sit on it in dark green. */
+.journey__card--text {
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.journey__card--text .journey__word {
+  color: var(--green-deep);
+}
+
+.journey__card--text .journey__line {
+  color: var(--ink-soft);
 }
 
 .journey__word {
