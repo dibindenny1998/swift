@@ -4,7 +4,7 @@ excerpt: Meet the ingredients inside Vinaya hair oil, from coconut oil, the trop
 category: Ingredients
 date: 2026-10-10
 image: blog-seven-botanicals.jpg
-alt: Vinaya Hair Oil with a fresh coconut, green leaves and a wooden comb
+alt: Coconut, aloe vera, cinnamon, hibiscus, curry leaves, tulsi and bhringraj in a row on white paper
 ---
 Vinaya hair oil is made by steeping selected herbs and aromatic spices in coconut oil. Each one was chosen for a reason.
 

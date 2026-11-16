@@ -4,7 +4,7 @@ excerpt: Three unhurried steps, twenty minutes and a wooden comb. Here is how to
 category: Rituals
 date: 2026-10-06
 image: blog-weekly-hair-oil-ritual.jpg
-alt: Vinaya Hair Oil standing on a stone slab between a coconut and green leaves
+alt: A woman with long curly hair massaging oil into her scalp in a bright bedroom
 ---
 A good ritual is simple enough to repeat. Use Vinaya hair oil two to three times a week, continuously, and give your hair time: noticeable changes may take three months or longer.
 
