@@ -7,9 +7,6 @@ Open https://YOUR-SITE/images/guide.html to see every image and check your uploa
 
 home-hero.jpg                              1920 x 1080 px   Home: top banner (desktop and tablet)
 home-hero-mobile.jpg                       1024 x 1536 px   Home: top banner on phones (portrait)
-tale-nature.jpg                            1145 x 1374 px   Home: Nature card (words are part of the picture)
-tale-tradition.jpg                         1145 x 1374 px   Home: Tradition card (words are part of the picture)
-tale-you.jpg                               1145 x 1374 px   Home: You card (words are part of the picture)
 journey-nature.jpg                         1145 x 1374 px   Home: Nature card (no words in the picture; keep the lower third calm)
 journey-tradition.jpg                      1145 x 1374 px   Home: Tradition card (no words in the picture; keep the lower third calm)
 journey-you.jpg                            1145 x 1374 px   Home: You card (no words in the picture; keep the lower third calm)

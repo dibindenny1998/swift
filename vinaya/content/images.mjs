@@ -13,9 +13,6 @@
 export default {
   'home-hero': { file: 'home-hero.jpg', width: 1920, height: 1080, page: 'Home: top banner (desktop and tablet)' },
   'home-hero-mobile': { file: 'home-hero-mobile.jpg', width: 1024, height: 1536, page: 'Home: top banner on phones (portrait)' },
-  'tale-nature': { file: 'tale-nature.jpg', width: 1145, height: 1374, page: 'Home: Nature card (words are part of the picture)' },
-  'tale-tradition': { file: 'tale-tradition.jpg', width: 1145, height: 1374, page: 'Home: Tradition card (words are part of the picture)' },
-  'tale-you': { file: 'tale-you.jpg', width: 1145, height: 1374, page: 'Home: You card (words are part of the picture)' },
   'journey-nature': { file: 'journey-nature.jpg', width: 1145, height: 1374, page: 'Home: Nature card (no words in the picture; keep the lower third calm)' },
   'journey-tradition': { file: 'journey-tradition.jpg', width: 1145, height: 1374, page: 'Home: Tradition card (no words in the picture; keep the lower third calm)' },
   'journey-you': { file: 'journey-you.jpg', width: 1145, height: 1374, page: 'Home: You card (no words in the picture; keep the lower third calm)' },

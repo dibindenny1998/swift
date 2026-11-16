@@ -1,4 +1,4 @@
-import { MARK, VINE, esc, html } from '../lib.mjs';
+import { DROPLET, LEAF, MARK, SEED, VINE, esc, html } from '../lib.mjs';
 import { band, layout } from '../layout.mjs';
 import { flora, image, words } from '../components.mjs';
 
@@ -16,11 +16,12 @@ function badge(ctx) {
 </div>`;
 }
 
-// "From the source to you": three tall pictures side by side. A journey-* picture carries the
-// words as real text on top; until one is uploaded, the older picture with its words built in shows.
+// "From the source to you": three tall cards. With a journey-* photo the words sit on the picture;
+// without one, the card shows the words with a fine line drawing (no borrowed photos, no repeats).
 function journey(ctx) {
   const steps = ctx.raw('home.tale.steps');
   const keys = ['nature', 'tradition', 'you'];
+  const art = [SEED, LEAF, DROPLET];
   return html`<section class="section journey has-flora" aria-labelledby="journey-title">
   ${flora([
     ['seed', 5, 8, 2.6, -20, 15, 0.35],
@@ -32,11 +33,12 @@ function journey(ctx) {
     </header>
     <ol class="journey__grid">
 ${steps.map((_, i) => {
-    const fresh = ctx.images[`journey-${keys[i]}`]?.exists;
+    const slot = `journey-${keys[i]}`;
+    const photo = ctx.images[slot]?.exists;
     const heading = `${ctx.t(`home.tale.steps.${i}.word`)} <span class="journey__line">${ctx.t(`home.tale.steps.${i}.line`)}</span>`;
-    return html`      <li class="journey__card${fresh ? ' journey__card--text' : ''}" data-reveal style="--delay:${i * 180}ms">
-        ${image(ctx, fresh ? `journey-${keys[i]}` : `tale-${keys[i]}`, { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' })}
-        <h3 class="${fresh ? 'journey__word' : 'visually-hidden'}">${heading}</h3>
+    return html`      <li class="journey__card ${photo ? 'journey__card--text' : 'journey__card--art'}" data-reveal style="--delay:${i * 180}ms">
+        ${photo ? image(ctx, slot, { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' }) : `<span class="journey__art" aria-hidden="true">${art[i]}</span>`}
+        <h3 class="journey__word">${heading}</h3>
       </li>
 `;
   })}    </ol>
