@@ -64,22 +64,19 @@ const THEME_OPEN = ['classic' => 'Doors slide open', 'blush' => 'The card lifts 
     'velvet' => 'Velvet curtains rise', 'gopuram' => 'Guests ring the temple bell', 'mayil' => 'Peacock feathers fan out', 'qamar' => 'Lanterns float into the night',
     'chapel' => 'Light through stained glass', 'jaipur' => 'Palace windows open', 'mono' => 'A camera shutter clicks', 'reel' => 'Your film plays in the header'];
 
-/** All designs in showcase order: photo-led, animated Premium, other Premium, Standard, Free. */
+/* Design scores out of 10 (visual review, Nov 2026). Designs are shown best first everywhere. */
+const THEME_SCORE = ['vogue' => 9.2, 'lumiere' => 9.0, 'mono' => 9.0, 'velvet' => 8.7, 'reel' => 8.6, 'gopuram' => 8.5, 'qamar' => 8.4,
+    'bloom' => 8.3, 'kasavu' => 8.2, 'journal' => 8.1, 'mughal' => 8.0, 'noor' => 8.0, 'nilavu' => 7.9, 'mayil' => 7.8, 'champagne' => 7.6,
+    'sindoor' => 7.5, 'mehndi' => 7.5, 'kesar' => 7.4, 'chapel' => 7.4, 'sage' => 7.3, 'ink' => 7.3, 'seal' => 7.0, 'jaipur' => 7.0, 'toile' => 7.0,
+    'mullappoo' => 6.9, 'thamara' => 6.9, 'gulmohar' => 6.8, 'marigold' => 6.8, 'lavender' => 6.8, 'terra' => 6.8, 'grace' => 6.5, 'indigo' => 6.5,
+    'classic' => 6.4, 'olive' => 6.4, 'blush' => 6.2];
+
+/** All designs in showcase order: highest score first. */
 function showcase_themes(): array
 {
-    $rank = function ($id, $t) {
-        if (in_array($id, PHOTO_LED_THEMES, true)) return 0;
-        if ($t['tier'] === 'premium') return isset(THEME_FX[$id]) ? 1 : 2;
-        return $t['tier'] === 'standard' ? 3 : 4;
-    };
     $ids = array_keys(THEMES);
     $pos = array_flip($ids);
-    usort($ids, fn($a, $b) => [$rank($a, THEMES[$a]), array_search($a, PHOTO_LED_THEMES) ?: 0, $pos[$a]] <=> [$rank($b, THEMES[$b]), array_search($b, PHOTO_LED_THEMES) ?: 0, $pos[$b]]);
-    // fixed spots near the top: Monochrome 4th, Reel 6th
-    foreach (['mono' => 3, 'reel' => 5] as $id => $at) {
-        $ids = array_values(array_diff($ids, [$id]));
-        array_splice($ids, $at, 0, [$id]);
-    }
+    usort($ids, fn($a, $b) => [-(THEME_SCORE[$a] ?? 0), $pos[$a]] <=> [-(THEME_SCORE[$b] ?? 0), $pos[$b]]);
     $out = [];
     foreach ($ids as $id) $out[$id] = THEMES[$id];
     return $out;

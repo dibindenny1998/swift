@@ -14,10 +14,9 @@ function page_vars(): array
 function sec_designs(int $limit = 0): void
 {
     extract(page_vars());
-    // the home page leads with the photo-led and animated Premium designs; /designs shows everything in the same order
-    $pick = ['lumiere', 'vogue', 'journal', 'mono', 'marigold', 'reel'];
+    // designs are ordered by score (THEME_SCORE); the home page shows the top ones
     $all = showcase_themes();
-    $themes = $limit > 0 ? array_slice(array_replace(array_flip($pick), array_intersect_key($all, array_flip($pick))), 0, $limit, true) : $all;
+    $themes = $limit > 0 ? array_slice($all, 0, $limit, true) : $all;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
     
 ?>
