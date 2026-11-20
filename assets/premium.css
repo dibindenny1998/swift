@@ -101,13 +101,13 @@ a { text-underline-offset: .2em; text-decoration-thickness: 1px; }
 .x-band-img { position: absolute; inset: 0; margin: 0; clip-path: inset(7% 6% round 28px); transition: clip-path 1300ms var(--ease-io); background: #2A1519; }
 .x-band-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; transform: scale(1.1); transition: transform 1800ms var(--ease-out); }
 .x-band-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,10,15,0) 35%, rgba(28,10,15,.78) 100%); }
-.x-band.in .x-band-img { clip-path: inset(0 0 round 0); }
-.x-band.in .x-band-img img { transform: scale(1); }
+.x-band.is-in .x-band-img { clip-path: inset(0 0 round 0); }
+.x-band.is-in .x-band-img img { transform: scale(1); }
 .x-band-copy { position: absolute; left: 0; right: 0; bottom: clamp(48px, 9vh, 96px); z-index: 1; }
 .x-band-copy p { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(2.3rem, 5vw, 4.6rem); line-height: 1.02; letter-spacing: -.018em; color: var(--paper); text-wrap: balance;
   opacity: 0; transform: translateY(20px); transition: opacity 900ms var(--ease-out) 500ms, transform 900ms var(--ease-out) 500ms; }
 .x-band-copy em { font-style: italic; color: var(--gold-l); }
-.x-band.in .x-band-copy p { opacity: 1; transform: none; }
+.x-band.is-in .x-band-copy p { opacity: 1; transform: none; }
 
 /* ---------- existing home sections, restyled ---------- */
 .home .sec { padding: 120px 0; }
@@ -226,3 +226,79 @@ body .btn.alt { box-shadow: inset 0 0 0 1px var(--hair-2); color: var(--ink); }
 .tier.tier-premium, .tier-premium { background: transparent !important; color: var(--wine) !important; box-shadow: inset 0 0 0 1px rgba(142,36,70,.35) !important; -webkit-text-fill-color: currentColor !important; }
 .tier.tier-free { background: #E7F1E9 !important; color: #2F6B43 !important; }
 .chips button[aria-pressed=true], .cat-chips button[aria-pressed=true] { background: var(--ink) !important; color: var(--paper) !important; }
+
+/* ===================== website motion pass ===================== */
+/* hero: the italic line writes itself in, petals drift over the photo */
+.x-h1 em { clip-path: inset(0 100% 0 0); animation: xWrite 1.3s var(--ease-io) .45s forwards; }
+@keyframes xWrite { to { clip-path: inset(0 -4% -12% 0); } }
+.x-petals { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; border-radius: inherit; }
+.x-petals i { position: absolute; top: -6%; left: var(--x); width: calc(14px * var(--s)); height: calc(10px * var(--s)); border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #FFF3EE, #F2B8C2); box-shadow: 0 2px 4px rgba(120,40,60,.18); opacity: 0;
+  animation: xPetal var(--t) linear var(--d) infinite; }
+@keyframes xPetal { 0% { opacity: 0; transform: translate(0, 0) rotate(0); } 8% { opacity: .95; } 50% { transform: translate(28px, 55vh) rotate(200deg); }
+  92% { opacity: .9; } 100% { opacity: 0; transform: translate(-14px, 112vh) rotate(380deg); } }
+.x-arch img { animation: xBreathe 18s ease-in-out infinite alternate; }
+@keyframes xBreathe { from { transform: scale(1); } to { transform: scale(1.06); } }
+.x-phone { animation: xEnter 1100ms var(--ease-out) 260ms both, xFloat 7s ease-in-out 1.4s infinite alternate; }
+@keyframes xFloat { from { translate: 0 0; } to { translate: 0 -10px; } }
+
+/* statement: the headline lifts in, each benefit line draws across and its icon draws itself */
+.x-display.io { opacity: 0; transform: translateY(22px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+.x-display.io.is-in { opacity: 1; transform: none; }
+.x-benefits.io li { position: relative; border-top-color: transparent; opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.x-benefits.io li::before { content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--hair-2); transform: scaleX(0); transform-origin: 0 50%; transition: transform 1s var(--ease-io); }
+.x-benefits.io li:last-child { border-bottom-color: transparent; }
+.x-benefits.io svg * { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.1s var(--ease-out); }
+.x-benefits.io.is-in li { opacity: 1; transform: none; }
+.x-benefits.io.is-in li::before { transform: scaleX(1); }
+.x-benefits.io.is-in svg * { stroke-dashoffset: 0; }
+.x-benefits.io.is-in li:nth-child(2), .x-benefits.io.is-in li:nth-child(2)::before, .x-benefits.io.is-in li:nth-child(2) svg * { transition-delay: .15s; }
+.x-benefits.io.is-in li:nth-child(3), .x-benefits.io.is-in li:nth-child(3)::before, .x-benefits.io.is-in li:nth-child(3) svg * { transition-delay: .3s; }
+.x-benefits.io.is-in li:nth-child(4), .x-benefits.io.is-in li:nth-child(4)::before, .x-benefits.io.is-in li:nth-child(4) svg * { transition-delay: .45s; }
+.x-benefits li:hover i { box-shadow: inset 0 0 0 1px var(--wine); }
+.x-benefits i { transition: box-shadow .3s; }
+
+/* designs: the cards fan out from a stack as they come into view */
+.home .grid-six .gd.rv { opacity: 0; transform: translate(var(--fx, 0), 60px) rotate(var(--fr, 0)) scale(.92); transition: opacity .9s var(--ease-out), transform 1.1s var(--ease-out) !important; }
+.home .grid-six .gd.rv-on { opacity: 1; transform: none; }
+.home .grid-six .gd:nth-child(1) { --fx: 160%; --fr: -8deg; } .home .grid-six .gd:nth-child(2) { --fx: 90%; --fr: -5deg; }
+.home .grid-six .gd:nth-child(3) { --fx: 30%; --fr: -2deg; } .home .grid-six .gd:nth-child(4) { --fx: -30%; --fr: 2deg; }
+.home .grid-six .gd:nth-child(5) { --fx: -90%; --fr: 5deg; } .home .grid-six .gd:nth-child(6) { --fx: -160%; --fr: 8deg; }
+
+/* how it works: the gold thread draws from step to step */
+.home .steps li:not(:last-child)::after { transform: scaleX(0); transform-origin: 0 50%; transition: transform 1s var(--ease-io) .35s; }
+.home .steps li.rv-on:not(:last-child)::after { transform: scaleX(1); }
+.home .steps li.rv-on:nth-child(2)::after { transition-delay: .75s; }
+
+/* reviews rise in turn */
+.home .review.io { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+.home .review.io.is-in { opacity: 1; transform: none; }
+.home .review.io:nth-child(2) { transition-delay: .12s; } .home .review.io:nth-child(3) { transition-delay: .24s; }
+
+/* plans: prices count up; the Premium card wears a slow gold shimmer on its edge */
+.mp.io { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out), box-shadow .25s; }
+.mp.io.is-in { opacity: 1; transform: none; }
+.mp.io:nth-child(2) { transition-delay: .1s; } .mp.io:nth-child(3) { transition-delay: .2s; }
+@property --xa { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.mp.pop { position: relative; isolation: isolate; }
+.mp.pop::after { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 1;
+  background: conic-gradient(from var(--xa), transparent 0 62%, rgba(227,201,150,.15) 70%, #F3DCA8 80%, rgba(227,201,150,.15) 90%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: xSpin 6s linear infinite; }
+@keyframes xSpin { to { --xa: 360deg; } }
+
+/* buttons: a light sheen passes across the main call to action every few seconds */
+.x-cta .x-btn { position: relative; overflow: hidden; }
+.x-cta .x-btn::after { content: ''; position: absolute; top: 0; bottom: 0; left: -40%; width: 30%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.28), transparent); transform: skewX(-18deg); animation: xSheen 5.5s var(--ease-io) 2.2s infinite; }
+@keyframes xSheen { 0% { left: -40%; } 22%, 100% { left: 130%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .x-h1 em { clip-path: none; animation: none; }
+  .x-petals, .x-cta .x-btn::after { display: none; }
+  .x-arch img, .x-phone, .mp.pop::after { animation: none; }
+  .x-display.io, .x-benefits.io li, .home .review.io, .mp.io, .home .grid-six .gd.rv { opacity: 1 !important; transform: none !important; }
+  .x-benefits.io svg * { stroke-dashoffset: 0; }
+  .home .steps li::after, .x-benefits.io li::before { transform: none !important; }
+}
+.home .gallery-band { overflow: hidden; }
+@media (max-width: 900px) { .home .grid-six .gd { --fx: 0 !important; --fr: 0deg !important; } }

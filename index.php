@@ -59,7 +59,7 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
         </div>
       </div>
       <div class="x-stage" data-enter>
-        <figure class="x-arch"><img src="<?= asset('assets/img/slots/demo-1.jpg') ?>" alt="" width="900" height="1125" fetchpriority="high"></figure>
+        <figure class="x-arch"><span class="x-petals" aria-hidden="true"><i style="--d:0s;--x:12%;--t:9s;--s:1"></i><i style="--d:1.8s;--x:34%;--t:11s;--s:0.8"></i><i style="--d:3.1s;--x:58%;--t:10s;--s:1.1"></i><i style="--d:4.6s;--x:78%;--t:12s;--s:0.9"></i><i style="--d:6.2s;--x:22%;--t:9.5s;--s:0.7"></i><i style="--d:7.4s;--x:66%;--t:11.5s;--s:1"></i><i style="--d:2.6s;--x:88%;--t:10.5s;--s:0.8"></i><i style="--d:5.3s;--x:46%;--t:12.5s;--s:0.9"></i></span><img src="<?= asset('assets/img/slots/demo-1.jpg') ?>" alt="" width="900" height="1125" fetchpriority="high"></figure>
         <div class="x-phone"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
         <?php $heroPick = ['champagne', 'mono', 'marigold', 'kasavu', 'noor', 'lumiere']; ?>
         <div class="x-pills" role="group" aria-label="Try a design">
@@ -74,8 +74,8 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
 
   <section class="x-statement">
     <div class="wrap x-statement-grid">
-      <h2 class="x-display">One link. Every guest knows where to go, and you know who's coming.</h2>
-      <ul class="x-benefits">
+      <h2 class="x-display" data-io>One link. Every guest knows where to go, and you know who's coming.</h2>
+      <ul class="x-benefits" data-io>
         <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><path d="M15.5 11.5l2 2 3.5-4"/></svg></i><div><b>RSVP headcount</b><span>Know who's coming to each function, before the caterer asks.</span></div></li>
         <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><div><b>Maps to every venue</b><span>One tap opens directions. No more "where is the hall?" calls.</span></div></li>
         <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0113.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 01-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></svg></i><div><b>Change once, everyone sees it</b><span>Move the reception to 7 pm and every guest sees the new time.</span></div></li>
@@ -169,6 +169,18 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
 <script>window.WL_THEMES = <?= json_for_script(array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags']], THEMES)) ?>;</script>
 <script src="<?= asset('assets/samples.js') ?>"></script>
 <script src="<?= asset('assets/landing.js') ?>"></script>
-<script>(function(){var b=document.querySelector('.x-band');if(!b)return;if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){b.classList.add('in');return;}new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){b.classList.add('in');o.disconnect();}});},{threshold:.25}).observe(b);})();</script>
+<script>(function(){
+var rm=matchMedia('(prefers-reduced-motion: reduce)').matches, io=('IntersectionObserver' in window)&&!rm;
+document.querySelectorAll('.x-benefits svg *').forEach(function(el){el.setAttribute('pathLength','1');});
+function count(el){var tn=null;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType===3&&/\d/.test(n.nodeValue)){tn=n;break;}}if(!tn)return;
+ var m=tn.nodeValue.match(/([\d,]+)/);if(!m)return;var to=parseInt(m[1].replace(/,/g,''),10),pre=tn.nodeValue.slice(0,m.index),post=tn.nodeValue.slice(m.index+m[1].length);if(!to)return;
+ var t0=null,D=1100;function f(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/D),e=1-Math.pow(1-p,3);tn.nodeValue=pre+Math.round(to*e).toLocaleString('en-IN')+post;if(p<1)requestAnimationFrame(f);}requestAnimationFrame(f);}
+var els=document.querySelectorAll('[data-io], .mp, .review');
+if(!io){els.forEach(function(e){e.classList.add('is-in');});return;}
+els.forEach(function(e){e.classList.add('io');});
+var o=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;en.target.classList.add('is-in');o.unobserve(en.target);var pr=en.target.querySelector&&en.target.querySelector('.mp-price');if(pr)count(pr);});},{threshold:.2});
+els.forEach(function(e){o.observe(e);});
+})();</script>
+<script>(function(){var b=document.querySelector('.x-band');if(!b)return;if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){b.classList.add('is-in');return;}new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){b.classList.add('is-in');o.disconnect();}});},{threshold:.25}).observe(b);})();</script>
 </body>
 </html>

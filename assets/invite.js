@@ -550,6 +550,11 @@
     }).join('') + '</div>';
   }
   var CALENDAR = { ink: 1, toile: 1, seal: 1 };
+  // how sections arrive as guests scroll, by family of design
+  var REVEAL = { journal: 'ink', ink: 'ink', toile: 'ink', sage: 'ink', seal: 'ink', lavender: 'ink', olive: 'ink',
+    champagne: 'sweep', velvet: 'sweep', mono: 'sweep', lumiere: 'sweep', vogue: 'sweep', reel: 'sweep', indigo: 'sweep', classic: 'sweep',
+    kasavu: 'bloom', sindoor: 'bloom', noor: 'bloom', gopuram: 'bloom', mughal: 'bloom', jaipur: 'bloom', kesar: 'bloom', marigold: 'bloom', nilavu: 'bloom',
+    mayil: 'bloom', qamar: 'bloom', chapel: 'bloom', mehndi: 'bloom', mullappoo: 'bloom', thamara: 'bloom', grace: 'bloom', gulmohar: 'bloom', bloom: 'bloom', blush: 'bloom', terra: 'bloom' };
   function sprig(cls) {
     var leaves = '';
     [[30, 120, -40], [52, 98, 30], [70, 80, -35], [92, 62, 28], [110, 46, -30], [130, 32, 25], [150, 20, -20]].forEach(function (l) {
@@ -921,7 +926,7 @@
     var sampleOnly = PHOTO_LED[v.theme] && mode !== 'editor' && mode !== 'demo';
     if (sampleOnly) v.bg = '';
     var bgStyle = v.bg ? ' style="--bgimg:url(&quot;' + esc(v.bg).replace(/[()]/g, '') + '&quot;)"' : '';
-    var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '"' + (ANIM[v.theme] ? ' data-anim="' + ANIM[v.theme] + '"' : '') + bgStyle + '>' + DEFS;
+    var html = '<div class="wl' + (v.bg ? ' has-bg' : '') + '" data-theme="' + v.theme + '" data-plan="' + v.plan + '" data-mode="' + mode + '" data-rv="' + (REVEAL[v.theme] || 'rise') + '"' + (ANIM[v.theme] ? ' data-anim="' + ANIM[v.theme] + '"' : '') + bgStyle + '>' + DEFS;
 
     if (showCover) {
       if (v.theme === 'seal') html += '<div class="wl-cover wl-cover-env" role="dialog" aria-label="Invitation"><div class="wl-door l"></div><div class="wl-door r"></div>' +
@@ -1125,6 +1130,19 @@
         es.forEach(function (en) { if (en.isIntersecting || en.boundingClientRect.top < 0) { en.target.classList.add('wl-in'); io.unobserve(en.target); } });
       }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
       targets.forEach(function (t) { t.classList.add('wl-rv'); io.observe(t); });
+      root.querySelectorAll('.wl-ph').forEach(function (ph, k) { ph.style.setProperty('--k', k % 6); });
+      var endEl = root.querySelector('.wl-end');
+      if (endEl && !(w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+        var eio = new IntersectionObserver(function (es) {
+          if (!es[0].isIntersecting) return; eio.disconnect();
+          var box = doc.createElement('div'); box.className = 'wl-shower'; box.setAttribute('aria-hidden', 'true');
+          var r = rng(7), html2 = '';
+          for (var q = 0; q < 34; q++) html2 += '<i style="left:' + f1(r() * 100) + '%;animation-delay:' + f1(r() * 1.6) + 's;animation-duration:' + f1(2.6 + r() * 2) + 's;--x:' + f1(-60 + r() * 120) + 'px;--r:' + Math.floor(r() * 720 - 360) + 'deg;--s:' + f1(.6 + r() * .8) + '"></i>';
+          box.innerHTML = html2; endEl.appendChild(box);
+          setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 6500);
+        }, { threshold: .35 });
+        eio.observe(endEl);
+      }
       // safety net for big jumps: anything at or above the screen's bottom edge is shown
       var win = root.ownerDocument.defaultView || w, sweepT;
       var sweep = function () {
@@ -1156,10 +1174,13 @@
           clearInterval(root._wlTimer); return;
         }
         var s = Math.floor(diff / 1000);
-        b[0].textContent = Math.floor(s / 86400);
-        b[1].textContent = String(Math.floor(s % 86400 / 3600)).padStart(2, '0');
-        b[2].textContent = String(Math.floor(s % 3600 / 60)).padStart(2, '0');
-        b[3].textContent = String(s % 60).padStart(2, '0');
+        var vals = [String(Math.floor(s / 86400)), String(Math.floor(s % 86400 / 3600)).padStart(2, '0'), String(Math.floor(s % 3600 / 60)).padStart(2, '0'), String(s % 60).padStart(2, '0')];
+        vals.forEach(function (val, k) {
+          if (b[k].textContent === val) return;
+          var had = b[k].textContent !== '' && b[k].textContent !== '0' || k === 3;
+          b[k].textContent = val;
+          if (had) { var box = b[k].parentNode; box.classList.remove('wl-flip'); void box.offsetWidth; box.classList.add('wl-flip'); }
+        });
       };
       tick();
       root._wlTimer = setInterval(tick, 1000);

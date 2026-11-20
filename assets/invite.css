@@ -1390,3 +1390,43 @@
 .wl-reel-glow { position: absolute; left: 50%; top: 8%; width: 130%; height: 70%; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(217,183,106,.2), transparent 70%); pointer-events: none; }
 .wl[data-theme=reel] .wl-hero:not(.wl-cv) { padding-top: 96px; padding-bottom: 84px; }
 .wl[data-theme=reel] .wl-hero:not(.wl-cv) .wl-hero-in { position: relative; padding: 34px 18px; border: 1px solid rgba(217,183,106,.4); outline: 1px solid rgba(217,183,106,.16); outline-offset: 6px; }
+
+/* ===================== motion pass: richer, still calm ===================== */
+/* three reveal families: ink (soft blur), sweep (light wipe), bloom (gentle grow) */
+.wl[data-rv=ink] .wl-rv { opacity: 0; transform: translateY(14px); filter: blur(8px); transition: opacity 1.1s cubic-bezier(.23,1,.32,1), transform 1.1s cubic-bezier(.23,1,.32,1), filter 1.1s cubic-bezier(.23,1,.32,1); }
+.wl[data-rv=ink] .wl-rv.wl-in { opacity: 1; transform: none; filter: none; }
+.wl[data-rv=sweep] .wl-rv { opacity: 0; transform: none; clip-path: inset(0 100% 0 0); transition: clip-path 1.2s cubic-bezier(.77,0,.175,1), opacity .5s ease; }
+.wl[data-rv=sweep] .wl-rv.wl-in { opacity: 1; clip-path: inset(0 0 0 0); }
+.wl[data-rv=bloom] .wl-rv { opacity: 0; transform: translateY(18px) scale(.965); transform-origin: 50% 0; transition: opacity 1s cubic-bezier(.23,1,.32,1), transform 1.1s cubic-bezier(.23,1,.32,1); }
+.wl[data-rv=bloom] .wl-rv.wl-in { opacity: 1; transform: none; }
+.wl .wl-ev.wl-rv:nth-child(2) { transition-delay: .08s; } .wl .wl-ev.wl-rv:nth-child(3) { transition-delay: .16s; } .wl .wl-ev.wl-rv:nth-child(4) { transition-delay: .24s; }
+
+/* countdown: digits flip like a clock */
+.wl-cd div { perspective: 400px; }
+.wl-cd div.wl-flip b { animation: wlFlip .55s cubic-bezier(.23,1,.32,1); }
+@keyframes wlFlip { 0% { transform: rotateX(-90deg); opacity: .2; } 60% { transform: rotateX(12deg); opacity: 1; } 100% { transform: rotateX(0); } }
+
+/* directions button breathes softly so guests know it can be tapped */
+.wl-ev-acts .wl-btn:not(.ghost):first-child { position: relative; }
+.wl-ev-acts .wl-btn:not(.ghost):first-child::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; box-shadow: 0 0 0 0 var(--acc); opacity: .55; animation: wlPulse 2.8s cubic-bezier(.23,1,.32,1) infinite; pointer-events: none; }
+@keyframes wlPulse { 0% { box-shadow: 0 0 0 0 var(--acc); opacity: .5; } 70%, 100% { box-shadow: 0 0 0 12px var(--acc); opacity: 0; } }
+
+/* gallery: photos cascade in, then drift slowly */
+.wl .wl-ph.wl-rv { transition-delay: calc(var(--k, 0) * 90ms) !important; }
+.wl .wl-ph.wl-in img { animation: wlDrift 14s ease-in-out calc(1s + var(--k, 0) * .4s) infinite alternate; }
+@keyframes wlDrift { from { transform: scale(1); } to { transform: scale(1.07) translate(-1.5%, -1%); } }
+.wl .wl-ph:hover img { animation-play-state: paused; }
+
+/* closing: a shower of petals in the design's own colours */
+.wl-end { position: relative; overflow: hidden; }
+.wl-shower { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.wl-shower i { position: absolute; top: -20px; width: calc(12px * var(--s)); height: calc(9px * var(--s)); border-radius: 80% 0 80% 0; background: var(--acc); opacity: 0; animation: wlShower linear both; }
+.wl-shower i:nth-child(3n) { background: var(--acc2); }
+.wl-shower i:nth-child(4n) { background: #F4D58D; }
+@keyframes wlShower { 0% { opacity: 0; transform: translate(0, 0) rotate(0); } 10% { opacity: .9; } 85% { opacity: .85; } 100% { opacity: 0; transform: translate(var(--x), 110vh) rotate(var(--r)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wl .wl-rv { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
+  .wl-cd div.wl-flip b, .wl-ev-acts .wl-btn::after, .wl .wl-ph.wl-in img { animation: none !important; }
+  .wl-shower { display: none; }
+}
