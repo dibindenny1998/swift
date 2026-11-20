@@ -16,7 +16,9 @@ function sec_designs(int $limit = 0): void
     extract(page_vars());
     // designs are ordered by score (THEME_SCORE); the home page shows the top ones
     $all = showcase_themes();
-    $themes = $limit > 0 ? array_slice($all, 0, $limit, true) : $all;
+    // the home page shows the top-scored designs, with Journal always included
+    $home = array_slice(array_diff_key($all, ['journal' => 1]), 0, max(0, $limit - 1), true) + ['journal' => $all['journal']];
+    $themes = $limit > 0 ? $home : $all;
     $f = preg_match('/^[a-z-]{3,20}$/', $_GET['f'] ?? '') ? $_GET['f'] : 'all';
     
 ?>
