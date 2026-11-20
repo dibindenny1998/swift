@@ -24,7 +24,7 @@ function sec_designs(int $limit = 0): void
   <section class="sec gallery-band" id="designs" data-start-filter="<?= e($f) ?>">
     <div class="wrap">
       <?php if ($limit): ?><div class="sec-head">
-          <h2 class="foil">Our favourite designs</h2>
+          <h2>Designs for every tradition</h2>
           <p>Each one opens in its own way. Tap any design to preview it.</p>
       </div><?php endif; ?>
       <?php if (!$limit): ?>
@@ -67,13 +67,13 @@ function sec_designs(int $limit = 0): void
               <?php if ($fx): ?><em class="feat-tag">Animated</em><?php endif; ?>
             </span>
             <span class="gd-open"><?= e(THEME_OPEN[$id] ?? '') ?></span>
-            <?php if ($t['tier'] === 'free' || $fx || $photoLed): ?><small class="gd-price"><?= $t['tier'] === 'free' ? '<b>Free</b>' : '' ?><?= $fx ? '<i>✨ Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small><?php endif; ?>
+            <?php if ($t['tier'] === 'free' || $fx || $photoLed): ?><small class="gd-price"><?= $t['tier'] === 'free' ? '<b>Free</b>' : '' ?><?= $fx ? '<i>Animated</i>' : ($photoLed ? '<i>Photo-led</i>' : '') ?></small><?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>
       <?php if (!$limit): ?><div class="dz-empty" id="dz-empty" hidden><p>No design matches that.</p><button type="button" class="btn alt" id="dz-empty-reset">Show all designs</button></div><?php endif; ?>
       <?php preview_modal(); ?>
-      <?php if ($limit): ?><p style="text-align:center;margin-top:34px"><a class="btn" href="/designs" style="background:var(--foil);color:var(--wine-2)">See all designs</a></p><?php endif; ?>
+      <?php if ($limit): ?><p style="text-align:center;margin-top:34px"><a class="x-btn x-btn-ghost" href="/designs">See all 35 designs <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p><?php endif; ?>
     </div>
   </section>
 <?php
@@ -152,7 +152,7 @@ function sec_pricing(): void
         </div>
         <div class="plan pick">
           <h3>Premium</h3>
-          <p class="price"><span class="foil">₹<?= $pp ?></span> <small>one time</small></p>
+          <p class="price"><span>₹<?= $pp ?></span> <small>one time</small></p>
           <p class="who">Every function, every guest, one link</p>
           <ul>
             <li><?= $tick ?>All functions, with maps and countdown</li>

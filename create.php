@@ -61,7 +61,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
       </div>
       <div class="theme-pick">
         <?php foreach (showcase_themes() as $id => $t): ?>
-          <label data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>" data-tier="<?= $t['tier'] ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="" width="232" height="480" loading="lazy"><b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?> <span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b><small class="lock" hidden></small></label>
+          <label data-tags="<?= e(implode(' ', $t['tags']) . ' tier-' . $t['tier']) ?>" data-tier="<?= $t['tier'] ?>"><input type="radio" name="theme" value="<?= $id ?>"><img src="<?= asset('assets/img/designs/' . $id . '.jpg') ?>" alt="" width="232" height="480" loading="lazy"><button type="button" class="tp-eye js-preview" data-theme="<?= $id ?>" data-tier="<?= $t['tier'] ?>" data-name="<?= e($t['name']) ?>" aria-label="Preview <?= e($t['name']) ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Preview</span></button><b><?= e($t['name']) ?><?php if ($t['tier'] !== 'standard'): ?> <span class="tier tier-<?= $t['tier'] ?>"><?= TIER_NAMES[$t['tier']] ?></span><?php endif; ?></b><small class="tp-open"><?= e(THEME_OPEN[$id] ?? '') ?></small><small class="lock" hidden></small></label>
         <?php endforeach; ?>
       </div>
       <p class="err" role="alert"></p>
@@ -176,6 +176,7 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
 
 <script>window.WL_CFG = <?= json_for_script($cfg) ?>;</script>
 <script src="<?= asset('assets/create.js') ?>"></script>
+<?php preview_modal(); ?>
 <script>fbq('track', 'ViewContent', { content_name: 'Invite builder' });</script>
 </body>
 </html>

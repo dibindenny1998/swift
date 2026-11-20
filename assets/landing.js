@@ -70,7 +70,7 @@
       state.p1 = n1.value.trim(); state.p2 = n2.value.trim();
       soon(); links();
     });
-    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); (i ? document.querySelector('.hero-cta .js-make') || document.querySelector('.js-make') : n2).focus(); } });
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); (i ? document.querySelector('.x-cta .js-make') || document.querySelector('.js-make') : n2).focus(); } });
   });
 
   var nameOut = document.getElementById('design-name');
@@ -117,7 +117,7 @@
 
 // phones: hide the bottom bar while the hero's own button is on screen
 (function () {
-  var c = document.querySelector('.hero-cta-m');
+  var c = document.querySelector('.x-cta') || document.querySelector('.hero-cta-m');
   if (!c || !('IntersectionObserver' in window)) return;
   new IntersectionObserver(function (es) { document.body.classList.toggle('hero-cta-visible', es[0].isIntersecting); }).observe(c);
 })();

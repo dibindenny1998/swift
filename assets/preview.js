@@ -28,6 +28,11 @@
     if (!frame.src) frame.src = '/frame.php'; else paint();
     document.getElementById('pv-x').focus();
   }
+  document.getElementById('pv-use').addEventListener('click', function (e) {
+    // on the create page, "Use this design" picks it right here instead of reloading
+    var r = pending && document.querySelector('input[name=theme][value="' + pending.theme + '"]');
+    if (r) { e.preventDefault(); r.click(); r.dispatchEvent(new Event('change', { bubbles: true })); close(); r.closest('label').scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+  });
   function close() { modal.hidden = true; document.documentElement.style.overflow = ''; if (last) last.focus(); }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('.js-preview'); if (b) { e.preventDefault(); open(b); return; }

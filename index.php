@@ -41,61 +41,52 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
 <?php site_header(); ?>
 
 <main class="home">
-  <section class="hero lux-hero">
-    <?= slot_img('hero', '', '', false) ?>
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 7.5h15" stroke="currentColor" stroke-width="1.8"/></svg><span>Wedding website maker</span></p>
-        <h1 class="hero-h1">Create your own <em>wedding website</em></h1>
-        <p class="hero-sub">Pick a design, add your wedding details and share one link with every guest on WhatsApp. Ready in 5 minutes.</p>
-        <div class="hero-title">
-          <span class="pre">Try it with your names</span>
-          <span class="names" id="names"><label class="sr" for="n1">First name</label><span class="name-box hint"><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><span class="name-box"><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i><svg class="name-pen" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17l3.5-1 9-9-2.5-2.5-9 9L3 17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span></span>
+  <section class="x-hero">
+    <div class="wrap x-hero-grid">
+      <div class="x-hero-copy">
+        <h1 class="x-h1" data-enter>Create your own <em>wedding website</em></h1>
+        <p class="x-lede" data-enter>Pick a design, add your wedding details and send one link to every guest on WhatsApp. Ready in five minutes.</p>
+        <div class="x-cta" data-enter>
+          <a class="x-btn js-make" href="/create">Create our wedding website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="x-link" href="/sample" target="_blank" rel="noopener">See a live wedding site</a>
         </div>
-        <p class="hero-hint">Type your names and watch the preview change.</p>
-        <div class="hero-cta">
-          <a class="btn js-make" href="/create">Create our wedding website</a>
-          <small>Your card for the elders. Your link for everyone.</small>
-        </div>
-        <ul class="ticks">
-          <li><?= $tick ?>Free to start, no card needed</li>
-          <li><?= $tick ?>Ready in 5 minutes</li>
-          <li><?= $tick ?>Opens straight from WhatsApp</li>
+        <ul class="x-proof" data-enter>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Free to start</li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>No card needed</li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Opens from WhatsApp</li>
         </ul>
+        <div class="x-try" data-enter>
+          <p class="x-try-label">Try it with your names</p>
+          <span class="names" id="names"><label class="sr" for="n1">First name</label><span class="name-box hint"><input class="name-in" id="n1" value="Arjun" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i></span><span class="amp">&amp;</span><label class="sr" for="n2">Second name</label><span class="name-box"><input class="name-in" id="n2" value="Meera" maxlength="24" autocomplete="off" spellcheck="false"><i class="name-caret" aria-hidden="true"></i></span></span>
+        </div>
       </div>
-      <div class="stage">
-        <div class="fan">
-          <div class="hero-card l" aria-hidden="true"><img src="<?= asset('assets/img/designs/noor-art.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
-          <div class="hero-card r" aria-hidden="true"><img src="<?= asset('assets/img/designs/kasavu-art.jpg') ?>" alt="" width="232" height="480" fetchpriority="low"></div>
-          <div class="phone front"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
-        </div>
-        <div class="hero-cta-m">
-          <a class="btn js-make" href="/create">Create our wedding website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <small>Your card for the elders. Your link for everyone.</small>
-        </div>
-        <div class="url-pill-wrap"><a class="sample-btn" href="/sample" target="_blank" rel="noopener">See a live wedding site →</a></div>
+      <div class="x-stage" data-enter>
+        <figure class="x-arch"><img src="<?= asset('assets/img/slots/demo-1.jpg') ?>" alt="" width="900" height="1125" fetchpriority="high"></figure>
+        <div class="x-phone"><iframe id="demo" src="/frame.php" title="Live invite preview" loading="eager" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
         <?php $heroPick = ['champagne', 'mono', 'marigold', 'kasavu', 'noor', 'lumiere']; ?>
-        <div class="style-pills" role="group" aria-label="Try a design">
+        <div class="x-pills" role="group" aria-label="Try a design">
           <?php foreach ($heroPick as $id): ?>
             <button type="button" class="sw2" data-theme="<?= $id ?>" data-name="<?= e(THEMES[$id]['name']) ?>" aria-pressed="<?= $id === 'champagne' ? 'true' : 'false' ?>"><i style="background:<?= $swatch[$id] ?>"></i><?= e(THEMES[$id]['name']) ?></button>
           <?php endforeach; ?>
-          <a class="more-chip" href="/designs">See all designs</a>
         </div>
         <p class="design-now sr" aria-live="polite">Design: <b id="design-name">Champagne</b></p>
       </div>
     </div>
   </section>
 
-  <section class="sec feat-band">
-    <div class="wrap">
-      <div class="feat-head"><h2>One link. Every guest knows where to go, and you know who's coming.</h2><p>Maps to every venue, your story and photos, RSVP, and changes that reach everyone at once.</p></div>
-      <div class="quick">
-        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><path d="M15.5 11.5l2 2 3.5-4"/></svg></i><p><b>RSVP headcount</b><span>Know who's coming, for each function</span></p></div>
-        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><p><b>Maps to every venue</b><span>One tap, no "where is the hall?" calls</span></p></div>
-        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0113.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 01-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></svg></i><p><b>Change once, everyone sees it</b><span>No corrected cards</span></p></div>
-        <div><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.7"/><path d="M4 17l4.5-4 3.5 3 3-2.5 5 4"/></svg></i><p><b>Your story and photos</b><span>Something a card can't hold</span></p></div>
-      </div>
+  <section class="x-statement">
+    <div class="wrap x-statement-grid">
+      <h2 class="x-display">One link. Every guest knows where to go, and you know who's coming.</h2>
+      <ul class="x-benefits">
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><path d="M15.5 11.5l2 2 3.5-4"/></svg></i><div><b>RSVP headcount</b><span>Know who's coming to each function, before the caterer asks.</span></div></li>
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><div><b>Maps to every venue</b><span>One tap opens directions. No more "where is the hall?" calls.</span></div></li>
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0113.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 01-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></svg></i><div><b>Change once, everyone sees it</b><span>Move the reception to 7 pm and every guest sees the new time.</span></div></li>
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.7"/><path d="M4 17l4.5-4 3.5 3 3-2.5 5 4"/></svg></i><div><b>Your story and photos</b><span>The part a printed card can't hold.</span></div></li>
+      </ul>
     </div>
+  </section>
+
+  <section class="x-band" aria-label="Your card and your link">
+    <figure class="x-band-img"><img src="<?= asset('assets/img/slots/sample-kasavu.jpg') ?>" alt="" width="1080" height="1920" loading="lazy"></figure>
+    <div class="wrap x-band-copy"><p>Your card for the elders.<br><em>Your link for everyone.</em></p></div>
   </section>
 
 <?php sec_designs(6); ?>
@@ -144,7 +135,6 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
     <div class="wrap">
       <div class="bio-band">
         <div>
-          <span class="free-tag big" style="top:0;margin-bottom:12px">Free</span>
           <h2>Free marriage biodata maker</h2>
           <p>Make a clean, beautiful biodata in minutes and share it with families on WhatsApp.</p>
           <ul class="bio-feats">
@@ -179,5 +169,6 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
 <script>window.WL_THEMES = <?= json_for_script(array_map(fn($t) => ['name' => $t['name'], 'tags' => $t['tags']], THEMES)) ?>;</script>
 <script src="<?= asset('assets/samples.js') ?>"></script>
 <script src="<?= asset('assets/landing.js') ?>"></script>
+<script>(function(){var b=document.querySelector('.x-band');if(!b)return;if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){b.classList.add('in');return;}new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){b.classList.add('in');o.disconnect();}});},{threshold:.25}).observe(b);})();</script>
 </body>
 </html>
