@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id', 'test_email'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
         $tc = preg_replace('/\D/', '', (string)($_POST['test_code'] ?? '')); set_setting('test_code', strlen($tc) === 6 ? $tc : '');
         foreach (['price_premium', 'price_built', 'founding_price'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
-        foreach (['founding_total', 'founding_taken'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, (int)$_POST[$k]));
+        foreach (['founding_total', 'founding_taken', 'launch_total'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, (int)$_POST[$k]));
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['founding_until'] ?? ''))) set_setting('founding_until', $_POST['founding_until'] . ' 23:59:59');
         set_setting('offer_on', !empty($_POST['offer_on']) ? '1' : '0');
         foreach (['founding_on', 'reviews_on', 'reviews_real'] as $k) set_setting($k, !empty($_POST[$k]) ? '1' : '0');
@@ -474,6 +474,10 @@ site_head('Admin | ' . setting('brand'));
       <div class="field"><label>What they said</label><textarea name="rv_text[<?= $i ?>]" rows="2" maxlength="400"><?= e($r['text'] ?? '') ?></textarea></div>
       <?php endfor; ?>
       <p class="note">Leave all six empty to show the three sample reviews. Only tick "real reviews" once these are words your own customers sent you.</p>
+      <h2 style="margin-top:22px">Launch offer (while payments are not connected)</h2>
+      <?php $ls = launch_spot(); ?>
+      <p class="note">Until PayU or Cashfree keys are added, tapping Pay shows "This one is on us" and publishes the website free. <b><?= $ls['taken'] ?> of <?= $ls['total'] ?></b> free spots used so far.</p>
+      <div class="grid2"><div class="field"><label for="ls1">Free spots ("first N couples")</label><input id="ls1" name="launch_total" type="number" min="0" value="<?= e(setting('launch_total')) ?>"><small>After these run out, the pop-up still gives it free but says "we are just launching" instead.</small></div></div>
       <h2 style="margin-top:22px">Founding couples offer</h2>
       <label style="display:flex;gap:8px;align-items:center;margin:8px 0 12px"><input type="checkbox" name="founding_on" value="1"<?= setting('founding_on') === '1' ? ' checked' : '' ?>> Show the founding couples offer on the site</label>
       <div class="grid2">

@@ -285,6 +285,16 @@ function test_login_match(string $email, ?string $code = null): bool
     return $code === null || hash_equals($tc, $code);
 }
 
+/** Launch offer while online payments are not connected: the first couples get Premium free. n = this couple's number. */
+function launch_spot(): array
+{
+    $st = db()->prepare("SELECT COUNT(*) FROM invites WHERE status = 'paid' AND is_demo = 1 AND amount > 0 AND paid_at >= ? AND email IS NOT ? ");
+    $st->execute([setting('launch_from') ?: '2026-11-21 00:00:00', strtolower(trim(setting('test_email'))) ?: '-']);
+    $taken = (int)$st->fetchColumn();
+    $total = max(0, (int)setting('launch_total'));
+    return ['n' => $taken + 1, 'total' => $total, 'taken' => $taken];
+}
+
 const SETTING_DEFAULTS = [
     'brand'           => 'TheWedLink',
     'business_name'   => 'TheWedLink',
@@ -293,6 +303,8 @@ const SETTING_DEFAULTS = [
     'support_phone'   => '',
     'support_email'   => '',
     'test_email'      => '',
+    'launch_total'    => '25',
+    'launch_from'     => '2026-11-21 00:00:00',
     'test_code'       => '',
     'address'         => 'Bangalore, Karnataka, India',
     'price_standard'  => '199',

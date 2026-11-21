@@ -46,4 +46,35 @@
     });
   }
   w.WLDetails = { ask: ask };
+
+  /** Launch offer pop-up shown instead of payment while online payments are not connected.
+      opts: { n, total, worth, what, go } → Promise that resolves when they tap the button, rejects if they close it */
+  function gift(opts) {
+    return new Promise(function (resolve, reject) {
+      var first = opts.total > 0 && opts.n > 0 && opts.n <= opts.total;
+      var worth = opts.worth > 0 ? ' (worth ₹' + Number(opts.worth).toLocaleString('en-IN') + ')' : '';
+      var box = doc.createElement('div');
+      box.className = 'dt-modal';
+      box.innerHTML = '<div class="dt-box gf-box" role="dialog" aria-modal="true" aria-labelledby="gf-h">' +
+        '<button type="button" class="dt-x" aria-label="Close">&times;</button>' +
+        '<svg class="gf-ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20h32v22H8zM5 13h38v7H5zM24 13v29M24 13c-3-6-12-8-12-2 0 3 6 2 12 2zm0 0c3-6 12-8 12-2 0 3-6 2-12 2z"/></svg>' +
+        '<h2 id="gf-h">This one is on us</h2>' +
+        (first
+          ? '<p class="dt-lead">You are one of our first ' + esc(opts.total) + ' couples, so ' + esc(opts.what) + esc(worth) + ' is completely free. No payment needed.</p><p class="gf-spot">Couple ' + esc(opts.n) + ' of ' + esc(opts.total) + '</p>'
+          : '<p class="dt-lead">We are just launching, so ' + esc(opts.what) + esc(worth) + ' is free for you. No payment needed.</p>') +
+        '<p class="gf-ask">All we ask: if you love it, tell us on WhatsApp what you think.</p>' +
+        '<button type="button" class="btn gf-go">' + esc(opts.go || 'Continue') + '</button></div>';
+      doc.body.appendChild(box);
+      doc.documentElement.style.overflow = 'hidden';
+      var go = box.querySelector('.gf-go');
+      setTimeout(function () { go.focus(); }, 50);
+      function close() { box.remove(); doc.documentElement.style.overflow = ''; }
+      function cancel() { close(); reject(new Error('cancelled')); }
+      box.querySelector('.dt-x').addEventListener('click', cancel);
+      box.addEventListener('click', function (e) { if (e.target === box) cancel(); });
+      doc.addEventListener('keydown', function esc_(e) { if (e.key === 'Escape' && box.isConnected) { doc.removeEventListener('keydown', esc_); cancel(); } });
+      go.addEventListener('click', function () { close(); resolve(); });
+    });
+  }
+  w.WLGift = { show: gift };
 })(window, document);

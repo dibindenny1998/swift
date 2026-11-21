@@ -320,7 +320,7 @@ try {
             apply_payment(array_merge($inv, ['pending_plan' => $plan]), 0, 'credit-' . rand_hex(3), !payments_live());
             json_out(['ok' => true, 'free' => true]);
         }
-        if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount]);
+        if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount, 'launch' => launch_spot()]);
         // PayU: a fresh transaction id, then the signed form that sends the customer to PayU's payment page
         $txnid = 'WL' . $inv['id'] . 'T' . time() . strtoupper(rand_hex(2));
         db()->prepare('UPDATE invites SET rzp_order_id = ? WHERE id = ?')->execute([$txnid, $inv['id']]);

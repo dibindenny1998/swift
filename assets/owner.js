@@ -115,10 +115,16 @@
       if (!o.ok) return reset(o.error);
       if (o.free) return done();
       if (o.demo) {
-        btn.textContent = 'Publishing…';
-        return post('/api.php?a=demo_pay', { t: C.t, plan: chosen }).then(function (r) {
-          if (r.ok) done(); else reset(r.error);
-        });
+        // payments not connected yet: tell the couple it is free for them, then publish
+        var L = o.launch || {}, worth = Math.round((o.amount || 0) / 100);
+        return WLGift.show({ n: L.n, total: L.total, worth: worth, what: 'your Premium wedding website', go: 'Publish my website' }).then(function () {
+          btn.textContent = 'Publishing…';
+          return post('/api.php?a=demo_pay', { t: C.t, plan: chosen }).then(function (r) {
+            if (!r.ok) return reset(r.error);
+            try { fbq('track', 'CompleteRegistration', { content_name: 'Launch offer: free Premium', value: worth, currency: 'INR' }); } catch (e) {}
+            done();
+          });
+        }, function () { reset(); });
       }
       if (o.payu) { btn.textContent = 'Opening PayU…'; return goPayU(o.payu); }
       reset('Payment could not start. Try again.');
