@@ -277,6 +277,14 @@ function now(): string { return date('Y-m-d H:i:s'); }
 
 /* ---------- settings ---------- */
 
+/** Reviewer test login (payment gateway checks): a fixed email + 6-digit code set in Admin. Empty = off. */
+function test_login_match(string $email, ?string $code = null): bool
+{
+    $te = strtolower(trim(setting('test_email'))); $tc = trim(setting('test_code'));
+    if ($te === '' || !preg_match('/^\d{6}$/', $tc) || $email !== $te) return false;
+    return $code === null || hash_equals($tc, $code);
+}
+
 const SETTING_DEFAULTS = [
     'brand'           => 'TheWedLink',
     'business_name'   => 'TheWedLink',
@@ -284,6 +292,8 @@ const SETTING_DEFAULTS = [
     'demo_video'      => 'https://youtu.be/Kni0Nd76X5A',
     'support_phone'   => '',
     'support_email'   => '',
+    'test_email'      => '',
+    'test_code'       => '',
     'address'         => 'Bangalore, Karnataka, India',
     'price_standard'  => '199',
     'price_premium'   => '499',

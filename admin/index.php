@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /admin/'); exit;
     }
     if ($act === 'settings') {
-        foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
+        foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id', 'test_email'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
+        $tc = preg_replace('/\D/', '', (string)($_POST['test_code'] ?? '')); set_setting('test_code', strlen($tc) === 6 ? $tc : '');
         foreach (['price_premium', 'price_built', 'founding_price'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
         foreach (['founding_total', 'founding_taken'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, (int)$_POST[$k]));
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)($_POST['founding_until'] ?? ''))) set_setting('founding_until', $_POST['founding_until'] . ' 23:59:59');
@@ -518,6 +519,12 @@ site_head('Admin | ' . setting('brand'));
         <div class="field"><label for="b4">Support email</label><input id="b4" name="support_email" type="email" value="<?= e(setting('support_email')) ?>"></div>
       </div>
       <div class="field"><label for="b5">Address</label><input id="b5" name="address" value="<?= e(setting('address')) ?>"></div>
+      <h3 style="margin-top:18px">Test login for payment gateway review</h3>
+      <p class="lead">Give these to Cashfree, PayU or any reviewer. On the Sign in page they enter this email, then this code. No email is sent. Clear both to switch it off.</p>
+      <div class="grid2" style="margin-top:8px">
+        <div class="field"><label for="t1">Test email</label><input id="t1" name="test_email" type="email" value="<?= e(setting('test_email')) ?>" placeholder="reviewer@thewedlink.in"></div>
+        <div class="field"><label for="t2">Test code (6 digits)</label><input id="t2" name="test_code" inputmode="numeric" maxlength="6" value="<?= e(setting('test_code')) ?>"></div>
+      </div>
     </div>
     <button class="btn" style="margin-top:18px">Save settings</button>
   </form>

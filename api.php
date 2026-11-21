@@ -206,6 +206,7 @@ try {
         $j = body_json();
         $email = strtolower(clip($j['email'] ?? '', 120));
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) json_out(['ok' => false, 'error' => 'Enter a valid email address.'], 422);
+        if (test_login_match($email)) json_out(['ok' => true]); // reviewer account: fixed code, no email sent
         $pdo = db();
         $st = $pdo->prepare('SELECT COUNT(*) FROM login_codes WHERE (email = ? OR ip = ?) AND created_at > ?');
         $st->execute([$email, client_ip(), date('Y-m-d H:i:s', time() - 3600)]);
@@ -223,6 +224,12 @@ try {
         $j = body_json();
         $email = strtolower(clip($j['email'] ?? '', 120));
         $code = preg_replace('/\D/', '', (string)($j['code'] ?? '')) ?? '';
+        if (test_login_match($email, $code)) {
+            $u = user_upsert($email, 'Test Reviewer');
+            if (!$u['phone'] && ($ph = normalize_phone(setting('support_phone')))) db()->prepare('UPDATE users SET phone = ? WHERE id = ?')->execute([$ph, $u['id']]);
+            sign_in_user((int)$u['id'], 'email');
+            json_out(['ok' => true, 'need_phone' => false]);
+        }
         $st = db()->prepare('SELECT * FROM login_codes WHERE email = ? AND used = 0 AND expires_at > ? ORDER BY id DESC LIMIT 1');
         $st->execute([$email, time()]);
         $row = $st->fetch();
