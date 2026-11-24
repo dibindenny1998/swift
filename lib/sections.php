@@ -203,7 +203,7 @@ function site_faq(): array
         ['Is my payment and my family\'s data safe?', 'Payments go through PayU, so we never see your card or UPI details. Your site is only seen by people you send the link to, and it is hidden from Google. Our privacy policy has the details.'],
         ['Can you build it for me?', "Yes. With Built for you (₹$pb4u, fixed), send us your details and photos on WhatsApp and we set up the whole site for you to check."],
         ['Is it really free?', "Yes. The Free plan covers one function for 1 month, with maps and a countdown. Premium (₹$pp, one time) adds every function, RSVP, photos, a video and all designs."],
-        ['Do I still need printed cards?', 'Many families print a few cards for the elders. Send the link to everyone, so every guest gets maps, updates and RSVP.'],
+        ['Do I still need printed cards?', 'Print cards if your family loves them. Your website goes further: every function, venue maps, photos, live updates and RSVP in one beautiful link.'],
     ];
 }
 

@@ -21,7 +21,7 @@ site_head('Make Your Free Wedding Link in 5 Minutes | ' . $brand, 'One link for 
           <li><?= $tick ?>Opens from WhatsApp, no app, no login</li>
         </ul>
         <a class="btn lp-cta js-make" href="/create?t=classic">Create our wedding website</a>
-        <p class="lp-small">Your card for the elders. Your link for everyone. <a href="/sample" target="_blank" rel="noopener">See a live wedding site →</a></p>
+        <p class="lp-small">Your wedding deserves more than a card. Give it a beautiful website. <a href="/sample" target="_blank" rel="noopener">See a live wedding site →</a></p>
       </div>
       <div class="lp-phone"><img src="<?= asset('assets/img/designs/kasavu.jpg') ?>" alt="A wedding link on a phone" width="232" height="480"></div>
     </div>

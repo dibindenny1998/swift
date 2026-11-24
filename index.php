@@ -86,7 +86,7 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
 
   <section class="x-band" aria-label="Your card and your link">
     <figure class="x-band-img"><img src="<?= asset('assets/img/slots/sample-kasavu.jpg') ?>" alt="" width="1080" height="1920" loading="lazy"></figure>
-    <div class="wrap x-band-copy"><p>Your card for the elders.<br><em>Your link for everyone.</em></p></div>
+    <div class="wrap x-band-copy"><p>Your wedding deserves more than a card.<br><em>Give it a beautiful website.</em></p></div>
   </section>
 
 <?php sec_designs(6); ?>
