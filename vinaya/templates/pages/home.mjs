@@ -36,7 +36,7 @@ ${steps.map((_, i) => {
     const slot = `journey-${keys[i]}`;
     const photo = ctx.images[slot]?.exists;
     const heading = `${ctx.t(`home.tale.steps.${i}.word`)} <span class="journey__line">${ctx.t(`home.tale.steps.${i}.line`)}</span>`;
-    return html`      <li class="journey__card ${photo ? 'journey__card--text' : 'journey__card--art'}" data-reveal style="--delay:${i * 180}ms">
+    return html`      <li class="journey__card ${photo ? `journey__card--text${ctx.images[slot].tone === 'dark' ? ' journey__card--dark' : ''}` : 'journey__card--art'}" data-reveal style="--delay:${i * 180}ms">
         ${photo ? image(ctx, slot, { className: 'journey__media', sizes: '(min-width: 768px) 31vw, 92vw' }) : `<span class="journey__art" aria-hidden="true">${art[i]}</span>`}
         <h3 class="journey__word">${heading}</h3>
       </li>

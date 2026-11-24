@@ -13,7 +13,7 @@
 export default {
   'home-hero': { file: 'home-hero.jpg', width: 1920, height: 1080, page: 'Home: top banner (desktop and tablet)' },
   'home-hero-mobile': { file: 'home-hero-mobile.jpg', width: 1024, height: 1536, page: 'Home: top banner on phones (portrait)' },
-  'journey-nature': { file: 'journey-nature.jpg', width: 1145, height: 1374, page: 'Home: Nature card (no words in the picture; keep the lower third calm)' },
+  'journey-nature': { file: 'journey-nature.jpg', width: 1145, height: 1374, page: 'Home: Nature card (no words in the picture)', tone: 'dark' },
   'journey-tradition': { file: 'journey-tradition.jpg', width: 1145, height: 1374, page: 'Home: Tradition card (no words in the picture; keep the lower third calm)' },
   'journey-you': { file: 'journey-you.jpg', width: 1145, height: 1374, page: 'Home: You card (no words in the picture; keep the lower third calm)' },
   'col-hair': { file: 'collection-hair.jpg', width: 1145, height: 1374, page: 'Home: Hair Care card (keep the upper left light for the title)' },

@@ -2043,6 +2043,23 @@ main:focus {
   color: var(--ink-soft);
 }
 
+/* A busy photo gets a soft dark fade so light words stay readable. */
+.journey__card--dark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(19, 48, 33, 0.82) 0%, rgba(19, 48, 33, 0.3) 36%, rgba(19, 48, 33, 0) 58%);
+  pointer-events: none;
+}
+
+.journey__card--dark .journey__word {
+  color: var(--on-green);
+}
+
+.journey__card--dark .journey__line {
+  color: var(--on-green-soft);
+}
+
 .journey__word {
   position: absolute;
   inset: auto 0 0;
