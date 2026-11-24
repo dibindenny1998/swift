@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vinaya Website · Handover Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600&display=swap">
+<style>
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+  :root { --green: #1f4a2e; --ink: #1b2e22; --soft: #4b5a4f; --sand: #eee7da; --line: rgba(27,46,34,.16); --accent: #6f5d43; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); font: 10.5pt/1.55 Inter, Arial, sans-serif; }
+  h1, h2, h3 { font-family: Marcellus, Georgia, serif; font-weight: 400; color: var(--green); margin: 0; }
+  h1 { font-size: 30pt; line-height: 1.1; }
+  h2 { font-size: 17pt; margin: 22pt 0 8pt; padding-top: 6pt; border-top: 1px solid var(--line); break-after: avoid; }
+  h3 { font-size: 12.5pt; margin: 12pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 7pt; }
+  ol, ul { margin: 0 0 8pt; padding-left: 16pt; }
+  li { margin: 0 0 3pt; }
+  .cover { padding: 8pt 0 14pt; border-bottom: 2px solid var(--green); margin-bottom: 6pt; }
+  .eyebrow { font-size: 8pt; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 8pt; }
+  .lead { font-size: 11.5pt; color: var(--soft); margin-top: 8pt; }
+  .meta { display: flex; gap: 18pt; margin-top: 10pt; font-size: 9pt; color: var(--soft); }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 10pt; font-size: 9.5pt; break-inside: avoid; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 7pt; border-bottom: 1px solid var(--line); }
+  th { background: var(--sand); font-weight: 600; }
+  .box { border: 1px solid var(--line); border-left: 3px solid var(--green); background: #faf8f4; padding: 8pt 10pt; margin: 6pt 0 10pt; break-inside: avoid; }
+  .box.warn { border-left-color: #a06a00; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 9pt; background: var(--sand); padding: 1pt 4pt; border-radius: 3px; }
+  .steps li { margin-bottom: 4pt; }
+  .footer { margin-top: 20pt; padding-top: 8pt; border-top: 1px solid var(--line); font-size: 9pt; color: var(--soft); }
+  .nobreak { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="eyebrow">Brandd.it · Website handover</div>
+  <h1>Vinaya website<br>handover guide</h1>
+  <p class="lead">Everything you need to put the website live on GoDaddy and to update it yourself: text, products, blog posts, photos and contact details.</p>
+  <div class="meta"><span>Prepared by Brandd.it</span><span>hello@branddit.in · +91 80862 07968</span></div>
+</div>
+
+<h2>1. What you have received</h2>
+<table>
+  <tr><th style="width:34%">Item</th><th>What it is</th></tr>
+  <tr><td><code>Vinaya-Website-Files.zip</code></td><td>The complete website: all pages, images, the enquiry form and the admin panel. Upload it as it is (see section 3).</td></tr>
+  <tr><td>This guide</td><td>Step-by-step instructions for going live and for day-to-day editing.</td></tr>
+  <tr><td>Admin login</td><td>Username <code>vinaya</code>. The password is sent to you separately for security.</td></tr>
+</table>
+
+<h3>Pages on the website</h3>
+<p>Home · Our Story · Products · Hair Oil · Gift Set · Blog (5 articles) · Partner With Us · Contact · a custom "page not found" page · the admin panel at <code>/admin/</code>.</p>
+
+<h2>2. Before you start</h2>
+<p>You need a <b>GoDaddy Web Hosting (cPanel, Linux)</b> plan and your domain. The website needs:</p>
+<ul>
+  <li><b>PHP 8.1 or newer.</b> The enquiry form and the admin panel run on PHP.</li>
+  <li><b>SSL (https).</b> GoDaddy cPanel plans include free SSL.</li>
+  <li>About <b>10 MB</b> of space.</li>
+</ul>
+<div class="box warn"><b>Website Builder plans will not work.</b> They do not accept uploaded websites. If unsure, check that your GoDaddy hosting shows <b>cPanel Admin</b>.</div>
+
+<h2>3. Upload the website to GoDaddy</h2>
+<ol class="steps">
+  <li>Log in to GoDaddy and go to <b>My Products → Web Hosting → Manage → cPanel Admin</b>.</li>
+  <li>Open <b>File Manager</b> and go into the <code>public_html</code> folder.
+    If it contains a GoDaddy placeholder page (for example <code>index.html</code> or <code>default.html</code>), delete it.</li>
+  <li>Click <b>Upload</b> and upload <code>Vinaya-Website-Files.zip</code> into <code>public_html</code>.</li>
+  <li>Back in File Manager, right-click the zip and choose <b>Extract</b>. Extract into <code>/public_html</code> and allow it to replace files.</li>
+  <li>Delete the zip file afterwards.</li>
+  <li>Check: <code>public_html</code> should now contain <code>index.html</code>, <code>contact.php</code> and the folders <code>admin</code>, <code>assets</code>, <code>images</code>, <code>blog</code>, <code>products</code> and others.
+    The files are directly inside <code>public_html</code>, not in a sub-folder.</li>
+</ol>
+<div class="box">Some files start with a dot (<code>.htaccess</code>). They are hidden by default. In File Manager, <b>Settings → Show Hidden Files</b> lets you see them. They must stay; they make the site fast and protect the admin data.</div>
+
+<h3>Set the PHP version</h3>
+<p>In cPanel, open <b>Select PHP Version</b> (or <b>MultiPHP Manager</b>) and choose <b>PHP 8.1</b> or newer for your domain.</p>
+
+<h2>4. Connect the domain and switch on https</h2>
+<ol class="steps">
+  <li>If the domain is with GoDaddy and attached to this hosting plan, it already points to the website.</li>
+  <li>If the domain is elsewhere, point its <b>A record</b> to the IP address shown in cPanel (right-hand panel, "Shared IP Address"). Changes can take a few hours.</li>
+  <li>In cPanel, open <b>SSL/TLS Status</b> and run <b>AutoSSL</b> so the site works on <code>https://</code>.</li>
+  <li>Open your domain in a browser: the Vinaya home page should appear.</li>
+</ol>
+
+<h2>5. First login and setup (10 minutes)</h2>
+<ol class="steps">
+  <li>Go to <code>https://yourdomain.com/admin/</code> and log in with username <code>vinaya</code> and the password sent separately.</li>
+  <li><b>Account</b> tab: change the password to one only you know (at least 10 characters).</li>
+  <li><b>Contact details</b> tab, fill in:
+    <ul>
+      <li><b>Website address</b>: your domain, for example <code>https://www.yourdomain.com</code></li>
+      <li><b>Enquiry emails go to</b>: the inbox that should receive enquiries. The form goes live once this is set.</li>
+      <li><b>Email shown on the website</b> and <b>WhatsApp number</b> (country code, digits only, e.g. <code>919876543210</code>)</li>
+      <li><b>Send form emails from</b>: an address on your own domain, e.g. <code>noreply@yourdomain.com</code> (create it in cPanel → Email Accounts). This helps enquiries arrive and not land in spam.</li>
+      <li>Instagram, YouTube and X links are already filled in. Change or clear them if needed.</li>
+    </ul>
+  </li>
+  <li>Press <b>Publish</b>. The whole website updates in a few seconds.</li>
+  <li>Test: open the Contact page, send yourself an enquiry, and check it arrives (also check spam).</li>
+</ol>
+
+<h2>6. Updating the website yourself</h2>
+<p>Everything is done at <code>/admin/</code>. Changes are saved safely and go live when you press <b>Publish</b> (photos, products and blog posts publish as soon as you save them).</p>
+
+<table>
+  <tr><th style="width:20%">Tab</th><th>What you can do</th></tr>
+  <tr><td><b>Text</b></td><td>Edit every line on the website, grouped page by page, with a search box. Changed lines are highlighted and can be undone. Put words between <code>*stars*</code> to show them in the green accent style.</td></tr>
+  <tr><td><b>Products</b></td><td>Add a new product (name, subtitle, category, photo, description, short tags, details). Edit or delete products you added. <b>Hide</b> any product to take it off the site without deleting it. Each product gets its own page, a card on the Products page and a place in the enquiry form.</td></tr>
+  <tr><td><b>Blog</b></td><td>Write new articles with a toolbar for headings, bold, italics, bullet and numbered lists, quotes, links and photos inside the article. Set a cover photo, category, date and a "featured" post. Edit or delete any article.</td></tr>
+  <tr><td><b>Photos</b></td><td>Every photo on the site is listed with where it appears and its best size. <b>Replace photo</b> takes a picture from your phone or computer; it is resized automatically and the site crops it to fit.</td></tr>
+  <tr><td><b>Contact details</b></td><td>Website address, enquiry email, public email, WhatsApp and social links.</td></tr>
+  <tr><td><b>Account</b></td><td>Change your password.</td></tr>
+</table>
+
+<h3>Photo tips</h3>
+<ul>
+  <li>Use bright, natural-light photos. Landscape for banners and blog covers, portrait for cards and products.</li>
+  <li>Where text sits on a photo (banners, the Home cards), keep that part of the photo calm.</li>
+  <li>Only use photos you own or have permission to use.</li>
+  <li>A full list of photo sizes is at <code>https://yourdomain.com/images/guide.html</code>.</li>
+</ul>
+
+<h2>7. Safety and backups</h2>
+<ul>
+  <li>Your edits, uploaded photos and password are stored in a folder called <code>vinaya-data</code>, next to <code>public_html</code> (one level above it). It is not visible on the web.</li>
+  <li><b>Back up</b> both <code>public_html</code> and <code>vinaya-data</code> from time to time (cPanel → Backup, or download them from File Manager).</li>
+  <li>If the website files are ever uploaded again, your edits are not lost: log in to the admin once and they are re-applied automatically.</li>
+  <li>After 5 wrong passwords the admin locks for 15 minutes. You are logged out automatically after 2 hours of inactivity.</li>
+</ul>
+
+<h2>8. Quick troubleshooting</h2>
+<table>
+  <tr><th style="width:38%">Problem</th><th>What to do</th></tr>
+  <tr><td>"Our enquiry form opens very soon" message</td><td>Set <b>Enquiry emails go to</b> in Admin → Contact details and Publish.</td></tr>
+  <tr><td>Enquiries do not arrive</td><td>Check spam. Create <code>noreply@yourdomain.com</code> in cPanel and set it as <b>Send form emails from</b>.</td></tr>
+  <tr><td>Admin page is blank or shows an error</td><td>Make sure PHP is 8.1 or newer (section 3).</td></tr>
+  <tr><td>Old photo still shows after replacing</td><td>Refresh the page; on phones close and reopen the tab.</td></tr>
+  <tr><td>Forgot the admin password</td><td>Contact Brandd.it and we will reset it.</td></tr>
+</table>
+
+<div class="footer">
+  Need help? Brandd.it · <b>hello@branddit.in</b> · <b>+91 80862 07968</b> · branddit.in
+</div>
+
+</body>
+</html>

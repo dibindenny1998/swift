@@ -4,5 +4,5 @@
 // website folder, which then takes over from this file.
 return [
     'username' => 'vinaya',
-    'hash' => '$2y$12$JxfaSWjLf3otMfe1O.Lq5OkffdIbz4e2r6mpgwJv0rp28/ForoOXK',
+    'hash' => '$2y$12$QqDvYisS99xK2oWQ3.zioeOJmm6eeF6tsy7LljhXbZYRXhfKeoLDm',
 ];

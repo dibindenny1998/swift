@@ -210,6 +210,11 @@ try {
                 fail('The WhatsApp number needs the country code, e.g. 919876543210.');
             }
             $clean['whatsapp'] = $whatsapp;
+            $site = rtrim(trim((string) ($settings['siteUrl'] ?? '')), '/');
+            if ($site !== '' && !preg_match('#^https?://[a-z0-9.-]+\.[a-z]{2,}$#i', $site)) {
+                fail('The website address should look like https://www.yourdomain.com');
+            }
+            $clean['siteUrl'] = $site;
             foreach (['instagram', 'youtube', 'x'] as $k) {
                 $v = trim((string) ($settings[$k] ?? ''));
                 if ($v !== '' && (!preg_match('#^https://[^\s<>"]+$#', $v) || strlen($v) > 300)) {
@@ -225,7 +230,7 @@ try {
             $pages = [];
             foreach ($body['files'] as $path => $content) {
                 if (!is_string($path) || !is_string($content)
-                    || !preg_match('#^((?:[a-z0-9-]+/){0,2}index\.html|404\.html|sitemap\.xml)$#', $path)
+                    || !preg_match('#^((?:[a-z0-9-]+/){0,2}index\.html|404\.html|sitemap\.xml|robots\.txt)$#', $path)
                     || strlen($content) > 2_000_000) {
                     fail('Unexpected page: ' . (string) $path);
                 }

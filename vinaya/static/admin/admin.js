@@ -94,6 +94,7 @@ const label = (path) =>
     .join(' › ') || words(path);
 
 const SETTINGS = [
+  { key: 'siteUrl', label: 'Website address', hint: 'Your domain, e.g. https://www.vinaya.com. Used for Google and link previews. Set it once the domain points here, then Publish.', type: 'url' },
   { key: 'contactEmail', label: 'Enquiry emails go to', hint: 'Messages from the contact form are delivered to this address. The form goes live once this is filled in.', type: 'email' },
   { key: 'publicEmail', label: 'Email shown on the website', hint: 'Shown on the contact page and in the footer. Leave empty to hide it.', type: 'email' },
   { key: 'whatsapp', label: 'WhatsApp number', hint: 'With country code, digits only, e.g. 919876543210. Leave empty to hide WhatsApp.', type: 'tel' },
@@ -952,7 +953,7 @@ function contactTab() {
     const input = h('input', { type: s.type, value: state.settings[s.key] || '', autocomplete: 'off' });
     input.addEventListener('input', () => {
       // WhatsApp links need digits only (country code first).
-      state.settings[s.key] = s.key === 'whatsapp' ? input.value.replace(/\D+/g, '') : input.value.trim();
+      state.settings[s.key] = s.key === 'whatsapp' ? input.value.replace(/\D+/g, '') : s.key === 'siteUrl' ? input.value.trim().replace(/\/+$/, '') : input.value.trim();
       markDirty();
     });
     form.append(h('label', { class: 'field' }, h('span', { class: 'field__label' }, s.label), input, h('span', { class: 'field__hint' }, s.hint)));

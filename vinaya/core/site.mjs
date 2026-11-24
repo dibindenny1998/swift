@@ -106,6 +106,8 @@ export function renderSite({ copy, config, products, imageSlots, blogSources, im
   // 404 uses root-absolute links because Apache serves it from any depth.
   files['404.html'] = notFound(makeContext({ id: '404', section: null, path: '', noindex: true }, { absolute: true }));
 
+  files['robots.txt'] = `User-agent: *\nAllow: /\nDisallow: /images/guide.html\nDisallow: /admin/\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`;
+
   files['sitemap.xml'] = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages.map((page) => `  <url>\n    <loc>${config.siteUrl}/${page.path}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`).join('\n')}

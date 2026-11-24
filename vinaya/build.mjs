@@ -139,7 +139,6 @@ document.querySelectorAll('.card').forEach(function (card) {
 </script></body></html>
 `);
 
-write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /images/guide.html\nDisallow: /admin/\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`);
 
 // ---------------------------------------------------------------- report
 
