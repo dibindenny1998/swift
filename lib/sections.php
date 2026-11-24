@@ -149,7 +149,7 @@ function sec_pricing(): void
             <li><?= $tick ?>Live for 1 month</li>
             <li class="no"><?= $tick ?>"Crafted by <?= e($brand) ?>" mark</li>
           </ul>
-          <a class="btn alt js-make" href="/create?t=classic">Start free</a>
+          <a class="btn alt js-make" href="/designs">Start free</a>
         </div>
         <div class="plan pick">
           <h3>Premium</h3>
@@ -163,7 +163,7 @@ function sec_pricing(): void
             <li><?= $tick ?>Gift list and background music</li>
             <li><?= $tick ?>Live for 1 year, no <?= e($brand) ?> mark</li>
           </ul>
-          <a class="btn js-make" href="/create">Choose Premium</a>
+          <a class="btn js-make" href="/designs">Choose Premium</a>
         </div>
         <div class="plan custom">
           <h3>Built for you</h3>

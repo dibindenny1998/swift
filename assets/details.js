@@ -89,4 +89,58 @@
     });
   }
   w.WLPay = { cashfree: cashfree };
+
+  /** Sign in with an emailed 6-digit code, then link this invite/biodata to the account so the couple can always come back.
+      opts: { t, kind: 'invite'|'biodata', email } → Promise that resolves once signed in */
+  function signin(opts) {
+    function post(a, b) { return fetch('/api.php?a=' + a, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b || {}) }).then(function (r) { return r.json(); }); }
+    return new Promise(function (resolve, reject) {
+      var box = doc.createElement('div');
+      box.className = 'dt-modal';
+      box.innerHTML = '<form class="dt-box si-box" novalidate role="dialog" aria-modal="true" aria-labelledby="si-h">' +
+        '<button type="button" class="dt-x" aria-label="Close">&times;</button>' +
+        '<h2 id="si-h">Save your website to your account</h2>' +
+        '<p class="dt-lead">Sign in once so you can come back any time to edit it, see who is coming and share it again. No password needed.</p>' +
+        '<div class="si-step1"><div class="field"><label for="si-email">Your email</label><input id="si-email" type="email" inputmode="email" autocomplete="email" maxlength="120" placeholder="you@example.com" value="' + esc(opts.email || '') + '"></div></div>' +
+        '<div class="si-step2" hidden><p class="si-sent"></p><div class="field"><label for="si-code">6-digit code</label><input id="si-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*"></div>' +
+        '<button type="button" class="linkbtn si-back">Use a different email</button></div>' +
+        '<p class="err" role="alert"></p><button class="btn si-go" style="width:100%">Send me a code</button>' +
+        '<p class="dt-safe">We only email you about your website. No spam.</p></form>';
+      doc.body.appendChild(box);
+      doc.documentElement.style.overflow = 'hidden';
+      var f = box.querySelector('form'), err = f.querySelector('.err'), go = f.querySelector('.si-go');
+      var em = f.querySelector('#si-email'), code = f.querySelector('#si-code'), s1 = f.querySelector('.si-step1'), s2 = f.querySelector('.si-step2');
+      var step = 1, email = '';
+      setTimeout(function () { em.focus(); }, 50);
+      function close() { box.remove(); doc.documentElement.style.overflow = ''; }
+      function cancel() { close(); reject(new Error('cancelled')); }
+      function busy(on, label) { go.disabled = on; go.textContent = label; }
+      box.querySelector('.dt-x').addEventListener('click', cancel);
+      box.addEventListener('click', function (e) { if (e.target === box) cancel(); });
+      f.querySelector('.si-back').addEventListener('click', function () { step = 1; s2.hidden = true; s1.hidden = false; err.textContent = ''; busy(false, 'Send me a code'); em.focus(); });
+      f.addEventListener('submit', function (e) {
+        e.preventDefault(); err.textContent = '';
+        if (step === 1) {
+          email = em.value.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'Enter a valid email address.'; em.focus(); return; }
+          busy(true, 'Sending…');
+          post('login_code', { email: email }).then(function (j) {
+            if (!j.ok) { busy(false, 'Send me a code'); err.textContent = j.error || 'Could not send the code. Try again.'; return; }
+            step = 2; s1.hidden = true; s2.hidden = false;
+            f.querySelector('.si-sent').textContent = 'We sent a code to ' + email + '. Check your inbox (and spam).';
+            if (j.dev_code) code.value = j.dev_code;
+            busy(false, 'Sign in and continue'); code.focus();
+          }).catch(function () { busy(false, 'Send me a code'); err.textContent = 'No connection. Try again.'; });
+          return;
+        }
+        busy(true, 'Signing in…');
+        post('login_verify', { email: email, code: code.value }).then(function (j) {
+          if (!j.ok) { busy(false, 'Sign in and continue'); err.textContent = j.error || 'That code is not right.'; code.focus(); return; }
+          var body = opts.kind === 'biodata' ? { bios: [opts.t] } : { invites: [opts.t] };
+          return post('claim', body).catch(function () {}).then(function () { close(); resolve(email); });
+        }).catch(function () { busy(false, 'Sign in and continue'); err.textContent = 'No connection. Try again.'; });
+      });
+    });
+  }
+  w.WLSignin = { ask: signin };
 })(window, document);

@@ -54,7 +54,7 @@ $cfg = [
     't' => $inv['token'], 'paid' => $paid, 'plan' => $inv['plan'], 'data' => $d,
     'prices' => ['free' => 0, 'standard' => $ps, 'premium' => $pp], 'upgrade' => $upgradeDiff, 'upgrades' => $upgrades, 'defaultPlan' => $defaultPlan,
     'rank' => PLAN_RANK, 'tierNames' => TIER_NAMES, 'live' => payments_live(),
-    'hasDetails' => (bool)$cust, 'prefill' => ['phone' => $inv['phone'] ?: '', 'email' => $inv['email'] ?: '', 'name' => ''], 'states' => INDIAN_STATES,
+    'signedIn' => (bool)current_user(), 'hasDetails' => (bool)$cust, 'prefill' => ['phone' => $inv['phone'] ?: '', 'email' => $inv['email'] ?: '', 'name' => ''], 'states' => INDIAN_STATES,
     'refLink' => $refLink, 'showUpsell' => $justPublished && $paid && $inv['plan'] !== 'premium', 'purchase' => $trackPurchase ? ['value' => $inv['amount'] / 100, 'id' => 'inv_' . $inv['id']] : null,
 ];
 site_head(($paid ? 'Your invite is live' : 'Your invite preview') . ' | ' . $brand);

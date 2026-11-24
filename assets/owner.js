@@ -94,8 +94,16 @@
     err.textContent = '';
     btn.disabled = true; btn.textContent = 'Opening payment…';
     var value = C.paid ? (C.upgrades[chosen] || 0) : C.prices[chosen];
-    try { fbq('track', 'InitiateCheckout', { value: value, currency: 'INR' }); } catch (e) {}
+    if (C.signedIn) try { fbq('track', 'InitiateCheckout', { value: value, currency: 'INR' }); } catch (e) {}
     function reset(msg) { btn.disabled = false; btn.textContent = original; if (msg) err.textContent = msg; }
+
+    // sign in first, so the couple can always come back to their website
+    if (!C.signedIn) {
+      return WLSignin.ask({ t: C.t, kind: 'invite', email: (C.prefill || {}).email }).then(function (email) {
+        C.signedIn = true; if (C.prefill && !C.prefill.email) C.prefill.email = email;
+        btn.disabled = false; btn.textContent = original; startPay(btn, chosen);
+      }, function () { reset(); });
+    }
 
     if (chosen === 'free') {
       btn.textContent = 'Publishing…';

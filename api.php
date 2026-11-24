@@ -275,6 +275,8 @@ try {
         $j = body_json(); $n = 0;
         foreach (array_slice((array)($j['invites'] ?? []), 0, 20) as $t) if (is_string($t) && ($i = find_invite('token', $t))) { attach_to_user('invites', (int)$i['id']); $n++; }
         foreach (array_slice((array)($j['bios'] ?? []), 0, 20) as $t) if (is_string($t) && ($b = find_bio('token', $t))) { attach_to_user('biodata', (int)$b['id']); $n++; }
+        // the builder already asked for a mobile number: reuse it so the account page does not ask again
+        if (!$u['phone'] && isset($i['phone']) && strlen((string)$i['phone']) === 10) db()->prepare('UPDATE users SET phone = ? WHERE id = ? AND (phone IS NULL OR phone = \'\')')->execute([$i['phone'], $u['id']]);
         json_out(['ok' => true, 'n' => $n]);
     }
 

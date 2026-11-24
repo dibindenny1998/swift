@@ -762,7 +762,7 @@ function site_header(string $active = ''): void
         . '<a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5" fill="none" stroke="#C9727F" stroke-width="2.6"/><circle cx="20" cy="16" r="8.5" fill="none" stroke="#C9A26B" stroke-width="2.6"/></svg>' . $brand . '</a>'
         . '<nav class="menu" id="menu" aria-label="Main">' . $links
         . '<a href="/account"' . ($active === 'account' ? ' aria-current="page"' : '') . ' class="menu-acct">' . (current_user() ? 'My account' : 'Sign in') . '</a>'
-        . '<a class="btn small js-make menu-cta" href="/create">Make our website</a></nav>'
+        . '<a class="btn small js-make menu-cta" href="/designs">Make our website</a></nav>'
         . '<a class="bio-quick" href="/biodata">Biodata' . $free . '</a>'
         . '<button type="button" class="menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>'
         . '</div></header>'
@@ -773,9 +773,9 @@ function site_header(string $active = ''): void
 }
 
 /** The single bottom action bar on phones. */
-function sticky_cta(string $href = '/create', string $label = 'Create our wedding website', string $note = 'Free to start · No card needed'): string
+function sticky_cta(string $href = '/designs', string $label = 'Create our wedding website', string $note = 'Free to start · No card needed'): string
 {
-    $cls = $href === '/create' ? 'btn js-make' : 'btn';
+    $cls = $href === '/designs' ? 'btn js-make' : 'btn';
     return '<div class="sticky-cta"><a class="' . $cls . '" href="' . e($href) . '">' . e($label) . '</a><small>' . e($note) . '</small></div>';
 }
 
@@ -787,7 +787,7 @@ function site_footer(): void
     echo '<footer class="foot ft"><div class="wrap">'
         . '<div class="ft-top">'
         . '<div class="ft-brand"><a class="ft-logo" href="/">' . $brand . '</a><p>One link for every wedding guest. Maps, RSVP, your story and photos, sent on WhatsApp.</p>'
-        . '<a class="ft-cta" href="/create">Create our wedding website &rarr;</a></div>'
+        . '<a class="ft-cta" href="/designs">Create our wedding website &rarr;</a></div>'
         . '<nav class="ft-col" aria-label="Wedding website"><h3>Wedding website</h3><a href="/designs">Designs</a><a href="/pricing">Pricing</a><a href="/custom">Built for you</a><a href="/sample">See a sample site</a><a href="/blog">Blog</a></nav>'
         . '<nav class="ft-col" aria-label="Free biodata"><h3>Free biodata</h3><a href="/biodata">Biodata maker</a><a href="/biodata/hindu">Hindu</a><a href="/biodata/muslim">Muslim</a><a href="/biodata/christian">Christian</a><a href="/biodata/sikh">Sikh</a><a href="/biodata/jain">Jain</a><a href="/biodata/kerala">Kerala</a></nav>'
         . '<nav class="ft-col" aria-label="Help"><h3>Help</h3><a href="/legal.php?p=contact">Contact</a>'

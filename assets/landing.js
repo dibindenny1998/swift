@@ -92,10 +92,11 @@
   }
   function links() {
     showUrl();
-    var qs = '?t=' + state.theme;
-    if (state.touched && state.p1) qs += '&n1=' + encodeURIComponent(state.p1);
-    if (state.touched && state.p2) qs += '&n2=' + encodeURIComponent(state.p2);
-    document.querySelectorAll('.js-make').forEach(function (a) { a.href = '/create' + qs; });
+    // the home page buttons open the Designs page; names typed here are kept in the builder draft
+    if (state.touched) {
+      try { var d = JSON.parse(localStorage.getItem('wl_draft') || '{}') || {}; if (state.p1) d.p1 = state.p1; if (state.p2) d.p2 = state.p2; localStorage.setItem('wl_draft', JSON.stringify(d)); } catch (e) {}
+    }
+    document.querySelectorAll('.js-make').forEach(function (a) { a.href = '/designs'; });
   }
 
   // ---- gallery filters ----

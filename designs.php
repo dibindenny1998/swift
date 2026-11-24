@@ -30,7 +30,7 @@ site_head("Wedding Invitation Website Designs: Hindu, Christian, Muslim, Sikh | 
   </section>
 </main>
 <?php site_footer(); ?>
-<?= sticky_cta() ?>
+<?= sticky_cta('/create') ?>
 <script src="<?= asset('assets/gallery.js') ?>"></script>
 </body>
 </html>

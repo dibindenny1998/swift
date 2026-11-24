@@ -47,7 +47,7 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
         <h1 class="x-h1" data-enter>Create your own <em>wedding website</em></h1>
         <p class="x-lede" data-enter>Pick a design, add your wedding details and send one link to every guest on WhatsApp. Ready in five minutes.</p>
         <div class="x-cta" data-enter>
-          <a class="x-btn js-make" href="/create">Create our wedding website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="x-btn js-make" href="/designs">Create our wedding website <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a class="x-link" href="/sample" target="_blank" rel="noopener">See a live wedding site</a>
         </div>
         <ul class="x-proof" data-enter>
@@ -109,12 +109,12 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
     <div class="wrap">
       <div class="sec-head"><h2>Simple plans, paid once</h2><p>Build and preview free. Pay only when you want more.</p></div>
       <div class="mini-plans" id="mini-plans">
-        <a class="mp" href="/create?t=classic">
+        <a class="mp" href="/designs">
           <span class="mp-name">Free</span><b class="mp-price">₹0 <small>free</small></b>
           <ul><li>1 event with maps</li><li>5 designs, a cover photo</li><li>Live for 1 month</li><li class="no">"Crafted by TheWedLink" mark</li></ul>
           <span class="mp-go">Start free</span>
         </a>
-        <a class="mp pop" href="/create" data-start>
+        <a class="mp pop" href="/designs" data-start>
           <span class="mp-name">Premium</span><b class="mp-price">₹<?= $pp ?> <small>one time</small></b>
           <ul><li>All functions, RSVP and headcount</li><li>Story, 15 photos and a video</li><li>All designs, gift list, music</li><li>Live for 1 year</li></ul>
           <span class="mp-go">Choose Premium</span>
@@ -158,7 +158,7 @@ site_head('Create Your Wedding Website: One Link for Every Guest | ' . $brand,
     <div class="wrap">
       <h2>Your guests are waiting for the date.</h2>
       <p>Make your wedding website now. It takes about five minutes, and you can publish it free.</p>
-      <a class="btn js-make" href="/create">Create our wedding website</a>
+      <a class="btn js-make" href="/designs">Create our wedding website</a>
     </div>
   </section>
 </main>
