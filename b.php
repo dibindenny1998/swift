@@ -167,6 +167,7 @@ site_head('Your biodata | ' . $brand, '', '/assets/og/site.jpg', $bioHead);
       if (o.need_details) { C.hasDetails = false; return reset('Add your details to continue.'); }
       if (!o.ok) return reset(o.error);
       if (o.demo) return WLGift.show({ worth: Math.round((o.amount || 0) / 100), what: 'your clean biodata', go: 'Get my clean copy' }).then(function () { return post('/api.php?a=bio_demo_pay', { t: C.t }).then(function (r) { if (r.ok) location.reload(); else reset(r.error); }); }, function () { reset(); });
+      if (o.cashfree) return WLPay.cashfree(o.cashfree).catch(function (e) { reset(e.message); });
       if (o.payu) { pay.textContent = 'Opening PayU…'; return goPayU(o.payu); }
       reset('Payment could not start. Try again.');
     }).catch(function (x) { reset(x && x.message ? x.message : 'No connection. Try again.'); });

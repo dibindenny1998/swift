@@ -93,6 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         set_setting('google_client_id', mb_substr(trim((string)($_POST['google_client_id'] ?? '')), 0, 200));
         set_setting('mail_from', mb_substr(trim((string)($_POST['mail_from'] ?? '')), 0, 120));
         foreach (['ref_friend_off', 'ref_reward'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, min(1000, (int)$_POST[$k])));
+        foreach (['cf_app_id', 'cf_secret'] as $k) { $v = trim((string)($_POST[$k] ?? '')); if ($v !== '') set_setting($k, $v); }
+        if (isset($_POST['cf_mode'])) set_setting('cf_mode', $_POST['cf_mode'] === 'test' ? 'test' : 'live');
         $pk = trim((string)($_POST['payu_key'] ?? ''));
         if ($pk !== '') set_setting('payu_key', $pk);
         set_setting('payu_mode', ($_POST['payu_mode'] ?? '') === 'live' ? 'live' : 'test');
@@ -128,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /admin/?v=custom'); exit;
     }
     if ($act === 'rzp_clear') {
-        set_setting('payu_key', ''); set_setting('payu_salt', '');
+        set_setting('payu_key', ''); set_setting('payu_salt', ''); set_setting('cf_app_id', ''); set_setting('cf_secret', '');
         header('Location: /admin/?v=settings&saved=1'); exit;
     }
     if ($act === 'password') {
@@ -446,16 +448,27 @@ site_head('Admin | ' . setting('brand'));
   <?php if (($_GET['pw'] ?? '') === 'ok'): ?><p class="note" style="margin-top:12px">Password changed.</p><?php elseif (($_GET['pw'] ?? '') === 'wrong'): ?><p class="err" style="margin-top:12px">Current password was not right.</p><?php elseif (($_GET['pw'] ?? '') === 'short'): ?><p class="err" style="margin-top:12px">Use at least 10 characters.</p><?php endif; ?>
   <form method="post" style="margin-top:18px"><?= csrf_field() ?><input type="hidden" name="act" value="settings">
     <div class="card">
+      <h2>Cashfree payments</h2>
+      <p class="lead">From your Cashfree dashboard: <b>Developers → API Keys</b> (Payment Gateway). Copy the <b>App ID</b> and <b>Secret Key</b>. Live keys take real payments; test (sandbox) keys do not.</p>
+      <p style="margin:12px 0"><?= cf_live() ? '<span class="pill ok">Connected (' . cf_mode() . '): ' . e(substr(setting('cf_app_id'), 0, 8)) . '…</span>' : '<span class="pill">Not connected. Pay shows the free launch offer until you add Cashfree.</span>' ?></p>
+      <div class="grid2">
+        <div class="field"><label for="cf1">App ID</label><input id="cf1" name="cf_app_id" placeholder="<?= setting('cf_app_id') ? 'Saved. Type to replace' : '' ?>" autocomplete="off"></div>
+        <div class="field"><label for="cf2">Secret key</label><input id="cf2" name="cf_secret" type="password" placeholder="<?= setting('cf_secret') ? 'Saved. Type to replace' : '' ?>" autocomplete="new-password"></div>
+      </div>
+      <div class="field"><label for="cf3">Mode</label><select id="cf3" name="cf_mode"><option value="live"<?= cf_mode() === 'live' ? ' selected' : '' ?>>Live (real payments)</option><option value="test"<?= cf_mode() === 'test' ? ' selected' : '' ?>>Test (sandbox keys, no real money)</option></select>
+        <small>Recommended: in Cashfree → Developers → Webhooks, add <b><?= e(base_url()) ?>/cashfree.php</b> for payment success. This marks the order paid even if a customer closes the page right after paying.</small></div>
+    </div>
+    <details class="card" style="margin-top:18px"><summary><b>PayU (not used while Cashfree is connected)</b></summary>
       <h2>PayU</h2>
       <p class="lead">From your PayU dashboard (onboarding.payu.in → Developers → API keys): copy the <b>Merchant Key</b> and <b>Merchant Salt (v1)</b>. Use test mode first, then switch to live after PayU approves your account.</p>
-      <p style="margin:12px 0"><?= payments_live() ? '<span class="pill ok">Connected (' . (payu_mode() === 'live' ? 'live' : 'test') . '): ' . e(substr(setting('payu_key'), 0, 6)) . '…</span>' : '<span class="pill">Not connected. Everything is free until you add PayU.</span>' ?></p>
+      <p style="margin:12px 0"><?= (setting('payu_key') !== '' && setting('payu_salt') !== '') ? '<span class="pill ok">Connected (' . (payu_mode() === 'live' ? 'live' : 'test') . '): ' . e(substr(setting('payu_key'), 0, 6)) . '…</span>' : '<span class="pill">Not connected. Everything is free until you add PayU.</span>' ?></p>
       <div class="grid2">
         <div class="field"><label for="k1">Merchant key</label><input id="k1" name="payu_key" placeholder="<?= e(setting('payu_key') ?: 'e.g. gtKFFx') ?>" autocomplete="off"></div>
         <div class="field"><label for="k2">Merchant salt</label><input id="k2" name="payu_salt" type="password" placeholder="<?= setting('payu_salt') ? 'Saved. Type to replace' : '' ?>" autocomplete="new-password"></div>
       </div>
       <div class="field"><label for="k3">Mode</label><select id="k3" name="payu_mode"><option value="test"<?= payu_mode() === 'test' ? ' selected' : '' ?>>Test (test.payu.in, no real money)</option><option value="live"<?= payu_mode() === 'live' ? ' selected' : '' ?>>Live (real payments)</option></select>
         <small>Optional: in PayU, add a webhook for successful payments to <b><?= e(base_url()) ?>/payu.php</b>. This marks the order paid even if a customer closes the page right after paying.</small></div>
-    </div>
+    </details>
     <div class="card" style="margin-top:18px">
       <h2>Prices</h2>
       <div class="grid2">
@@ -534,7 +547,7 @@ site_head('Admin | ' . setting('brand'));
   </form>
 
   <?php if (payments_live()): ?>
-  <form method="post" style="margin-top:14px"><?= csrf_field() ?><input type="hidden" name="act" value="rzp_clear"><button class="linkbtn">Disconnect PayU (back to free mode)</button></form>
+  <form method="post" style="margin-top:14px"><?= csrf_field() ?><input type="hidden" name="act" value="rzp_clear"><button class="linkbtn">Disconnect payments (back to free launch mode)</button></form>
   <?php endif; ?>
 
   <form method="post" class="card" style="margin-top:28px"><?= csrf_field() ?><input type="hidden" name="act" value="password">

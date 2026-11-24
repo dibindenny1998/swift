@@ -77,4 +77,16 @@
     });
   }
   w.WLGift = { show: gift };
+
+  /** Opens Cashfree's checkout in this tab. cf: { session, mode } from the server. */
+  function cashfree(cf) {
+    return new Promise(function (resolve, reject) {
+      function open() { try { w.Cashfree({ mode: cf.mode }).checkout({ paymentSessionId: cf.session, redirectTarget: '_self' }); resolve(); } catch (e) { reject(new Error('Payment could not open. Try again.')); } }
+      if (w.Cashfree) return open();
+      var s = doc.createElement('script'); s.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
+      s.onload = open; s.onerror = function () { reject(new Error('Payment could not load. Check your connection and try again.')); };
+      doc.head.appendChild(s);
+    });
+  }
+  w.WLPay = { cashfree: cashfree };
 })(window, document);

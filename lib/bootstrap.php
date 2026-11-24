@@ -327,6 +327,9 @@ const SETTING_DEFAULTS = [
     'offer_until'     => '2026-12-31 23:59:59',
     'ref_reward'      => '100',
     'custom_from'     => '',
+    'cf_app_id'       => '',
+    'cf_secret'       => '',
+    'cf_mode'         => 'live',
     'payu_key'        => '',
     'payu_salt'       => '',
     'payu_mode'       => 'test',
@@ -422,7 +425,7 @@ function customer_get(string $kind, int $refId): ?array
 const INDIAN_STATES = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
     'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
     'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry', 'Outside India'];
-function payments_live(): bool { return setting('payu_key') !== '' && setting('payu_salt') !== ''; }
+function payments_live(): bool { return cf_live() || (setting('payu_key') !== '' && setting('payu_salt') !== ''); }
 
 /* ---------- helpers ---------- */
 
@@ -807,6 +810,7 @@ require __DIR__ . '/sections.php';
 
 require_once __DIR__ . '/accounts.php';
 require_once __DIR__ . '/payu.php';
+require_once __DIR__ . '/cashfree.php';
 
 // signed-in customers: open their session before any page output
 if (PHP_SAPI !== 'cli' && !empty($_COOKIE['wluser'])) current_user();

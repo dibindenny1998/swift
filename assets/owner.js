@@ -126,6 +126,7 @@
           });
         }, function () { reset(); });
       }
+      if (o.cashfree) { btn.textContent = 'Opening payment…'; return WLPay.cashfree(o.cashfree).catch(function (e) { reset(e.message); }); }
       if (o.payu) { btn.textContent = 'Opening PayU…'; return goPayU(o.payu); }
       reset('Payment could not start. Try again.');
     }).catch(function (x) { if (x) reset(x.message ? x.message : 'No connection. Try again.'); });

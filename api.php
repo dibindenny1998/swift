@@ -321,11 +321,17 @@ try {
             json_out(['ok' => true, 'free' => true]);
         }
         if (!payments_live()) json_out(['ok' => true, 'demo' => true, 'amount' => $amount, 'launch' => launch_spot()]);
-        // PayU: a fresh transaction id, then the signed form that sends the customer to PayU's payment page
+        // a fresh order id, then Cashfree's checkout (or PayU's signed form if only PayU is set up)
         $txnid = 'WL' . $inv['id'] . 'T' . time() . strtoupper(rand_hex(2));
         db()->prepare('UPDATE invites SET rzp_order_id = ? WHERE id = ?')->execute([$txnid, $inv['id']]);
         $c = customer_get('invite', (int)$inv['id']) ?: [];
         $d = invite_data($inv);
+        if (cf_live()) {
+            try { $sid = cf_create_order('invite', $inv['token'], $txnid, $amount, PLAN_NAMES[$plan] . ' wedding website: ' . invite_title($d),
+                (string)($c['name'] ?? invite_title($d)), (string)($c['email'] ?? $inv['email'] ?? ''), (string)($c['phone'] ?? $inv['phone'])); }
+            catch (RuntimeException $e) { json_out(['ok' => false, 'error' => $e->getMessage()], 502); }
+            json_out(['ok' => true, 'cashfree' => ['session' => $sid, 'mode' => cf_mode() === 'live' ? 'production' : 'sandbox']]);
+        }
         json_out(['ok' => true, 'payu' => ['action' => payu_url(), 'fields' => payu_fields('invite', $inv['token'], $txnid, $amount,
             PLAN_NAMES[$plan] . ' wedding website: ' . invite_title($d), (string)($c['name'] ?? invite_title($d)), (string)($c['email'] ?? $inv['email'] ?? ''), (string)($c['phone'] ?? $inv['phone']))]]);
     }
@@ -498,6 +504,12 @@ try {
         db()->prepare('UPDATE biodata SET rzp_order_id = ? WHERE id = ?')->execute([$txnid, $bio['id']]);
         $c = customer_get('biodata', (int)$bio['id']) ?: [];
         $name = (json_decode($bio['data'], true) ?: [])['name'] ?? '';
+        if (cf_live()) {
+            try { $sid = cf_create_order('biodata', $bio['token'], $txnid, $amount, 'Biodata clean copy' . ($name ? ': ' . $name : ''),
+                (string)($c['name'] ?? $name), (string)($c['email'] ?? $bio['email'] ?? ''), (string)($c['phone'] ?? $bio['phone'])); }
+            catch (RuntimeException $e) { json_out(['ok' => false, 'error' => $e->getMessage()], 502); }
+            json_out(['ok' => true, 'cashfree' => ['session' => $sid, 'mode' => cf_mode() === 'live' ? 'production' : 'sandbox']]);
+        }
         json_out(['ok' => true, 'payu' => ['action' => payu_url(), 'fields' => payu_fields('biodata', $bio['token'], $txnid, $amount,
             'Biodata clean copy' . ($name ? ': ' . $name : ''), (string)($c['name'] ?? $name), (string)($c['email'] ?? $bio['email'] ?? ''), (string)($c['phone'] ?? $bio['phone']))]]);
     }
