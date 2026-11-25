@@ -337,6 +337,7 @@ const SETTING_DEFAULTS = [
     'rzp_key_secret'  => '',
     'rzp_webhook_secret' => '',
     'pixel_id'        => '',
+    'clarity_id'      => '',
     'capi_token'      => '',
     'admin_hash'      => '',
 ];
@@ -650,6 +651,14 @@ function capi_purchase(array $inv, int $amountPaise): void
 
 /* ---------- page chrome ---------- */
 
+/** Microsoft Clarity: free session recordings and heatmaps (Admin > Settings > Clarity project ID). Typed fields are masked by Clarity. */
+function clarity_snippet(): string
+{
+    $id = setting('clarity_id');
+    if (!preg_match('/^[a-z0-9]{6,20}$/i', $id)) return '';
+    return '<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","' . $id . '");</script>';
+}
+
 function pixel_snippet(): string
 {
     $id = setting('pixel_id');
@@ -689,7 +698,7 @@ function site_head(string $title, string $desc = '', string $ogImage = '/assets/
         . '<link rel="stylesheet" href="' . asset('assets/site.css') . '">'
         . '<link rel="stylesheet" href="' . asset('assets/premium.css') . '">'
         . $extraHead . $ld
-        . pixel_snippet()
+        . pixel_snippet() . clarity_snippet()
         . '</head>';
 }
 

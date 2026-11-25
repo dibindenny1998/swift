@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /admin/'); exit;
     }
     if ($act === 'settings') {
-        foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id', 'test_email'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
+        foreach (['brand', 'business_name', 'site_domain', 'demo_video', 'support_phone', 'support_email', 'address', 'pixel_id', 'clarity_id', 'test_email'] as $k) set_setting($k, mb_substr(trim((string)($_POST[$k] ?? '')), 0, 200));
         $tc = preg_replace('/\D/', '', (string)($_POST['test_code'] ?? '')); set_setting('test_code', strlen($tc) === 6 ? $tc : '');
         foreach (['price_premium', 'price_built', 'founding_price'] as $k) { $v = (int)($_POST[$k] ?? 0); if ($v >= 1) set_setting($k, (string)$v); }
         foreach (['founding_total', 'founding_taken', 'launch_total'] as $k) if (isset($_POST[$k])) set_setting($k, (string)max(0, (int)$_POST[$k]));
@@ -225,7 +225,7 @@ site_head('Admin | ' . setting('brand'));
 </div></header>
 <main class="wrap adm">
 <?php if (!payments_live()): ?>
-  <p class="demo" style="margin-bottom:18px"><b>Payments are in test mode.</b> Customers can publish without paying. Add your PayU key and salt in <a href="/admin/?v=settings">Settings</a> before you run ads.</p>
+  <p class="demo" style="margin-bottom:18px"><b>Payments are not connected.</b> Customers get Premium free. Add your Cashfree keys in <a href="/admin/?v=settings">Settings</a> before you run ads.</p>
 <?php endif; ?>
 
 <?php if ($view === 'dash'):
@@ -245,6 +245,17 @@ site_head('Admin | ' . setting('brand'));
     <div class="kpi"><span>Published free</span><b><?= $m['free'] ?></b><small>Free plan invites</small></div>
     <div class="kpi"><span>Biodata started</span><b><?= $m['bios'] ?></b><small>Paid ones count in Revenue</small></div>
   </div>
+
+  <?php $src = $pdo->prepare("SELECT CASE WHEN COALESCE(utm_source,'') = '' THEN (CASE WHEN COALESCE(fbclid,'') <> '' THEN 'meta (no tag)' ELSE 'direct / other' END) ELSE lower(utm_source) END AS s,
+        COALESCE(NULLIF(utm_campaign,''), '–') AS c, COUNT(*) AS started, SUM(CASE WHEN checkout_at IS NOT NULL THEN 1 ELSE 0 END) AS checkout,
+        SUM(CASE WHEN status='paid' AND plan <> 'free' AND is_demo=0 AND amount > 0 THEN 1 ELSE 0 END) AS paid, SUM(CASE WHEN status='paid' AND plan='free' THEN 1 ELSE 0 END) AS free,
+        COALESCE(SUM(CASE WHEN status='paid' AND is_demo=0 THEN amount ELSE 0 END),0) AS rev
+      FROM invites WHERE created_at >= ? GROUP BY s, c ORDER BY started DESC LIMIT 20"); $src->execute([$ranges[$r][0] . ' 00:00:00']); $srcRows = $src->fetchAll(); ?>
+  <h2 class="sub">Where they came from (<?= e($ranges[$r][1]) ?>)</h2>
+  <?php if (!$srcRows): ?><p class="lead">No websites started in this period yet.</p><?php else: ?>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Source</th><th>Campaign</th><th class="n">Started</th><th class="n">Published free</th><th class="n">Opened payment</th><th class="n">Paid</th><th class="n">Revenue</th></tr></thead><tbody>
+  <?php foreach ($srcRows as $row): ?><tr><td><?= e($row['s']) ?></td><td><?= e($row['c']) ?></td><td class="n"><?= (int)$row['started'] ?></td><td class="n"><?= (int)$row['free'] ?></td><td class="n"><?= (int)$row['checkout'] ?></td><td class="n"><?= (int)$row['paid'] ?></td><td class="n"><?= money((int)$row['rev']) ?></td></tr><?php endforeach; ?>
+  </tbody></table></div><?php endif; ?>
 
   <div class="card">
     <h2>Add today's ad spend</h2>
@@ -521,6 +532,7 @@ site_head('Admin | ' . setting('brand'));
       <h2>Meta ads tracking</h2>
       <div class="grid2">
         <div class="field"><label for="px">Pixel ID</label><input id="px" name="pixel_id" inputmode="numeric" value="<?= e(setting('pixel_id')) ?>"><small>Sends PageView, ViewContent, Lead, InitiateCheckout and Purchase with the amount.</small></div>
+        <div class="field"><label for="cl">Microsoft Clarity project ID</label><input id="cl" name="clarity_id" maxlength="20" value="<?= e(setting('clarity_id')) ?>" placeholder="e.g. abcd1234ef"><small>Free recordings of real visits and heatmaps, so you can see where people get stuck. Create a project at clarity.microsoft.com, then copy the ID from Settings → Overview.</small></div>
         <div class="field"><label for="capi">Conversions API token (optional)</label><input id="capi" name="capi_token" type="password" placeholder="<?= setting('capi_token') ? 'Saved. Type to replace' : '' ?>" autocomplete="new-password"><small>Also reports purchases from the server, which survives ad blockers and iPhone tracking limits.</small></div>
       </div>
     </div>
