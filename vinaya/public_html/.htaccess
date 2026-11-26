@@ -13,6 +13,14 @@ ErrorDocument 404 /404.html
   # RewriteCond %{HTTP:X-Forwarded-Proto} !=https
   # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  # vinayaofficial.ca: always https, and www goes to the main address.
+  RewriteCond %{HTTP_HOST} ^(www\.)?vinayaofficial\.ca$ [NC]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://vinayaofficial.ca%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.vinayaofficial\.ca$ [NC]
+  RewriteRule ^ https://vinayaofficial.ca%{REQUEST_URI} [L,R=301]
+
   # Send /index.html to the clean folder address.
   RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
   RewriteRule ^(.*/)?index\.html$ /%1 [L,R=301]

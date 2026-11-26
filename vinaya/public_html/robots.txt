@@ -3,4 +3,4 @@ Allow: /
 Disallow: /images/guide.html
 Disallow: /admin/
 
-Sitemap: https://plum-dolphin-595156.hostingersite.com/sitemap.xml
+Sitemap: https://vinayaofficial.ca/sitemap.xml
