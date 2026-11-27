@@ -70,11 +70,13 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
 
     <section class="panel" data-step="1" hidden>
       <h1>Who is getting married?</h1>
-      <p class="lead">Names appear in the order you type them. Write in any language.</p>
+      <p class="lead"><?= $editing ? 'Names appear in the order you type them. Write in any language.' : 'Just your names and the date. Your website is ready in seconds, and you can add the rest later.' ?></p>
       <div class="row2">
         <div class="field"><label for="p1">First name</label><input id="p1" name="p1" maxlength="40" required placeholder="Arjun" autocomplete="off"></div>
         <div class="field"><label for="p2">Second name</label><input id="p2" name="p2" maxlength="40" required placeholder="Meera" autocomplete="off"></div>
       </div>
+      <?php if (!$editing): ?><div class="field qdate"><label for="qdate">Wedding date</label><input id="qdate" type="date"></div><?php endif; ?>
+      <?= $editing ? '' : '<details class="more-opt"><summary>Add family names and a few lines about you <small>(optional)</small></summary>' ?>
       <div class="row2">
         <div class="field"><label for="p1_family">Family line for the first name</label><textarea id="p1_family" name="p1_family" maxlength="160" rows="2" placeholder="Son of Rajan &amp; Latha Menon, Thrissur"></textarea></div>
         <div class="field"><label for="p2_family">Family line for the second name</label><textarea id="p2_family" name="p2_family" maxlength="160" rows="2" placeholder="Daughter of Suresh &amp; Anitha Nair, Kochi"></textarea></div>
@@ -85,8 +87,14 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
       </div>
       <div class="field"><label for="intro">Line above the names</label><input id="intro" name="intro" maxlength="80" placeholder="Together with their families"><small>Leave empty to use the text shown.</small></div>
       <div class="field"><label for="line">Line below the names</label><input id="line" name="line" maxlength="100" placeholder="invite you to celebrate their wedding"></div>
+      <?= $editing ? '' : '</details>' ?>
       <p class="err" role="alert"></p>
+      <?php if ($editing): ?>
       <div class="nav-btns"><button type="button" class="btn js-next">Next: events</button><button type="button" class="btn alt js-back">Back</button></div>
+      <?php else: ?>
+      <div class="nav-btns quick-btns"><button type="button" class="btn js-quick">See my website</button><button type="button" class="btn alt js-next">Add venue, photos and more</button></div>
+      <p class="note quick-note">Free to preview. Nothing is shared until you publish.</p>
+      <?php endif; ?>
     </section>
 
     <section class="panel" data-step="2" hidden>
@@ -156,8 +164,8 @@ site_head(($editing ? 'Edit your invite' : 'Make your wedding website free') . '
         <p class="lead"><?= $editing['status'] === 'paid' ? 'Your shared link updates as soon as you save.' : 'Your preview updates as soon as you save.' ?></p>
       <?php else: ?>
         <h1>See your invite</h1>
-        <p class="lead">We'll keep your invite saved under this number, so you can come back and finish later.</p>
-        <div class="field"><label for="phone">Your WhatsApp number</label><input id="phone" name="phone" inputmode="tel" autocomplete="tel" maxlength="15" placeholder="98765 43210" required></div>
+        <p class="lead">Your website is saved as soon as you tap below. Add your number if you'd like our help on WhatsApp.</p>
+        <div class="field"><label for="phone">Your WhatsApp number <small>(optional)</small></label><input id="phone" name="phone" inputmode="tel" autocomplete="tel" maxlength="15" placeholder="98765 43210"></div>
         <div class="field"><label for="email">Email (optional)</label><input id="email" name="email" type="email" autocomplete="email" maxlength="120" placeholder="you@example.com"><small>For your receipt and edit link.</small></div>
       <?php endif; ?>
       <p class="err" role="alert"></p>

@@ -129,7 +129,7 @@ try {
         $pdo = db();
         if (!$inv) {
             $phone = normalize_phone((string)($_POST['phone'] ?? ''));
-            if (strlen($phone) !== 10) json_out(['ok' => false, 'error' => 'Enter a 10-digit mobile number.'], 422);
+            if ($phone !== '' && strlen($phone) !== 10) json_out(['ok' => false, 'error' => 'Enter a 10-digit mobile number, or leave it empty.'], 422);
             $email = clip($_POST['email'] ?? '', 120);
             if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) $email = '';
             $ip = client_ip();

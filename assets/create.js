@@ -293,6 +293,14 @@
     if (err) err.textContent = msg;
     return !msg;
   }
+  // quick start: the wedding date on the names step fills the first event
+  var qdate = document.getElementById('qdate');
+  if (qdate) {
+    var wi = function () { for (var i = 0; i < data.events.length; i++) if (/wedding|nikah|matrimony|karaj/i.test(data.events[i].name || '')) return i; return 0; };
+    qdate.value = (data.events[wi()] || {}).date || '';
+    qdate.addEventListener('input', function () { data.events[wi()].date = qdate.value; drawEvents(); changed('events'); });
+    evWrap.addEventListener('input', function () { qdate.value = (data.events[wi()] || {}).date || ''; });
+  }
   function THEMES_OK() { var i = form.querySelector('input[name=theme]:checked'); return i && !i.disabled; }
   function go(n) {
     if (n > cur) { for (var s = cur; s < n; s++) { if (!validate(s)) { show(s); return; } } }
@@ -315,26 +323,28 @@
   // keep the active tab in view on small screens
   var navEl = document.querySelector('.steps-nav');
   var _show = show;
-  show = function (n) { _show(n); var b = navBtns[n]; if (b && navEl.scrollWidth > navEl.clientWidth) navEl.scrollTo({ left: b.offsetLeft - 16, behavior: 'smooth' }); };
+  show = function (n) { _show(n); document.body.classList.toggle('on-quick', n === 1 && !!document.getElementById('qdate')); var b = navBtns[n]; if (b && navEl.scrollWidth > navEl.clientWidth) navEl.scrollTo({ left: b.offsetLeft - 16, behavior: 'smooth' }); };
   // a design picked on the home page (or an invite being edited) starts on the names step
   if (CFG.start) { cur = 0; show(CFG.start); window.scrollTo(0, 0); }
   form.addEventListener('click', function (e) {
+    if (e.target.closest('.js-quick')) { quick = e.target.closest('.js-quick'); var qerr = panels[1].querySelector('.err'); if (validate(0) && validate(1) && (data.events.some(function (x) { return x.date; }) || (qerr.textContent = 'Add your wedding date.', qdate && qdate.focus(), false))) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true })); else quick = null; return; }
     if (e.target.closest('.js-next')) go(cur + 1);
     if (e.target.closest('.js-back')) show(Math.max(0, cur - 1));
   });
 
   // ---------- save ----------
+  var quick = null; // the "See my website" button on the names step, when used
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     for (var s = 0; s < 5; s++) if (!validate(s)) { show(s); return; }
-    var err = panels[5].querySelector('.err');
+    var err = panels[quick ? cur : 5].querySelector('.err');
     var phoneEl = form.elements.phone;
-    if (phoneEl) {
+    if (phoneEl && phoneEl.value.trim() && !quick) {
       var digits = phoneEl.value.replace(/\D/g, '').replace(/^(91|0)(?=\d{10}$)/, '');
-      if (digits.length !== 10) { err.textContent = 'Enter a 10-digit mobile number.'; phoneEl.focus(); return; }
+      if (digits.length !== 10) { err.textContent = 'Enter a 10-digit mobile number, or leave it empty.'; phoneEl.focus(); return; }
     }
-    var btn = document.getElementById('save');
+    var btn = quick || document.getElementById('save');
     btn.disabled = true; err.textContent = '';
     btn.textContent = EX ? 'Saving…' : 'Saving your invite…';
 
@@ -371,7 +381,7 @@
         setTimeout(function () { location.href = '/p/' + j.token + (EX ? '?saved=1' : ''); }, 250);
       })
       .catch(function (x) {
-        btn.disabled = false; btn.textContent = EX ? 'Save changes' : 'See my invite';
+        btn.disabled = false; btn.textContent = quick ? 'See my website' : (EX ? 'Save changes' : 'See my invite'); quick = null;
         err.textContent = x.message === 'Failed to fetch' ? 'No connection. Check your internet and try again.' : x.message;
       });
   });
