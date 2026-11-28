@@ -172,6 +172,13 @@ site_head('Admin | ' . setting('brand'));
 <body>
 <style>
   .adm-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+  header.top { position: static; }
+  header.top .top-in { height: auto; min-height: 64px; flex-wrap: wrap; padding: 10px 0; }
+  @media (max-width: 800px) {
+    header.top .top-in { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .adm-nav { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .adm-nav a { flex: none; }
+  }
   .adm-nav a { padding: 8px 14px; border-radius: 99px; text-decoration: none; color: var(--plum); font-weight: 600; font-size: .95rem; }
   .adm-nav a.on { background: var(--plum); color: #fff; }
   .adm { padding: 26px 0 80px; }
