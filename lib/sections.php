@@ -40,6 +40,7 @@ function sec_designs(int $limit = 0): void
         <button type="button" data-plan="photo-led" aria-pressed="false">Photo-led</button>
       </div>
       <p class="dz-count" id="dz-count" aria-live="polite"></p>
+      <?php if (!$limit) echo '<div class="wa-help-row">' . wa_help("Hi! I'm looking at the wedding website designs on " . setting('brand') . " and have a question.", 'Questions? Chat with us on WhatsApp') . '</div>'; ?>
       <div class="dz-sheet" id="dz-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="dz-sheet-t"><div class="dz-sheet-box">
         <div class="dz-sheet-hd"><h3 id="dz-sheet-t">Filters</h3><button type="button" class="pv-x" id="dz-x" aria-label="Close filters">&times;</button></div>
         <p class="dz-lbl">Tradition</p>
@@ -97,7 +98,8 @@ function preview_modal(): void
         . '<div class="pv-head"><div><small id="pv-tier"></small><h3 id="pv-title">Preview</h3></div><button type="button" class="pv-x" id="pv-x" aria-label="Close preview">&times;</button></div>'
         . '<div class="phone pv-phone"><iframe id="pv-frame" title="Design preview"></iframe></div>'
         . '<p class="pv-note">Sample names and photos. Scroll inside the phone to see the whole invite.</p>'
-        . '<a class="btn" id="pv-use" href="/create">Use this design</a></div></div>'
+        . '<a class="btn" id="pv-use" href="/create">Use this design</a>'
+        . wa_help('Hi! I have a question about a design on ' . setting('brand') . '.', 'Questions about this design? Ask on WhatsApp', 'pv-wa') . '</div></div>'
         . '<script>window.WL_PREVIEW = ' . json_for_script($cfg) . ';</script>'
         . '<script src="' . asset('assets/samples.js') . '"></script><script src="' . asset('assets/preview.js') . '"></script>';
 }

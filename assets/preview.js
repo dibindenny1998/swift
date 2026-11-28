@@ -24,6 +24,8 @@
     document.getElementById('pv-title').textContent = btn.dataset.name;
     document.getElementById('pv-tier').textContent = { free: 'Free design', standard: 'Premium · ₹' + (C.pp || 999), premium: 'Premium · ₹' + (C.pp || 999) }[pending.tier] || '';
     document.getElementById('pv-use').href = '/create?t=' + pending.theme;
+    var wa = document.getElementById('pv-wa');
+    if (wa) wa.href = wa.href.split('?')[0] + '?text=' + encodeURIComponent('Hi! I like the ' + btn.dataset.name + ' design on ' + (C.brand || 'TheWedLink') + '. I have a question before we make our wedding website.');
     last = btn; modal.hidden = false; document.documentElement.style.overflow = 'hidden';
     if (!frame.src) frame.src = '/frame.php'; else paint();
     document.getElementById('pv-x').focus();
